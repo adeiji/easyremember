@@ -1,0 +1,803 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		09D9691BE3F36392C06CEAC4 /* Pods_EZRememberTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */; };
+		8F6CD3D4D524E46B03D55FA6 /* Pods_EZRememberUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */; };
+		F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523B245BFA5E00C381DE /* AppDelegate.swift */; };
+		F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523D245BFA5E00C381DE /* SceneDelegate.swift */; };
+		F4285240245BFA5E00C381DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523F245BFA5E00C381DE /* ViewController.swift */; };
+		F4285243245BFA5E00C381DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4285241245BFA5E00C381DE /* Main.storyboard */; };
+		F4285245245BFA5F00C381DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4285244245BFA5F00C381DE /* Assets.xcassets */; };
+		F4285248245BFA5F00C381DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4285246245BFA5F00C381DE /* LaunchScreen.storyboard */; };
+		F4285253245BFA5F00C381DE /* EZRememberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285252245BFA5F00C381DE /* EZRememberTests.swift */; };
+		F428525E245BFA5F00C381DE /* EZRememberUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428525D245BFA5F00C381DE /* EZRememberUITests.swift */; };
+		F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428526C245BFCC600C381DE /* DEMainViewController.swift */; };
+		F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428526F245C253500C381DE /* UIVIew+Shadow.swift */; };
+		F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */; };
+		F4285278245C327700C381DE /* UIButton+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285277245C327700C381DE /* UIButton+Image.swift */; };
+		F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285279245C34F700C381DE /* DEImageHelper.swift */; };
+		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
+		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
+		F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
+		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
+		F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F53780246020F00009D3DC /* GoogleService-Info.plist */; };
+		F4F53793246062220009D3DC /* AppDelegate+TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53792246062220009D3DC /* AppDelegate+TabController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F428524F245BFA5F00C381DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4285230245BFA5E00C381DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4285237245BFA5E00C381DE;
+			remoteInfo = EZRemember;
+		};
+		F428525A245BFA5F00C381DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4285230245BFA5E00C381DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4285237245BFA5E00C381DE;
+			remoteInfo = EZRemember;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRememberTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRememberUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		259168778B4E7DBF1FEDE6CA /* Pods-EZRemember.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRemember.debug.xcconfig"; path = "Target Support Files/Pods-EZRemember/Pods-EZRemember.debug.xcconfig"; sourceTree = "<group>"; };
+		2909E7184064B09D39D470FD /* Pods-EZRemember.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRemember.release.xcconfig"; path = "Target Support Files/Pods-EZRemember/Pods-EZRemember.release.xcconfig"; sourceTree = "<group>"; };
+		306DDE41D00DB151BFAF21F0 /* Pods-EZRememberUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberUITests.debug.xcconfig"; path = "Target Support Files/Pods-EZRememberUITests/Pods-EZRememberUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		6C086F3604E1D1BE3AC8C224 /* Pods-EZRememberUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberUITests.release.xcconfig"; path = "Target Support Files/Pods-EZRememberUITests/Pods-EZRememberUITests.release.xcconfig"; sourceTree = "<group>"; };
+		6F0E3443B0A114725AC933FC /* Pods-EZRememberTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberTests.release.xcconfig"; path = "Target Support Files/Pods-EZRememberTests/Pods-EZRememberTests.release.xcconfig"; sourceTree = "<group>"; };
+		A041E719063883CC004C797A /* Pods_EZRemember.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRemember.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6EA27F11652034F71BF6BCF /* Pods-EZRememberTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberTests.debug.xcconfig"; path = "Target Support Files/Pods-EZRememberTests/Pods-EZRememberTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F4285238245BFA5E00C381DE /* EZRemember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZRemember.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F428523B245BFA5E00C381DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F428523D245BFA5E00C381DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		F428523F245BFA5E00C381DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F4285242245BFA5E00C381DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F4285244245BFA5F00C381DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4285247245BFA5F00C381DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F4285249245BFA5F00C381DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F428524E245BFA5F00C381DE /* EZRememberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EZRememberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4285252245BFA5F00C381DE /* EZRememberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EZRememberTests.swift; sourceTree = "<group>"; };
+		F4285254245BFA5F00C381DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4285259245BFA5F00C381DE /* EZRememberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EZRememberUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F428525D245BFA5F00C381DE /* EZRememberUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EZRememberUITests.swift; sourceTree = "<group>"; };
+		F428525F245BFA5F00C381DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F428526C245BFCC600C381DE /* DEMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEMainViewController.swift; sourceTree = "<group>"; };
+		F428526F245C253500C381DE /* UIVIew+Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIew+Shadow.swift"; sourceTree = "<group>"; };
+		F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+FromBundle.swift"; sourceTree = "<group>"; };
+		F4285277245C327700C381DE /* UIButton+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Image.swift"; sourceTree = "<group>"; };
+		F4285279245C34F700C381DE /* DEImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEImageHelper.swift; sourceTree = "<group>"; };
+		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
+		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
+		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F4F53792246062220009D3DC /* AppDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+TabController.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F4285235245BFA5E00C381DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F428524B245BFA5F00C381DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09D9691BE3F36392C06CEAC4 /* Pods_EZRememberTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4285256245BFA5F00C381DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F6CD3D4D524E46B03D55FA6 /* Pods_EZRememberUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0CCEBE7347B9670030E4F30D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				259168778B4E7DBF1FEDE6CA /* Pods-EZRemember.debug.xcconfig */,
+				2909E7184064B09D39D470FD /* Pods-EZRemember.release.xcconfig */,
+				D6EA27F11652034F71BF6BCF /* Pods-EZRememberTests.debug.xcconfig */,
+				6F0E3443B0A114725AC933FC /* Pods-EZRememberTests.release.xcconfig */,
+				306DDE41D00DB151BFAF21F0 /* Pods-EZRememberUITests.debug.xcconfig */,
+				6C086F3604E1D1BE3AC8C224 /* Pods-EZRememberUITests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CC26F1FAFE324989DBAAA602 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A041E719063883CC004C797A /* Pods_EZRemember.framework */,
+				0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */,
+				245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F428522F245BFA5E00C381DE = {
+			isa = PBXGroup;
+			children = (
+				F4F53780246020F00009D3DC /* GoogleService-Info.plist */,
+				F428523A245BFA5E00C381DE /* EZRemember */,
+				F4285251245BFA5F00C381DE /* EZRememberTests */,
+				F428525C245BFA5F00C381DE /* EZRememberUITests */,
+				F4285239245BFA5E00C381DE /* Products */,
+				0CCEBE7347B9670030E4F30D /* Pods */,
+				CC26F1FAFE324989DBAAA602 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F4285239245BFA5E00C381DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4285238245BFA5E00C381DE /* EZRemember.app */,
+				F428524E245BFA5F00C381DE /* EZRememberTests.xctest */,
+				F4285259245BFA5F00C381DE /* EZRememberUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F428523A245BFA5E00C381DE /* EZRemember */ = {
+			isa = PBXGroup;
+			children = (
+				F4F5377D24601A2D0009D3DC /* NetworkLayer */,
+				F48E65E2245FF34E00CA56FE /* Views */,
+				F428526E245C252600C381DE /* Reusable Classes */,
+				F428526B245BFCB700C381DE /* Controllers */,
+				F428523B245BFA5E00C381DE /* AppDelegate.swift */,
+				F428523D245BFA5E00C381DE /* SceneDelegate.swift */,
+				F428523F245BFA5E00C381DE /* ViewController.swift */,
+				F4285241245BFA5E00C381DE /* Main.storyboard */,
+				F4285244245BFA5F00C381DE /* Assets.xcassets */,
+				F4285246245BFA5F00C381DE /* LaunchScreen.storyboard */,
+				F4285249245BFA5F00C381DE /* Info.plist */,
+				F4F53792246062220009D3DC /* AppDelegate+TabController.swift */,
+			);
+			path = EZRemember;
+			sourceTree = "<group>";
+		};
+		F4285251245BFA5F00C381DE /* EZRememberTests */ = {
+			isa = PBXGroup;
+			children = (
+				F4285252245BFA5F00C381DE /* EZRememberTests.swift */,
+				F4285254245BFA5F00C381DE /* Info.plist */,
+			);
+			path = EZRememberTests;
+			sourceTree = "<group>";
+		};
+		F428525C245BFA5F00C381DE /* EZRememberUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F428525D245BFA5F00C381DE /* EZRememberUITests.swift */,
+				F428525F245BFA5F00C381DE /* Info.plist */,
+			);
+			path = EZRememberUITests;
+			sourceTree = "<group>";
+		};
+		F428526B245BFCB700C381DE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F428526C245BFCC600C381DE /* DEMainViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F428526E245C252600C381DE /* Reusable Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F428526F245C253500C381DE /* UIVIew+Shadow.swift */,
+				F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */,
+				F4285277245C327700C381DE /* UIButton+Image.swift */,
+				F4285279245C34F700C381DE /* DEImageHelper.swift */,
+			);
+			path = "Reusable Classes";
+			sourceTree = "<group>";
+		};
+		F48E65E2245FF34E00CA56FE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */,
+				F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F4F5377D24601A2D0009D3DC /* NetworkLayer */ = {
+			isa = PBXGroup;
+			children = (
+				F4F5377E24601A630009D3DC /* NotificationsManager.swift */,
+			);
+			path = NetworkLayer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F4285237245BFA5E00C381DE /* EZRemember */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4285262245BFA5F00C381DE /* Build configuration list for PBXNativeTarget "EZRemember" */;
+			buildPhases = (
+				54818069D7500B36C87AB0A8 /* [CP] Check Pods Manifest.lock */,
+				F4285234245BFA5E00C381DE /* Sources */,
+				F4285235245BFA5E00C381DE /* Frameworks */,
+				F4285236245BFA5E00C381DE /* Resources */,
+				529175901BE3059341C8F6F0 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EZRemember;
+			productName = EZRemember;
+			productReference = F4285238245BFA5E00C381DE /* EZRemember.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F428524D245BFA5F00C381DE /* EZRememberTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4285265245BFA5F00C381DE /* Build configuration list for PBXNativeTarget "EZRememberTests" */;
+			buildPhases = (
+				B2071D4CB649AD66EE3B58A4 /* [CP] Check Pods Manifest.lock */,
+				F428524A245BFA5F00C381DE /* Sources */,
+				F428524B245BFA5F00C381DE /* Frameworks */,
+				F428524C245BFA5F00C381DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4285250245BFA5F00C381DE /* PBXTargetDependency */,
+			);
+			name = EZRememberTests;
+			productName = EZRememberTests;
+			productReference = F428524E245BFA5F00C381DE /* EZRememberTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F4285258245BFA5F00C381DE /* EZRememberUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4285268245BFA5F00C381DE /* Build configuration list for PBXNativeTarget "EZRememberUITests" */;
+			buildPhases = (
+				B5B364CDE78F8637FE160E49 /* [CP] Check Pods Manifest.lock */,
+				F4285255245BFA5F00C381DE /* Sources */,
+				F4285256245BFA5F00C381DE /* Frameworks */,
+				F4285257245BFA5F00C381DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F428525B245BFA5F00C381DE /* PBXTargetDependency */,
+			);
+			name = EZRememberUITests;
+			productName = EZRememberUITests;
+			productReference = F4285259245BFA5F00C381DE /* EZRememberUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F4285230245BFA5E00C381DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = Dephyned;
+				TargetAttributes = {
+					F4285237245BFA5E00C381DE = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					F428524D245BFA5F00C381DE = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = F4285237245BFA5E00C381DE;
+					};
+					F4285258245BFA5F00C381DE = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = F4285237245BFA5E00C381DE;
+					};
+				};
+			};
+			buildConfigurationList = F4285233245BFA5E00C381DE /* Build configuration list for PBXProject "EZRemember" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F428522F245BFA5E00C381DE;
+			productRefGroup = F4285239245BFA5E00C381DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F4285237245BFA5E00C381DE /* EZRemember */,
+				F428524D245BFA5F00C381DE /* EZRememberTests */,
+				F4285258245BFA5F00C381DE /* EZRememberUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F4285236245BFA5E00C381DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4285248245BFA5F00C381DE /* LaunchScreen.storyboard in Resources */,
+				F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */,
+				F4285245245BFA5F00C381DE /* Assets.xcassets in Resources */,
+				F4285243245BFA5E00C381DE /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F428524C245BFA5F00C381DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4285257245BFA5F00C381DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		529175901BE3059341C8F6F0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EZRemember/Pods-EZRemember-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EZRemember/Pods-EZRemember-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EZRemember/Pods-EZRemember-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		54818069D7500B36C87AB0A8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EZRemember-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2071D4CB649AD66EE3B58A4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EZRememberTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B5B364CDE78F8637FE160E49 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EZRememberUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F4285234245BFA5E00C381DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */,
+				F4285240245BFA5E00C381DE /* ViewController.swift in Sources */,
+				F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */,
+				F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */,
+				F4F53793246062220009D3DC /* AppDelegate+TabController.swift in Sources */,
+				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
+				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
+				F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */,
+				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
+				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
+				F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */,
+				F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F428524A245BFA5F00C381DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4285253245BFA5F00C381DE /* EZRememberTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4285255245BFA5F00C381DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F428525E245BFA5F00C381DE /* EZRememberUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F4285250245BFA5F00C381DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4285237245BFA5E00C381DE /* EZRemember */;
+			targetProxy = F428524F245BFA5F00C381DE /* PBXContainerItemProxy */;
+		};
+		F428525B245BFA5F00C381DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4285237245BFA5E00C381DE /* EZRemember */;
+			targetProxy = F428525A245BFA5F00C381DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F4285241245BFA5E00C381DE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4285242245BFA5E00C381DE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F4285246245BFA5F00C381DE /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4285247245BFA5F00C381DE /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F4285260245BFA5F00C381DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F4285261245BFA5F00C381DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F4285263245BFA5F00C381DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 259168778B4E7DBF1FEDE6CA /* Pods-EZRemember.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRemember/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRemember;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F4285264245BFA5F00C381DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2909E7184064B09D39D470FD /* Pods-EZRemember.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRemember/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRemember;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F4285266245BFA5F00C381DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6EA27F11652034F71BF6BCF /* Pods-EZRememberTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRememberTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRememberTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EZRemember.app/EZRemember";
+			};
+			name = Debug;
+		};
+		F4285267245BFA5F00C381DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F0E3443B0A114725AC933FC /* Pods-EZRememberTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRememberTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRememberTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EZRemember.app/EZRemember";
+			};
+			name = Release;
+		};
+		F4285269245BFA5F00C381DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 306DDE41D00DB151BFAF21F0 /* Pods-EZRememberUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRememberUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRememberUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EZRemember;
+			};
+			name = Debug;
+		};
+		F428526A245BFA5F00C381DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C086F3604E1D1BE3AC8C224 /* Pods-EZRememberUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRememberUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRememberUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EZRemember;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F4285233245BFA5E00C381DE /* Build configuration list for PBXProject "EZRemember" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4285260245BFA5F00C381DE /* Debug */,
+				F4285261245BFA5F00C381DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4285262245BFA5F00C381DE /* Build configuration list for PBXNativeTarget "EZRemember" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4285263245BFA5F00C381DE /* Debug */,
+				F4285264245BFA5F00C381DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4285265245BFA5F00C381DE /* Build configuration list for PBXNativeTarget "EZRememberTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4285266245BFA5F00C381DE /* Debug */,
+				F4285267245BFA5F00C381DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4285268245BFA5F00C381DE /* Build configuration list for PBXNativeTarget "EZRememberUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4285269245BFA5F00C381DE /* Debug */,
+				F428526A245BFA5F00C381DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F4285230245BFA5E00C381DE /* Project object */;
+}
