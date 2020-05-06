@@ -11,8 +11,8 @@ import UIKit
 
 public extension UIButton {
     
-    func withImage(named: String) -> UIButton {
-        let image = ImageHelper.image(imageName: named)
+    @discardableResult func withImage(named: String, bundle: String) -> UIButton {
+        let image = ImageHelper.image(imageName: named, bundle: bundle)
         self.setImage(image, for: .normal)
         self.imageView?.contentMode = .scaleAspectFill
         return self

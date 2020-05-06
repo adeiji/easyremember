@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-extension UIView {
+public extension UIView {
     
-    public func backgroundColor (_ color: UIColor) -> UIView {
+    func backgroundColor (_ color: UIColor) -> UIView {
         self.backgroundColor = color
         return self
     }
@@ -19,14 +19,13 @@ extension UIView {
     /**
      Add shadow to a view, make sure that the background color is not set to clear
      */
-    @discardableResult public func addShadow () -> UIView {
+    @discardableResult func addShadow (_ radius:CGFloat = 3) -> UIView {
                                 
         self.clipsToBounds = false
         self.layer.shadowColor = UIColor.gray.cgColor
-        self.layer.shadowOpacity = 0.3
+        self.layer.shadowOpacity = 0.1
         self.layer.shadowOffset = CGSize(width: 1, height: 5)
-        self.layer.shadowRadius = 3
-        self.layer.shouldRasterize = true
+        self.layer.shadowRadius = radius
         
         return self
         
@@ -35,8 +34,9 @@ extension UIView {
     /**
      Set the radius for a view
      */
-    @discardableResult public func radius (radius: CGFloat) -> UIView {
+    @discardableResult func radius (radius: CGFloat) -> UIView {
         self.layer.cornerRadius = radius
         return self
-    }            
+    }
+    
 }

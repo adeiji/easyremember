@@ -8,8 +8,8 @@ target 'EZRemember' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'SwiftyBootstrap', '~> 1.0.9993'
-  pod 'DephynedFire'
+  pod 'SwiftyBootstrap', '~> 1.021.0'
+  pod 'DephynedFire', '~> 1.0.31'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PodAsset'

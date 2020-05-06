@@ -27,7 +27,39 @@
 		F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
 		F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F53780246020F00009D3DC /* GoogleService-Info.plist */; };
-		F4F53793246062220009D3DC /* AppDelegate+TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53792246062220009D3DC /* AppDelegate+TabController.swift */; };
+		F4F53793246062220009D3DC /* SceneDelegate+TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */; };
+		F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53798246085A60009D3DC /* DEScheduleViewController.swift */; };
+		F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5379A246097980009D3DC /* ScheduleManager.swift */; };
+		F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5379E2461108F0009D3DC /* UtilityFunctions.swift */; };
+		F4F537A124611C460009D3DC /* UITableView+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537A024611C460009D3DC /* UITableView+Empty.swift */; };
+		F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537A22461269B0009D3DC /* CustomFontBook.swift */; };
+		F4F537B9246127200009D3DC /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537A6246127200009D3DC /* Poppins-ExtraLight.ttf */; };
+		F4F537BA246127200009D3DC /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537A7246127200009D3DC /* Poppins-ThinItalic.ttf */; };
+		F4F537BB246127200009D3DC /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537A8246127200009D3DC /* Poppins-ExtraLightItalic.ttf */; };
+		F4F537BC246127200009D3DC /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537A9246127200009D3DC /* Poppins-BoldItalic.ttf */; };
+		F4F537BD246127200009D3DC /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537AA246127200009D3DC /* Poppins-Light.ttf */; };
+		F4F537BE246127200009D3DC /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537AB246127200009D3DC /* Poppins-Medium.ttf */; };
+		F4F537BF246127200009D3DC /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537AC246127200009D3DC /* Poppins-SemiBoldItalic.ttf */; };
+		F4F537C0246127200009D3DC /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537AD246127200009D3DC /* Poppins-ExtraBoldItalic.ttf */; };
+		F4F537C1246127200009D3DC /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537AE246127200009D3DC /* Poppins-ExtraBold.ttf */; };
+		F4F537C2246127200009D3DC /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537AF246127200009D3DC /* Poppins-BlackItalic.ttf */; };
+		F4F537C3246127200009D3DC /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B0246127200009D3DC /* OFL.txt */; };
+		F4F537C4246127200009D3DC /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B1246127200009D3DC /* Poppins-Regular.ttf */; };
+		F4F537C5246127200009D3DC /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B2246127200009D3DC /* Poppins-LightItalic.ttf */; };
+		F4F537C6246127200009D3DC /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B3246127200009D3DC /* Poppins-Bold.ttf */; };
+		F4F537C7246127200009D3DC /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B4246127200009D3DC /* Poppins-Black.ttf */; };
+		F4F537C8246127200009D3DC /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B5246127200009D3DC /* Poppins-Thin.ttf */; };
+		F4F537C9246127200009D3DC /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B6246127200009D3DC /* Poppins-SemiBold.ttf */; };
+		F4F537CA246127200009D3DC /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B7246127200009D3DC /* Poppins-Italic.ttf */; };
+		F4F537CB246127200009D3DC /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4F537B8246127200009D3DC /* Poppins-MediumItalic.ttf */; };
+		F4F537CD2461297F0009D3DC /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537CC2461297F0009D3DC /* UILabel+Extensions.swift */; };
+		F4F537CF24613ED60009D3DC /* Style+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537CE24613ED60009D3DC /* Style+Colors.swift */; };
+		F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537D02461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift */; };
+		F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537D2246162DA0009D3DC /* GRBootstrapElement+Delete.swift */; };
+		F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537D62461DDE70009D3DC /* DENumberCard.swift */; };
+		F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537D82461DE2E0009D3DC /* DETimeViewCell.swift */; };
+		F4F537DB2461DE5B0009D3DC /* DEScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */; };
+		F4F537DE246276B50009D3DC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537DD246276B50009D3DC /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +112,39 @@
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		F4F53792246062220009D3DC /* AppDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+TabController.swift"; sourceTree = "<group>"; };
+		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
+		F4F53798246085A60009D3DC /* DEScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEScheduleViewController.swift; sourceTree = "<group>"; };
+		F4F5379A246097980009D3DC /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
+		F4F5379E2461108F0009D3DC /* UtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
+		F4F537A024611C460009D3DC /* UITableView+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Empty.swift"; sourceTree = "<group>"; };
+		F4F537A22461269B0009D3DC /* CustomFontBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontBook.swift; sourceTree = "<group>"; };
+		F4F537A6246127200009D3DC /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
+		F4F537A7246127200009D3DC /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
+		F4F537A8246127200009D3DC /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		F4F537A9246127200009D3DC /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
+		F4F537AA246127200009D3DC /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		F4F537AB246127200009D3DC /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		F4F537AC246127200009D3DC /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		F4F537AD246127200009D3DC /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		F4F537AE246127200009D3DC /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		F4F537AF246127200009D3DC /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
+		F4F537B0246127200009D3DC /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		F4F537B1246127200009D3DC /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		F4F537B2246127200009D3DC /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-LightItalic.ttf"; sourceTree = "<group>"; };
+		F4F537B3246127200009D3DC /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		F4F537B4246127200009D3DC /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
+		F4F537B5246127200009D3DC /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
+		F4F537B6246127200009D3DC /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		F4F537B7246127200009D3DC /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
+		F4F537B8246127200009D3DC /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
+		F4F537CC2461297F0009D3DC /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
+		F4F537CE24613ED60009D3DC /* Style+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style+Colors.swift"; sourceTree = "<group>"; };
+		F4F537D02461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRBootstrapElement+ResignResponder.swift"; sourceTree = "<group>"; };
+		F4F537D2246162DA0009D3DC /* GRBootstrapElement+Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRBootstrapElement+Delete.swift"; sourceTree = "<group>"; };
+		F4F537D62461DDE70009D3DC /* DENumberCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DENumberCard.swift; sourceTree = "<group>"; };
+		F4F537D82461DE2E0009D3DC /* DETimeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DETimeViewCell.swift; sourceTree = "<group>"; };
+		F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEScheduleView.swift; sourceTree = "<group>"; };
+		F4F537DD246276B50009D3DC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +224,8 @@
 		F428523A245BFA5E00C381DE /* EZRemember */ = {
 			isa = PBXGroup;
 			children = (
+				F4F537DC246276A00009D3DC /* Models */,
+				F4F537A4246127200009D3DC /* Fonts */,
 				F4F5377D24601A2D0009D3DC /* NetworkLayer */,
 				F48E65E2245FF34E00CA56FE /* Views */,
 				F428526E245C252600C381DE /* Reusable Classes */,
@@ -171,7 +237,8 @@
 				F4285244245BFA5F00C381DE /* Assets.xcassets */,
 				F4285246245BFA5F00C381DE /* LaunchScreen.storyboard */,
 				F4285249245BFA5F00C381DE /* Info.plist */,
-				F4F53792246062220009D3DC /* AppDelegate+TabController.swift */,
+				F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */,
+				F4F5379E2461108F0009D3DC /* UtilityFunctions.swift */,
 			);
 			path = EZRemember;
 			sourceTree = "<group>";
@@ -198,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				F428526C245BFCC600C381DE /* DEMainViewController.swift */,
+				F4F53798246085A60009D3DC /* DEScheduleViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -209,6 +277,12 @@
 				F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */,
 				F4285277245C327700C381DE /* UIButton+Image.swift */,
 				F4285279245C34F700C381DE /* DEImageHelper.swift */,
+				F4F537A024611C460009D3DC /* UITableView+Empty.swift */,
+				F4F537A22461269B0009D3DC /* CustomFontBook.swift */,
+				F4F537CC2461297F0009D3DC /* UILabel+Extensions.swift */,
+				F4F537CE24613ED60009D3DC /* Style+Colors.swift */,
+				F4F537D02461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift */,
+				F4F537D2246162DA0009D3DC /* GRBootstrapElement+Delete.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -218,6 +292,9 @@
 			children = (
 				F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */,
 				F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */,
+				F4F537D62461DDE70009D3DC /* DENumberCard.swift */,
+				F4F537D82461DE2E0009D3DC /* DETimeViewCell.swift */,
+				F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -226,8 +303,51 @@
 			isa = PBXGroup;
 			children = (
 				F4F5377E24601A630009D3DC /* NotificationsManager.swift */,
+				F4F5379A246097980009D3DC /* ScheduleManager.swift */,
 			);
 			path = NetworkLayer;
+			sourceTree = "<group>";
+		};
+		F4F537A4246127200009D3DC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F4F537A5246127200009D3DC /* Poppins */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F4F537A5246127200009D3DC /* Poppins */ = {
+			isa = PBXGroup;
+			children = (
+				F4F537A6246127200009D3DC /* Poppins-ExtraLight.ttf */,
+				F4F537A7246127200009D3DC /* Poppins-ThinItalic.ttf */,
+				F4F537A8246127200009D3DC /* Poppins-ExtraLightItalic.ttf */,
+				F4F537A9246127200009D3DC /* Poppins-BoldItalic.ttf */,
+				F4F537AA246127200009D3DC /* Poppins-Light.ttf */,
+				F4F537AB246127200009D3DC /* Poppins-Medium.ttf */,
+				F4F537AC246127200009D3DC /* Poppins-SemiBoldItalic.ttf */,
+				F4F537AD246127200009D3DC /* Poppins-ExtraBoldItalic.ttf */,
+				F4F537AE246127200009D3DC /* Poppins-ExtraBold.ttf */,
+				F4F537AF246127200009D3DC /* Poppins-BlackItalic.ttf */,
+				F4F537B0246127200009D3DC /* OFL.txt */,
+				F4F537B1246127200009D3DC /* Poppins-Regular.ttf */,
+				F4F537B2246127200009D3DC /* Poppins-LightItalic.ttf */,
+				F4F537B3246127200009D3DC /* Poppins-Bold.ttf */,
+				F4F537B4246127200009D3DC /* Poppins-Black.ttf */,
+				F4F537B5246127200009D3DC /* Poppins-Thin.ttf */,
+				F4F537B6246127200009D3DC /* Poppins-SemiBold.ttf */,
+				F4F537B7246127200009D3DC /* Poppins-Italic.ttf */,
+				F4F537B8246127200009D3DC /* Poppins-MediumItalic.ttf */,
+			);
+			path = Poppins;
+			sourceTree = "<group>";
+		};
+		F4F537DC246276A00009D3DC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F4F537DD246276B50009D3DC /* Notification.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,10 +458,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F537C5246127200009D3DC /* Poppins-LightItalic.ttf in Resources */,
+				F4F537C6246127200009D3DC /* Poppins-Bold.ttf in Resources */,
+				F4F537C3246127200009D3DC /* OFL.txt in Resources */,
+				F4F537C0246127200009D3DC /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				F4F537BF246127200009D3DC /* Poppins-SemiBoldItalic.ttf in Resources */,
+				F4F537C7246127200009D3DC /* Poppins-Black.ttf in Resources */,
+				F4F537B9246127200009D3DC /* Poppins-ExtraLight.ttf in Resources */,
+				F4F537BD246127200009D3DC /* Poppins-Light.ttf in Resources */,
+				F4F537BB246127200009D3DC /* Poppins-ExtraLightItalic.ttf in Resources */,
+				F4F537C8246127200009D3DC /* Poppins-Thin.ttf in Resources */,
 				F4285248245BFA5F00C381DE /* LaunchScreen.storyboard in Resources */,
+				F4F537C4246127200009D3DC /* Poppins-Regular.ttf in Resources */,
 				F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */,
+				F4F537BA246127200009D3DC /* Poppins-ThinItalic.ttf in Resources */,
+				F4F537C2246127200009D3DC /* Poppins-BlackItalic.ttf in Resources */,
+				F4F537C9246127200009D3DC /* Poppins-SemiBold.ttf in Resources */,
 				F4285245245BFA5F00C381DE /* Assets.xcassets in Resources */,
 				F4285243245BFA5E00C381DE /* Main.storyboard in Resources */,
+				F4F537CA246127200009D3DC /* Poppins-Italic.ttf in Resources */,
+				F4F537BC246127200009D3DC /* Poppins-BoldItalic.ttf in Resources */,
+				F4F537BE246127200009D3DC /* Poppins-Medium.ttf in Resources */,
+				F4F537CB246127200009D3DC /* Poppins-MediumItalic.ttf in Resources */,
+				F4F537C1246127200009D3DC /* Poppins-ExtraBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,18 +591,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */,
 				F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */,
 				F4285240245BFA5E00C381DE /* ViewController.swift in Sources */,
+				F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */,
+				F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */,
 				F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */,
 				F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */,
-				F4F53793246062220009D3DC /* AppDelegate+TabController.swift in Sources */,
+				F4F53793246062220009D3DC /* SceneDelegate+TabController.swift in Sources */,
+				F4F537DB2461DE5B0009D3DC /* DEScheduleView.swift in Sources */,
 				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
+				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
 				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
 				F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */,
+				F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */,
+				F4F537CF24613ED60009D3DC /* Style+Colors.swift in Sources */,
 				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
+				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
+				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
+				F4F537CD2461297F0009D3DC /* UILabel+Extensions.swift in Sources */,
 				F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */,
+				F4F537A124611C460009D3DC /* UITableView+Empty.swift in Sources */,
 				F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */,
+				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
+				F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

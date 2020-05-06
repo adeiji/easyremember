@@ -18,8 +18,8 @@ extension SceneDelegate {
         mainNavigationViewController.navigationBar.isHidden = true
         
         let tabController = GRTabController(numberOfButtons:  2)
-        tabController.addFooterButton(title: "Notifications", imageName: "notification", viewControllerToShow: mainNavigationViewController)
-        tabController.addFooterButton(title: "Notifications", imageName: "notification", viewControllerToShow: mainNavigationViewController)
+        tabController.addFooterButton(title: "Notifications", imageName: "bell", viewControllerToShow: mainNavigationViewController)
+        tabController.addFooterButton(title: "Schedule", imageName: "clock", viewControllerToShow: DEScheduleViewController())
         // Have to add the view controller and it's view to the tab bar controller in order to work properly
         tabController.addChildViewControllerWithView(mainNavigationViewController, toView: tabController.mainView)
         

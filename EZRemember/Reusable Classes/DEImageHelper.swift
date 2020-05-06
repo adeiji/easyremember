@@ -13,9 +13,9 @@ import PodAsset
 
 public struct ImageHelper {
             
-    public static func image(imageName: String) -> UIImage? {
-        let bundle = PodAsset.bundle(forPod: "SwiftyBootstrap")
-        let img = UIImage(named: imageName, in: bundle, compatibleWith: nil)
+    public static func image(imageName: String, bundle:String = "SwiftyBootstrap") -> UIImage? {
+        let bundle = PodAsset.bundle(forPod: bundle)
+        let img = UIImage(named: imageName, in: bundle, compatibleWith: .current)
         return img
     }
 }

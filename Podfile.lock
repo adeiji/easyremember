@@ -176,7 +176,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
-  - DephynedFire (1.0.3):
+  - DephynedFire (1.0.31):
     - AWSCore
     - AWSMobileClient (~> 2.11.0)
     - AWSS3 (~> 2.11.0)
@@ -322,6 +322,9 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
   - PodAsset (1.0.0)
   - PromisesObjC (1.2.8)
   - RxCocoa (5.1.1):
@@ -332,15 +335,16 @@ PODS:
   - RxSwift (5.1.1)
   - SnapKit (5.0.1)
   - SwiftLocation (4.2.0)
-  - SwiftyBootstrap (1.0.9993):
+  - SwiftyBootstrap (1.021.0):
+    - NVActivityIndicatorView
     - SnapKit
 
 DEPENDENCIES:
-  - DephynedFire
+  - DephynedFire (~> 1.0.31)
   - PodAsset
   - RxCocoa
   - RxSwift
-  - SwiftyBootstrap (~> 1.0.9993)
+  - SwiftyBootstrap (~> 1.021.0)
 
 SPEC REPOS:
   https://github.com/adeiji/dephyned-specs.git:
@@ -377,6 +381,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - NVActivityIndicatorView
     - PodAsset
     - PromisesObjC
     - RxCocoa
@@ -394,7 +399,7 @@ SPEC CHECKSUMS:
   AWSMobileClient: 1acbe6ae32ebe5899425ac33d89491e4608da393
   AWSS3: 738419b8039230423e4734556983a463466a9d7a
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  DephynedFire: c1c2515a6a9032e4e83564a7b27635e5ee7f96a9
+  DephynedFire: ef4701375ac57a2168b063cdd00ffe98e44d0498
   Firebase: 585ae467b3edda6a5444e788fda6888f024d8d6f
   FirebaseAnalytics: 558f7a03d19de451093032c806f39d5f9dff096e
   FirebaseAuth: e50319ecc114acf93c2b9581e15d6604ddd7eeb2
@@ -417,6 +422,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   PodAsset: c2c2b20013c1edf698fea2bacba6e75a638537a2
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
@@ -424,8 +430,8 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLocation: 609ac8859f2c5d48a6cadd2a58c63b1dae02dc25
-  SwiftyBootstrap: d4147d4f77ef702f010927f4a3d0289e69b73815
+  SwiftyBootstrap: 45e9a177b69740ec0a991985e70c9feeffccf048
 
-PODFILE CHECKSUM: 6a5e16175f478cdd96e507e3927bd31e9d99efcf
+PODFILE CHECKSUM: bfc0e058c5320d4bff51f67b2b0f317eba3ddacc
 
 COCOAPODS: 1.7.3
