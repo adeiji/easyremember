@@ -17,11 +17,13 @@ struct Schedule: Codable {
         static let kDeviceId = "deviceId"
         static let kTimeSlots = "timeSlots"
         static let kMaxNumOfCards = "maxNumOfCards"
+        static let kFcmToken = "fcmToken"
     }
     
     let deviceId:String
     let timeSlots:[Int]
     let maxNumOfCards:Int
+    let fcmToken:String?
     
 }
 
@@ -84,10 +86,10 @@ class ScheduleManager {
      Get the times that the user has selected to have notifications sent to them
      - returns: An observable containing the times
      */
-    static func getTimeSlots () -> Observable<[Int]> {
+    static func getSchedule () -> Observable<Schedule?> {
         let deviceId = UtilityFunctions.deviceId()
         
         return FirebasePersistenceManager.getDocumentById(forCollection: Schedule.Keys.kCollectionName, id: deviceId)
-            .map({  (FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Schedule?)?.timeSlots ?? [13, 14, 15, 16, 17] })
+            .map({  FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Schedule? })
     }
 }

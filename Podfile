@@ -8,8 +8,10 @@ target 'EZRemember' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'SwiftyBootstrap', '~> 1.021.0'
+  pod 'SwiftyBootstrap', '~> 1.022.0'
   pod 'DephynedFire', '~> 1.0.31'
+  pod 'FolioReaderKit', git: 'https://github.com/adeiji/FolioReaderKit.git'
+  pod 'FirebaseMessaging'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PodAsset'

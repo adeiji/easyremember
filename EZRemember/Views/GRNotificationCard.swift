@@ -11,21 +11,31 @@ import UIKit
 import SwiftyBootstrap
 
 class GRNotificationCard: UITableViewCell {
-            
+              
     static let reuseIdentifier = "NotificationCardCell"
     
     weak var deleteButton:UIButton?
     
+    /// Displays the title of the notification
+    private weak var titleLabel:UILabel?
+    
+    /// Displays the content of the notification
+    private weak var contentLabel:UILabel?
+    
     /// User presses this button and the notification is either set to active or inactive
     weak var toggleActivateButton:UIButton?
+    
+    var isTranslation = false
                
-    var notification:Notification? {
+    var notification:GRNotification? {
         didSet {
             if let notification = self.notification {
                 if oldValue == nil {
                     self.setupUI(title: notification.caption, description: notification.description)
                 } else {
                     self.toggleButton(self.toggleActivateButton, isActive: notification.active)
+                    self.titleLabel?.text = notification.caption
+                    self.contentLabel?.text = notification.description
                 }
             }
         }
@@ -33,9 +43,16 @@ class GRNotificationCard: UITableViewCell {
     
     func toggleButton (_ button: UIButton?, isActive: Bool? = false) {
         guard let button = button else { return }
-        button.setTitle(self.notification?.active == true ? "Deactivate" : "Activate", for: .normal)
-        button.backgroundColor = self.notification?.active == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
-        button.setTitleColor(self.notification?.active == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
+        if isTranslation {
+            button.setTitle(self.notification?.active == true ? "Cancel" : "Create Card", for: .normal)
+            button.backgroundColor = self.notification?.active == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
+            button.setTitleColor(self.notification?.active == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
+        } else {
+            button.setTitle(self.notification?.active == true ? "Deactivate" : "Activate", for: .normal)
+            button.backgroundColor = self.notification?.active == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
+            button.setTitleColor(self.notification?.active == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
+        }
+        
     }
                 
     func setupUI (title: String, description: String) {
@@ -53,9 +70,12 @@ class GRNotificationCard: UITableViewCell {
         toggleActivateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .verySmall)
         toggleActivateButton.showsTouchWhenHighlighted = true
         
+        let titleLabel = Style.label(withText: title, size: .large, superview: nil, color: .black)
+        let contentLabel = Style.label(withText: description, superview: nil, color: .darkGray)
+        
         let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true)
             .addRow(columns: [
-                Column(cardSet: Style.label(withText: title, size: .large, superview: nil, color: .black)
+                Column(cardSet: titleLabel
                     .font(CustomFontBook.Regular.of(size: .large))
                     .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(20.0), colWidth: .Ten),
                 Column(cardSet: deleteButton
@@ -63,7 +83,7 @@ class GRNotificationCard: UITableViewCell {
                     .toCardSet()
                     .margin.top(20.0),
                        colWidth: .Two),
-                Column(cardSet: Style.label(withText: description, superview: nil, color: .darkGray)
+                Column(cardSet: contentLabel
                     .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0).margin.bottom(20.0), colWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: toggleActivateButton
@@ -79,5 +99,7 @@ class GRNotificationCard: UITableViewCell {
         
         self.deleteButton = deleteButton
         self.toggleActivateButton = toggleActivateButton
+        self.titleLabel = titleLabel
+        self.contentLabel = contentLabel
     }
 }

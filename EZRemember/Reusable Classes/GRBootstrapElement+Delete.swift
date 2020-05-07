@@ -42,10 +42,14 @@ open class DeleteCard: GRBootstrapElement {
                    colWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: deleteButton
-                    .toCardSet(),
+                    .radius(radius: 5)
+                    .toCardSet()
+                    .margin.top(30),
                        colWidth: .Six),
                 Column(cardSet: cancelButton
-                    .toCardSet(),
+                    .radius(radius: 5)
+                    .toCardSet()
+                    .margin.top(30),
                        colWidth: .Six)
             ], anchorToBottom: true)
         

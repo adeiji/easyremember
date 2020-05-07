@@ -60,6 +60,17 @@
 		F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537D82461DE2E0009D3DC /* DETimeViewCell.swift */; };
 		F4F537DB2461DE5B0009D3DC /* DEScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */; };
 		F4F537DE246276B50009D3DC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537DD246276B50009D3DC /* Notification.swift */; };
+		F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537DF246290410009D3DC /* GRMessageCard.swift */; };
+		F4F537E22462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E12462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift */; };
+		F4F537E42463AFDF0009D3DC /* DEEpubReaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E32463AFDE0009D3DC /* DEEpubReaderController.swift */; };
+		F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */; };
+		F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E72463B1880009D3DC /* Style+LargeHeader.swift */; };
+		F4F537EB2463B3A60009D3DC /* Dune.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4F537EA2463B2EB0009D3DC /* Dune.epub */; };
+		F4F537F1246404B70009D3DC /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F0246404B70009D3DC /* TranslateManager.swift */; };
+		F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F22464064F0009D3DC /* GRNetworking.swift */; };
+		F4F537F5246413E90009D3DC /* FirebasePersistanceManager+Watching.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */; };
+		F4F537F724641A520009D3DC /* DEShowTranslationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F624641A520009D3DC /* DEShowTranslationsViewController.swift */; };
+		F4F537F9246420C50009D3DC /* String+Pinyin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F8246420C50009D3DC /* String+Pinyin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +156,17 @@
 		F4F537D82461DE2E0009D3DC /* DETimeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DETimeViewCell.swift; sourceTree = "<group>"; };
 		F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEScheduleView.swift; sourceTree = "<group>"; };
 		F4F537DD246276B50009D3DC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		F4F537DF246290410009D3DC /* GRMessageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRMessageCard.swift; sourceTree = "<group>"; };
+		F4F537E12462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+RemoteNotifications.swift"; sourceTree = "<group>"; };
+		F4F537E32463AFDE0009D3DC /* DEEpubReaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEEpubReaderController.swift; sourceTree = "<group>"; };
+		F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationScheduler.swift; sourceTree = "<group>"; };
+		F4F537E72463B1880009D3DC /* Style+LargeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style+LargeHeader.swift"; sourceTree = "<group>"; };
+		F4F537EA2463B2EB0009D3DC /* Dune.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dune.epub; sourceTree = "<group>"; };
+		F4F537F0246404B70009D3DC /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
+		F4F537F22464064F0009D3DC /* GRNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNetworking.swift; sourceTree = "<group>"; };
+		F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebasePersistanceManager+Watching.swift"; sourceTree = "<group>"; };
+		F4F537F624641A520009D3DC /* DEShowTranslationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEShowTranslationsViewController.swift; sourceTree = "<group>"; };
+		F4F537F8246420C50009D3DC /* String+Pinyin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pinyin.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +246,8 @@
 		F428523A245BFA5E00C381DE /* EZRemember */ = {
 			isa = PBXGroup;
 			children = (
+				F4F537EC2463D1F50009D3DC /* Extensions */,
+				F4F537E92463B2DE0009D3DC /* Epubs */,
 				F4F537DC246276A00009D3DC /* Models */,
 				F4F537A4246127200009D3DC /* Fonts */,
 				F4F5377D24601A2D0009D3DC /* NetworkLayer */,
@@ -239,6 +263,7 @@
 				F4285249245BFA5F00C381DE /* Info.plist */,
 				F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */,
 				F4F5379E2461108F0009D3DC /* UtilityFunctions.swift */,
+				F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */,
 			);
 			path = EZRemember;
 			sourceTree = "<group>";
@@ -266,6 +291,8 @@
 			children = (
 				F428526C245BFCC600C381DE /* DEMainViewController.swift */,
 				F4F53798246085A60009D3DC /* DEScheduleViewController.swift */,
+				F4F537E32463AFDE0009D3DC /* DEEpubReaderController.swift */,
+				F4F537F624641A520009D3DC /* DEShowTranslationsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -283,6 +310,12 @@
 				F4F537CE24613ED60009D3DC /* Style+Colors.swift */,
 				F4F537D02461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift */,
 				F4F537D2246162DA0009D3DC /* GRBootstrapElement+Delete.swift */,
+				F4F537DF246290410009D3DC /* GRMessageCard.swift */,
+				F4F537E12462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift */,
+				F4F537E72463B1880009D3DC /* Style+LargeHeader.swift */,
+				F4F537F22464064F0009D3DC /* GRNetworking.swift */,
+				F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */,
+				F4F537F8246420C50009D3DC /* String+Pinyin.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -304,6 +337,7 @@
 			children = (
 				F4F5377E24601A630009D3DC /* NotificationsManager.swift */,
 				F4F5379A246097980009D3DC /* ScheduleManager.swift */,
+				F4F537F0246404B70009D3DC /* TranslateManager.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -348,6 +382,21 @@
 				F4F537DD246276B50009D3DC /* Notification.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F4F537E92463B2DE0009D3DC /* Epubs */ = {
+			isa = PBXGroup;
+			children = (
+				F4F537EA2463B2EB0009D3DC /* Dune.epub */,
+			);
+			path = Epubs;
+			sourceTree = "<group>";
+		};
+		F4F537EC2463D1F50009D3DC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -481,6 +530,7 @@
 				F4F537BE246127200009D3DC /* Poppins-Medium.ttf in Resources */,
 				F4F537CB246127200009D3DC /* Poppins-MediumItalic.ttf in Resources */,
 				F4F537C1246127200009D3DC /* Poppins-ExtraBold.ttf in Resources */,
+				F4F537EB2463B3A60009D3DC /* Dune.epub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,9 +641,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F537F9246420C50009D3DC /* String+Pinyin.swift in Sources */,
+				F4F537F5246413E90009D3DC /* FirebasePersistanceManager+Watching.swift in Sources */,
 				F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */,
 				F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */,
 				F4285240245BFA5E00C381DE /* ViewController.swift in Sources */,
+				F4F537E42463AFDF0009D3DC /* DEEpubReaderController.swift in Sources */,
 				F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */,
 				F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */,
 				F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */,
@@ -601,20 +654,27 @@
 				F4F53793246062220009D3DC /* SceneDelegate+TabController.swift in Sources */,
 				F4F537DB2461DE5B0009D3DC /* DEScheduleView.swift in Sources */,
 				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
+				F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */,
 				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
 				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
+				F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */,
 				F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */,
+				F4F537E22462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift in Sources */,
 				F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */,
 				F4F537CF24613ED60009D3DC /* Style+Colors.swift in Sources */,
+				F4F537F1246404B70009D3DC /* TranslateManager.swift in Sources */,
 				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
+				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
 				F4F537CD2461297F0009D3DC /* UILabel+Extensions.swift in Sources */,
 				F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */,
 				F4F537A124611C460009D3DC /* UITableView+Empty.swift in Sources */,
 				F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */,
+				F4F537F724641A520009D3DC /* DEShowTranslationsViewController.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
+				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
 				F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

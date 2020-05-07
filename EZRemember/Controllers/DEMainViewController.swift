@@ -14,15 +14,16 @@ import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
 
+
 class DEMainViewController: UIViewController {
     
     weak var mainView:GRViewWithTableView?
     
     let disposeBag = DisposeBag()
     
-    let notificationsRelay = BehaviorRelay(value: [Notification]())
+    let notificationsRelay = BehaviorRelay(value: [GRNotification]())
     
-    var notifications = [Notification]()
+    var notifications = [GRNotification]()
     
     var maxNumOfCards = 5        
     
@@ -30,21 +31,104 @@ class DEMainViewController: UIViewController {
         
         card.toggleActivateButton?.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
-            guard let notification = card.notification else { return }
-            
+                        
             // We need to check first to make sure that the user hasn't hit their max number of notifications if
             // they're trying to activate a notification right now
             if (card.notification?.active == false) {
                 let activeNotifications = self.notifications.filter({ $0.active == true })
-                
+                if activeNotifications.count >= self.maxNumOfCards {
+                    self.showMaxNumberOfCardsHit()
+                } else {
+                    self.updateNotificationActive(notification: card.notification, card: card, isActive: true)
+                }
             } else {
-                card.notification?.active = !notification.active
+                self.updateNotificationActive(notification: card.notification, card: card, isActive: false)
             }
+        }
+    }
+    
+    /**
+     Given a notification, we set it to either active or inactive, then we save it to the server and after that
+     update the view to reflect the new notifications active state
+     
+     - parameters:
+        - notification:The notification to be updated
+        - card: The card which contains the notification
+        - isActive: Whether or not this updated to have an active or an inactive state
+     */
+    private func updateNotificationActive (notification: GRNotification?, card:GRNotificationCard, isActive: Bool) {
+        
+        guard let notification = notification else { return }
+        
+        // Show that an activity is going on in the background
+        let loading =  card.toggleActivateButton?.showLoadingNVActivityIndicatorView()
+        // Save the new active state to the server
+        NotificationsManager.toggleActiveNotification(notificationId: notification.id, active: isActive)
+            .subscribe { [weak self] (event) in
+                
+                guard let self = self else { return }
+                card.toggleActivateButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                // If there is an error saving then show it now
+                if let error = event.error {
+                    GRMessageCard().draw(message: "Seems like there was a problem saving your information, please try activating or deactiving this notification again", title: "Uh oh! Something is wrong...", buttonBackgroundColor: .red, superview: self.view, buttonText: "Okay", isError: true)
+                    // Log the error using google analytics
+                    AnalyticsManager.logError(message: error.localizedDescription)
+                } else {
+                    // Update the active state of the notification on it's table view cell (card) and within the local
+                    // notifications array
+                    card.notification?.active = isActive
+                    self.updateNotificationInNotificationsArray(notification: card.notification)
+                    self.notificationsRelay.accept(self.notifications)
+                }
+        }.disposed(by: self.disposeBag)
+    }
+    
+    private func updateNotificationInNotificationsArray (notification:GRNotification?) {
+        guard let notification = notification else { return }
+        if let row = self.notifications.firstIndex(where: { $0.id == notification.id }) {
+            self.notifications[row] = notification
         }
     }
     
     private func showMaxNumberOfCardsHit () {
         
+        GRMessageCard(color: .white, anchorWidthToScreenWidth: true)
+        .draw(
+            message: "You have already reached your maximum active notifications of \(self.maxNumOfCards).  Please deactivate another card first, or increase your maximum activate notifications on the 'Schedule' page",
+            title: "Maximum Active Cards Reached",
+            buttonBackgroundColor: UIColor.EZRemember.mainBlue,
+            superview: self.view)
+        
+    }
+    
+    /**
+     If the user decides to update the max number of cards to less than then previous amount than we set all their cards to an inactive state
+     */
+    @objc private func maxNumCardsUpdated (_ notification: Notification) {
+        
+        // Get the new maximum number from the notification
+        if let data = notification.userInfo {
+            for (_, maxNum) in data {
+                guard let maxNum = maxNum as? Int else { return }
+                
+                // Check to make sure that the new max number is less than the current max number
+                if maxNum < self.maxNumOfCards {
+                    // Set all the notifications to inactive
+                    self.notifications.forEach { [weak self] (notification) in
+                        guard let self = self else { return }
+                        var updatedNotification = notification
+                        updatedNotification.active = false
+                        if notification.active == true {
+                            self.updateNotificationInNotificationsArray(notification: updatedNotification)
+                        }
+                    }
+                    
+                    self.notificationsRelay.accept(self.notifications)
+                }
+                
+                self.maxNumOfCards = maxNum
+            }
+        }
     }
     
     /**
@@ -75,30 +159,18 @@ class DEMainViewController: UIViewController {
         self.mainView?.navBar.rightButton?.titleLabel?.font = FontBook.allBold.of(size: .medium)
         self.mainView?.navBar.rightButton?.withImage(named: "add", bundle: "EZRemember")
     }
-    
-    /// Add a card at the to of the screen that will serve as a header, and say "Your Notifications"
-    func addYourNotificationsCard () -> UIView {
-        let headerCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true)
-            .addRow(columns: [Column(
-                cardSet: Style.label(withText: "Your\nNotifications", superview: nil, color: .black)
-                    .font(CustomFontBook.Regular.of(size: .logo))
-                        .toCardSet(), colWidth: .Twelve)
-            ], anchorToBottom: true)
-        
-        headerCard.isUserInteractionEnabled = false
-        headerCard.layer.zPosition = -5
-        
-        headerCard.addToSuperview(superview: self.view, viewAbove: self.mainView?.navBar, anchorToBottom: false)
-        return headerCard
+            
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(maxNumCardsUpdated(_:)), name: .UserUpdatedMaxNumberOfCards, object: nil)
         self.getMaxNumOfCardsFromServer()
         self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Notifications", rightNavBarButtonTitle: "")
                 
-        let yourNotificationsCard = self.addYourNotificationsCard()
+        let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nNotifications", superview: self.view, viewAbove: self.mainView?.navBar)
         guard let mainView = self.mainView else { return }
         
         self.mainView?.tableView.snp.remakeConstraints({ (make) in
@@ -127,7 +199,7 @@ class DEMainViewController: UIViewController {
         self.bindNotificationsRelayToTableView(tableView: tableView, loading: loading)
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
         self.setupAddButton(addButton: self.mainView?.navBar.rightButton)
-        
+
     }
     
     /**
@@ -172,7 +244,7 @@ class DEMainViewController: UIViewController {
     /**
         Subscribe to an observable which will return notifications from the server
      */
-    func subscribeToNotificationsObservable (notificationsObservable: Observable<[Notification]>, loading: NVActivityIndicatorView?) {
+    func subscribeToNotificationsObservable (notificationsObservable: Observable<[GRNotification]>, loading: NVActivityIndicatorView?) {
         notificationsObservable.subscribe { (event) in
             if let notifications = event.element, notifications.count > 0 {
                 self.notificationsRelay.accept(notifications)
@@ -246,16 +318,18 @@ class DEMainViewController: UIViewController {
                                                 
                 guard
                     let self = self,
-                    let title = createNotifCard.titleTextField?.text,
+                    let title = createNotifCard.firstTextView?.text,
                     let description = createNotifCard.descriptionTextView?.text
                     else { return }
+                
                 
                 // Get this device's unique identifier
                 let deviceId = UtilityFunctions.deviceId()
                 // Show that the notificatino is saving
                 let activityIndicatorView = createNotifCard.addButton?.showLoadingNVActivityIndicatorView()
                 
-                NotificationsManager.saveNotification(
+                let notifManager = NotificationsManager()
+                notifManager.saveNotification(
                     title: title,
                     description: description,
                     // there's no way that the device Id will be null since if it's not set initially we give it a value

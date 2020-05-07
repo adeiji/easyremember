@@ -19,7 +19,7 @@ import Foundation
  be selected from the list of notifications
  
  */
-struct Notification: Codable {
+struct GRNotification: Codable {
     
     struct Keys {
         static let kCollectionName = "notifications"
@@ -29,6 +29,7 @@ struct Notification: Codable {
         static let kCreationDate = "creationDate"
         static let kDeviceId = "deviceId"
         static let kId = "id"
+        static let kActive = "active"
     }
     
     /// The id of the Notification to access it

@@ -20,6 +20,8 @@ class DETimeViewCell: UIView {
     
     let selectedTime:PublishSubject<Int> = PublishSubject<Int>()
     
+    var timeButtons = [UIButton]()
+    
     let timeSlot:Int
     
     init(timeSlot:Int) {
@@ -42,17 +44,20 @@ class DETimeViewCell: UIView {
             }
         }
     }
-    
+            
     func setupUI (time: String) -> DETimeViewCell {
         
-        let timeLabel = Style.label(withText: time, fontName: .allBold, size: .large, superview: nil, color: .darkText, textAlignment: .center)
+        let timeLabel = Style.label(withText: time, superview: nil, color: .darkText, textAlignment: .center)
+        timeLabel.font(CustomFontBook.Medium.of(size: .small))
         
-        let card = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray, anchorWidthToScreenWidth: true, margin: nil)
+        let card = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
+            left: 0,
+            top: 10,
+            right: 0,
+            bottom: 10) )
             .addRow(columns: [
                 Column(cardSet: timeLabel
-                    .toCardSet()
-                    .margin.top(10)
-                    .margin.bottom(10),
+                    .toCardSet(),
                        colWidth: .Twelve)
             ], anchorToBottom: true)
         

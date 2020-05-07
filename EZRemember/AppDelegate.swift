@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import DephynedFire
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,8 +35,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         FirebaseApp.configure()
+        self.setupRemoteNotifications(application: application)
                         
+        UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound ]) { (success, error) in
+            if success {
+                AnalyticsManager.logGenericEvent(name: .AllowNotifications)
+            } else if let error = error {
+                AnalyticsManager.logError(message: error.localizedDescription)
+                print(error.localizedDescription)
+            }
+        }
+        
         return true
+    }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        FirebasePersistenceManager.updateDocument(withId: UtilityFunctions.deviceId(), collection: Schedule.Keys.kCollectionName, updateDoc: [
+            Schedule.Keys.kFcmToken: fcmToken
+        ], completion: nil)
     }
 
     // MARK: UISceneSession Lifecycle

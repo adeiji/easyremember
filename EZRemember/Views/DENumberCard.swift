@@ -24,16 +24,16 @@ class DENumberCard: GRBootstrapElement {
         }
     }
     
-    override init(color: UIColor? = .white, anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil) {
-        super.init(color: color, anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin)
-        self.setupUI()
+    init(selectedNumber: Int) {
+        super.init(color: .white, anchorWidthToScreenWidth: true, margin: BootstrapMargin(left: 0, top: 0, right: 0, bottom: 0) )
+        self.setupUI(selectedNumber: selectedNumber)
     }
-    
+            
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupUI () {
+    private func setupUI (selectedNumber: Int) {
         
         var selectNumberColumns = [Column]()
         
@@ -50,6 +50,10 @@ class DENumberCard: GRBootstrapElement {
             
             button.addTargetClosure { [weak self] (numberOfButton) in
                 self?.selectedNumberButton = numberOfButton
+            }
+            
+            if number == selectedNumber {
+                self.selectedNumberButton = button
             }
         }
         

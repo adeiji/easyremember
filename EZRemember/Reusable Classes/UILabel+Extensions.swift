@@ -11,7 +11,7 @@ import UIKit
 
 public extension UILabel {
     
-    func font (_ font: UIFont) -> UILabel {
+    @discardableResult func font (_ font: UIFont) -> UILabel {
         self.font = font
         return self
     }

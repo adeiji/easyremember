@@ -12,7 +12,9 @@ import DephynedFire
 import RxSwift
 
 class NotificationsManager {
-            
+        
+    let disposeBag = DisposeBag()
+    
     /**
      Delete a notification with the given Id
      - parameter id: The unique id for this notification on Firebase.  **This is the documentId of the object on Firebase**
@@ -22,7 +24,7 @@ class NotificationsManager {
      */
     static func deleteNotificationWithId (_ id: String) -> Observable<Bool> {
         return Observable.create { (observer) -> Disposable in
-            FirebasePersistenceManager.deleteDocuments(withCollection: Notification.Keys.kCollectionName, documentId: id) { (success, error) in
+            FirebasePersistenceManager.deleteDocuments(withCollection: GRNotification.Keys.kCollectionName, documentId: id) { (success, error) in
                 if let error = error {
                     observer.onError(error)
                     observer.onCompleted()
@@ -37,11 +39,16 @@ class NotificationsManager {
         }
     }
     
-    static func getNotifications (deviceId: String) -> Observable<[Notification]> {
+    /**
+     Get all the notifications for this device
+     
+     - parameter deviceId: The Unique Id for this device, you can retrieve it using UtilityFunctions.deviceId()
+     */
+    static func getNotifications (deviceId: String) -> Observable<[GRNotification]> {
         
         return Observable.create { (observer) -> Disposable in
-            FirebasePersistenceManager.getDocuments(withCollection: Notification.Keys.kCollectionName, queryDocument: [
-                Notification.Keys.kDeviceId: deviceId
+            FirebasePersistenceManager.getDocuments(withCollection: GRNotification.Keys.kCollectionName, queryDocument: [
+                GRNotification.Keys.kDeviceId: deviceId
             ], shouldKeepListening: true) { (error, documents) in
                 if let error = error {
                     observer.onError(error)
@@ -49,7 +56,7 @@ class NotificationsManager {
                 }
                 
                 if let documents = documents {
-                    observer.onNext( FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [Notification]? ?? [])
+                    observer.onNext( FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [GRNotification]? ?? [])
                 }
             }
             
@@ -57,48 +64,94 @@ class NotificationsManager {
         }
     }
     
-    static func saveNotification (title: String, description: String, deviceId:String) -> Observable<Notification?> {
+    /**
+     Toggle this notification as active or inactive
+     
+     - parameters:
+        - notificationId: The id for this notification, it should be the document Id for the notification in the Notification collection
+        - active: The active state of this notification, this needs to be the state that you want to be saved on the server.  So if you want this to now be an active notification you need to set **active** to **true**
+     */
+    static func toggleActiveNotification (notificationId: String, active: Bool) -> Observable<Bool> {
+        
+        return Observable.create { (observer) -> Disposable in
+            
+            FirebasePersistenceManager.updateDocument(withId: notificationId, collection: GRNotification.Keys.kCollectionName, updateDoc: [
+                GRNotification.Keys.kActive: active
+            ]) { (error) in
+                if let error = error {
+                    observer.onError(error)
+                    observer.onCompleted()
+                    return
+                }
+                
+                // Successful
+                observer.onNext(true)
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func saveNotifications (_ notifications: [GRNotification], completed: @escaping (Bool) -> Void ) {
+        var observables = [Observable<GRNotification?>]()
+        
+        notifications.forEach { [weak self] (notification) in
+            guard let self = self else { return }
+            
+            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId))
+        }
+                        
+        Observable.merge(observables).takeLast(1).subscribe { [weak self] (event) in
+            guard let _ = self else { return }
+            completed(true)
+        }.disposed(by: self.disposeBag)
+    }
+    
+    func saveNotification (title: String, description: String, deviceId:String) -> Observable<GRNotification?> {
         
         // 86400 is the amount of seconds in a day
         let expirationDate = Date().timeIntervalSince1970.advanced(by: 86400 * 7)
         let notificationData:[String:Any] = [
-            Notification.Keys.kNotificationTitle: title,
-            Notification.Keys.kNotificationDescription: description,
-            Notification.Keys.kDeviceId: deviceId,
-            Notification.Keys.kCreationDate: Date().timeIntervalSince1970,
-            Notification.Keys.kExpiration: expirationDate,
-            Notification.Keys.kId: UUID().uuidString
+            GRNotification.Keys.kNotificationTitle: title,
+            GRNotification.Keys.kNotificationDescription: description,
+            GRNotification.Keys.kDeviceId: deviceId,
+            GRNotification.Keys.kCreationDate: Date().timeIntervalSince1970,
+            GRNotification.Keys.kExpiration: expirationDate,
+            GRNotification.Keys.kId: UUID().uuidString,
+            GRNotification.Keys.kActive: false
         ]
         
         // Create a notificatino object, this will be returned if save to server is successful
-        var notification:Notification?
+        var notification:GRNotification?
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: notificationData as Any, options: .prettyPrinted)
-            notification = try JSONDecoder().decode(Notification.self, from: jsonData)
+            notification = try JSONDecoder().decode(GRNotification.self, from: jsonData)
         } catch {
             print(error.localizedDescription)
         }
         
-        guard let notificationId = notification?.id else { return .empty() }
+        guard let notificationId = notification?.id else
+        {
+            return .empty()
+        }
         
         return Observable.create { (observer) -> Disposable in
             
             FirebasePersistenceManager.addDocument(
-            withCollection: Notification.Keys.kCollectionName,
+            withCollection: GRNotification.Keys.kCollectionName,
             data: notificationData,
             withId: notificationId) { (error, documents) in
                 if let error = error {
                     observer.onError(error)
                     observer.onCompleted()
-                    return
                 } else if (documents != nil) {
                     observer.onNext(notification)
                     observer.onCompleted()
-                    return
                 }
                 
                 observer.onNext(nil)
+                observer.onCompleted()
             }
             
             return Disposables.create()
