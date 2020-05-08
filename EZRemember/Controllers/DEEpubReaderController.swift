@@ -13,9 +13,7 @@ import SwiftyBootstrap
 import RxSwift
 import RxCocoa
 
-public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate {
-    
-    open var currentPage:FolioReaderPage?
+public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate  {
     
     open weak var translateWord:UIButton?
     
@@ -31,6 +29,8 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
     
     private let kApplicationDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
+    public var readerContainer:FolioReaderContainer?
+    
     init(ebookUrl: URL? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.ebookUrl = ebookUrl
@@ -42,8 +42,7 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard let urls = self.getUrls() else { return }
-        self.urlRelay.accept(urls)
+
     }
     
     public override func viewDidLoad() {
@@ -67,18 +66,75 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         
         do {
             var urls = try FileManager().contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            guard let booksInInbox = FileManager().urls(for: "/Inbox") else { return nil }
+            if let booksInInbox = FileManager().urls(for: "/Inbox") {
+                urls.append(contentsOf: booksInInbox)
+            }
+            
             let booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
             urls.append(contentsOf: booksInAppDirUrls)
-            urls.append(contentsOf: booksInInbox)
+            
             urls = self.removeAllNonEpubFiles(urls: urls)
             return urls
         } catch {
-            
+            print(error.localizedDescription)
         }
 
         return nil
     }
+    
+    // MARK: Ebook Reader
+    
+    public func pageTap(_ recognizer: UITapGestureRecognizer) {
+        self.translateWord?.removeFromSuperview()
+        self.translateWord = nil
+    }
+    
+    // MARK: Create Menu Called
+    
+    @objc public func createMenuCalled (_ notification: Notification) {
+        
+        guard let word = notification.userInfo?["SelectedText"] as? String else { return }
+        guard let readerContainer = self.readerContainer else { return }
+        self.wordToTranslate = word
+        
+        if self.translateWord != nil {
+            return
+        }
+        
+        let translateButton = Style.largeButton(with: "Translate", backgroundColor: UIColor.EZRemember.lightGreen, fontColor: .darkGray)
+        translateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
+        translateButton.showsTouchWhenHighlighted = true
+        translateButton.radius(radius: 20.0)
+        
+        readerContainer.view.addSubview(translateButton)
+        translateButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(readerContainer.view).offset(-10)
+            make.centerX.equalTo(readerContainer.view)
+            make.height.equalTo(60)
+            make.width.equalTo(170)
+        }
+        
+        translateButton.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            guard let wordToTranslate = self.wordToTranslate else { return }
+            let loading = translateButton.showLoadingNVActivityIndicatorView()
+            
+            TranslateManager.translateText(wordToTranslate).subscribe { [weak self] (event) in
+                guard let self = self else { return }
+                translateButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                self.translateWord?.removeFromSuperview()
+                self.translateWord = nil
+                if let translations = event.element {
+                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate)
+                    readerContainer.present(showTranslationsViewController, animated: true, completion: nil)
+                }
+            }.disposed(by: self.disposeBag)
+        }
+        
+        self.translateWord = translateButton
+    }
+    
+    // MARK: Show Book Reader
     
     private func showBookReader (url: URL?) {
         
@@ -97,10 +153,22 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         
         guard let unwrappedBookPath = bookPath else { return }
         
-        folioReader.presentReader(parentViewController: self, withEpubPath: unwrappedBookPath, andConfig: config)
-        folioReader.readerCenter?.pageDelegate = self
-        folioReader.readerCenter?.delegate = self
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // Push the Read Book View Controller which will show the book on the left hand side
+            let reader = folioReader.getReader(parentViewController: self, withEpubPath: unwrappedBookPath, andConfig: config)
+            let readBookViewVC = GRReadBookViewController(reader: reader)
+            folioReader.readerCenter?.pageDelegate = readBookViewVC
+            folioReader.readerCenter?.delegate = readBookViewVC
+            self.navigationController?.pushViewController(readBookViewVC, animated: true)
+        } else {
+            folioReader.presentReader(parentViewController: self, withEpubPath: unwrappedBookPath, andConfig: config)
+            folioReader.readerCenter?.pageDelegate = self
+            folioReader.readerCenter?.delegate = self
+        }
+        
     }
+    
+    // MARK: Remove All Non Epub Files
     
     private func removeAllNonEpubFiles (urls: [URL]) -> [URL] {
         
@@ -117,6 +185,9 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         }
                         
     }
+    
+    // MARK: Show Ebooks
+    
     /// TODO: Rename this
     public func showEBooks () {
                 
@@ -152,62 +223,7 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         return String(ebookName)
         
     }
-    
-    public func pageTap(_ recognizer: UITapGestureRecognizer) {
-        self.translateWord?.removeFromSuperview()
-        self.translateWord = nil
-    }
-    
-    @objc public func createMenuCalled (_ notification: Notification) {
-        
-        
-        guard let presentedViewController = self.presentedViewController else { return }
-        guard let word = notification.userInfo?["SelectedText"] as? String else { return }
-        self.wordToTranslate = word
-        
-        if self.translateWord != nil {
-            return
-        }
-        
-        let translateButton = Style.largeButton(with: "Translate", backgroundColor: UIColor.EZRemember.lightGreen, fontColor: .darkGray)
-        translateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
-        translateButton.showsTouchWhenHighlighted = true
-        translateButton.radius(radius: 20.0)
-        
-        presentedViewController.view.addSubview(translateButton)
-        translateButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(presentedViewController.view).offset(-10)
-            make.centerX.equalTo(presentedViewController.view)
-            make.height.equalTo(60)
-            make.width.equalTo(170)
-        }
-        
-        translateButton.addTargetClosure { [weak self] (_) in
-            guard let self = self else { return }
-            guard let wordToTranslate = self.wordToTranslate else { return }
-            let loading = translateButton.showLoadingNVActivityIndicatorView()
-            
-            TranslateManager.translateText(wordToTranslate).subscribe { [weak self] (event) in
-                guard let self = self else { return }
-                translateButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                self.translateWord?.removeFromSuperview()
-                self.translateWord = nil
-                if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate)
-                    presentedViewController.present(showTranslationsViewController, animated: true, completion: nil)
-                }
-            }.disposed(by: self.disposeBag)
-        }
-        
-        self.translateWord = translateButton
-    }
-    
-    
-    
-    public func pageDidAppear(_ page: FolioReaderPage) {
-        self.currentPage = page
-    }
-    
+
 }
 
 class EBookCell: UITableViewCell {

@@ -32,7 +32,7 @@ class DEShowTranslationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Translations", rightNavBarButtonTitle: "Done")
+        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "", rightNavBarButtonTitle: "Done")
         self.mainView?.tableView.register(GRNotificationCard.self, forCellReuseIdentifier: GRNotificationCard.reuseIdentifier)
         self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
         self.mainView?.navBar.leftButton?.isHidden = true

@@ -73,7 +73,7 @@ class GRNotificationCard: UITableViewCell {
         let titleLabel = Style.label(withText: title, size: .large, superview: nil, color: .black)
         let contentLabel = Style.label(withText: description, superview: nil, color: .darkGray)
         
-        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true)
+        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true, superview: self.contentView)
             .addRow(columns: [
                 Column(cardSet: titleLabel
                     .font(CustomFontBook.Regular.of(size: .large))

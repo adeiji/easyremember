@@ -16,7 +16,7 @@ open class DeleteCard: GRBootstrapElement {
     /**
      Delete button will be set on init
      */
-    public override init(color: UIColor? = .white, anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil) {
+    public override init(color: UIColor? = .white, anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil, superview:UIView? = nil) {
         super.init(color: color, anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin)
         self.showDeletePrompt()
     }
