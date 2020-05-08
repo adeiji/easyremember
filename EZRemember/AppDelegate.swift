@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// An Id given to this device when app is first launched.  This Id is used to store and retrieve user's information using Firebase
     var deviceId:String?
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return true
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         

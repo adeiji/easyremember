@@ -19,6 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let disposeBag = DisposeBag()
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        print(URLContexts.description)
+        if let vc = window?.rootViewController {            
+            let epubReaderVC = DEEpubReaderController(ebookUrl: URLContexts.first?.url)
+            vc.present(epubReaderVC, animated: true, completion: nil)
+        }
+    }
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.

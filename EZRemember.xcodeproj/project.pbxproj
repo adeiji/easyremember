@@ -24,6 +24,7 @@
 		F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285279245C34F700C381DE /* DEImageHelper.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
+		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
 		F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
 		F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F53780246020F00009D3DC /* GoogleService-Info.plist */; };
@@ -121,6 +122,7 @@
 		F4285279245C34F700C381DE /* DEImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEImageHelper.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
+		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 				F4F537F22464064F0009D3DC /* GRNetworking.swift */,
 				F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */,
 				F4F537F8246420C50009D3DC /* String+Pinyin.swift */,
+				F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
 				F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */,
 				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
+				F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */,
 				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
 				F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */,
 				F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */,

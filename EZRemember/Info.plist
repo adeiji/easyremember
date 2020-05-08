@@ -2,29 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Poppins-ExtraLight.ttf</string>
-        <string>Poppins-ThinItalic.ttf</string>
-        <string>Poppins-ExtraLightItalic.ttf</string>
-        <string>Poppins-BoldItalic.ttf</string>
-        <string>Poppins-Light.ttf</string>
-        <string>Poppins-Medium.ttf</string>
-        <string>Poppins-SemiBoldItalic.ttf</string>
-        <string>Poppins-ExtraBoldItalic.ttf</string>
-        <string>Poppins-ExtraBold.ttf</string>
-        <string>Poppins-BlackItalic.ttf</string>
-        <string>Poppins-Regular.ttf</string>
-        <string>Poppins-LightItalic.ttf</string>
-        <string>Poppins-Bold.ttf</string>
-        <string>Poppins-Black.ttf</string>
-        <string>Poppins-Thin.ttf</string>
-        <string>Poppins-SemiBold.ttf</string>
-        <string>Poppins-Italic.ttf</string>
-        <string>Poppins-MediumItalic.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>epub</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -41,6 +35,27 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Poppins-ExtraLight.ttf</string>
+		<string>Poppins-ThinItalic.ttf</string>
+		<string>Poppins-ExtraLightItalic.ttf</string>
+		<string>Poppins-BoldItalic.ttf</string>
+		<string>Poppins-Light.ttf</string>
+		<string>Poppins-Medium.ttf</string>
+		<string>Poppins-SemiBoldItalic.ttf</string>
+		<string>Poppins-ExtraBoldItalic.ttf</string>
+		<string>Poppins-ExtraBold.ttf</string>
+		<string>Poppins-BlackItalic.ttf</string>
+		<string>Poppins-Regular.ttf</string>
+		<string>Poppins-LightItalic.ttf</string>
+		<string>Poppins-Bold.ttf</string>
+		<string>Poppins-Black.ttf</string>
+		<string>Poppins-Thin.ttf</string>
+		<string>Poppins-SemiBold.ttf</string>
+		<string>Poppins-Italic.ttf</string>
+		<string>Poppins-MediumItalic.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -80,6 +95,30 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.content</string>
+				<string>public.composite-content</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>EPUB</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>org.idpf.epub-container</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>epub</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>

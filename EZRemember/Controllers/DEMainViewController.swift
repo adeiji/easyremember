@@ -169,7 +169,7 @@ class DEMainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(maxNumCardsUpdated(_:)), name: .UserUpdatedMaxNumberOfCards, object: nil)
         self.getMaxNumOfCardsFromServer()
         self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Notifications", rightNavBarButtonTitle: "")
-                
+        self.mainView?.navBar.leftButton?.isHidden = true
         let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nNotifications", superview: self.view, viewAbove: self.mainView?.navBar)
         guard let mainView = self.mainView else { return }
         

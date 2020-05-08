@@ -24,21 +24,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EZRemember-launch" translatesAutoresizingMaskIntoConstraints="NO" id="PQb-Wh-t85">
-                                <rect key="frame" x="162" y="257" width="90" height="90"/>
+                                <rect key="frame" x="162" y="285" width="90" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="90" id="OcN-3T-NNV"/>
                                     <constraint firstAttribute="width" constant="90" id="t8u-Rv-pnh"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REMEMBER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-mQ-Y1g">
-                                <rect key="frame" x="86" y="547" width="242" height="63"/>
+                                <rect key="frame" x="86" y="519" width="242" height="63"/>
                                 <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="45"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EZ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RO-WG-Zxs">
-                                <rect key="frame" x="144" y="369" width="126" height="168"/>
-                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="120"/>
+                                <rect key="frame" x="165" y="397" width="84" height="112"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="80"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>

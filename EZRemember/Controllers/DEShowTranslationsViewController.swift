@@ -35,6 +35,7 @@ class DEShowTranslationsViewController: UIViewController {
         self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Translations", rightNavBarButtonTitle: "Done")
         self.mainView?.tableView.register(GRNotificationCard.self, forCellReuseIdentifier: GRNotificationCard.reuseIdentifier)
         self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
+        self.mainView?.navBar.leftButton?.isHidden = true
         
         let notificationsManager = NotificationsManager()
         
