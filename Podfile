@@ -10,11 +10,12 @@ target 'EZRemember' do
 
   pod 'SwiftyBootstrap', path: '/Users/adeiji/Documents/Dephyned/libraries/swifty-bootstrap/SwiftyBootstrap'
   pod 'DephynedFire', '~> 1.0.31'
-  pod 'FolioReaderKit', git: 'https://github.com/adeiji/FolioReaderKit.git'
+  pod 'FolioReaderKit', path: '/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit'
   pod 'FirebaseMessaging'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PodAsset'
+
 
   # Pods for EZRemember
 

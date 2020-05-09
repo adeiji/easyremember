@@ -52,8 +52,20 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
             self.showBookReader(url: ebookUrl)
         }
                 
-        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Your Books", rightNavBarButtonTitle: "")
+        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "", rightNavBarButtonTitle: "")
+        self.mainView?.navBar.isHidden = true
         self.mainView?.tableView.register(EBookCell.self, forCellReuseIdentifier: EBookCell.identifier)
+        self.mainView?.tableView.separatorStyle = .none
+        let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nElectronic Books", superview: self.view, viewAbove: self.mainView?.navBar)
+        guard let mainView = self.mainView else { return }
+        
+        self.mainView?.tableView.snp.remakeConstraints({ (make) in
+            make.left.equalTo(mainView).offset(40)
+            make.right.equalTo(mainView).offset(40)
+            make.top.equalTo(yourNotificationsCard.snp.bottom)
+            make.bottom.equalTo(mainView)
+        })
+        
         self.showEBooks()
         guard let urls = self.getUrls() else { return }
         self.urlRelay.accept(urls)
@@ -159,6 +171,7 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
             let readBookViewVC = GRReadBookViewController(reader: reader)
             folioReader.readerCenter?.pageDelegate = readBookViewVC
             folioReader.readerCenter?.delegate = readBookViewVC
+            
             self.navigationController?.pushViewController(readBookViewVC, animated: true)
         } else {
             folioReader.presentReader(parentViewController: self, withEpubPath: unwrappedBookPath, andConfig: config)
@@ -198,7 +211,8 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
             tableView
             .rx
             .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { (row, url, cell) in
-                cell.textLabel?.text = self.getEbookNameFromUrl(url: url)
+                guard let name = self.getEbookNameFromUrl(url: url) else { return }
+                cell.setup(title: name)
                 cell.textLabel?.font = CustomFontBook.Black.of(size: .medium)
                 cell.url = url
         }.disposed(by: self.disposeBag)
@@ -231,5 +245,24 @@ class EBookCell: UITableViewCell {
     static let identifier = "EBookCell"
     
     public var url:URL?
+            
+    func setup (title: String) {
+//        self.selectionStyle = .none
+        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true, margin:
+            BootstrapMargin(
+                left: 40,
+                top: 30,
+                right: 40,
+                bottom: 30), superview: nil)
+        
+        card.addRow(columns: [
+            Column(cardSet: Style.label(withText: title, superview: nil, color: .black)
+                .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .medium : .large))
+                .toCardSet(),
+                   colWidth: .Twelve)
+        ], anchorToBottom: true)
+        
+        card.addToSuperview(superview: self.contentView, anchorToBottom: true)
+    }
     
 }
