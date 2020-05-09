@@ -13,9 +13,10 @@ import SwiftyBootstrap
 import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
+import FolioReaderKit
 
 
-class DEMainViewController: UIViewController {
+class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
     
     weak var mainView:GRViewWithTableView?
     
@@ -25,7 +26,17 @@ class DEMainViewController: UIViewController {
     
     var notifications = [GRNotification]()
     
-    var maxNumOfCards = 5        
+    var maxNumOfCards = 5
+        
+    /// If there is an initial book url that should be displayed at the start of the app, ie. this app is opening due to a user selecting this
+    /// app as the "Open In" for an ePub
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private func handleToggleActivateCard (card: GRNotificationCard) {
         
@@ -164,19 +175,52 @@ class DEMainViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    @objc func notificationsSavedToServer (_ notification: Notification) {
+        guard let notifications = notification.userInfo?[GRNotification.kSavedNotifications] as? [GRNotification] else { return }
+        self.notifications.append(contentsOf: notifications)
+        self.notificationsRelay.accept(self.notifications)
+    }
+    
+    private func addObservers () {
+        NotificationCenter.default.addObserver(self, selector: #selector(maxNumCardsUpdated(_:)), name: .UserUpdatedMaxNumberOfCards, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationsSavedToServer(_:)), name: .NotificationsSaved, object: nil)
+    }
+    
+    private func showEpubOpenedInApp (url: URL) {
+        self.showBookReader(url: url)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(maxNumCardsUpdated(_:)), name: .UserUpdatedMaxNumberOfCards, object: nil)
+        self.addObservers()
+        
         self.getMaxNumOfCardsFromServer()
         self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Notifications", rightNavBarButtonTitle: "")
         self.mainView?.navBar.leftButton?.isHidden = true
         let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nNotifications", superview: self.view, viewAbove: self.mainView?.navBar)
         guard let mainView = self.mainView else { return }
         
+        let getMoreBooksButton = Style.largeButton(with: "Get More eBooks", superview: mainView, backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
+        
+        getMoreBooksButton.radius(radius: 10)
+        
+        getMoreBooksButton.snp.makeConstraints { (make) in
+            make.left.equalTo(yourNotificationsCard)
+            make.top.equalTo(yourNotificationsCard.snp.bottom).offset(20)
+            make.width.equalTo(200)
+            make.height.equalTo(50)
+        }
+        
+        getMoreBooksButton.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            guard let url = URL(string: "https://www.gutenberg.org/catalog/") else { return }
+            UIApplication.shared.open(url)
+        }
+        
         self.mainView?.tableView.snp.remakeConstraints({ (make) in
             make.left.equalTo(mainView)
             make.right.equalTo(mainView)
-            make.top.equalTo(yourNotificationsCard.snp.bottom)
+            make.top.equalTo(getMoreBooksButton.snp.bottom)
             make.bottom.equalTo(mainView)
         })
                 
@@ -220,6 +264,7 @@ class DEMainViewController: UIViewController {
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
                         self.mainView?.tableView.reset()
+                        cell.viewToBaseWidthOffOf = self.mainView?.tableView
                         cell.notification = notification
                         self.setupNotificationCellDeleteButton(cell: cell)
                         self.handleToggleActivateCard(card: cell)

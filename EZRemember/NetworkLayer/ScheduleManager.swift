@@ -18,12 +18,14 @@ struct Schedule: Codable {
         static let kTimeSlots = "timeSlots"
         static let kMaxNumOfCards = "maxNumOfCards"
         static let kFcmToken = "fcmToken"
+        static let kLanguages = "languages"
     }
     
     let deviceId:String
     let timeSlots:[Int]
     let maxNumOfCards:Int
     let fcmToken:String?
+    let languages:[String]
     
 }
 
@@ -37,13 +39,30 @@ struct Schedule: Codable {
 
 class ScheduleManager {
     
+    private var languages:[String] = ["en"]
+    
+    static let shared = ScheduleManager()
+    
+    private init () {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLanguages(_:)), name: .LanguagesUpdated, object: nil)
+    }
+    
+    @objc private func updateLanguages (_ notification:Notification) {
+        guard let languages = notification.userInfo?["languages"] as? [String] else { return }
+        self.languages = languages
+    }
+    
+    public func getLanguages () -> [String] {
+        return languages
+    }
+    
     /**
      Save the schedule for this device to the server.  Notifications will be sent to this device based off of
      the time slots that they chose
      
      - parameter timeSlots: The times that this user wants to recieve notifications.
      */
-    static func saveSchedule (timeSlots:[Int], maxNumOfCards:Int) -> Observable<Bool> {
+    static func saveSchedule (timeSlots:[Int], maxNumOfCards:Int, languages:[String]) -> Observable<Bool> {
         
         let delegate = UIApplication.shared.delegate as? AppDelegate
         guard let deviceId = delegate?.deviceId else { return .just(false) }
@@ -53,7 +72,8 @@ class ScheduleManager {
             FirebasePersistenceManager.addDocument(withCollection: Schedule.Keys.kCollectionName, data: [
                 Schedule.Keys.kDeviceId: deviceId,
                 Schedule.Keys.kTimeSlots: timeSlots,
-                Schedule.Keys.kMaxNumOfCards: maxNumOfCards
+                Schedule.Keys.kMaxNumOfCards: maxNumOfCards,
+                Schedule.Keys.kLanguages: languages
             ], withId: deviceId) { (error, documents) in
                 if let error = error {
                     observer.onError(error)

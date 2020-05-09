@@ -21,6 +21,30 @@ import Foundation
  */
 struct GRNotification: Codable {
     
+    public static let kSavedNotifications = "savedNotifications"
+    public static let kSupportedLanguages = [
+        "en": "English",
+        "zh-TW": "Chinese (Traditional)",
+        "zh-CN": "Chinese (Simplified)",
+        "id": "Indonesian",
+        "hi": "Hindi",
+        "fr": "French",
+        "es": "Spanish",
+        "pt": "Portuguese"
+    ]
+    
+    /** Given a value, return the shortcode for that value */
+    public static func getLanguageShortCodeForValue (_ value: String) -> String? {
+        
+        for key in GRNotification.kSupportedLanguages.keys {
+            if GRNotification.kSupportedLanguages[key] == value {
+                return key
+            }
+        }
+                        
+        return nil
+    }
+    
     struct Keys {
         static let kCollectionName = "notifications"
         static let kNotificationTitle = "caption"
@@ -52,5 +76,8 @@ struct GRNotification: Codable {
     
     /// Whether or not this notification is set to be sent
     var active:Bool
+    
+    /// The language that this notification is in. This is only set when recieving a translation from the server
+    var language:String?
             
 }

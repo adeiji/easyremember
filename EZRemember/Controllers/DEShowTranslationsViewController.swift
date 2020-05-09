@@ -19,9 +19,13 @@ class DEShowTranslationsViewController: UIViewController {
     let disposeBag = DisposeBag()
     var notificationsToSave = [GRNotification]()
     
-    init(translations:Translations, originalWord:String) {
+    var languages:[String] = ["en"]
+    
+    
+    init(translations:Translations, originalWord:String, languages:[String]) {
         self.translations = translations
         self.originalWord = originalWord
+        self.languages = languages
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,6 +40,9 @@ class DEShowTranslationsViewController: UIViewController {
         self.mainView?.tableView.register(GRNotificationCard.self, forCellReuseIdentifier: GRNotificationCard.reuseIdentifier)
         self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
         self.mainView?.navBar.leftButton?.isHidden = true
+        self.mainView?.backgroundColor = .clear
+        self.mainView?.tableView.backgroundColor = .clear
+        self.mainView?.navBar.backgroundColor = .clear
         
         let notificationsManager = NotificationsManager()
         
@@ -46,6 +53,9 @@ class DEShowTranslationsViewController: UIViewController {
             
             notificationsManager.saveNotifications(self.notificationsToSave) { [weak self] (success) in
                 guard let self = self else { return }
+                if success {
+                    NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [ GRNotification.kSavedNotifications: self.notificationsToSave ])
+                }
                 if self.navigationController != nil {
                     self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 }
@@ -54,11 +64,21 @@ class DEShowTranslationsViewController: UIViewController {
         })
         
         self.showTranslations()
+    }            
+    
+    func showTranslationForLanguage (_ language:(key: String, value: String)) -> Bool {
+        
+        if (ScheduleManager.shared.getLanguages().contains(language.key) == true) {
+            return true
+        }
+        
+        return false
     }
     
     func showTranslations () {
         guard let tableView = self.mainView?.tableView else { return }
-        let translationsObserverable = Observable.of(self.translations.translated)
+        
+        let translationsObserverable = Observable.of(self.translations.translated.filter( {self.showTranslationForLanguage($0) }))
         
         translationsObserverable
             .bind(to:
@@ -79,7 +99,8 @@ class DEShowTranslationsViewController: UIViewController {
                                                           deviceId: UtilityFunctions.deviceId(),
                                                           expiration: Date().timeIntervalSince1970.advanced(by: 86400 * 7),
                                                           creationDate: Date().timeIntervalSince1970,
-                                                          active: false)
+                                                          active: false,
+                                                          language: GRNotification.kSupportedLanguages[translation.key] )                        
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
                         self.mainView?.tableView.reset()

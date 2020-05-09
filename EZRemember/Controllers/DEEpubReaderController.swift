@@ -13,7 +13,7 @@ import SwiftyBootstrap
 import RxSwift
 import RxCocoa
 
-public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate  {
+public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate, ShowEpubReaderProtocol  {
     
     open weak var translateWord:UIButton?
     
@@ -30,6 +30,8 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
     private let kApplicationDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
     public var readerContainer:FolioReaderContainer?
+    
+    public var languages:[String] = ["en"]
     
     init(ebookUrl: URL? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -137,7 +139,7 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
                 self.translateWord?.removeFromSuperview()
                 self.translateWord = nil
                 if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate)
+                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate, languages: self.languages)
                     readerContainer.present(showTranslationsViewController, animated: true, completion: nil)
                 }
             }.disposed(by: self.disposeBag)
@@ -148,37 +150,19 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
     
     // MARK: Show Book Reader
     
-    private func showBookReader (url: URL?) {
+    private func pushBookReaderAndSetDelegates () {
         
-        guard let url = url else { return }
+    }
+    
+    private func getBookInformation (bookPath: String?) -> BookDetails? {
         
-        var bookPath = Bundle.main.path(forResource: self.getEbookNameFromUrl(url: url), ofType: "epub")
+        guard var bookPath = bookPath else { return nil }
+        bookPath = bookPath.replacingOccurrences(of: "file:", with: "")
+        let title = try? FolioReader.getTitle(bookPath)
+        let coverImage = try? FolioReader.getCoverImage(bookPath)
+        let authorName = try? FolioReader.getAuthorName(bookPath)
         
-        if bookPath == nil {
-            bookPath = url.absoluteString.replacingOccurrences(of: "file:", with: "")
-        }
-        
-        let config = FolioReaderConfig()
-        config.displayTitle = true
-        
-        let folioReader = FolioReader()
-        
-        guard let unwrappedBookPath = bookPath else { return }
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            // Push the Read Book View Controller which will show the book on the left hand side
-            let reader = folioReader.getReader(parentViewController: self, withEpubPath: unwrappedBookPath, andConfig: config)
-            let readBookViewVC = GRReadBookViewController(reader: reader)
-            folioReader.readerCenter?.pageDelegate = readBookViewVC
-            folioReader.readerCenter?.delegate = readBookViewVC
-            
-            self.navigationController?.pushViewController(readBookViewVC, animated: true)
-        } else {
-            folioReader.presentReader(parentViewController: self, withEpubPath: unwrappedBookPath, andConfig: config)
-            folioReader.readerCenter?.pageDelegate = self
-            folioReader.readerCenter?.delegate = self
-        }
-        
+        return BookDetails(author: authorName, coverImage: coverImage, title: title)
     }
     
     // MARK: Remove All Non Epub Files
@@ -210,11 +194,21 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         .bind(to:
             tableView
             .rx
-            .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { (row, url, cell) in
+            .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { [weak self] (row, url, cell) in
+                guard let self = self else { return }
+                guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString) else { return }
                 guard let name = self.getEbookNameFromUrl(url: url) else { return }
-                cell.setup(title: name)
+                cell.setup(bookDetails: bookDetails, title: name)
                 cell.textLabel?.font = CustomFontBook.Black.of(size: .medium)
                 cell.url = url
+                cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
+                    guard let self = self else { return }
+                    guard let url = cell.url else { return }
+                    try? FileManager.default.removeItem(at: url)
+                    guard var urls = self.getUrls() else { return }
+                    urls = urls.filter({ $0.path != url.path })
+                    self.urlRelay.accept(urls)
+                })
         }.disposed(by: self.disposeBag)
         
         tableView
@@ -245,24 +239,55 @@ class EBookCell: UITableViewCell {
     static let identifier = "EBookCell"
     
     public var url:URL?
-            
-    func setup (title: String) {
-//        self.selectionStyle = .none
-        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true, margin:
+    
+    public weak var deleteButton:UIButton?
+    
+    func setup (bookDetails: BookDetails, title: String) {
+        self.selectionStyle = .none
+
+        let deleteButton = Style.largeButton(with: "Delete", fontColor: .red)
+        
+        let bookCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false, margin:
             BootstrapMargin(
                 left: 40,
                 top: 30,
                 right: 40,
                 bottom: 30), superview: nil)
         
-        card.addRow(columns: [
-            Column(cardSet: Style.label(withText: title, superview: nil, color: .black)
-                .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .medium : .large))
-                .toCardSet(),
-                   colWidth: .Twelve)
+        let detailsCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false)
+            .addRow(columns: [
+                Column(cardSet: Style.label(withText: bookDetails.title ?? title, superview: nil, color: .black)
+                    .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .medium : .large))
+                    .toCardSet(),
+                       colWidth: .Twelve),
+                Column(cardSet: Style.label(withText: "Written By: \(bookDetails.author ?? "Not Sure")", superview: nil, color: .black)
+                    .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .sm ? .small : .medium))
+                    .toCardSet(),
+                       colWidth: .Twelve)
+            ]).addRow(columns: [
+                Column(cardSet: deleteButton
+                .radius(radius: 5)
+                .backgroundColor(UIColor.EZRemember.lightRed)
+                    .toCardSet().withHeight(50), colWidth: Style.getScreenSize() == .sm ? .Four : .Two)
+            ], anchorToBottom: true)
+        
+        let coverImage = UIImageView(image: bookDetails.coverImage)
+        coverImage.contentMode = .scaleAspectFit
+        
+        bookCard.addRow(columns: [
+            // Add the image to the left
+            Column(cardSet: UIImageView(image: bookDetails.coverImage)
+                .backgroundColor(UIColor.EZRemember.lightGreen)
+                .toCardSet()
+                .withHeight(250),
+                   colWidth: Style.getScreenSize() == .sm ? .Three : .Two),
+            // Add the book details to the right
+            Column(cardSet: detailsCard.toCardSet(), colWidth: Style.getScreenSize() == .sm ? .Nine : .Five),
+                        
         ], anchorToBottom: true)
         
-        card.addToSuperview(superview: self.contentView, anchorToBottom: true)
+        bookCard.addToSuperview(superview: self.contentView, anchorToBottom: true)
+        self.deleteButton = deleteButton
     }
     
 }

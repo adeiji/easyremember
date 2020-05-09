@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import DephynedFire
 import UserNotifications
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -40,7 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         self.setupRemoteNotifications(application: application)
-                        
+        let _ = ScheduleManager.shared // instantiate our schedule manager singleton object
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound ]) { (success, error) in
             if success {
                 AnalyticsManager.logGenericEvent(name: .AllowNotifications)

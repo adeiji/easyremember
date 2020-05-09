@@ -22,6 +22,15 @@ class DEScheduleViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private weak var scheduleView:DEScheduleView?
     private weak var maxNumberOfCardsCard:DENumberCard?
+    private weak var languagesCard:DELanguagesCard?
+    
+    private var selectedLanguages:[String] = ["en"]
+    
+    // The margins for bootstrap elements on this view
+    private let margins:BootstrapMargin = BootstrapMargin(
+        left: Style.getScreenSize() == .sm ? 20 : 150,
+        top: 0, right: Style.getScreenSize() == .sm ? 20 : 100,
+        bottom: 0)
     
     /// The times that the user wants the notifications sent
     private var timeSlots = [Int]()
@@ -38,6 +47,7 @@ class DEScheduleViewController: UIViewController {
         self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "EZ Remember")
         self.mainView?.navBar.rightButton?.setTitle("Save", for: .normal)
         self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
+        self.mainView?.navBar.rightButton?.isUserInteractionEnabled = true
                 
         self.loadSchedule()
         self.savePressed()
@@ -45,13 +55,12 @@ class DEScheduleViewController: UIViewController {
     
     /// Get the schedule for this device
     private func loadSchedule () {
-        
+                        
         guard let mainView = self.mainView else { return }
         
         // We add the schedule view as a subclass of the main view container view so that we can use the main view's scroll view
         // that way the schedule view can expand to whatever size necessary
-        let scheduleView = DEScheduleView(anchorWidthToScreenWidth: true, margin:
-            BootstrapMargin(left: 40, top: 0, right: 40, bottom: 0))
+        let scheduleView = DEScheduleView(anchorWidthToScreenWidth: true, margin: self.margins)
         
         ScheduleManager.getSchedule().subscribe { [weak self] (event) in
             guard let self = self else { return }
@@ -68,7 +77,7 @@ class DEScheduleViewController: UIViewController {
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             } else {
-                let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.defaultTimeSlots, maxNumOfCards: 5, fcmToken: nil)
+                let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.defaultTimeSlots, maxNumOfCards: 5, fcmToken: nil, languages: ["en"])
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             }
@@ -79,19 +88,23 @@ class DEScheduleViewController: UIViewController {
         
         guard let mainView = mainView else { return }
         
-        let numberCard = DENumberCard(selectedNumber: schedule.maxNumOfCards)
+        let numberCard = DENumberCard(selectedNumber: schedule.maxNumOfCards, bootstrapMargin: self.margins)
         numberCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
+        
+        let languagesCard = DELanguagesCard(bootstrapMargin: self.margins, selectedLanguages: schedule.languages)
+        languagesCard.addToSuperview(superview: mainView.containerView, viewAbove: numberCard, anchorToBottom: false)
         
         // Show the schedule view with the either the default time slots or this user's time slots choices already selected
         scheduleView.setupUI(
             superview: mainView,
             timeSlots: schedule.timeSlots,
             selecteMaxNumber: schedule.maxNumOfCards)
-                .addToSuperview(superview: mainView.containerView, viewAbove: numberCard, anchorToBottom: true)
+                .addToSuperview(superview: mainView.containerView, viewAbove: languagesCard, anchorToBottom: true)
         
         self.timeSlotsSubject.onNext(schedule.timeSlots)
         self.scheduleView = scheduleView
         self.maxNumOfCards = schedule.maxNumOfCards
+        self.languagesCard = languagesCard
         self.timeSlots = schedule.timeSlots
         self.handleTimeSlotUpdate()
     }
@@ -124,8 +137,10 @@ class DEScheduleViewController: UIViewController {
     private func savePressed () {
         self.mainView?.navBar.rightButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
-            guard let selectedNumber = self.maxNumberOfCardsCard?.selectedNumberButton?.titleLabel?.text else { return }
+            guard let selectedLanguages = self.languagesCard?.selectedLanguages else { return }
+            let selectedNumber = self.maxNumberOfCardsCard?.selectedNumberButton?.titleLabel?.text ?? "5"
             guard let maxNumOfCards = Int(selectedNumber) else { return }
+            self.selectedLanguages = selectedLanguages
             
             if maxNumOfCards < self.maxNumOfCards {
                 self.showMaxNumberLessThanPreviousCard(maxNumOfCards: maxNumOfCards)
@@ -155,12 +170,14 @@ class DEScheduleViewController: UIViewController {
     
     func saveSchedule() {
         let loading = self.mainView?.navBar.rightButton?.showLoadingNVActivityIndicatorView()
-        ScheduleManager.saveSchedule(timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards).subscribe { (event) in
+        ScheduleManager.saveSchedule(timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages).subscribe { (event) in
+
             if let _ = event.element {
                 // Show that saving has finished
                 self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 // Let the app know that the user has just updated the max number of cards
                 NotificationCenter.default.post(name: .UserUpdatedMaxNumberOfCards, object: nil, userInfo: [ "maxNumOfCards": self.maxNumOfCards ])
+                NotificationCenter.default.post(name: .LanguagesUpdated, object: nil, userInfo: [Schedule.Keys.kLanguages: self.selectedLanguages])
             }
             
             if let _ = event.error {

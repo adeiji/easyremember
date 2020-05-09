@@ -24,8 +24,8 @@ class DENumberCard: GRBootstrapElement {
         }
     }
     
-    init(selectedNumber: Int) {
-        super.init(color: .white, margin: BootstrapMargin(left: 40, top: 0, right: 40, bottom: 0) )
+    init(selectedNumber: Int, bootstrapMargin:BootstrapMargin) {
+        super.init(color: .white, margin: bootstrapMargin )
         self.setupUI(selectedNumber: selectedNumber)
     }
             

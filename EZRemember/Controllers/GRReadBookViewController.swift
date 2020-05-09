@@ -14,7 +14,7 @@ import FolioReaderKit
 
 class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate {
     
-    let bookName = "Dune"
+    let bookName:String
     
     let navBarHeight:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 75 : 50
     
@@ -30,8 +30,11 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
     
     private var disposeBag = DisposeBag()
     
-    init(reader: FolioReaderContainer) {
+    public var languages:[String] = ["en"]
+    
+    init(reader: FolioReaderContainer, bookName: String) {
         self.reader = reader
+        self.bookName = bookName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -119,7 +122,7 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
                 self.translateWord?.removeFromSuperview()
                 self.translateWord = nil
                 if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate)
+                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate, languages: self.languages)
                     self.addChildViewControllerWithView(showTranslationsViewController, toView: self.translationView)
                 }
             }.disposed(by: self.disposeBag)

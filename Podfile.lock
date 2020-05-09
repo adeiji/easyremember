@@ -437,7 +437,7 @@ PODS:
 DEPENDENCIES:
   - DephynedFire (~> 1.0.31)
   - FirebaseMessaging
-  - FolioReaderKit (from `https://github.com/adeiji/FolioReaderKit.git`)
+  - FolioReaderKit (from `/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit`)
   - PodAsset
   - RxCocoa
   - RxSwift
@@ -499,14 +499,9 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   FolioReaderKit:
-    :git: https://github.com/adeiji/FolioReaderKit.git
+    :path: "/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit"
   SwiftyBootstrap:
     :path: "/Users/adeiji/Documents/Dephyned/libraries/swifty-bootstrap/SwiftyBootstrap"
-
-CHECKOUT OPTIONS:
-  FolioReaderKit:
-    :commit: 34c8f97df259005140b25d0f0361e0103141b90b
-    :git: https://github.com/adeiji/FolioReaderKit.git
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -562,6 +557,6 @@ SPEC CHECKSUMS:
   SwiftyBootstrap: 1f34bfac6f7ac8b48dd954915f6898883eb58a23
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: a1c67c17091546e90b30f80c4452936106c0b4ca
+PODFILE CHECKSUM: ae59ead71224b4576bf2697041c977da6a008a58
 
 COCOAPODS: 1.7.3

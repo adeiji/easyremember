@@ -26,12 +26,14 @@ class GRNotificationCard: UITableViewCell {
     weak var toggleActivateButton:UIButton?
     
     var isTranslation = false
+    
+    var viewToBaseWidthOffOf:UIView?
                
     var notification:GRNotification? {
         didSet {
             if let notification = self.notification {
                 if oldValue == nil {
-                    self.setupUI(title: notification.caption, description: notification.description)
+                    self.setupUI(title: notification.caption, description: notification.description, language: notification.language, viewToCalculateWidth: self.viewToBaseWidthOffOf)
                 } else {
                     self.toggleButton(self.toggleActivateButton, isActive: notification.active)
                     self.titleLabel?.text = notification.caption
@@ -55,7 +57,10 @@ class GRNotificationCard: UITableViewCell {
         
     }
                 
-    func setupUI (title: String, description: String) {
+    /**
+     - parameter viewToCalculateWidth: If you want this card to have it's size calculated based off of it's superview content, than set this property.  Remember though, that the size of this card's width will be based upon the width of the viewToCalculateWidth view at the time you call this method, not after it's layout has been updated.
+     */
+    private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil) {
         
         self.selectionStyle = .none
         
@@ -73,17 +78,31 @@ class GRNotificationCard: UITableViewCell {
         let titleLabel = Style.label(withText: title, size: .large, superview: nil, color: .black)
         let contentLabel = Style.label(withText: description, superview: nil, color: .darkGray)
         
-        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true, superview: self.contentView)
+        let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: .black)
+        topTitleLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .medium : .large))
+        
+        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true,
+                                      superview: viewToCalculateWidth ?? self.contentView)
             .addRow(columns: [
-                Column(cardSet: titleLabel
-                    .font(CustomFontBook.Regular.of(size: .large))
-                    .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(20.0), colWidth: .Ten),
+                // Delete Button
+                Column(cardSet: topTitleLabel
+                    .toCardSet()
+                    .margin.top(20)
+                    .margin.left(20),
+                       colWidth: .Ten),
+                // Delete Button
                 Column(cardSet: deleteButton
                     .withImage(named: "exit", bundle: "EZRemember")
                     .toCardSet()
                     .margin.top(20.0),
-                       colWidth: .Two),
-                Column(cardSet: contentLabel
+                       colWidth: .Two)
+            ])
+            .addRow(columns: [
+                Column(cardSet: titleLabel
+                    .font(CustomFontBook.Regular.of(size: .large))
+                    .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(20.0), colWidth: .Twelve),
+                // Content of the label
+                Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .sm ? .small : .medium))
                     .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0).margin.bottom(20.0), colWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: toggleActivateButton
@@ -101,5 +120,7 @@ class GRNotificationCard: UITableViewCell {
         self.toggleActivateButton = toggleActivateButton
         self.titleLabel = titleLabel
         self.contentLabel = contentLabel
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
     }
 }
