@@ -19,7 +19,7 @@ public extension UITableView {
         let image = ImageHelper.image(imageName: imageName, bundle: "EZRemember")
         let imageView = UIImageView(image: image)
         imageView.addShadow()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
                                 
         let card = GRBootstrapElement(color: .white, margin: BootstrapMargin(
             left: 0,
@@ -52,7 +52,7 @@ public extension UITableView {
                 superview: nil,
                 color: .black,
                 textAlignment: .center)
-                .font(CustomFontBook.Regular.of(size: .small))
+                .font(CustomFontBook.Regular.of(size: SwiftyStyle.getScreenSize() == .sm ? .small : .medium))
                     .toCardSet()
                     .margin.left(50)
                     .margin.right(50),

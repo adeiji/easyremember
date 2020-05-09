@@ -21,6 +21,7 @@ class DEScheduleViewController: UIViewController {
     private weak var mainView:GRViewWithScrollView?
     private let disposeBag = DisposeBag()
     private weak var scheduleView:DEScheduleView?
+    private weak var maxNumberOfCardsCard:DENumberCard?
     
     /// The times that the user wants the notifications sent
     private var timeSlots = [Int]()
@@ -29,6 +30,8 @@ class DEScheduleViewController: UIViewController {
     private var maxNumOfCards:Int = 5
     
     public var timeSlotsSubject:PublishSubject<[Int]> = PublishSubject<[Int]>()
+    
+    public var defaultTimeSlots = [11, 12, 13, 14, 15]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +50,8 @@ class DEScheduleViewController: UIViewController {
         
         // We add the schedule view as a subclass of the main view container view so that we can use the main view's scroll view
         // that way the schedule view can expand to whatever size necessary
-        let scheduleView = DEScheduleView(margin: BootstrapMargin(left: 0, top: 0, right: 0, bottom: 0))
+        let scheduleView = DEScheduleView(anchorWidthToScreenWidth: true, margin:
+            BootstrapMargin(left: 40, top: 0, right: 40, bottom: 0))
         
         ScheduleManager.getSchedule().subscribe { [weak self] (event) in
             guard let self = self else { return }
@@ -56,23 +60,40 @@ class DEScheduleViewController: UIViewController {
             // Show finished loading
             mainView.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             
+            if event.isCompleted {
+                return
+            }
+            
             if let unwrappedSchedule = event.element, let schedule = unwrappedSchedule {
-                // Show the schedule view with the either the default time slots or this user's time slots choices already selected
-                scheduleView.setupUI(
-                    superview: mainView,
-                    timeSlots: schedule.timeSlots,
-                    selecteMaxNumber: schedule.maxNumOfCards)
-                        .addToSuperview(superview: mainView.containerView, anchorToBottom: true)
-                
-                self.timeSlotsSubject.onNext(schedule.timeSlots)
-                self.scheduleView = scheduleView
-                self.maxNumOfCards = schedule.maxNumOfCards
-                self.timeSlots = schedule.timeSlots
-                self.handleTimeSlotUpdate()
-                
+                self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
+                mainView.updateScrollViewContentSize()
+            } else {
+                let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.defaultTimeSlots, maxNumOfCards: 5, fcmToken: nil)
+                self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             }
         }.disposed(by: self.disposeBag)
+    }
+    
+    private func drawSchedule (schedule: Schedule, scheduleView: DEScheduleView) {
+        
+        guard let mainView = mainView else { return }
+        
+        let numberCard = DENumberCard(selectedNumber: schedule.maxNumOfCards)
+        numberCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
+        
+        // Show the schedule view with the either the default time slots or this user's time slots choices already selected
+        scheduleView.setupUI(
+            superview: mainView,
+            timeSlots: schedule.timeSlots,
+            selecteMaxNumber: schedule.maxNumOfCards)
+                .addToSuperview(superview: mainView.containerView, viewAbove: numberCard, anchorToBottom: true)
+        
+        self.timeSlotsSubject.onNext(schedule.timeSlots)
+        self.scheduleView = scheduleView
+        self.maxNumOfCards = schedule.maxNumOfCards
+        self.timeSlots = schedule.timeSlots
+        self.handleTimeSlotUpdate()
     }
     
     /// Respond to when a user selects a timeSlot
@@ -103,7 +124,7 @@ class DEScheduleViewController: UIViewController {
     private func savePressed () {
         self.mainView?.navBar.rightButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
-            guard let selectedNumber = self.scheduleView?.numberCard?.selectedNumberButton?.titleLabel?.text else { return }
+            guard let selectedNumber = self.maxNumberOfCardsCard?.selectedNumberButton?.titleLabel?.text else { return }
             guard let maxNumOfCards = Int(selectedNumber) else { return }
             
             if maxNumOfCards < self.maxNumOfCards {

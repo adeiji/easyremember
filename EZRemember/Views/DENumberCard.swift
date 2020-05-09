@@ -25,7 +25,7 @@ class DENumberCard: GRBootstrapElement {
     }
     
     init(selectedNumber: Int) {
-        super.init(color: .white, anchorWidthToScreenWidth: true, margin: BootstrapMargin(left: 0, top: 0, right: 0, bottom: 0) )
+        super.init(color: .white, margin: BootstrapMargin(left: 40, top: 0, right: 40, bottom: 0) )
         self.setupUI(selectedNumber: selectedNumber)
     }
             
@@ -61,12 +61,13 @@ class DENumberCard: GRBootstrapElement {
         
         let maxNumberCaptionLabel = Style.label(withText: "", superview: nil, color: .black)
         maxNumberCaptionLabel.attributedText = maxNumberMessage.addLineSpacing()
+        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .small : .medium) )
         
         self
         .addRow(columns:[
             Column(cardSet: maxNumberCaptionLabel
-                .font(CustomFontBook.Regular.of(size: .small))
-                .toCardSet(),
+                .toCardSet()
+                .margin.bottom(50),
                    colWidth: .Twelve)
                 
         ])

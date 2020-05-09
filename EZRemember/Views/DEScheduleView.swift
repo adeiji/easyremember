@@ -17,7 +17,6 @@ class DEScheduleView: GRBootstrapElement {
     let timeSlotSubject = PublishSubject<Int>()
     private let disposeBag = DisposeBag()
     
-    public weak var numberCard:DENumberCard?
     
     /**
      Sets up the view's UI.
@@ -29,6 +28,7 @@ class DEScheduleView: GRBootstrapElement {
         
         var columns = [Column]()
         
+        // Generate all the labels that represent the different times that a notification can be sent
         for timeSlot in 1...24  {
             let timeViewCell = DETimeViewCell(timeSlot: timeSlot).setupUI(time: "\(timeSlot):00")
             if (timeSlots.contains(timeSlot)) {
@@ -49,26 +49,18 @@ class DEScheduleView: GRBootstrapElement {
         }
         
         let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: .black)
-        timesCaptionLabel.font(CustomFontBook.Regular.of(size: .small))
-        
+        timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .small : .medium ))
         timesCaptionLabel.attributedText = ("Select all the times you want to recieve a notification").addLineSpacing()
                         
         columns.insert(Column(cardSet: timesCaptionLabel
-            .toCardSet(),
+            .toCardSet()
+            .margin.top(50)
+            .margin.bottom(50),
                 colWidth: .Twelve), at: 0)
 
-        let numberCard = DENumberCard(selectedNumber: selecteMaxNumber)
-        
         self
-        .addRow(columns: [
-            Column(cardSet: numberCard
-                .toCardSet()
-                .margin.left(0),
-                   colWidth: .Twelve)
-        ])
         .addRow(columns: columns, anchorToBottom: true)
         
-        self.numberCard = numberCard
         return self
     }
 }

@@ -46,7 +46,9 @@ class DEShowTranslationsViewController: UIViewController {
             
             notificationsManager.saveNotifications(self.notificationsToSave) { [weak self] (success) in
                 guard let self = self else { return }
-                self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                if self.navigationController != nil {
+                    self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                }
                 self.dismiss(animated: true, completion: nil)
             }
         })
