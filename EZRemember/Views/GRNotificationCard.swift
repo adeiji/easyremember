@@ -79,7 +79,7 @@ class GRNotificationCard: UITableViewCell {
         let contentLabel = Style.label(withText: description, superview: nil, color: .darkGray)
         
         let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: .black)
-        topTitleLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .medium : .large))
+        topTitleLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
         
         let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true,
                                       superview: viewToCalculateWidth ?? self.contentView)
@@ -102,7 +102,7 @@ class GRNotificationCard: UITableViewCell {
                     .font(CustomFontBook.Regular.of(size: .large))
                     .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(20.0), colWidth: .Twelve),
                 // Content of the label
-                Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .sm ? .small : .medium))
+                Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
                     .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0).margin.bottom(20.0), colWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: toggleActivateButton

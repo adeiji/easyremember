@@ -249,26 +249,26 @@ class EBookCell: UITableViewCell {
         
         let bookCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false, margin:
             BootstrapMargin(
-                left: 40,
-                top: 30,
-                right: 40,
-                bottom: 30), superview: nil)
+                left: .Five,
+                top: .Four,
+                right: .Five,
+                bottom: .Four), superview: nil)
         
         let detailsCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false)
             .addRow(columns: [
                 Column(cardSet: Style.label(withText: bookDetails.title ?? title, superview: nil, color: .black)
-                    .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .medium : .large))
+                    .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
                     .toCardSet(),
                        colWidth: .Twelve),
                 Column(cardSet: Style.label(withText: "Written By: \(bookDetails.author ?? "Not Sure")", superview: nil, color: .black)
-                    .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .sm ? .small : .medium))
+                    .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
                     .toCardSet(),
                        colWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: deleteButton
                 .radius(radius: 5)
                 .backgroundColor(UIColor.EZRemember.lightRed)
-                    .toCardSet().withHeight(50), colWidth: Style.getScreenSize() == .sm ? .Four : .Two)
+                    .toCardSet().withHeight(50), colWidth: Style.getScreenSize() == .xs ? .Four : .Two)
             ], anchorToBottom: true)
         
         let coverImage = UIImageView(image: bookDetails.coverImage)
@@ -280,9 +280,9 @@ class EBookCell: UITableViewCell {
                 .backgroundColor(UIColor.EZRemember.lightGreen)
                 .toCardSet()
                 .withHeight(250),
-                   colWidth: Style.getScreenSize() == .sm ? .Three : .Two),
+                   colWidth: Style.getScreenSize() == .xs ? .Three : .Two),
             // Add the book details to the right
-            Column(cardSet: detailsCard.toCardSet(), colWidth: Style.getScreenSize() == .sm ? .Nine : .Five),
+            Column(cardSet: detailsCard.toCardSet(), colWidth: Style.getScreenSize() == .xs ? .Nine : .Five),
                         
         ], anchorToBottom: true)
         

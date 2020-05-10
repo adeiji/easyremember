@@ -51,10 +51,10 @@ class DETimeViewCell: UIView {
         timeLabel.font(CustomFontBook.Medium.of(size: .small))
         
         let card = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
-            left: 0,
-            top: 10,
-            right: 0,
-            bottom: 10) )
+            left: .Zero,
+            top: .Two,
+            right: .Zero,
+            bottom: .Two) )
             .addRow(columns: [
                 Column(cardSet: timeLabel
                     .toCardSet(),

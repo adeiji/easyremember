@@ -30,6 +30,23 @@ public enum CustomFontBook:String {
     case Italic = "Poppins-Italic"
     case MediumItalic = "Poppins-MediumItalic"
     
+    public func forSizeClass() -> UIFont {
+        let sizeClass = GRCurrentDevice.shared.size
+        
+        switch sizeClass {
+        case .xs:
+            return self.of(size: .verySmall)
+        case .sm:
+            return self.of(size: .medium)
+        case .md:
+            return self.of(size: .medium)
+        case .lg:
+            return self.of(size: .medium)
+        default:
+            return self.of(size: .large)
+        }
+    }
+    
     public func of(size: FontSizes) -> UIFont {
         return UIFont(name: self.rawValue, size: size.rawValue) ?? UIFont.systemFont(ofSize: size.rawValue)
     }

@@ -28,9 +28,10 @@ class DEScheduleViewController: UIViewController {
     
     // The margins for bootstrap elements on this view
     private let margins:BootstrapMargin = BootstrapMargin(
-        left: Style.getScreenSize() == .sm ? 20 : 150,
-        top: 0, right: Style.getScreenSize() == .sm ? 20 : 100,
-        bottom: 0)
+        left: .Five,
+        top: .Zero,
+        right: .Five,
+        bottom: .Zero)
     
     /// The times that the user wants the notifications sent
     private var timeSlots = [Int]()

@@ -74,7 +74,7 @@ class DELanguagesCard: GRBootstrapElement {
         
         let languagesCaptionLabel = Style.label(withText: "", superview: nil, color: .black)
         languagesCaptionLabel.attributedText = selectLanguagesMessage.addLineSpacing()
-        languagesCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .small : .medium) )
+        languagesCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
         
         self
         .addRow(columns:[

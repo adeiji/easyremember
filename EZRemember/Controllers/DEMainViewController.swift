@@ -190,23 +190,14 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
         self.showBookReader(url: url)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.addObservers()
-        
-        self.getMaxNumOfCardsFromServer()
-        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Notifications", rightNavBarButtonTitle: "")
-        self.mainView?.navBar.leftButton?.isHidden = true
-        let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nNotifications", superview: self.view, viewAbove: self.mainView?.navBar)
-        guard let mainView = self.mainView else { return }
-        
+    func addMoreBooksButton (viewAbove: UIView) -> UIButton {
         let getMoreBooksButton = Style.largeButton(with: "Get More eBooks", superview: mainView, backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
         
         getMoreBooksButton.radius(radius: 10)
         
         getMoreBooksButton.snp.makeConstraints { (make) in
-            make.left.equalTo(yourNotificationsCard)
-            make.top.equalTo(yourNotificationsCard.snp.bottom).offset(20)
+            make.left.equalTo(viewAbove)
+            make.top.equalTo(viewAbove.snp.bottom).offset(20)
             make.width.equalTo(200)
             make.height.equalTo(50)
         }
@@ -216,6 +207,21 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
             guard let url = URL(string: "https://www.gutenberg.org/catalog/") else { return }
             UIApplication.shared.open(url)
         }
+        
+        return getMoreBooksButton
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.addObservers()
+        
+        self.getMaxNumOfCardsFromServer()
+        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Notifications", rightNavBarButtonTitle: "")
+        self.mainView?.navBar.leftButton?.isHidden = true
+        guard let mainView = self.mainView else { return }
+        
+        let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nNotifications", superview: self.view, viewAbove: self.mainView?.navBar)
+        let getMoreBooksButton = self.addMoreBooksButton(viewAbove: yourNotificationsCard)
         
         self.mainView?.tableView.snp.remakeConstraints({ (make) in
             make.left.equalTo(mainView)

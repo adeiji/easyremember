@@ -61,7 +61,7 @@ class DENumberCard: GRBootstrapElement {
         
         let maxNumberCaptionLabel = Style.label(withText: "", superview: nil, color: .black)
         maxNumberCaptionLabel.attributedText = maxNumberMessage.addLineSpacing()
-        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .small : .medium) )
+        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
         
         self
         .addRow(columns:[

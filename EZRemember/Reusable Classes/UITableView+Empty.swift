@@ -22,10 +22,10 @@ public extension UITableView {
         imageView.contentMode = .scaleAspectFit
                                 
         let card = GRBootstrapElement(color: .white, margin: BootstrapMargin(
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0))
+            left: .Zero,
+            top: .Zero,
+            right: .Zero,
+            bottom: .Zero))
         .addRow(columns: [
             Column(cardSet: UIView().toCardSet().withHeight(200), colWidth: .Four),
             Column(cardSet: imageView
@@ -52,7 +52,7 @@ public extension UITableView {
                 superview: nil,
                 color: .black,
                 textAlignment: .center)
-                .font(CustomFontBook.Regular.of(size: SwiftyStyle.getScreenSize() == .sm ? .small : .medium))
+                .font(CustomFontBook.Regular.of(size: SwiftyStyle.getScreenSize() == .xs ? .small : .medium))
                     .toCardSet()
                     .margin.left(50)
                     .margin.right(50),

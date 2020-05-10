@@ -49,10 +49,10 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         translationView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0)
         let backButton = GRButton(type: .Back)
         let mainViewCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
-            left: 0,
-            top: 40,
-            right: 0,
-            bottom: 0))
+            left: .Zero,
+            top: .Five,
+            right: .Zero,
+            bottom: .Five))
         .addRow(columns: [
             Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), colWidth: .One),
             Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: .black, textAlignment: .center)

@@ -49,7 +49,7 @@ class DEScheduleView: GRBootstrapElement {
         }
         
         let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: .black)
-        timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .sm ? .small : .medium ))
+        timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium ))
         timesCaptionLabel.attributedText = ("Select all the times you want to recieve a notification").addLineSpacing()
                         
         columns.insert(Column(cardSet: timesCaptionLabel
