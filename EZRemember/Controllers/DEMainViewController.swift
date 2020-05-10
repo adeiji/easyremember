@@ -16,9 +16,46 @@ import NVActivityIndicatorView
 import FolioReaderKit
 
 
-class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
+public class GRViewWithCollectionView:GRBootstrapElement {
     
-    weak var mainView:GRViewWithTableView?
+    weak var collectionView:UICollectionView?    
+    
+    public func setup(superview:UIView, columns: CGFloat, header:String? = nil, addNavBar:Bool = false) -> GRViewWithCollectionView {
+         
+        // Set the flow layout of the collection view
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        
+        let collectionView = UICollectionView(frame: superview.frame, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .white
+                        
+        if let header = header {
+            self.addRow(columns: [
+                Column(cardSet: Style.addLargeHeaderCard(text: header, superview: self, viewAbove: nil)
+                    .toCardSet()
+                    .margin.top(40),
+                       xsColWidth: .Twelve)
+            ])
+        }
+        
+        self.addRow(columns: [
+            Column(cardSet: collectionView
+                .toCardSet()
+                .margin.top(20),
+                   xsColWidth: .Twelve,
+                   anchorToBottom: true)
+        ], anchorToBottom: true)
+        collectionView.alwaysBounceVertical = true
+        self.collectionView = collectionView
+                    
+        return self
+    }
+    
+}
+
+class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    weak var mainView:GRViewWithCollectionView?
     
     let disposeBag = DisposeBag()
     
@@ -27,6 +64,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
     var notifications = [GRNotification]()
     
     var maxNumOfCards = 5
+    
+    weak var collectionView:UICollectionView?
         
     /// If there is an initial book url that should be displayed at the start of the app, ie. this app is opening due to a user selecting this
     /// app as the "Open In" for an ePub
@@ -156,20 +195,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
         }.disposed(by: self.disposeBag)
         
     }
-    
-    /// Setup the UI for the nav bar
-    func setupNavBar () {
-        // Set up the navigation bar
-        self.mainView?.navBar.backgroundColor = .white
-        
-        // Set up nav bar header
-        self.mainView?.navBar.header?.textColor = .darkText
-        
-        // Set up nav bar right button
-        self.mainView?.navBar.rightButton?.setTitleColor(UIColor.EZRemember.mainBlue, for: .normal)
-        self.mainView?.navBar.rightButton?.titleLabel?.font = FontBook.allBold.of(size: .medium)
-        self.mainView?.navBar.rightButton?.withImage(named: "add", bundle: "EZRemember")
-    }
             
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -190,76 +215,98 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
         self.showBookReader(url: url)
     }
     
-    func addMoreBooksButton (viewAbove: UIView) -> UIButton {
-        let getMoreBooksButton = Style.largeButton(with: "Get More eBooks", superview: mainView, backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
+    func addAddButton () -> UIButton {
         
-        getMoreBooksButton.radius(radius: 10)
-        
-        getMoreBooksButton.snp.makeConstraints { (make) in
-            make.left.equalTo(viewAbove)
-            make.top.equalTo(viewAbove.snp.bottom).offset(20)
-            make.width.equalTo(200)
+        let button = UIButton()
+        self.mainView?.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.right.equalTo(self.mainView ?? self.view).offset(-20)
+            make.top.equalTo(self.mainView ?? self.view).offset(20)
+            make.width.equalTo(50)
             make.height.equalTo(50)
         }
         
-        getMoreBooksButton.addTargetClosure { [weak self] (_) in
-            guard let self = self else { return }
-            guard let url = URL(string: "https://www.gutenberg.org/catalog/") else { return }
-            UIApplication.shared.open(url)
-        }
+        button.setImage(UIImage(named: "add"), for: .normal)
+        return button
         
-        return getMoreBooksButton
+    }
+    
+
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if self.mainView != nil { return }
+        
+        // If this device has a device Id set, which all should
+        let deviceId = UtilityFunctions.deviceId()
+        
+        // Get all the notifications for this device from the server
+        let notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
+        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: "Your\nNotifications")
+        mainView.collectionView?.register(GRNotificationCard.self, forCellWithReuseIdentifier: GRNotificationCard.reuseIdentifier)
+        mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
+        self.mainView = mainView
+        
+        guard let collectionView = mainView.collectionView else { return }
+        self.collectionView = collectionView
+        
+        // Show that there is data loading
+        let loading =  self.mainView?.showLoadingNVActivityIndicatorView()
+        
+        let addButton = self.addAddButton()
+        
+        self.handleEmptyTableViewState()
+        self.bindNotificationsRelayToCollectionView(collectionView: collectionView, loading: loading)
+        self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
+        self.setupAddButton(addButton: addButton)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addObservers()
-        
         self.getMaxNumOfCardsFromServer()
-        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Notifications", rightNavBarButtonTitle: "")
-        self.mainView?.navBar.leftButton?.isHidden = true
-        guard let mainView = self.mainView else { return }
-        
-        let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nNotifications", superview: self.view, viewAbove: self.mainView?.navBar)
-        let getMoreBooksButton = self.addMoreBooksButton(viewAbove: yourNotificationsCard)
-        
-        self.mainView?.tableView.snp.remakeConstraints({ (make) in
-            make.left.equalTo(mainView)
-            make.right.equalTo(mainView)
-            make.top.equalTo(getMoreBooksButton.snp.bottom)
-            make.bottom.equalTo(mainView)
-        })
-                
-        // Setup Navbar UI
-        self.setupNavBar()
-        
-        self.mainView?.tableView.register(GRNotificationCard.self, forCellReuseIdentifier: GRNotificationCard.reuseIdentifier)
-        guard let tableView = self.mainView?.tableView else { return }
-        
-        // If this device has a device Id set, which all should
-        let deviceId = UtilityFunctions.deviceId()
-        
-        // Show that there is data loading
-        let loading =  self.mainView?.showLoadingNVActivityIndicatorView()
-        
-        // Get all the notifications for this device from the server
-        let notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
-        
-        self.handleEmptyTableViewState()
-        self.bindNotificationsRelayToTableView(tableView: tableView, loading: loading)
-        self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
-        self.setupAddButton(addButton: self.mainView?.navBar.rightButton)
 
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.collectionView?.reloadData()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = collectionView.bounds.width
+        var cellWidth:CGFloat!
+        
+        switch GRCurrentDevice.shared.size {
+        case .xl:
+            fallthrough
+        case .lg:
+            cellWidth = (width - 30) / 3 // compute your cell width
+        case .md:
+            fallthrough
+        case .sm:
+            cellWidth = (width - 30) / 2 // compute your cell width
+        case .xs:
+            cellWidth = width - 30
+        }
+        
+        return CGSize(width: cellWidth, height: 300)
+        
+     }
     
     /**
      Bind notifications relay object to the table view
      */
-    func bindNotificationsRelayToTableView (tableView: UITableView, loading: NVActivityIndicatorView?) {
+    func bindNotificationsRelayToCollectionView (collectionView: UICollectionView, loading: NVActivityIndicatorView?) {
+        
+        collectionView.rx.setDelegate(self).disposed(by: self.disposeBag)
         // Display the notifications on a table view
         self.notificationsRelay
             .bind(to:
-                tableView
+                collectionView
                     .rx
                     .items(cellIdentifier: GRNotificationCard.reuseIdentifier, cellType: GRNotificationCard.self)) { [weak self] (row, notification, cell) in
                         guard let self = self else { return }
@@ -269,8 +316,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
                         }
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
-                        self.mainView?.tableView.reset()
-                        cell.viewToBaseWidthOffOf = self.mainView?.tableView
+//                        self.mainView?.tableView.reset()
+//                        cell.viewToBaseWidthOffOf = self.mainView?.tableView
                         cell.notification = notification
                         self.setupNotificationCellDeleteButton(cell: cell)
                         self.handleToggleActivateCard(card: cell)
@@ -285,9 +332,9 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol {
         notificationsRelay.subscribe { [weak self] (event) in
             guard let self = self else { return }
             if let notifications = event.element, notifications.count == 0 {
-                let actionButton = self.mainView?.tableView.setEmptyMessage(
-                    message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
-                self.setupAddButton(addButton: actionButton)
+//                let actionButton = self.mainView?.tableView.setEmptyMessage(
+//                    message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
+//                self.setupAddButton(addButton: actionButton)
             }
         }.disposed(by: self.disposeBag)
     }

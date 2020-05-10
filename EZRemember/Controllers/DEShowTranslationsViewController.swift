@@ -11,13 +11,14 @@ import UIKit
 import SwiftyBootstrap
 import RxSwift
 
-class DEShowTranslationsViewController: UIViewController {
+class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var mainView:GRViewWithTableView?
+    var mainView:GRViewWithCollectionView?
     let translations:Translations
     let originalWord:String
     let disposeBag = DisposeBag()
     var notificationsToSave = [GRNotification]()
+    weak var saveButton:UIButton?
     
     var languages:[String] = ["en"]
     
@@ -33,23 +34,48 @@ class DEShowTranslationsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.mainView?.collectionView?.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let saveButton = Style.largeButton(with: "Save")
+        saveButton.backgroundColor = UIColor.EZRemember.mainBlue
+        saveButton.radius(radius: 5)
+        saveButton.setTitleColor(.white, for: .normal)
+        self.view.addSubview(saveButton)
+        saveButton.snp.makeConstraints { (make) in
+            make.right.equalTo(self.view).offset(-40)
+            make.top.equalTo(self.view).offset(40)
+            make.width.equalTo(100)
+            make.height.equalTo(50)
+        }
+        
+        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 1)
+        mainView.collectionView?.register(GRNotificationCard.self, forCellWithReuseIdentifier: GRNotificationCard.reuseIdentifier)
+        mainView.backgroundColor = .clear
+        mainView.collectionView?.backgroundColor = .clear
+        
+        mainView.addToSuperview(superview: self.view, viewAbove: saveButton, anchorToBottom: true)
+        self.mainView = mainView
+        self.saveButton = saveButton
+        
+         self.showTranslations()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "", rightNavBarButtonTitle: "Done")
-        self.mainView?.tableView.register(GRNotificationCard.self, forCellReuseIdentifier: GRNotificationCard.reuseIdentifier)
-        self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
-        self.mainView?.navBar.leftButton?.isHidden = true
-        self.mainView?.backgroundColor = .clear
-        self.mainView?.tableView.backgroundColor = .clear
-        self.mainView?.navBar.backgroundColor = .clear
-        
+
         let notificationsManager = NotificationsManager()
         
-        self.mainView?.navBar.rightButton?.addTargetClosure(closure: { [weak self] (_) in
+        self.saveButton?.addTargetClosure(closure: { [weak self] (saveButton) in
             guard let self = self else { return }
             
-            let loading = self.mainView?.navBar.rightButton?.showLoadingNVActivityIndicatorView()
+            let loading = saveButton.showLoadingNVActivityIndicatorView()
             
             notificationsManager.saveNotifications(self.notificationsToSave) { [weak self] (success) in
                 guard let self = self else { return }
@@ -57,13 +83,12 @@ class DEShowTranslationsViewController: UIViewController {
                     NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [ GRNotification.kSavedNotifications: self.notificationsToSave ])
                 }
                 if self.navigationController != nil {
-                    self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                    saveButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 }
                 self.dismiss(animated: true, completion: nil)
             }
         })
-        
-        self.showTranslations()
+                
     }            
     
     func showTranslationForLanguage (_ language:(key: String, value: String)) -> Bool {
@@ -75,14 +100,23 @@ class DEShowTranslationsViewController: UIViewController {
         return false
     }
     
-    func showTranslations () {
-        guard let tableView = self.mainView?.tableView else { return }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let translationsObserverable = Observable.of(self.translations.translated.filter( {self.showTranslationForLanguage($0) }))
+        let width = collectionView.bounds.width
+        return CGSize(width: width - 30, height: 300)
+        
+     }
+    
+    func showTranslations () {
+        guard let collectionView = self.mainView?.collectionView else { return }
+        collectionView.rx.setDelegate(self).disposed(by: self.disposeBag)
+        
+        let translations = self.translations.translated.filter( {self.showTranslationForLanguage($0) })
+        let translationsObserverable = Observable.of(translations)
         
         translationsObserverable
             .bind(to:
-                tableView
+                collectionView
                     .rx
                     .items(cellIdentifier: GRNotificationCard.reuseIdentifier, cellType: GRNotificationCard.self)) { [weak self] (row, translation, cell) in
                         guard let self = self else { return }
@@ -103,13 +137,11 @@ class DEShowTranslationsViewController: UIViewController {
                                                           language: GRNotification.kSupportedLanguages[translation.key] )                        
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
-                        self.mainView?.tableView.reset()
+//                        self.mainView?.tableView.reset()
                         cell.isTranslation = true
                         cell.notification = notification
                         
-                        cell.deleteButton?.setImage(nil, for: .normal)
-                        cell.deleteButton?.setTitle(translation.key, for: .normal)
-                        cell.deleteButton?.isUserInteractionEnabled = false
+                        cell.showDeleteButton = false
                         
                         cell.toggleActivateButton?.addTargetClosure(closure: { [weak self] (_) in
                             guard let self = self else { return }
@@ -125,6 +157,7 @@ class DEShowTranslationsViewController: UIViewController {
                         })
                         
         }.disposed(by: self.disposeBag)
+                
     }
     
 }

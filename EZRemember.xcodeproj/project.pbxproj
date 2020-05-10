@@ -135,6 +135,7 @@
 		F4C2025B246699C200D59245 /* BookDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetails.swift; sourceTree = "<group>"; };
 		F4C2025D2466AA4100D59245 /* GRLanguagesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRLanguagesCard.swift; sourceTree = "<group>"; };
 		F4C2026024672B8D00D59245 /* ShowEpubReaderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowEpubReaderProtocol.swift; sourceTree = "<group>"; };
+		F4C2026624682F4800D59245 /* ylioppilas.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = ylioppilas.epub; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
@@ -424,6 +425,7 @@
 		F4F537E92463B2DE0009D3DC /* Epubs */ = {
 			isa = PBXGroup;
 			children = (
+				F4C2026624682F4800D59245 /* ylioppilas.epub */,
 				F4F537EA2463B2EB0009D3DC /* Dune.epub */,
 			);
 			path = Epubs;

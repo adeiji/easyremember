@@ -24,17 +24,20 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
     
     let reader:FolioReaderContainer
     
-    open weak var translateWord:UIButton?
+    private var currentPage:FolioReaderPage?
     
-    public var wordToTranslate:String?
+    private var folioReader:FolioReader
+    
+    open weak var translateWord:UIButton?
     
     private var disposeBag = DisposeBag()
     
     public var languages:[String] = ["en"]
     
-    init(reader: FolioReaderContainer, bookName: String) {
+    init(reader: FolioReaderContainer , folioReader: FolioReader, bookName: String) {
         self.reader = reader
         self.bookName = bookName
+        self.folioReader = folioReader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,15 +57,15 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
             right: .Zero,
             bottom: .Five))
         .addRow(columns: [
-            Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), colWidth: .One),
+            Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), xsColWidth: .One),
             Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: .black, textAlignment: .center)
                 .font(CustomFontBook.Medium.of(size: .medium))
                 .toCardSet().withHeight(self.navBarHeight)
-                , colWidth: .Ten),
-            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight), colWidth: .One),
+                , xsColWidth: .Ten),
+            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight), xsColWidth: .One),
             ]).addRow(columns: [
-                Column(cardSet: readerView.toCardSet(), colWidth: .Eight, anchorToBottom: true),
-                Column(cardSet: translationView.toCardSet(), colWidth: .Four)
+                Column(cardSet: readerView.toCardSet(), xsColWidth: .Eight, anchorToBottom: true),
+                Column(cardSet: translationView.toCardSet(), xsColWidth: .Four)
             ], anchorToBottom: true)
                         
         mainViewCard.addToSuperview(superview: self.view, anchorToBottom: true)
@@ -78,12 +81,13 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: .CreateMenuCalled, object: nil)
-                
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.addChildViewControllerWithView(self.reader, toView: self.readerView)
+        self.folioReader.readerCenter?.pageDelegate = self
+        self.folioReader.readerCenter?.delegate = self
     }
     
     // MARK: Create Menu Called
@@ -91,8 +95,6 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
     @objc public func createMenuCalled (_ notification: Notification) {
         
         guard let word = notification.userInfo?["SelectedText"] as? String else { return }
-        
-        self.wordToTranslate = word
         
         if self.translateWord != nil {
             return
@@ -113,16 +115,18 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         
         translateButton.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
-            guard let wordToTranslate = self.wordToTranslate else { return }
             let loading = translateButton.showLoadingNVActivityIndicatorView()
-            
-            TranslateManager.translateText(wordToTranslate).subscribe { [weak self] (event) in
+            guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
+            TranslateManager.translateText(wordsToTranslate).subscribe { [weak self] (event) in
                 guard let self = self else { return }
                 translateButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 self.translateWord?.removeFromSuperview()
                 self.translateWord = nil
                 if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate, languages: self.languages)
+                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: self.languages)
+                    self.translationView?.subviews.forEach({ [weak self] (subview) in
+                        subview.removeFromSuperview()
+                    })
                     self.addChildViewControllerWithView(showTranslationsViewController, toView: self.translationView)
                 }
             }.disposed(by: self.disposeBag)
@@ -136,6 +140,10 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
     public func pageTap(_ recognizer: UITapGestureRecognizer) {
         self.translateWord?.removeFromSuperview()
         self.translateWord = nil
+    }
+    
+    func pageDidAppear(_ page: FolioReaderPage) {
+        self.currentPage = page
     }
     
 }

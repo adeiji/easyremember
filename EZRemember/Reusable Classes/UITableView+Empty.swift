@@ -27,13 +27,13 @@ public extension UITableView {
             right: .Zero,
             bottom: .Zero))
         .addRow(columns: [
-            Column(cardSet: UIView().toCardSet().withHeight(200), colWidth: .Four),
+            Column(cardSet: UIView().toCardSet().withHeight(200), xsColWidth: .Four),
             Column(cardSet: imageView
                 .toCardSet()
                 .margin.top(40)
                 .withHeight(150),
-                   colWidth: .Four),
-            Column(cardSet: UIView().toCardSet().withHeight(200), colWidth: .Four)
+                   xsColWidth: .Four),
+            Column(cardSet: UIView().toCardSet().withHeight(200), xsColWidth: .Four)
         ])
         .addRow(columns: [
             Column(cardSet: SwiftyStyle.label(
@@ -43,7 +43,7 @@ public extension UITableView {
                 color: .black,
                 textAlignment: .center)
                 .font(CustomFontBook.Medium.of(size: .large))
-                    .toCardSet(), colWidth: .Twelve)
+                    .toCardSet(), xsColWidth: .Twelve)
         ])
         .addRow(columns: [
             Column(cardSet: SwiftyStyle.label(
@@ -56,7 +56,7 @@ public extension UITableView {
                     .toCardSet()
                     .margin.left(50)
                     .margin.right(50),
-                        colWidth: .Twelve),
+                        xsColWidth: .Twelve),
             ])
         
         self.backgroundView = card
@@ -73,7 +73,7 @@ public extension UITableView {
                     .margin.left(30)
                     .margin.right(30)
                     .withHeight(70.0),
-                       colWidth: .Twelve)
+                       xsColWidth: .Twelve)
             ])
             
             return actionButton

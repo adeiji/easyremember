@@ -45,7 +45,7 @@ class DEScheduleView: GRBootstrapElement {
             columns.append(Column(cardSet: timeViewCell
                 .radius(radius: 10)
                 .toCardSet()
-                .withHeight(90), colWidth: .Twelve))
+                .withHeight(90), xsColWidth: .Twelve))
         }
         
         let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: .black)
@@ -56,7 +56,7 @@ class DEScheduleView: GRBootstrapElement {
             .toCardSet()
             .margin.top(50)
             .margin.bottom(50),
-                colWidth: .Twelve), at: 0)
+                xsColWidth: .Twelve), at: 0)
 
         self
         .addRow(columns: columns, anchorToBottom: true)

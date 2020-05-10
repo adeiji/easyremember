@@ -47,6 +47,36 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
 
     }
     
+    func addMoreBooksButton (viewAbove: UIView) -> UIButton {
+        let getMoreBooksButton = Style.largeButton(with: "Get More eBooks", superview: mainView, backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
+        getMoreBooksButton.titleLabel?.font = CustomFontBook.Regular.forSizeClass()
+        
+        getMoreBooksButton.radius(radius: 5)
+        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false, margin:
+            BootstrapMargin(
+                left: .Three,
+                top: .One,
+                right: .Zero,
+                bottom: .Three))
+            .addRow(columns: [Column(
+                cardSet: getMoreBooksButton
+                    .toCardSet(),
+                xsColWidth: .Twelve)
+                    .forSize(.md, .Three)
+            ], anchorToBottom: true)
+                        
+        card.addToSuperview(superview: self.view, viewAbove: viewAbove, anchorToBottom: false)
+
+        
+        getMoreBooksButton.addTargetClosure { [weak self] (_) in
+            guard let _ = self else { return }
+            guard let url = URL(string: "https://www.gutenberg.org/catalog/") else { return }
+            UIApplication.shared.open(url)
+        }
+        
+        return getMoreBooksButton
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
                         
@@ -58,13 +88,15 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         self.mainView?.navBar.isHidden = true
         self.mainView?.tableView.register(EBookCell.self, forCellReuseIdentifier: EBookCell.identifier)
         self.mainView?.tableView.separatorStyle = .none
-        let yourNotificationsCard = Style.addLargeHeaderCard(text: "Your\nElectronic Books", superview: self.view, viewAbove: self.mainView?.navBar)
+        let yourBooksCard = Style.addLargeHeaderCard(text: "Your\nElectronic Books", superview: self.view, viewAbove: self.mainView?.navBar)
         guard let mainView = self.mainView else { return }
+        
+        let getMoreBooksButton = self.addMoreBooksButton(viewAbove: yourBooksCard)
         
         self.mainView?.tableView.snp.remakeConstraints({ (make) in
             make.left.equalTo(mainView).offset(40)
             make.right.equalTo(mainView).offset(40)
-            make.top.equalTo(yourNotificationsCard.snp.bottom)
+            make.top.equalTo(getMoreBooksButton.snp.bottom).offset(40)
             make.bottom.equalTo(mainView)
         })
         
@@ -259,17 +291,17 @@ class EBookCell: UITableViewCell {
                 Column(cardSet: Style.label(withText: bookDetails.title ?? title, superview: nil, color: .black)
                     .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
                     .toCardSet(),
-                       colWidth: .Twelve),
+                       xsColWidth: .Twelve),
                 Column(cardSet: Style.label(withText: "Written By: \(bookDetails.author ?? "Not Sure")", superview: nil, color: .black)
                     .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
                     .toCardSet(),
-                       colWidth: .Twelve)
+                       xsColWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: deleteButton
                 .radius(radius: 5)
                 .backgroundColor(UIColor.EZRemember.lightRed)
-                    .toCardSet().withHeight(50), colWidth: Style.getScreenSize() == .xs ? .Four : .Two)
-            ], anchorToBottom: true)
+                    .toCardSet().withHeight(50), xsColWidth: Style.getScreenSize() == .xs ? .Four : .Two)
+            ])
         
         let coverImage = UIImageView(image: bookDetails.coverImage)
         coverImage.contentMode = .scaleAspectFit
@@ -280,13 +312,15 @@ class EBookCell: UITableViewCell {
                 .backgroundColor(UIColor.EZRemember.lightGreen)
                 .toCardSet()
                 .withHeight(250),
-                   colWidth: Style.getScreenSize() == .xs ? .Three : .Two),
+                   xsColWidth: Style.getScreenSize() == .xs ? .Three : .Two,
+                   anchorToBottom: true),
             // Add the book details to the right
-            Column(cardSet: detailsCard.toCardSet(), colWidth: Style.getScreenSize() == .xs ? .Nine : .Five),
+            Column(cardSet: detailsCard.toCardSet(), xsColWidth: Style.getScreenSize() == .xs ? .Nine : .Five),
                         
         ], anchorToBottom: true)
         
         bookCard.addToSuperview(superview: self.contentView, anchorToBottom: true)
+        bookCard.isUserInteractionEnabled = false
         self.deleteButton = deleteButton
     }
     

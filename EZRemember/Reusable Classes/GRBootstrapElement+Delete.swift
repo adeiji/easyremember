@@ -35,22 +35,22 @@ open class DeleteCard: GRBootstrapElement {
             Column(cardSet: Style.label(withText: "Delete", superview: nil, color: .black)
                 .font(CustomFontBook.Medium.of(size: .large))
                 .toCardSet(),
-                   colWidth: .Twelve),
+                   xsColWidth: .Twelve),
             Column(cardSet: Style.label(withText: "Are you sure you want to delete this?", superview: nil, color: .black)
                 .font(CustomFontBook.Regular.of(size: .small))
                 .toCardSet(),
-                   colWidth: .Twelve)
+                   xsColWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: deleteButton
                     .radius(radius: 5)
                     .toCardSet()
                     .margin.top(30),
-                       colWidth: .Six),
+                       xsColWidth: .Six),
                 Column(cardSet: cancelButton
                     .radius(radius: 5)
                     .toCardSet()
                     .margin.top(30),
-                       colWidth: .Six)
+                       xsColWidth: .Six)
             ], anchorToBottom: true)
         
         self.addShadow()

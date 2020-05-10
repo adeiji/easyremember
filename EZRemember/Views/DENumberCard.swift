@@ -45,7 +45,10 @@ class DENumberCard: GRBootstrapElement {
             let column = Column(cardSet:
                 button
                     .toCardSet(),
-                        colWidth: .Two)
+                xsColWidth: .Two)
+                    .forSize(.md, .Two)
+                    .forSize(.xs, .Six)
+                    .forSize(.sm, .Six)
             selectNumberColumns.append(column)
             
             button.addTargetClosure { [weak self] (numberOfButton) in
@@ -68,7 +71,7 @@ class DENumberCard: GRBootstrapElement {
             Column(cardSet: maxNumberCaptionLabel
                 .toCardSet()
                 .margin.bottom(50),
-                   colWidth: .Twelve)
+                   xsColWidth: .Twelve)
                 
         ])
         .addRow(columns: selectNumberColumns, anchorToBottom: true)

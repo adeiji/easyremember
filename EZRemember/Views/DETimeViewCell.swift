@@ -58,7 +58,7 @@ class DETimeViewCell: UIView {
             .addRow(columns: [
                 Column(cardSet: timeLabel
                     .toCardSet(),
-                       colWidth: .Twelve)
+                       xsColWidth: .Twelve)
             ], anchorToBottom: true)
         
         card.addToSuperview(superview: self, anchorToBottom: true)

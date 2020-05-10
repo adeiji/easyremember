@@ -27,14 +27,12 @@ extension ShowEpubReaderProtocol {
             // Push the Read Book View Controller which will show the book on the left hand side
             let title = try? FolioReader.getTitle(url.path)
             let reader = folioReader.getReader(parentViewController: self, withEpubPath: url.path, andConfig: config, shouldRemoveEpub: false)
-            let readBookViewVC = GRReadBookViewController(reader: reader, bookName: title ?? "No Name")
-            folioReader.readerCenter?.pageDelegate = readBookViewVC
-            folioReader.readerCenter?.delegate = readBookViewVC
-            self.navigationController?.pushViewController(readBookViewVC, animated: true)
+            let readBookViewVC = GRReadBookViewController(reader: reader, folioReader: folioReader, bookName: title ?? "No Name")
+            self.navigationController?.pushViewController(readBookViewVC, animated: true)            
         } else {
             folioReader.presentReader(parentViewController: self, withEpubPath: url.path, andConfig: config)
-//            folioReader.readerCenter?.pageDelegate = self
-//            folioReader.readerCenter?.delegate = self
+            folioReader.readerCenter?.pageDelegate = self
+            folioReader.readerCenter?.delegate = self
         }
         
     }

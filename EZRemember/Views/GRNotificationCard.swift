@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 
-class GRNotificationCard: UITableViewCell {
+class GRNotificationCard: UICollectionViewCell {
               
     static let reuseIdentifier = "NotificationCardCell"
     
@@ -28,6 +28,8 @@ class GRNotificationCard: UITableViewCell {
     var isTranslation = false
     
     var viewToBaseWidthOffOf:UIView?
+    
+    var showDeleteButton:Bool = true
                
     var notification:GRNotification? {
         didSet {
@@ -62,7 +64,7 @@ class GRNotificationCard: UITableViewCell {
      */
     private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil) {
         
-        self.selectionStyle = .none
+//        self.selectionStyle = .none
         
         let editButton = Style.largeButton(with: "Edit")
         editButton.titleLabel?.font = FontBook.allBold.of(size: .small)
@@ -75,42 +77,49 @@ class GRNotificationCard: UITableViewCell {
         toggleActivateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .verySmall)
         toggleActivateButton.showsTouchWhenHighlighted = true
         
-        let titleLabel = Style.label(withText: title, size: .large, superview: nil, color: .black)
+        let titleLabel = Style.label(withText: title, size: .small, superview: nil, color: .black)
+        titleLabel.numberOfLines = 3
         let contentLabel = Style.label(withText: description, superview: nil, color: .darkGray)
+        contentLabel.numberOfLines = 4
         
         let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: .black)
-        topTitleLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
+        topTitleLabel.font(CustomFontBook.Medium.of(size: .small))
         
         let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true,
                                       superview: viewToCalculateWidth ?? self.contentView)
-            .addRow(columns: [
-                // Delete Button
-                Column(cardSet: topTitleLabel
-                    .toCardSet()
-                    .margin.top(20)
-                    .margin.left(20),
-                       colWidth: .Ten),
+        if (self.showDeleteButton) {
+            card.addRow(columns: [
                 // Delete Button
                 Column(cardSet: deleteButton
                     .withImage(named: "exit", bundle: "EZRemember")
                     .toCardSet()
-                    .margin.top(20.0),
-                       colWidth: .Two)
-            ])
-            .addRow(columns: [
-                Column(cardSet: titleLabel
-                    .font(CustomFontBook.Regular.of(size: .large))
-                    .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(20.0), colWidth: .Twelve),
-                // Content of the label
-                Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
-                    .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0).margin.bottom(20.0), colWidth: .Twelve)
-            ]).addRow(columns: [
+                    .margin.top(20.0)
+                    .margin.bottom(0),
+                       xsColWidth: .Two),
                 Column(cardSet: toggleActivateButton
-                    .radius(radius: 5)
-                    .toCardSet()
-                    .withHeight(55),
-                       colWidth: .Five)
-            ], anchorToBottom: true)
+                .radius(radius: 5)
+                .toCardSet()
+                .withHeight(30),
+                   xsColWidth: .Five)
+            ])
+        }
+        
+        card.addRow(columns: [
+            // Delete Button
+            Column(cardSet: topTitleLabel
+                .toCardSet()
+                .margin.top(10)
+                .margin.left(20),
+                   xsColWidth: .Twelve),
+        ])
+        .addRow(columns: [
+            Column(cardSet: titleLabel
+                .font(CustomFontBook.Regular.of(size: .small))
+                .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0), xsColWidth: .Twelve),
+            // Content of the label
+            Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: .small))
+                .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0).margin.bottom(10.0), xsColWidth: .Twelve)
+        ], anchorToBottom: false)
         
         card.addToSuperview(superview: self.contentView, anchorToBottom: true)
         card.addShadow()

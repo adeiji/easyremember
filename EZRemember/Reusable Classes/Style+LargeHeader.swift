@@ -13,11 +13,15 @@ public extension Style {
     
     /// Add a card at the to of the screen that will serve as a header, and say whatever is text
     class func addLargeHeaderCard (text: String, superview: UIView, viewAbove: UIView?) -> UIView {
-        let headerCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true)
+        let headerCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
+            left: .Three,
+            top: .One,
+            right: .Zero,
+            bottom: .Three))
             .addRow(columns: [Column(
                 cardSet: Style.label(withText: text, superview: nil, color: .black)
                     .font(CustomFontBook.Regular.of(size: .logo))
-                        .toCardSet(), colWidth: .Twelve)
+                        .toCardSet(), xsColWidth: .Twelve)
             ], anchorToBottom: true)
         
         headerCard.isUserInteractionEnabled = false

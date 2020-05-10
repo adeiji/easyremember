@@ -60,27 +60,27 @@ public class GRMessageCard: GRBootstrapElement {
                 .margin.left(30)
                 .margin.right(30)
                 .margin.top(30),
-                   colWidth: .Twelve),
+                   xsColWidth: .Twelve),
             Column(cardSet: messageLabel
                 .font(CustomFontBook.Regular.of(size: .verySmall))
                 .toCardSet()
                 .margin.left(30)
                 .margin.right(30)
                 .margin.top(30),
-                   colWidth: .Twelve)
+                   xsColWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: okayButton
                     .radius(radius: 5)
                     .toCardSet()
                     .margin.left(30)
                     .margin.bottom(30),
-                       colWidth: .Five),
+                       xsColWidth: .Five),
                 Column(cardSet: cancelButton
                 .radius(radius: 5)
                 .toCardSet()
                 .margin.left(30)
                 .margin.bottom(30),
-                   colWidth: .Five)
+                   xsColWidth: .Five)
             ], anchorToBottom: true)
         
         self.slideUp(superview: superview, margin: 20)

@@ -57,7 +57,10 @@ class DELanguagesCard: GRBootstrapElement {
             let column = Column(cardSet:
                 button
                     .toCardSet(),
-                        colWidth: .Two)
+                        xsColWidth: .Two)
+                            .forSize(.xs, .Six)
+                            .forSize(.lg, .Two)
+            
             selectNumberColumns.append(column)
             
             if (selectedLanguages.contains(key)) {
@@ -82,7 +85,7 @@ class DELanguagesCard: GRBootstrapElement {
                 .toCardSet()
                 .margin.top(50)
                 .margin.bottom(50),
-                   colWidth: .Twelve)
+                   xsColWidth: .Twelve)
                 
         ])
         .addRow(columns: selectNumberColumns, anchorToBottom: true)

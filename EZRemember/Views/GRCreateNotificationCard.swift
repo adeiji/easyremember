@@ -88,7 +88,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                             .margin.left(30)
                             .margin.right(30)
                             .margin.top(30),
-                                colWidth: .Twelve),
+                                xsColWidth: .Twelve),
                 
                 Column(cardSet: Style.label(
                     withText: "Enter information you'd like to remember",
@@ -100,7 +100,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                         .margin.left(30)
                         .margin.bottom(30)
                         .margin.right(30).margin.top(30),
-                           colWidth: .Twelve),
+                           xsColWidth: .Twelve),
                 
                 Column(cardSet: titleTextView
                     .backgroundColor(.white)
@@ -110,7 +110,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                     .withHeight(100)
                     .margin.left(30)
                     .margin.right(30),
-                       colWidth: .Twelve),
+                       xsColWidth: .Twelve),
                 
                 Column(cardSet: Style.label(
                     withText: "Enter the definition or other content",
@@ -121,7 +121,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                         .toCardSet()
                         .margin.top(30)
                         .margin.left(30)
-                        .margin.right(30), colWidth: .Twelve),
+                        .margin.right(30), xsColWidth: .Twelve),
                 
                 Column(cardSet: descriptionTextView
                     .radius(radius: 5.0)
@@ -130,7 +130,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                     .withHeight(100)
                     .margin.left(30)
                     .margin.right(30),
-                       colWidth: .Twelve)
+                       xsColWidth: .Twelve)
             ]).addRow(columns: [
                 Column(cardSet: addButton
                     .radius(radius: 10)
@@ -139,7 +139,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                     .margin.top(50)
                     .margin.left(30)
                     .margin.right(30)
-                    .withHeight(110.0), colWidth: .Twelve),
+                    .withHeight(110.0), xsColWidth: .Twelve),
             ]).addRow(columns: [
                 Column(cardSet: cancelButton
                     .addShadow()
@@ -148,7 +148,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                     .margin.left(30)
                     .margin.right(30)
                     .margin.bottom(30)
-                    .withHeight(90.0), colWidth: .Twelve),
+                    .withHeight(90.0), xsColWidth: .Twelve),
             ], anchorToBottom: true)
         
         self.radius(radius: 10.0).addShadow()
