@@ -77,15 +77,15 @@ class GRNotificationCard: UICollectionViewCell {
         toggleActivateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .verySmall)
         toggleActivateButton.showsTouchWhenHighlighted = true
         
-        let titleLabel = Style.label(withText: title, size: .small, superview: nil, color: .black)
+        let titleLabel = Style.label(withText: title, size: .small, superview: nil, color: UIColor.black.dark(.white))
         titleLabel.numberOfLines = 3
-        let contentLabel = Style.label(withText: description, superview: nil, color: .darkGray)
+        let contentLabel = Style.label(withText: description, superview: nil, color: UIColor.darkGray.dark(.white))
         contentLabel.numberOfLines = 4
         
         let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: .black)
         topTitleLabel.font(CustomFontBook.Medium.of(size: .small))
         
-        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true,
+        let card = GRBootstrapElement(color: UIColor.white.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true,
                                       superview: viewToCalculateWidth ?? self.contentView)
         if (self.showDeleteButton) {
             card.addRow(columns: [
@@ -114,7 +114,7 @@ class GRNotificationCard: UICollectionViewCell {
         ])
         .addRow(columns: [
             Column(cardSet: titleLabel
-                .font(CustomFontBook.Regular.of(size: .small))
+                .font(CustomFontBook.Bold.of(size: .small))
                 .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0), xsColWidth: .Twelve),
             // Content of the label
             Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: .small))

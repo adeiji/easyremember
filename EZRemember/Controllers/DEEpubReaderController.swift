@@ -228,9 +228,15 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
             .rx
             .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { [weak self] (row, url, cell) in
                 guard let self = self else { return }
-                guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString) else { return }
                 guard let name = self.getEbookNameFromUrl(url: url) else { return }
-                cell.setup(bookDetails: bookDetails, title: name)
+                                                
+                DispatchQueue.global(qos: .background).async {
+                    guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString) else { return }
+                    DispatchQueue.main.async {
+                        cell.fillWithContent(bookDetails: bookDetails, title: name)
+                    }
+                }
+                
                 cell.textLabel?.font = CustomFontBook.Black.of(size: .medium)
                 cell.url = url
                 cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
@@ -272,12 +278,35 @@ class EBookCell: UITableViewCell {
     
     public var url:URL?
     
+    weak private var titleLabel:UILabel?
+    
+    weak private var authorLabel:UILabel?
+    
+    weak private var coverImageView:UIImageView?
+    
     public weak var deleteButton:UIButton?
     
-    func setup (bookDetails: BookDetails, title: String) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func fillWithContent(bookDetails:BookDetails, title: String) {
+        self.titleLabel?.text = bookDetails.title ?? title
+        self.authorLabel?.text = "Written By: \(bookDetails.author ?? "Unknown")"
+        self.coverImageView?.image = bookDetails.coverImage
+    }
+    
+    private func setup () {
         self.selectionStyle = .none
 
         let deleteButton = Style.largeButton(with: "Delete", fontColor: .red)
+        let titleLabel = Style.label(withText: "", superview: nil, color: .black)
+        let authorLabel = Style.label(withText: "", superview: nil, color: .black)
         
         let bookCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false, margin:
             BootstrapMargin(
@@ -288,11 +317,11 @@ class EBookCell: UITableViewCell {
         
         let detailsCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false)
             .addRow(columns: [
-                Column(cardSet: Style.label(withText: bookDetails.title ?? title, superview: nil, color: .black)
+                Column(cardSet: titleLabel
                     .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
                     .toCardSet(),
                        xsColWidth: .Twelve),
-                Column(cardSet: Style.label(withText: "Written By: \(bookDetails.author ?? "Not Sure")", superview: nil, color: .black)
+                Column(cardSet: authorLabel
                     .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
                     .toCardSet(),
                        xsColWidth: .Twelve)
@@ -303,17 +332,17 @@ class EBookCell: UITableViewCell {
                     .toCardSet().withHeight(50), xsColWidth: Style.getScreenSize() == .xs ? .Four : .Two)
             ])
         
-        let coverImage = UIImageView(image: bookDetails.coverImage)
-        coverImage.contentMode = .scaleAspectFit
+        let coverImageView = UIImageView(image: nil)
+        coverImageView.contentMode = .scaleAspectFit
         
         bookCard.addRow(columns: [
             // Add the image to the left
-            Column(cardSet: UIImageView(image: bookDetails.coverImage)
-                .backgroundColor(UIColor.EZRemember.lightGreen)
+            Column(cardSet: coverImageView
                 .toCardSet()
                 .withHeight(250),
-                   xsColWidth: Style.getScreenSize() == .xs ? .Three : .Two,
-                   anchorToBottom: true),
+                   xsColWidth: .Five,
+                   anchorToBottom: true)
+                    .forSize(.lg, .Three),
             // Add the book details to the right
             Column(cardSet: detailsCard.toCardSet(), xsColWidth: Style.getScreenSize() == .xs ? .Nine : .Five),
                         
@@ -322,6 +351,10 @@ class EBookCell: UITableViewCell {
         bookCard.addToSuperview(superview: self.contentView, anchorToBottom: true)
         bookCard.isUserInteractionEnabled = false
         self.deleteButton = deleteButton
+        
+        self.titleLabel = titleLabel
+        self.authorLabel = authorLabel
+        self.coverImageView = coverImageView
     }
     
 }

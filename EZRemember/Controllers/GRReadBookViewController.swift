@@ -125,7 +125,7 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
                 if let translations = event.element {
                     let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: self.languages)
                     self.translationView?.subviews.forEach({ [weak self] (subview) in
-                        subview.removeFromSuperview()
+//                        subview.removeFromSuperview()
                     })
                     self.addChildViewControllerWithView(showTranslationsViewController, toView: self.translationView)
                 }

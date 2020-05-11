@@ -43,12 +43,23 @@ class DEScheduleViewController: UIViewController {
     
     public var defaultTimeSlots = [11, 12, 13, 14, 15]
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "EZ Remember")
+    private func setupNavBar () {
+        
         self.mainView?.navBar.rightButton?.setTitle("Save", for: .normal)
         self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
         self.mainView?.navBar.rightButton?.isUserInteractionEnabled = true
+        
+        self.mainView?.navBar.rightButton?.setTitleColor(.white, for: .normal)
+        self.mainView?.navBar.backgroundColor = .clear
+        self.mainView?.navBar.header?.textColor = .white
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "EZ Remember")
+        self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
+        self.setupNavBar()
                 
         self.loadSchedule()
         self.savePressed()
@@ -61,7 +72,7 @@ class DEScheduleViewController: UIViewController {
         
         // We add the schedule view as a subclass of the main view container view so that we can use the main view's scroll view
         // that way the schedule view can expand to whatever size necessary
-        let scheduleView = DEScheduleView(anchorWidthToScreenWidth: true, margin: self.margins)
+        let scheduleView = DEScheduleView(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins)
         
         ScheduleManager.getSchedule().subscribe { [weak self] (event) in
             guard let self = self else { return }

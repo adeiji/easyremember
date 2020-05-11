@@ -16,15 +16,13 @@ class DELanguagesCard: GRBootstrapElement {
     var selectedLanguages = [String]()
     
     init(bootstrapMargin:BootstrapMargin, selectedLanguages: [String]) {
-        super.init(color: .white, margin: bootstrapMargin )
+        super.init(color: .clear, margin: bootstrapMargin )
         self.setupUI(selectedLanguages: selectedLanguages)
     }
             
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 
     private func handleLanguageSelection (selected:Bool, button: UIButton) {
         guard let buttonText = button.titleLabel?.text else { return }
@@ -33,14 +31,14 @@ class DELanguagesCard: GRBootstrapElement {
         if !selected {
             self.selectedLanguagesButtons = self.selectedLanguagesButtons.filter({ $0 != button })
             self.selectedLanguages = self.selectedLanguages.filter({ $0 != languageShortCode })
-            button.backgroundColor = UIColor.EZRemember.veryLightGray
-            button.setTitleColor(.darkText, for: .normal)
+            button.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray)
+            button.setTitleColor(UIColor.darkText.dark(Dark.coolGrey50), for: .normal)
             return
         }
              
         self.selectedLanguagesButtons.append(button)
         self.selectedLanguages.append(languageShortCode)
-        button.backgroundColor = UIColor.EZRemember.mainBlue
+        button.backgroundColor = UIColor.EZRemember.mainBlue.dark(Dark.brownishTan)
         button.setTitleColor(.white, for: .normal)
         
     }
@@ -50,7 +48,7 @@ class DELanguagesCard: GRBootstrapElement {
         var selectNumberColumns = [Column]()
         
         GRNotification.kSupportedLanguages.forEach({ (key, value) in
-           let button = Style.largeButton(with: value, backgroundColor: UIColor.EZRemember.veryLightGray, fontColor: .darkText)
+            let button = Style.largeButton(with: value, backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), fontColor: UIColor.darkText.dark(Dark.coolGrey50))
             button.showsTouchWhenHighlighted = true
             button.radius(radius: 5)
             
@@ -75,7 +73,7 @@ class DELanguagesCard: GRBootstrapElement {
         
         let selectLanguagesMessage = "Which languages would you look to recieve translations for?"
         
-        let languagesCaptionLabel = Style.label(withText: "", superview: nil, color: .black)
+        let languagesCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         languagesCaptionLabel.attributedText = selectLanguagesMessage.addLineSpacing()
         languagesCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
         

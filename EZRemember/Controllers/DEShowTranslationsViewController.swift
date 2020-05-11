@@ -64,12 +64,11 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
         self.mainView = mainView
         self.saveButton = saveButton
         
-         self.showTranslations()
+        self.showTranslations()
+        self.saveButtonPressed()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    private func saveButtonPressed () {
         let notificationsManager = NotificationsManager()
         
         self.saveButton?.addTargetClosure(closure: { [weak self] (saveButton) in
@@ -88,6 +87,12 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                 self.dismiss(animated: true, completion: nil)
             }
         })
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+
                 
     }            
     

@@ -11,6 +11,15 @@ import SwiftyBootstrap
 
 public extension UIColor {
     
+    struct DarkMode {
+        public static var mediumShadeGray:UIColor { return UIColor(red: 59/255, green: 67/255, blue: 75/255, alpha: 1.0) }
+        public static var brownishTan:UIColor { return UIColor(red: 234/255, green: 185/255, blue: 140/255, alpha: 1.0) }
+        public static var blueNeonGreen:UIColor { return UIColor(red: 27/255, green: 218/255, blue: 192/255, alpha: 1.0) }
+        public static var coolGrey50:UIColor { return UIColor(hexString: "F5F7FA" ) }
+        public static var coolGrey200:UIColor { return UIColor(hexString: "CBD2D9" ) }
+        public static var coolGrey900:UIColor { return UIColor(hexString: "1F2933") }
+    }
+    
     struct EZRemember {
         public static var mainBlue: UIColor { return  UIColor(red: 48/255, green: 105/255, blue: 199/255, alpha: 1.0) }
         public static var veryLightGray: UIColor { return UIColor(red: 246/255, green: 248/255, blue: 252/255, alpha: 1.0) }
@@ -21,3 +30,5 @@ public extension UIColor {
     }
     
 }
+
+public typealias Dark = UIColor.DarkMode

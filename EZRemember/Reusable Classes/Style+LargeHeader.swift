@@ -19,7 +19,7 @@ public extension Style {
             right: .Zero,
             bottom: .Three))
             .addRow(columns: [Column(
-                cardSet: Style.label(withText: text, superview: nil, color: .black)
+                cardSet: Style.label(withText: text, superview: nil, color: UIColor.black.dark(.white))
                     .font(CustomFontBook.Regular.of(size: .logo))
                         .toCardSet(), xsColWidth: .Twelve)
             ], anchorToBottom: true)

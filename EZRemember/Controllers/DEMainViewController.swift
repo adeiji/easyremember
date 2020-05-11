@@ -27,7 +27,6 @@ public class GRViewWithCollectionView:GRBootstrapElement {
         flowLayout.scrollDirection = .vertical
         
         let collectionView = UICollectionView(frame: superview.frame, collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = .white
                         
         if let header = header {
             self.addRow(columns: [
@@ -245,6 +244,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         let notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
         let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: "Your\nNotifications")
         mainView.collectionView?.register(GRNotificationCard.self, forCellWithReuseIdentifier: GRNotificationCard.reuseIdentifier)
+        mainView.collectionView?.backgroundColor = .clear
+        mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
         mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
         self.mainView = mainView
         

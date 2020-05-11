@@ -45,10 +45,10 @@ class DEScheduleView: GRBootstrapElement {
             columns.append(Column(cardSet: timeViewCell
                 .radius(radius: 10)
                 .toCardSet()
-                .withHeight(90), xsColWidth: .Twelve))
+                .withHeight(90), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three))
         }
         
-        let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: .black)
+        let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium ))
         timesCaptionLabel.attributedText = ("Select all the times you want to recieve a notification").addLineSpacing()
                         

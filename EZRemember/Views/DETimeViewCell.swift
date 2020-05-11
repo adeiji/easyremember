@@ -36,21 +36,21 @@ class DETimeViewCell: UIView {
     var selected:Bool = false {
         didSet {
             if selected {
-                self.card?.backgroundColor = UIColor.EZRemember.mainBlue
-                self.timeLabel?.textColor = .white
+                self.card?.backgroundColor = UIColor.EZRemember.mainBlue.dark(Dark.brownishTan)
+                self.timeLabel?.textColor = UIColor.white.dark(Dark.coolGrey900)
             } else {
-                self.card?.backgroundColor = UIColor.EZRemember.veryLightGray
-                self.timeLabel?.textColor = .darkGray
+                self.card?.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray)
+                self.timeLabel?.textColor = UIColor.darkGray.dark(.white)
             }
         }
     }
             
     func setupUI (time: String) -> DETimeViewCell {
         
-        let timeLabel = Style.label(withText: time, superview: nil, color: .darkText, textAlignment: .center)
+        let timeLabel = Style.label(withText: time, superview: nil, color: UIColor.darkText.dark(.white), textAlignment: .center)
         timeLabel.font(CustomFontBook.Medium.of(size: .small))
         
-        let card = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
+        let card = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Zero,
             top: .Two,
             right: .Zero,
@@ -58,7 +58,7 @@ class DETimeViewCell: UIView {
             .addRow(columns: [
                 Column(cardSet: timeLabel
                     .toCardSet(),
-                       xsColWidth: .Twelve)
+                       xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three)
             ], anchorToBottom: true)
         
         card.addToSuperview(superview: self, anchorToBottom: true)
