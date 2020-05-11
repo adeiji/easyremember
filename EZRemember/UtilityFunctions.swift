@@ -31,4 +31,11 @@ class UtilityFunctions {
         return deviceId!
     }
     
+    static func updateDeviceId (_ deviceId: String) {
+        // Grab the device Id
+        let userDefaults = UserDefaults()
+        userDefaults.set(deviceId, forKey: UtilityFunctions.kDeviceId)
+        userDefaults.synchronize()
+    }
+    
 }

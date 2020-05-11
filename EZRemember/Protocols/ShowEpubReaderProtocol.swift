@@ -21,6 +21,8 @@ extension ShowEpubReaderProtocol {
         
         let config = FolioReaderConfig()
         config.displayTitle = true
+//        config.nightModeBackground = .clear
+                
         let folioReader = FolioReader()
         
         if UIDevice.current.userInterfaceIdiom == .pad {

@@ -39,6 +39,32 @@ class NotificationsManager {
         }
     }
     
+    static func sync (_ id: String) {
+                
+        UtilityFunctions.updateDeviceId(id)
+        self.getNotifications(deviceId: UtilityFunctions.deviceId()).subscribe { (event) in
+            
+            if let notifications = event.element {
+                
+                let updateDocuments = notifications.flatMap { [$0.id] }.flatMap { (notificationId) -> [String:[String:Any]] in
+                    return [notificationId: [GRNotification.Keys.kDeviceId : id]]
+                }.flatMap({ [$0.key: $0.value] })
+                
+                var updateDict = [String:[String:Any]]()
+                
+                updateDocuments.forEach { (key, value) in
+                    updateDict[key] = value
+                }
+                                                
+                return FirebasePersistenceManager.updateDocument(withId: nil, collection: GRNotification.Keys.kCollectionName, updateDoc: nil, documents:updateDict) { (error) in
+                    
+                }
+                
+            }
+        }
+        
+    }
+    
     /**
      Get all the notifications for this device
      

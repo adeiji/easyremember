@@ -49,23 +49,38 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         
         let readerView:UIView = UIView()
         let translationView:UIView = UIView()
-        translationView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0)
+        translationView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0).dark(Dark.epubReaderBlack)
         let backButton = GRButton(type: .Back)
-        let mainViewCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
+        let mainViewCard = GRBootstrapElement(color: UIColor.white.dark(Dark.epubReaderBlack), anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Zero,
             top: .Five,
             right: .Zero,
-            bottom: .Five))
+            bottom: .Zero))
         .addRow(columns: [
+            
+            // THE BACK BUTTON
+            
             Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), xsColWidth: .One),
-            Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: .black, textAlignment: .center)
+            
+            // THE BOOK NAME HEADER
+            
+            Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
                 .font(CustomFontBook.Medium.of(size: .medium))
                 .toCardSet().withHeight(self.navBarHeight)
                 , xsColWidth: .Ten),
+            
+            // THE NAV BAR
+            
             Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight), xsColWidth: .One),
             ]).addRow(columns: [
-                Column(cardSet: readerView.toCardSet(), xsColWidth: .Eight, anchorToBottom: true),
-                Column(cardSet: translationView.toCardSet(), xsColWidth: .Four)
+                
+                // THE READER VIEW
+                
+                Column(cardSet: readerView.toCardSet(), xsColWidth: .Twelve, anchorToBottom: true).forSize(.md, .Eight),
+                
+                // THE TRANSLATION VIEW
+                
+                Column(cardSet: translationView.toCardSet().margin.bottom(0), xsColWidth: .Twelve).forSize(.md, .Four)
             ], anchorToBottom: true)
                         
         mainViewCard.addToSuperview(superview: self.view, anchorToBottom: true)
@@ -74,6 +89,8 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         self.translationView = translationView
         
         self.view.layoutIfNeeded()
+        self.view.backgroundColor = UIColor.white.dark(Dark.epubReaderBlack)
+        self.readerView?.backgroundColor = UIColor.white.dark(Dark.epubReaderBlack)
         
         backButton.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
@@ -88,6 +105,7 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         self.addChildViewControllerWithView(self.reader, toView: self.readerView)
         self.folioReader.readerCenter?.pageDelegate = self
         self.folioReader.readerCenter?.delegate = self
+        self.folioReader.nightMode = self.traitCollection.userInterfaceStyle == .dark
     }
     
     // MARK: Create Menu Called
@@ -125,7 +143,7 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
                 if let translations = event.element {
                     let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: self.languages)
                     self.translationView?.subviews.forEach({ [weak self] (subview) in
-//                        subview.removeFromSuperview()
+                        subview.removeFromSuperview()
                     })
                     self.addChildViewControllerWithView(showTranslationsViewController, toView: self.translationView)
                 }
@@ -141,8 +159,8 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         self.translateWord?.removeFromSuperview()
         self.translateWord = nil
     }
-    
-    func pageDidAppear(_ page: FolioReaderPage) {
+        
+    func pageDidAppear(_ page: FolioReaderPage) {                                
         self.currentPage = page
     }
     

@@ -25,9 +25,7 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
     
     private var urlRelay = BehaviorRelay<[URL]>(value: [])
     
-    private var ebookUrl:URL?
-    
-    private let kApplicationDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+    private var ebookUrl:URL?        
     
     public var readerContainer:FolioReaderContainer?
     
@@ -52,7 +50,7 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         getMoreBooksButton.titleLabel?.font = CustomFontBook.Regular.forSizeClass()
         
         getMoreBooksButton.radius(radius: 5)
-        let card = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false, margin:
+        let card = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: false, margin:
             BootstrapMargin(
                 left: .Three,
                 top: .One,
@@ -60,13 +58,13 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
                 bottom: .Three))
             .addRow(columns: [Column(
                 cardSet: getMoreBooksButton
-                    .toCardSet(),
+                    .toCardSet()
+                    .withHeight(50),
                 xsColWidth: .Twelve)
                     .forSize(.md, .Three)
             ], anchorToBottom: true)
                         
         card.addToSuperview(superview: self.view, viewAbove: viewAbove, anchorToBottom: false)
-
         
         getMoreBooksButton.addTargetClosure { [weak self] (_) in
             guard let _ = self else { return }
@@ -85,11 +83,13 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         }
                 
         self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "", rightNavBarButtonTitle: "")
+        self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.mainView?.navBar.isHidden = true
         self.mainView?.tableView.register(EBookCell.self, forCellReuseIdentifier: EBookCell.identifier)
         self.mainView?.tableView.separatorStyle = .none
-        let yourBooksCard = Style.addLargeHeaderCard(text: "Your\nElectronic Books", superview: self.view, viewAbove: self.mainView?.navBar)
+        self.mainView?.tableView.backgroundColor = .clear
         guard let mainView = self.mainView else { return }
+        let yourBooksCard = Style.addLargeHeaderCard(text: "Your\nElectronic Books", superview: mainView, viewAbove: self.mainView?.navBar)
         
         let getMoreBooksButton = self.addMoreBooksButton(viewAbove: yourBooksCard)
         
@@ -101,32 +101,13 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         })
         
         self.showEBooks()
-        guard let urls = self.getUrls() else { return }
+        let ebookHandler = EBookHandler()
+        guard let urls = ebookHandler.getUrls() else { return }
         self.urlRelay.accept(urls)
         NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: .CreateMenuCalled, object: nil)
     }
     
-    func getUrls () -> [URL]? {
-        guard let resourceURL = Bundle.main.resourceURL else { return nil }
-        guard let applicationDirUrl = URL(string: kApplicationDirectory) else { return nil }
-        
-        do {
-            var urls = try FileManager().contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            if let booksInInbox = FileManager().urls(for: "/Inbox") {
-                urls.append(contentsOf: booksInInbox)
-            }
-            
-            let booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            urls.append(contentsOf: booksInAppDirUrls)
-            
-            urls = self.removeAllNonEpubFiles(urls: urls)
-            return urls
-        } catch {
-            print(error.localizedDescription)
-        }
 
-        return nil
-    }
     
     // MARK: Ebook Reader
     
@@ -194,26 +175,10 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         let coverImage = try? FolioReader.getCoverImage(bookPath)
         let authorName = try? FolioReader.getAuthorName(bookPath)
         
-        return BookDetails(author: authorName, coverImage: coverImage, title: title)
+        return BookDetails(author: authorName, coverImage: coverImage ?? UIImage(named: "NoImage"), title: title)
     }
     
-    // MARK: Remove All Non Epub Files
     
-    private func removeAllNonEpubFiles (urls: [URL]) -> [URL] {
-        
-        return urls.filter { (url) -> Bool in
-            guard var startOfFileEnding = url.absoluteString.lastIndex(of: ".") else { return false }
-            startOfFileEnding = url.absoluteString.index(startOfFileEnding, offsetBy: 1)
-            
-            let fileEnding = url.absoluteString[startOfFileEnding...]
-            if fileEnding.lowercased().contains("epub") == false {
-                return false
-            }
-            
-            return true
-        }
-                        
-    }
     
     // MARK: Show Ebooks
     
@@ -228,7 +193,8 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
             .rx
             .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { [weak self] (row, url, cell) in
                 guard let self = self else { return }
-                guard let name = self.getEbookNameFromUrl(url: url) else { return }
+                let eBookHandler = EBookHandler()
+                guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
                                                 
                 DispatchQueue.global(qos: .background).async {
                     guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString) else { return }
@@ -243,7 +209,10 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
                     guard let self = self else { return }
                     guard let url = cell.url else { return }
                     try? FileManager.default.removeItem(at: url)
-                    guard var urls = self.getUrls() else { return }
+                    
+                    let eBookHandler = EBookHandler()
+                    
+                    guard var urls = eBookHandler.getUrls() else { return }
                     urls = urls.filter({ $0.path != url.path })
                     self.urlRelay.accept(urls)
                 })
@@ -259,102 +228,4 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
         }.disposed(by: self.disposeBag)
         
     }
-    
-    private func getEbookNameFromUrl (url: URL) -> String? {
-        
-        guard var startOfName = url.absoluteString.trimmingCharacters(in: .punctuationCharacters).lastIndex(of: "/") else { return nil }
-        startOfName = url.absoluteString.index(startOfName, offsetBy: 1)
-        guard let endOfName = url.absoluteString.lastIndex(of: ".") else { return nil }
-        let ebookName = url.absoluteString[startOfName..<endOfName]
-        return String(ebookName)
-        
-    }
-
-}
-
-class EBookCell: UITableViewCell {
-    
-    static let identifier = "EBookCell"
-    
-    public var url:URL?
-    
-    weak private var titleLabel:UILabel?
-    
-    weak private var authorLabel:UILabel?
-    
-    weak private var coverImageView:UIImageView?
-    
-    public weak var deleteButton:UIButton?
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setup()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func fillWithContent(bookDetails:BookDetails, title: String) {
-        self.titleLabel?.text = bookDetails.title ?? title
-        self.authorLabel?.text = "Written By: \(bookDetails.author ?? "Unknown")"
-        self.coverImageView?.image = bookDetails.coverImage
-    }
-    
-    private func setup () {
-        self.selectionStyle = .none
-
-        let deleteButton = Style.largeButton(with: "Delete", fontColor: .red)
-        let titleLabel = Style.label(withText: "", superview: nil, color: .black)
-        let authorLabel = Style.label(withText: "", superview: nil, color: .black)
-        
-        let bookCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false, margin:
-            BootstrapMargin(
-                left: .Five,
-                top: .Four,
-                right: .Five,
-                bottom: .Four), superview: nil)
-        
-        let detailsCard = GRBootstrapElement(color: .white, anchorWidthToScreenWidth: false)
-            .addRow(columns: [
-                Column(cardSet: titleLabel
-                    .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
-                    .toCardSet(),
-                       xsColWidth: .Twelve),
-                Column(cardSet: authorLabel
-                    .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
-                    .toCardSet(),
-                       xsColWidth: .Twelve)
-            ]).addRow(columns: [
-                Column(cardSet: deleteButton
-                .radius(radius: 5)
-                .backgroundColor(UIColor.EZRemember.lightRed)
-                    .toCardSet().withHeight(50), xsColWidth: Style.getScreenSize() == .xs ? .Four : .Two)
-            ])
-        
-        let coverImageView = UIImageView(image: nil)
-        coverImageView.contentMode = .scaleAspectFit
-        
-        bookCard.addRow(columns: [
-            // Add the image to the left
-            Column(cardSet: coverImageView
-                .toCardSet()
-                .withHeight(250),
-                   xsColWidth: .Five,
-                   anchorToBottom: true)
-                    .forSize(.lg, .Three),
-            // Add the book details to the right
-            Column(cardSet: detailsCard.toCardSet(), xsColWidth: Style.getScreenSize() == .xs ? .Nine : .Five),
-                        
-        ], anchorToBottom: true)
-        
-        bookCard.addToSuperview(superview: self.contentView, anchorToBottom: true)
-        bookCard.isUserInteractionEnabled = false
-        self.deleteButton = deleteButton
-        
-        self.titleLabel = titleLabel
-        self.authorLabel = authorLabel
-        self.coverImageView = coverImageView
-    }
-    
 }

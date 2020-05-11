@@ -78,11 +78,11 @@ class GRNotificationCard: UICollectionViewCell {
         toggleActivateButton.showsTouchWhenHighlighted = true
         
         let titleLabel = Style.label(withText: title, size: .small, superview: nil, color: UIColor.black.dark(.white))
-        titleLabel.numberOfLines = 3
+        titleLabel.numberOfLines = GRCurrentDevice.shared.size == .xs ? 3 : 2
         let contentLabel = Style.label(withText: description, superview: nil, color: UIColor.darkGray.dark(.white))
-        contentLabel.numberOfLines = 4
+        contentLabel.numberOfLines = GRCurrentDevice.shared.size == .xs ? 3 : 4
         
-        let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: .black)
+        let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: UIColor.black.dark(.white))
         topTitleLabel.font(CustomFontBook.Medium.of(size: .small))
         
         let card = GRBootstrapElement(color: UIColor.white.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true,

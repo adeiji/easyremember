@@ -230,8 +230,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         
     }
     
-
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -294,7 +292,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
             cellWidth = width - 30
         }
         
-        return CGSize(width: cellWidth, height: 300)
+        return CGSize(width: cellWidth, height: GRCurrentDevice.shared.size == .xs ? 250 : 300)
         
      }
     

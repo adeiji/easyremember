@@ -96,12 +96,41 @@ class DEScheduleViewController: UIViewController {
         }.disposed(by: self.disposeBag)
     }
     
+    private func syncButtonPressed (button: UIButton) {
+        button.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            let syncVC = DESyncViewController()
+            self.present(syncVC, animated: true, completion: nil)
+        }
+    }
+    
     private func drawSchedule (schedule: Schedule, scheduleView: DEScheduleView) {
         
         guard let mainView = mainView else { return }
         
+        let syncCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
+        let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.blueNeonGreen))
+        syncButton.titleLabel?.font = CustomFontBook.Bold.of(size: .small)
+        syncCard.addRow(columns: [
+            // Would the user like to sync?
+            Column(cardSet: Style.label(withText: "Would you like to sync your data with your other devices?", superview: nil, color: UIColor.black.dark(.white))
+                .font(CustomFontBook.Bold.of(size: .large))
+                .toCardSet(), xsColWidth: .Twelve)
+        ])
+        syncCard.addRow(columns: [
+            // Sync button
+            Column(cardSet: syncButton
+                .radius(radius: 5)
+                .toCardSet()
+                .withHeight(50),
+                   xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Four)
+        ], anchorToBottom: true)
+        
+        self.syncButtonPressed(button: syncButton)
+        syncCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
+        
         let numberCard = DENumberCard(selectedNumber: schedule.maxNumOfCards, bootstrapMargin: self.margins)
-        numberCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
+        numberCard.addToSuperview(superview: mainView.containerView, viewAbove: syncCard, anchorToBottom: false)
         
         let languagesCard = DELanguagesCard(bootstrapMargin: self.margins, selectedLanguages: schedule.languages)
         languagesCard.addToSuperview(superview: mainView.containerView, viewAbove: numberCard, anchorToBottom: false)

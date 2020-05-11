@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		09D9691BE3F36392C06CEAC4 /* Pods_EZRememberTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */; };
 		8F6CD3D4D524E46B03D55FA6 /* Pods_EZRememberUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */; };
+		F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22A24694AA8007DE745 /* DESyncViewController.swift */; };
+		F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22C24696913007DE745 /* Array+ToDictionary.swift */; };
+		F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22E24698DE9007DE745 /* EbookCell.swift */; };
+		F421B23224698E38007DE745 /* EBookHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B23124698E38007DE745 /* EBookHandler.swift */; };
 		F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523B245BFA5E00C381DE /* AppDelegate.swift */; };
 		F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523D245BFA5E00C381DE /* SceneDelegate.swift */; };
 		F4285240245BFA5E00C381DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523F245BFA5E00C381DE /* ViewController.swift */; };
@@ -107,6 +111,10 @@
 		6F0E3443B0A114725AC933FC /* Pods-EZRememberTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberTests.release.xcconfig"; path = "Target Support Files/Pods-EZRememberTests/Pods-EZRememberTests.release.xcconfig"; sourceTree = "<group>"; };
 		A041E719063883CC004C797A /* Pods_EZRemember.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRemember.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6EA27F11652034F71BF6BCF /* Pods-EZRememberTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberTests.debug.xcconfig"; path = "Target Support Files/Pods-EZRememberTests/Pods-EZRememberTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F421B22A24694AA8007DE745 /* DESyncViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DESyncViewController.swift; sourceTree = "<group>"; };
+		F421B22C24696913007DE745 /* Array+ToDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ToDictionary.swift"; sourceTree = "<group>"; };
+		F421B22E24698DE9007DE745 /* EbookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbookCell.swift; sourceTree = "<group>"; };
+		F421B23124698E38007DE745 /* EBookHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EBookHandler.swift; sourceTree = "<group>"; };
 		F4285238245BFA5E00C381DE /* EZRemember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZRemember.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428523B245BFA5E00C381DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F428523D245BFA5E00C381DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +243,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F421B23024698E2F007DE745 /* Handler */ = {
+			isa = PBXGroup;
+			children = (
+				F421B23124698E38007DE745 /* EBookHandler.swift */,
+			);
+			path = Handler;
+			sourceTree = "<group>";
+		};
 		F428522F245BFA5E00C381DE = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +277,7 @@
 		F428523A245BFA5E00C381DE /* EZRemember */ = {
 			isa = PBXGroup;
 			children = (
+				F421B23024698E2F007DE745 /* Handler */,
 				F4C2025F24672B7F00D59245 /* Protocols */,
 				F4C1175C246564C800A145CB /* FolioReader */,
 				F4F537EC2463D1F50009D3DC /* Extensions */,
@@ -312,6 +329,7 @@
 				F4F537E32463AFDE0009D3DC /* DEEpubReaderController.swift */,
 				F4F537F624641A520009D3DC /* DEShowTranslationsViewController.swift */,
 				F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */,
+				F421B22A24694AA8007DE745 /* DESyncViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -336,6 +354,7 @@
 				F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */,
 				F4F537F8246420C50009D3DC /* String+Pinyin.swift */,
 				F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */,
+				F421B22C24696913007DE745 /* Array+ToDictionary.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -349,6 +368,7 @@
 				F4F537D82461DE2E0009D3DC /* DETimeViewCell.swift */,
 				F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */,
 				F4C2025D2466AA4100D59245 /* GRLanguagesCard.swift */,
+				F421B22E24698DE9007DE745 /* EbookCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -697,6 +717,7 @@
 				F4F537DB2461DE5B0009D3DC /* DEScheduleView.swift in Sources */,
 				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
 				F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */,
+				F421B23224698E38007DE745 /* EBookHandler.swift in Sources */,
 				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
 				F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */,
 				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
@@ -710,15 +731,18 @@
 				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
+				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
 				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
+				F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */,
 				F4F537CD2461297F0009D3DC /* UILabel+Extensions.swift in Sources */,
 				F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */,
 				F4C2026124672B8D00D59245 /* ShowEpubReaderProtocol.swift in Sources */,
 				F4F537A124611C460009D3DC /* UITableView+Empty.swift in Sources */,
 				F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */,
 				F4F537F724641A520009D3DC /* DEShowTranslationsViewController.swift in Sources */,
+				F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
 				F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */,
