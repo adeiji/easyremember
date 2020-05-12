@@ -54,7 +54,8 @@ class DELanguagesCard: GRBootstrapElement {
             
             let column = Column(cardSet:
                 button
-                    .toCardSet(),
+                    .toCardSet()
+                    .withHeight(UI.scheduleViewButtonHeights),
                         xsColWidth: .Two)
                             .forSize(.xs, .Six)
                             .forSize(.lg, .Two)

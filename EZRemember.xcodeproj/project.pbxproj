@@ -13,6 +13,11 @@
 		F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22C24696913007DE745 /* Array+ToDictionary.swift */; };
 		F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22E24698DE9007DE745 /* EbookCell.swift */; };
 		F421B23224698E38007DE745 /* EBookHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B23124698E38007DE745 /* EBookHandler.swift */; };
+		F421B234246A4E4A007DE745 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B233246A4E4A007DE745 /* Constants.swift */; };
+		F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B237246A582C007DE745 /* GRPurchasingColumn.swift */; };
+		F421B23A246A5E75007DE745 /* GRTitleAndButtonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */; };
+		F421B23C246A6112007DE745 /* GRPurchasingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B23B246A6112007DE745 /* GRPurchasingCard.swift */; };
+		F421B23E246A6482007DE745 /* GRPurchasingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */; };
 		F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523B245BFA5E00C381DE /* AppDelegate.swift */; };
 		F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523D245BFA5E00C381DE /* SceneDelegate.swift */; };
 		F4285240245BFA5E00C381DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428523F245BFA5E00C381DE /* ViewController.swift */; };
@@ -115,6 +120,11 @@
 		F421B22C24696913007DE745 /* Array+ToDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ToDictionary.swift"; sourceTree = "<group>"; };
 		F421B22E24698DE9007DE745 /* EbookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbookCell.swift; sourceTree = "<group>"; };
 		F421B23124698E38007DE745 /* EBookHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EBookHandler.swift; sourceTree = "<group>"; };
+		F421B233246A4E4A007DE745 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F421B237246A582C007DE745 /* GRPurchasingColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRPurchasingColumn.swift; sourceTree = "<group>"; };
+		F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRTitleAndButtonCard.swift; sourceTree = "<group>"; };
+		F421B23B246A6112007DE745 /* GRPurchasingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRPurchasingCard.swift; sourceTree = "<group>"; };
+		F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRPurchasingViewController.swift; sourceTree = "<group>"; };
 		F4285238245BFA5E00C381DE /* EZRemember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZRemember.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428523B245BFA5E00C381DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F428523D245BFA5E00C381DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -299,6 +309,7 @@
 				F4F5379E2461108F0009D3DC /* UtilityFunctions.swift */,
 				F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */,
 				F4C20259246695E100D59245 /* Notifications+EZRemember.swift */,
+				F421B233246A4E4A007DE745 /* Constants.swift */,
 			);
 			path = EZRemember;
 			sourceTree = "<group>";
@@ -330,6 +341,7 @@
 				F4F537F624641A520009D3DC /* DEShowTranslationsViewController.swift */,
 				F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */,
 				F421B22A24694AA8007DE745 /* DESyncViewController.swift */,
+				F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -337,6 +349,7 @@
 		F428526E245C252600C381DE /* Reusable Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F421B237246A582C007DE745 /* GRPurchasingColumn.swift */,
 				F428526F245C253500C381DE /* UIVIew+Shadow.swift */,
 				F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */,
 				F4285277245C327700C381DE /* UIButton+Image.swift */,
@@ -355,6 +368,8 @@
 				F4F537F8246420C50009D3DC /* String+Pinyin.swift */,
 				F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */,
 				F421B22C24696913007DE745 /* Array+ToDictionary.swift */,
+				F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */,
+				F421B23B246A6112007DE745 /* GRPurchasingCard.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -724,11 +739,15 @@
 				F4C1175E246564DE00A145CB /* FolioReader+EZRemember.swift in Sources */,
 				F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */,
 				F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */,
+				F421B234246A4E4A007DE745 /* Constants.swift in Sources */,
+				F421B23E246A6482007DE745 /* GRPurchasingViewController.swift in Sources */,
 				F4F537E22462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift in Sources */,
 				F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */,
+				F421B23A246A5E75007DE745 /* GRTitleAndButtonCard.swift in Sources */,
 				F4F537CF24613ED60009D3DC /* Style+Colors.swift in Sources */,
 				F4F537F1246404B70009D3DC /* TranslateManager.swift in Sources */,
 				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
+				F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
@@ -745,6 +764,7 @@
 				F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
+				F421B23C246A6112007DE745 /* GRPurchasingCard.swift in Sources */,
 				F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

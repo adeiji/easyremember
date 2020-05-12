@@ -45,7 +45,8 @@ class DENumberCard: GRBootstrapElement {
             
             let column = Column(cardSet:
                 button
-                    .toCardSet(),
+                    .toCardSet()
+                    .withHeight(UI.scheduleViewButtonHeights),
                 xsColWidth: .Two)
                     .forSize(.md, .Two)
                     .forSize(.xs, .Six)

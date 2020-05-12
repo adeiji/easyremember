@@ -52,13 +52,13 @@ class DETimeViewCell: UIView {
         
         let card = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Zero,
-            top: .Two,
+            top: .Zero,
             right: .Zero,
-            bottom: .Two) )
+            bottom: .Zero) )
             .addRow(columns: [
                 Column(cardSet: timeLabel
                     .toCardSet(),
-                       xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three)
+                       xsColWidth: .Twelve)
             ], anchorToBottom: true)
         
         card.addToSuperview(superview: self, anchorToBottom: true)

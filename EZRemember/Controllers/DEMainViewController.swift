@@ -410,41 +410,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
                 let view = self.mainView
             else { return }
             
-            let createNotifCard = GRCreateNotificationCard(superview: view)
-            createNotifCard.addButton?.addTargetClosure(closure: { [weak self] (_) in
-                                                
-                guard
-                    let self = self,
-                    let title = createNotifCard.firstTextView?.text,
-                    let description = createNotifCard.descriptionTextView?.text
-                    else { return }
-                
-                
-                // Get this device's unique identifier
-                let deviceId = UtilityFunctions.deviceId()
-                // Show that the notificatino is saving
-                let activityIndicatorView = createNotifCard.addButton?.showLoadingNVActivityIndicatorView()
-                
-                let notifManager = NotificationsManager()
-                notifManager.saveNotification(
-                    title: title,
-                    description: description,
-                    // there's no way that the device Id will be null since if it's not set initially we give it a value
-                    deviceId: deviceId).subscribe { (event) in
-                        
-                        createNotifCard.addButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
-                        
-                        if let notification = event.element, let unwrappedNotification = notification {
-                            self.notifications.append(unwrappedNotification)
-                            self.notificationsRelay.accept(self.notifications)
-                            createNotifCard.slideUpAndRemove(superview: view)
-                        }
-                        
-                        if let _ = event.error {
-                            // Handle error
-                        }
-                }.disposed(by: self.disposeBag)
-            })
+            let createNotifVC = GRCreateNotificationViewController()
+            self.present(createNotifVC, animated: true, completion: nil)
         })
     }
 }

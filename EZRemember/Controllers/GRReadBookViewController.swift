@@ -76,11 +76,14 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
                 
                 // THE READER VIEW
                 
-                Column(cardSet: readerView.toCardSet(), xsColWidth: .Twelve, anchorToBottom: true).forSize(.md, .Eight),
+                Column(cardSet: readerView.toCardSet(), xsColWidth: .Twelve, anchorToBottom: true)
+                    .forSize(.md, .Eight),
                 
                 // THE TRANSLATION VIEW
                 
-                Column(cardSet: translationView.toCardSet().margin.bottom(0), xsColWidth: .Twelve).forSize(.md, .Four)
+                Column(cardSet: translationView.toCardSet().margin.bottom(0), xsColWidth: .Twelve)
+                    .forSize(.md, .Four)
+                    .forSize(.xs, .Zero) // Remove this when the screen is extra small
             ], anchorToBottom: true)
                         
         mainViewCard.addToSuperview(superview: self.view, anchorToBottom: true)
@@ -141,16 +144,26 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
                 self.translateWord?.removeFromSuperview()
                 self.translateWord = nil
                 if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: self.languages)
-                    self.translationView?.subviews.forEach({ [weak self] (subview) in
-                        subview.removeFromSuperview()
-                    })
-                    self.addChildViewControllerWithView(showTranslationsViewController, toView: self.translationView)
+                    self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
                 }
             }.disposed(by: self.disposeBag)
         }
         
         self.translateWord = translateButton
+    }
+    
+    private func displayTranslations (translations: Translations, wordsToTranslate: String) {
+        let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: self.languages)
+        
+        if !GRDevice.smallerThan(.md) {
+            self.translationView?.subviews.forEach({ [weak self] (subview) in
+                guard let _ = self else { return }
+                subview.removeFromSuperview()
+            })
+            self.addChildViewControllerWithView(showTranslationsViewController, toView: self.translationView)
+        } else {
+            self.present(showTranslationsViewController, animated: true, completion: nil)
+        }
     }
     
     // MARK: Ebook Reader

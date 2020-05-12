@@ -429,9 +429,10 @@ PODS:
   - SnapKit (5.0.1)
   - SSZipArchive (2.1.1)
   - SwiftLocation (4.2.0)
-  - SwiftyBootstrap (1.022.0):
+  - SwiftyBootstrap (1.023.0):
     - NVActivityIndicatorView
     - SnapKit
+  - "UITextView+Placeholder (1.4.0)"
   - ZFDragableModalTransition (0.6)
 
 DEPENDENCIES:
@@ -442,6 +443,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxSwift
   - SwiftyBootstrap (from `/Users/adeiji/Documents/Dephyned/libraries/swifty-bootstrap/SwiftyBootstrap`)
+  - "UITextView+Placeholder"
 
 SPEC REPOS:
   https://github.com/adeiji/dephyned-specs.git:
@@ -495,6 +497,7 @@ SPEC REPOS:
     - SnapKit
     - SSZipArchive
     - SwiftLocation
+    - "UITextView+Placeholder"
     - ZFDragableModalTransition
 
 EXTERNAL SOURCES:
@@ -554,9 +557,10 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
   SwiftLocation: 609ac8859f2c5d48a6cadd2a58c63b1dae02dc25
-  SwiftyBootstrap: 1f34bfac6f7ac8b48dd954915f6898883eb58a23
+  SwiftyBootstrap: 3f38819824ba89d074f01a6a7234ddc853786773
+  "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: ae59ead71224b4576bf2697041c977da6a008a58
+PODFILE CHECKSUM: c2bd63182d1029dfbc7915141896739a2c888f9e
 
 COCOAPODS: 1.7.3

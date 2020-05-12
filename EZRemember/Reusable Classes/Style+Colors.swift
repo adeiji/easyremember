@@ -18,7 +18,9 @@ public extension UIColor {
         public static var epubReaderBlack:UIColor { return UIColor(red: 19/255, green: 20/255, blue: 20/255, alpha: 1.0) }
         public static var coolGrey50:UIColor { return UIColor(hexString: "F5F7FA" ) }
         public static var coolGrey200:UIColor { return UIColor(hexString: "CBD2D9" ) }
+        public static var coolGrey700:UIColor { return UIColor(hexString: "3E4C59" ) }
         public static var coolGrey900:UIColor { return UIColor(hexString: "1F2933") }
+        
     }
     
     struct EZRemember {

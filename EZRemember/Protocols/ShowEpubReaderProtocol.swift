@@ -8,6 +8,7 @@
 
 import Foundation
 import FolioReaderKit
+import SwiftyBootstrap
 
 protocol ShowEpubReaderProtocol: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate {
     
@@ -25,7 +26,7 @@ extension ShowEpubReaderProtocol {
                 
         let folioReader = FolioReader()
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if GRDevice.smallerThan(.md) {
             // Push the Read Book View Controller which will show the book on the left hand side
             let title = try? FolioReader.getTitle(url.path)
             let reader = folioReader.getReader(parentViewController: self, withEpubPath: url.path, andConfig: config, shouldRemoveEpub: false)
