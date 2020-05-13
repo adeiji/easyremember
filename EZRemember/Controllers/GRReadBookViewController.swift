@@ -109,6 +109,13 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         self.folioReader.readerCenter?.pageDelegate = self
         self.folioReader.readerCenter?.delegate = self
         self.folioReader.nightMode = self.traitCollection.userInterfaceStyle == .dark
+        let emptyView = EmptyView().getView(message: "Here is where the translations will show", header: "Translations", imageName: "")
+        
+        let emptyViewCard = GRBootstrapElement()
+        emptyViewCard.addRow(columns: [
+            Column(cardSet: emptyView.toCardSet(), xsColWidth: .Twelve)
+        ])
+        emptyViewCard.addToSuperview(superview: self.translationView ?? self.view)
     }
     
     // MARK: Create Menu Called

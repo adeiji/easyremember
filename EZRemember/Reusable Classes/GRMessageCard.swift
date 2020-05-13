@@ -28,7 +28,9 @@ public class GRMessageCard: GRBootstrapElement {
     /**
      Displays the message card on the screen with the given parameters.  It also blurs the view that is responsible for showing it
      
-     - Important: If you want a cancel button than you must set the cancelButtonText
+     - Note: You don't need to add this view to the superview yourself, it will do so automatically
+     
+     - Important: If you want a cancel button than you must set the cancelButtonText.
      
      - parameters:
         - message: The message to display
@@ -54,6 +56,9 @@ public class GRMessageCard: GRBootstrapElement {
         
         self
         .addRow(columns: [
+            
+            // TITLE
+            
             Column(cardSet: Style.label(withText: title, superview: nil, color: .black)
                 .font(CustomFontBook.Regular.of(size: .header))
                 .toCardSet()
@@ -61,6 +66,9 @@ public class GRMessageCard: GRBootstrapElement {
                 .margin.right(30)
                 .margin.top(30),
                    xsColWidth: .Twelve),
+            
+            // MESSAGE
+            
             Column(cardSet: messageLabel
                 .font(CustomFontBook.Regular.of(size: .verySmall))
                 .toCardSet()
@@ -69,21 +77,30 @@ public class GRMessageCard: GRBootstrapElement {
                 .margin.top(30),
                    xsColWidth: .Twelve)
             ]).addRow(columns: [
+                
+                // OKAY BUTTON
+                
                 Column(cardSet: okayButton
                     .radius(radius: 5)
                     .toCardSet()
+                    .margin.bottom(10)
                     .margin.left(30)
-                    .margin.bottom(30),
-                       xsColWidth: .Five),
+                    .margin.right(30),
+                       xsColWidth: .Twelve),
+                
+                // CANCEL BUTTON
+                
                 Column(cardSet: cancelButton
                 .radius(radius: 5)
                 .toCardSet()
+                .margin.top(0)
                 .margin.left(30)
+                .margin.right(30)
                 .margin.bottom(30),
-                   xsColWidth: .Five)
+                   xsColWidth: .Twelve)
             ], anchorToBottom: true)
         
-        self.slideUp(superview: superview, margin: 20)
+        self.slideUp(superview: superview, margin: 20, width: GRDevice.smallerThan(.sm) ? nil : 350)
         
         okayButton.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }

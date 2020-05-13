@@ -45,12 +45,12 @@ open class DeleteCard: GRBootstrapElement {
                     .radius(radius: 5)
                     .toCardSet()
                     .margin.top(30),
-                       xsColWidth: .Six),
+                       xsColWidth: .Twelve),
                 Column(cardSet: cancelButton
                     .radius(radius: 5)
                     .toCardSet()
-                    .margin.top(30),
-                       xsColWidth: .Six)
+                    .margin.top(0),
+                       xsColWidth: .Twelve)
             ], anchorToBottom: true)
         
         self.addShadow()

@@ -62,7 +62,7 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
         
         mainView.addToSuperview(superview: self.view, viewAbove: saveButton, anchorToBottom: true)
         self.mainView = mainView
-        self.saveButton = saveButton
+        self.saveButton = saveButton        
         
         self.showTranslations()
         self.saveButtonPressed()
@@ -119,6 +119,14 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
         let translations = self.translations.translated.filter( {self.showTranslationForLanguage($0) })
         let translationsObserverable = Observable.of(translations)
         
+        translationsObserverable.subscribe { [weak self] (event) in
+            guard let _ = self else { return }
+            guard let translations = event.element else { return }
+            if translations.count == 0 {
+                collectionView.setEmptyMessage(message: "No Translations", header: "Translations", imageName: "")
+            }
+        }.disposed(by: self.disposeBag)
+        
         translationsObserverable
             .bind(to:
                 collectionView
@@ -142,7 +150,7 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                                                           language: GRNotification.kSupportedLanguages[translation.key] )                        
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
-//                        self.mainView?.tableView.reset()
+                        collectionView.reset()
                         cell.isTranslation = true
                         cell.notification = notification
                         

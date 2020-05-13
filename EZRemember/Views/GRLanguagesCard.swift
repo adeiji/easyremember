@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 
-class DELanguagesCard: GRBootstrapElement {
+class DELanguagesCard: GRBootstrapElement, RulesProtocol {
     
     private var selectedLanguagesButtons = [UIButton]()
     var selectedLanguages = [String]()
@@ -24,11 +24,11 @@ class DELanguagesCard: GRBootstrapElement {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func handleLanguageSelection (selected:Bool, button: UIButton) {
+    private func handleLanguageSelection (shouldSelect:Bool, button: UIButton) {
         guard let buttonText = button.titleLabel?.text else { return }
         guard let languageShortCode = GRNotification.getLanguageShortCodeForValue(buttonText) else { return }
         
-        if !selected {
+        if !shouldSelect {
             self.selectedLanguagesButtons = self.selectedLanguagesButtons.filter({ $0 != button })
             self.selectedLanguages = self.selectedLanguages.filter({ $0 != languageShortCode })
             button.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray)
@@ -36,6 +36,7 @@ class DELanguagesCard: GRBootstrapElement {
             return
         }
              
+        
         self.selectedLanguagesButtons.append(button)
         self.selectedLanguages.append(languageShortCode)
         button.backgroundColor = UIColor.EZRemember.mainBlue.dark(Dark.brownishTan)
@@ -59,16 +60,25 @@ class DELanguagesCard: GRBootstrapElement {
                         xsColWidth: .Two)
                             .forSize(.xs, .Six)
                             .forSize(.lg, .Two)
-            
+                                    
             selectNumberColumns.append(column)
             
             if (selectedLanguages.contains(key)) {
-                self.handleLanguageSelection(selected: true, button: button)
+                self.handleLanguageSelection(shouldSelect: true, button: button)
             }
             
             button.addTargetClosure { [weak self] (languageButton) in
                 guard let self = self else { return }
-                self.handleLanguageSelection(selected: !self.selectedLanguagesButtons.contains(languageButton), button: languageButton)
+                
+                let shouldSelect = !self.selectedLanguagesButtons.contains(languageButton)
+                
+                if shouldSelect {
+                    if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxLanguages, numberToValidate: self.selectedLanguagesButtons.count + 1, testing: true) {
+                        self.handleLanguageSelection(shouldSelect: shouldSelect, button: languageButton)
+                    }
+                } else {
+                    self.handleLanguageSelection(shouldSelect: shouldSelect, button: languageButton)
+                }
             }
         })
         

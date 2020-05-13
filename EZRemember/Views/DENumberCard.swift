@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 
-class DENumberCard: GRBootstrapElement {
+class DENumberCard: GRBootstrapElement, RulesProtocol {
     
     var selectedNumberButton:UIButton? {
         didSet {
@@ -54,7 +54,13 @@ class DENumberCard: GRBootstrapElement {
             selectNumberColumns.append(column)
             
             button.addTargetClosure { [weak self] (numberOfButton) in
-                self?.selectedNumberButton = numberOfButton
+                guard let self = self else { return }
+                guard let buttonText = numberOfButton.titleLabel?.text else { return }
+                guard let number = Int(buttonText) else { return }
+                
+                if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxNotificationCards, numberToValidate: number, testing: true) {
+                    self.selectedNumberButton = numberOfButton
+                }
             }
             
             if number == selectedNumber {

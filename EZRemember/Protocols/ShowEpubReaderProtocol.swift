@@ -26,7 +26,7 @@ extension ShowEpubReaderProtocol {
                 
         let folioReader = FolioReader()
         
-        if GRDevice.smallerThan(.md) {
+        if GRDevice.smallerThan(.md) == false {
             // Push the Read Book View Controller which will show the book on the left hand side
             let title = try? FolioReader.getTitle(url.path)
             let reader = folioReader.getReader(parentViewController: self, withEpubPath: url.path, andConfig: config, shouldRemoveEpub: false)

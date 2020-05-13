@@ -14,7 +14,7 @@ import RxCocoa
 
 class DEScheduleView: GRBootstrapElement {
     
-    let timeSlotSubject = PublishSubject<Int>()
+    let timeSlotSubject = PublishSubject<(timeSlot: Int, cell: DETimeViewCell)>()
     private let disposeBag = DisposeBag()
     
     
@@ -38,14 +38,14 @@ class DEScheduleView: GRBootstrapElement {
                 guard let self = self else { return }
                 
                 if let timeSlot = event.element {
-                    self.timeSlotSubject.onNext(timeSlot)
+                    self.timeSlotSubject.onNext((timeSlot: timeSlot, cell: timeViewCell))
                 }
             }.disposed(by: self.disposeBag)
             
             columns.append(Column(cardSet: timeViewCell
-                .radius(radius: 10)
+                .radius(radius: 5)
                 .toCardSet()
-                .withHeight(UI.scheduleViewButtonHeights), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three))
+                .withHeight(UI.scheduleViewButtonHeights), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Two))
         }
         
         let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: UIColor.black.dark(Dark.coolGrey50))

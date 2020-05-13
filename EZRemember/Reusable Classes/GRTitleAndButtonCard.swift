@@ -15,7 +15,7 @@ class GRTitleAndButtonCard: GRBootstrapElement {
     
     func draw (title: String, buttonTitle:String) {
         
-        let actionButton = Style.largeButton(with: buttonTitle, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.blueNeonGreen))
+        let actionButton = Style.largeButton(with: buttonTitle, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan))
         actionButton.titleLabel?.font = CustomFontBook.Bold.of(size: .small)
         
         self.addRow(columns: [

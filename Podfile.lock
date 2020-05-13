@@ -245,6 +245,10 @@ PODS:
     - RxSwift
     - SnapKit
     - SwiftLocation
+  - DephynedPurchasing (1.0.0):
+    - RxCocoa
+    - RxSwift
+    - Stripe
   - Firebase/Auth (6.24.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.5.3)
@@ -428,6 +432,7 @@ PODS:
   - RxSwift (5.1.1)
   - SnapKit (5.0.1)
   - SSZipArchive (2.1.1)
+  - Stripe (19.2.0)
   - SwiftLocation (4.2.0)
   - SwiftyBootstrap (1.023.0):
     - NVActivityIndicatorView
@@ -437,6 +442,7 @@ PODS:
 
 DEPENDENCIES:
   - DephynedFire (~> 1.0.31)
+  - DephynedPurchasing (from `/Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing`)
   - FirebaseMessaging
   - FolioReaderKit (from `/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit`)
   - PodAsset
@@ -496,11 +502,14 @@ SPEC REPOS:
     - RxSwift
     - SnapKit
     - SSZipArchive
+    - Stripe
     - SwiftLocation
     - "UITextView+Placeholder"
     - ZFDragableModalTransition
 
 EXTERNAL SOURCES:
+  DephynedPurchasing:
+    :path: "/Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing"
   FolioReaderKit:
     :path: "/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit"
   SwiftyBootstrap:
@@ -517,6 +526,7 @@ SPEC CHECKSUMS:
   AWSS3: 738419b8039230423e4734556983a463466a9d7a
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   DephynedFire: ef4701375ac57a2168b063cdd00ffe98e44d0498
+  DephynedPurchasing: 3b9c7040b2e0da4cf5b5d8695bff41346429a93b
   Firebase: b28e55c60efd98963cd9011fe2fac5a10c2ba124
   FirebaseAnalytics: 7386fc2176e3f93ad8ef34b5b1f2b33a891e4962
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
@@ -556,11 +566,12 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
+  Stripe: d481c2dab9a892fd923f097f854661217f70dc7f
   SwiftLocation: 609ac8859f2c5d48a6cadd2a58c63b1dae02dc25
   SwiftyBootstrap: 3f38819824ba89d074f01a6a7234ddc853786773
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: c2bd63182d1029dfbc7915141896739a2c888f9e
+PODFILE CHECKSUM: 5b27b2048f6d8fd872de085c825c9c806703a6ff
 
 COCOAPODS: 1.7.3

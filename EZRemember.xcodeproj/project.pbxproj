@@ -40,6 +40,7 @@
 		F4C2025C246699C200D59245 /* BookDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C2025B246699C200D59245 /* BookDetails.swift */; };
 		F4C2025E2466AA4100D59245 /* GRLanguagesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C2025D2466AA4100D59245 /* GRLanguagesCard.swift */; };
 		F4C2026124672B8D00D59245 /* ShowEpubReaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C2026024672B8D00D59245 /* ShowEpubReaderProtocol.swift */; };
+		F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */; };
 		F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
 		F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F53780246020F00009D3DC /* GoogleService-Info.plist */; };
@@ -154,6 +155,7 @@
 		F4C2025D2466AA4100D59245 /* GRLanguagesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRLanguagesCard.swift; sourceTree = "<group>"; };
 		F4C2026024672B8D00D59245 /* ShowEpubReaderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowEpubReaderProtocol.swift; sourceTree = "<group>"; };
 		F4C2026624682F4800D59245 /* ylioppilas.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = ylioppilas.epub; sourceTree = "<group>"; };
+		F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesProtocol.swift; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				F4C2026024672B8D00D59245 /* ShowEpubReaderProtocol.swift */,
+				F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
+				F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */,
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
@@ -946,7 +950,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRemember;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -965,7 +969,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dephyned.EZRemember;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

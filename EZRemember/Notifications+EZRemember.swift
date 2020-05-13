@@ -12,5 +12,6 @@ extension Notification.Name {
     
     static let NotificationsSaved = NSNotification.Name("NotificationsSaved")
     static let LanguagesUpdated = NSNotification.Name("LanguagesUpdated")
+    static let ShowPurchaseViewController = NSNotification.Name("ShowPurchaseViewController")
     
 }

@@ -16,13 +16,15 @@ extension NSNotification.Name {
     static let UserUpdatedMaxNumberOfCards = NSNotification.Name("UserUpdatedMaxNumberOfCards")
 }
 
-class DEScheduleViewController: UIViewController {
+class DEScheduleViewController: UIViewController, RulesProtocol {
         
     private weak var mainView:GRViewWithScrollView?
     private let disposeBag = DisposeBag()
     private weak var scheduleView:DEScheduleView?
     private weak var maxNumberOfCardsCard:DENumberCard?
     private weak var languagesCard:DELanguagesCard?
+    
+    private let purchase = "basic"
     
     private var selectedLanguages:[String] = ["en"]
     
@@ -107,37 +109,8 @@ class DEScheduleViewController: UIViewController {
     private func purchaseButtonPressed (button: UIButton?) {
         button?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
-            let purchaseItems = [
-                
-                // CASUAL LEARNER PACKAGE
-                
-                PurchaseableItem(title: "Casual Learner", id: "TEJF89I", info: "This service is good if you're casually learning something", price: 3.99, features: [
-                    "Translate text into up to 3 languages",
-                    "Have a total of 5 notifications cards at one time",
-                    "Sync your data across multiple devices",
-                    "Recieve notifications up to 5 times a day"
-                ], finePrint: "After your 7-day trial unless you unsubscribe you will be charged monthly"),
-                
-                // SERIOUS STUDENT
-                
-                PurchaseableItem(title: "Casual Student", id: "TEJF89I", info: "This service is good if you're casually learning something", price: 3.99, features: [
-                    "Translate text into up to 3 languages",
-                    "Have a total of 5 notifications cards at one time",
-                    "Sync your data across multiple devices",
-                    "Recieve notifications up to 5 times a day"
-                ], finePrint: "After your 7-day trial unless you unsubscribe you will be charged monthly"),
-                
-                // MASTER
-                
-                PurchaseableItem(title: "Serious Student", id: "TEJF89I", info: "This service is good if you're casually learning something", price: 3.99, features: [
-                    "Translate text into up to 3 languages",
-                    "Have a total of 5 notifications cards at one time",
-                    "Sync your data across multiple devices",
-                    "Recieve notifications up to 5 times a day"
-                ], finePrint: "After your 7-day trial unless you unsubscribe you will be charged monthly")
-            ]
-            
-            let purchasingVC = GRPurchasingViewController(purchaseableItems: purchaseItems)
+                        
+            let purchasingVC = GRPurchasingViewController(purchaseableItems: Purchasing.purchaseItems)
             self.present(purchasingVC, animated: true, completion: nil)
         })
     }
@@ -189,14 +162,20 @@ class DEScheduleViewController: UIViewController {
         // Detect every time the user selects a time
         scheduleView.timeSlotSubject.subscribe { [weak self] (event) in
             guard let self = self else { return }
-            if let timeSlot = event.element {
+            if let element = event.element {
+                let timeSlot = element.timeSlot
+                let cell = element.cell
                 
                 // If the user has already selected this time slot than we need to remove it because they've pressed this
                 // time slot twice
                 if (self.timeSlots.contains(timeSlot)) {
+                    cell.selected = !cell.selected
                     self.timeSlots.removeAll(where: { $0 == timeSlot })
                 } else {
-                    self.timeSlots.append(timeSlot)
+                    if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxTimes, numberToValidate: self.timeSlots.count + 1, testing: true) {
+                        cell.selected = !cell.selected
+                        self.timeSlots.append(timeSlot)
+                    }
                 }
                 
                 self.timeSlotsSubject.onNext(self.timeSlots)

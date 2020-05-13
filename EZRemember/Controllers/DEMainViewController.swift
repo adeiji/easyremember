@@ -315,7 +315,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
                         }
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
-//                        self.mainView?.tableView.reset()
+                        self.mainView?.collectionView?.reset()
 //                        cell.viewToBaseWidthOffOf = self.mainView?.tableView
                         cell.notification = notification
                         self.setupNotificationCellDeleteButton(cell: cell)
@@ -331,9 +331,9 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         notificationsRelay.subscribe { [weak self] (event) in
             guard let self = self else { return }
             if let notifications = event.element, notifications.count == 0 {
-//                let actionButton = self.mainView?.tableView.setEmptyMessage(
-//                    message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
-//                self.setupAddButton(addButton: actionButton)
+                let actionButton = self.mainView?.collectionView?.setEmptyMessage(
+                    message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
+                self.setupAddButton(addButton: actionButton)
             }
         }.disposed(by: self.disposeBag)
     }
@@ -359,7 +359,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
             guard let self = self else { return }
             
             let deleteCard = DeleteCard(color: .white, anchorWidthToScreenWidth: true)
-            deleteCard.slideUp(superview: self.view, margin: 20)
+            deleteCard.slideUp(superview: self.view, margin: 20, width: GRDevice.smallerThan(.sm) ? nil : 450)
             
             deleteCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let self = self else { return }

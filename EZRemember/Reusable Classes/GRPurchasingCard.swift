@@ -14,7 +14,9 @@ class GRPurchasingCard: GRBootstrapElement {
     
     let purchaseableItems:[PurchaseableItem]
     
-    let purchasePressed = PublishSubject<PurchaseableItem>()
+    let subjectPurchaseItem = PublishSubject<PurchaseableItem>()
+    
+    weak var actionButton:UIButton?
     
     init(color: UIColor? = .white, anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil, superview: UIView? = nil, purchaseableItems:[PurchaseableItem]) {
         self.purchaseableItems = purchaseableItems
@@ -34,7 +36,7 @@ class GRPurchasingCard: GRBootstrapElement {
             // EACH PURCHASING COLUMN
             let purchaseColumn = GRPurchasingColumn(color: UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
             purchaseColumn.draw(item: item)
-            purchaseColumn.radius(radius: 10)
+            purchaseColumn.radius(radius: 5)
             let column = Column(cardSet: purchaseColumn.toCardSet()
                 .margin.left(50)
                 .margin.top(50)
@@ -42,6 +44,12 @@ class GRPurchasingCard: GRBootstrapElement {
                 .margin.bottom(50)
                 , xsColWidth: .Twelve)
             columns.append(column)
+            
+            purchaseColumn.purchaseButton?.addTargetClosure(closure: { [weak self] (_) in
+                guard let self = self else { return }
+                self.actionButton = purchaseColumn.purchaseButton
+                self.subjectPurchaseItem.onNext(item)
+            })
         }
         
         self.addRow(columns: columns, anchorToBottom: true)
