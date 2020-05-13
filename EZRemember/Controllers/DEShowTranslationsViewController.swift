@@ -43,6 +43,11 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if self.mainView != nil {
+            return
+        }
+        
         let saveButton = Style.largeButton(with: "Save")
         saveButton.backgroundColor = UIColor.EZRemember.mainBlue
         saveButton.radius(radius: 5)
@@ -158,13 +163,13 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                         
                         cell.toggleActivateButton?.addTargetClosure(closure: { [weak self] (_) in
                             guard let self = self else { return }
-                            guard var notification = cell.notification else { return }
-                            
-                            notification.active = !notification.active
-                            cell.notification = notification
-                            if (notification.active == false) {
-                                self.notificationsToSave = self.notificationsToSave.filter({ $0.id == notification.id })
+                            guard let notification = cell.notification else { return }
+                                                                                    
+                            if (self.notificationsToSave.contains(where: { $0.id == notification.id })) {
+                                cell.toggleButton(cell.toggleActivateButton, isActive: false)
+                                self.notificationsToSave = self.notificationsToSave.filter({ $0.id != notification.id })
                             } else {
+                                cell.toggleButton(cell.toggleActivateButton, isActive: true)
                                 self.notificationsToSave.append(notification)
                             }
                         })

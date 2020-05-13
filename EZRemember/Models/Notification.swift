@@ -60,13 +60,13 @@ struct GRNotification: Codable {
     let id:String
     
     /// The proverbial front side of a flash card, the word or info that you want to remember
-    let caption:String
+    var caption:String
     
     /// The description, kind of like the back side of a flash card, this is the actual content of the card
-    let description:String
+    var description:String
     
     /// The Id of the device that this notification is for
-    let deviceId:String
+    var deviceId:String
     
     /// When the notification should stop showing automatically. Stored as Time Interval since 1970
     let expiration:Double

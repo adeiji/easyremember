@@ -48,13 +48,13 @@ class GRNotificationCard: UICollectionViewCell {
     func toggleButton (_ button: UIButton?, isActive: Bool? = false) {
         guard let button = button else { return }
         if isTranslation {
-            button.setTitle(self.notification?.active == true ? "Cancel" : "Create Card", for: .normal)
-            button.backgroundColor = self.notification?.active == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
-            button.setTitleColor(self.notification?.active == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
+            button.setTitle(isActive == true ? "Cancel" : "Create Card", for: .normal)
+            button.backgroundColor = isActive == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
+            button.setTitleColor(isActive == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
         } else {
-            button.setTitle(self.notification?.active == true ? "Deactivate" : "Activate", for: .normal)
-            button.backgroundColor = self.notification?.active == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
-            button.setTitleColor(self.notification?.active == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
+            button.setTitle(isActive == true ? "Deactivate" : "Activate", for: .normal)
+            button.backgroundColor = isActive == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
+            button.setTitleColor(isActive == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
         }
         
     }
@@ -63,9 +63,7 @@ class GRNotificationCard: UICollectionViewCell {
      - parameter viewToCalculateWidth: If you want this card to have it's size calculated based off of it's superview content, than set this property.  Remember though, that the size of this card's width will be based upon the width of the viewToCalculateWidth view at the time you call this method, not after it's layout has been updated.
      */
     private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil) {
-        
-//        self.selectionStyle = .none
-        
+                
         let editButton = Style.largeButton(with: "Edit")
         editButton.titleLabel?.font = FontBook.allBold.of(size: .small)
         editButton.showsTouchWhenHighlighted = true
@@ -77,16 +75,24 @@ class GRNotificationCard: UICollectionViewCell {
         toggleActivateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .verySmall)
         toggleActivateButton.showsTouchWhenHighlighted = true
         
+        // TITLE LABEL
+        
         let titleLabel = Style.label(withText: title, size: .small, superview: nil, color: UIColor.black.dark(.white))
         titleLabel.numberOfLines = GRCurrentDevice.shared.size == .xs ? 3 : 2
+        
+        // CONTENT LABEL
+        
         let contentLabel = Style.label(withText: description, superview: nil, color: UIColor.darkGray.dark(.white))
         contentLabel.numberOfLines = GRCurrentDevice.shared.size == .xs ? 3 : 4
+        
+        // TOP TITLE LABEL
         
         let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: UIColor.black.dark(.white))
         topTitleLabel.font(CustomFontBook.Medium.of(size: .small))
         
         let card = GRBootstrapElement(color: UIColor.white.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true,
                                       superview: viewToCalculateWidth ?? self.contentView)
+        
         if (self.showDeleteButton) {
             card.addRow(columns: [
                 // Delete Button

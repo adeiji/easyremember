@@ -12,7 +12,7 @@ import RxSwift
 import SwiftyBootstrap
 import FolioReaderKit
 
-class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate {
+class GRReadBookViewController: UIViewController {
     
     let bookName:String
     
@@ -109,13 +109,16 @@ class GRReadBookViewController: UIViewController, FolioReaderPageDelegate, Folio
         self.folioReader.readerCenter?.pageDelegate = self
         self.folioReader.readerCenter?.delegate = self
         self.folioReader.nightMode = self.traitCollection.userInterfaceStyle == .dark
-        let emptyView = EmptyView().getView(message: "Here is where the translations will show", header: "Translations", imageName: "")
         
-        let emptyViewCard = GRBootstrapElement()
-        emptyViewCard.addRow(columns: [
-            Column(cardSet: emptyView.toCardSet(), xsColWidth: .Twelve)
-        ])
-        emptyViewCard.addToSuperview(superview: self.translationView ?? self.view)
+        if self.translationView?.subviews.count == 0 {
+            let emptyView = EmptyView().getView(message: "Here is where the translations will show", header: "Translations", imageName: "")
+            
+            let emptyViewCard = GRBootstrapElement()
+            emptyViewCard.addRow(columns: [
+                Column(cardSet: emptyView.toCardSet(), xsColWidth: .Twelve)
+            ])
+            emptyViewCard.addToSuperview(superview: self.translationView ?? self.view)
+        }        
     }
     
     // MARK: Create Menu Called

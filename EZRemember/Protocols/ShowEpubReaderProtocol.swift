@@ -14,16 +14,13 @@ protocol ShowEpubReaderProtocol: UIViewController, FolioReaderPageDelegate, Foli
     
 }
 
-extension ShowEpubReaderProtocol {
+extension UIViewController: FolioReaderPageDelegate, FolioReaderCenterDelegate {
     func showBookReader (url: URL?) {
         
         guard let url = url else { return }
-        
-        
+                
         let config = FolioReaderConfig()
         config.displayTitle = true
-//        config.nightModeBackground = .clear
-                
         let folioReader = FolioReader()
         
         if GRDevice.smallerThan(.md) == false {

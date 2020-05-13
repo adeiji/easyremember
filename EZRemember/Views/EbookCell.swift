@@ -44,8 +44,15 @@ class EBookCell: UITableViewCell {
         self.selectionStyle = .none
 
         let deleteButton = Style.largeButton(with: "Delete", fontColor: .red)
+        
+        // TITLE
+        
         let titleLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
+        
+        // AUTHOR
+        
         let authorLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
+        
         
         let bookCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: false, margin:
             BootstrapMargin(
@@ -98,7 +105,6 @@ class EBookCell: UITableViewCell {
         ], anchorToBottom: true)
         
         bookCard.addToSuperview(superview: self.contentView, anchorToBottom: true)
-        bookCard.isUserInteractionEnabled = false
         self.deleteButton = deleteButton
         
         self.titleLabel = titleLabel

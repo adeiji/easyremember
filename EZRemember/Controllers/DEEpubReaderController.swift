@@ -13,7 +13,7 @@ import SwiftyBootstrap
 import RxSwift
 import RxCocoa
 
-public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, FolioReaderCenterDelegate, ShowEpubReaderProtocol  {
+public class DEEpubReaderController: UIViewController  {
     
     open weak var translateWord:UIButton?
     
@@ -42,6 +42,9 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let ebookHandler = EBookHandler()
+        guard let urls = ebookHandler.getUrls() else { return }
+        self.urlRelay.accept(urls)
 
     }
     
@@ -99,11 +102,11 @@ public class DEEpubReaderController: UIViewController, FolioReaderPageDelegate, 
             make.top.equalTo(getMoreBooksButton.snp.bottom).offset(40)
             make.bottom.equalTo(mainView)
         })
-        
-        self.showEBooks()
+                
         let ebookHandler = EBookHandler()
         guard let urls = ebookHandler.getUrls() else { return }
-        self.urlRelay.accept(urls)
+        // Bind our the url relay
+        self.showEBooks()
         NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: .CreateMenuCalled, object: nil)
     }
     

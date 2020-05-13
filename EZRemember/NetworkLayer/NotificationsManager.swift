@@ -128,9 +128,44 @@ class NotificationsManager {
         }
                         
         Observable.merge(observables).takeLast(1).subscribe { [weak self] (event) in
+            
             guard let _ = self else { return }
-            completed(true)
+            
+            if event.isCompleted {
+                completed(true)
+            }
+            
         }.disposed(by: self.disposeBag)
+    }
+    
+    /** Update a notification*/
+    func updateNotification (notification: GRNotification) -> Observable<Bool> {
+        do {
+            let data = try JSONEncoder().encode(notification)
+            let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]
+            
+            return Observable.create { (observable) -> Disposable in
+                FirebasePersistenceManager.updateDocument(withId: notification.id, collection: GRNotification.Keys.kCollectionName, updateDoc: dict) { (error) in
+                    
+                    if let error = error {
+                        observable.onError(error)
+                        observable.onCompleted()
+                        return
+                    }
+                    
+                    observable.onNext(true)
+                    observable.onCompleted()
+                }
+                return Disposables.create()
+            }
+                        
+        } catch {
+            assertionFailure("Baaka, the GRNotification object is not Encodable, why?")
+            print(error.localizedDescription)
+            return .empty()
+        }
+        
+        
     }
     
     func saveNotification (title: String, description: String, deviceId:String) -> Observable<GRNotification?> {

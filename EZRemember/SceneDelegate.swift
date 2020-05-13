@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import SwiftyBootstrap
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         print(URLContexts.description)
         guard let url = URLContexts.first?.url else { return }
-        self.mainViewController?.showBookReader(url: url)
+        let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController
+        topController?.showBookReader(url: url)
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

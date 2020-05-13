@@ -52,7 +52,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     
 }
 
-class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
+class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, CardClickedProtocol {
     
     weak var mainView:GRViewWithCollectionView?
     
@@ -130,13 +130,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
                     self.notificationsRelay.accept(self.notifications)
                 }
         }.disposed(by: self.disposeBag)
-    }
-    
-    private func updateNotificationInNotificationsArray (notification:GRNotification?) {
-        guard let notification = notification else { return }
-        if let row = self.notifications.firstIndex(where: { $0.id == notification.id }) {
-            self.notifications[row] = notification
-        }
     }
     
     private func showMaxNumberOfCardsHit () {
@@ -259,13 +252,14 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         self.bindNotificationsRelayToCollectionView(collectionView: collectionView, loading: loading)
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
         self.setupAddButton(addButton: addButton)
+        self.setupTapCollectionView(collectionView: collectionView, notificationsRelay: self.notificationsRelay)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addObservers()
         self.getMaxNumOfCardsFromServer()
-
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -411,6 +405,12 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
             else { return }
             
             let createNotifVC = GRCreateNotificationViewController()
+            createNotifVC.publishNotification.subscribe { [weak self] (event) in
+                guard let self = self else { return }
+                guard let notification = event.element else { return }
+                self.notifications.append(notification)
+                self.notificationsRelay.accept(self.notifications)
+            }.disposed(by: self.disposeBag)
             self.present(createNotifVC, animated: true, completion: nil)
         })
     }

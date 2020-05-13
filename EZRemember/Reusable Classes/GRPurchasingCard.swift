@@ -34,7 +34,7 @@ class GRPurchasingCard: GRBootstrapElement {
             guard let _ = self else { return }
             
             // EACH PURCHASING COLUMN
-            let purchaseColumn = GRPurchasingColumn(color: UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
+            let purchaseColumn = GRPurchasingColumn(color: UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
             purchaseColumn.draw(item: item)
             purchaseColumn.radius(radius: 5)
             let column = Column(cardSet: purchaseColumn.toCardSet()
