@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 
-class EBookCell: UITableViewCell {
+class EBookCell: UICollectionViewCell {
     
     static let identifier = "EBookCell"
     
@@ -24,8 +24,16 @@ class EBookCell: UITableViewCell {
     
     public weak var deleteButton:UIButton?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    public var bookDetails:BookDetails? {
+        didSet {
+            guard let bookDetails = self.bookDetails else { return }
+            self.fillWithContent(bookDetails: bookDetails)
+        }
+    }
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         self.backgroundColor = .clear
         self.setup()
     }
@@ -34,15 +42,26 @@ class EBookCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func fillWithContent(bookDetails:BookDetails, title: String) {
-        self.titleLabel?.text = bookDetails.title ?? title
-        self.authorLabel?.text = "Written By: \(bookDetails.author ?? "Unknown")"
+    private func fillWithContent(bookDetails:BookDetails) {
+        self.titleLabel?.text = bookDetails.title ?? bookDetails.fileName
+        self.authorLabel?.text = "\(bookDetails.author ?? "Unknown")"
         self.coverImageView?.image = bookDetails.coverImage
     }
     
-    private func setup () {
-        self.selectionStyle = .none
+    func resetData () {
+        self.coverImageView?.image = nil
+        self.titleLabel?.text = nil
+        self.authorLabel?.text = nil
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.resetData()
+    }
 
+    private func setup () {
+        
         let deleteButton = Style.largeButton(with: "Delete", fontColor: .red)
         
         // TITLE
@@ -53,56 +72,74 @@ class EBookCell: UITableViewCell {
         
         let authorLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         
+        let zeroMargin = BootstrapMargin(
+            left: .Zero,
+            top: .Zero,
+            right: .Zero,
+            bottom: .Zero)
+        let bookCard = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey700), anchorWidthToScreenWidth: false, margin:zeroMargin, superview: self.contentView)
         
-        let bookCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: false, margin:
-            BootstrapMargin(
-                left: .Five,
-                top: .Four,
-                right: .Five,
-                bottom: .Four), superview: nil)
-        
-        let detailsCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: false)
+        let detailsCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: false, margin: zeroMargin)
             .addRow(columns: [
                 
                 // TITLE LABEL
                 
                 Column(cardSet: titleLabel
-                    .font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .medium : .large))
-                    .toCardSet(),
+                    .font(CustomFontBook.Regular.of(size: .small))
+                    .toCardSet()
+                    .withHeight(20)
+                    .margin.left(0)
+                    .margin.top(5)
+                    .margin.bottom(0),
                        xsColWidth: .Twelve),
                 
                 // AUTHOR LABEL
                 
                 Column(cardSet: authorLabel
-                    .font(CustomFontBook.Regular.of(size: Style.getScreenSize() == .xs ? .small : .medium))
-                    .toCardSet(),
+                    .font(CustomFontBook.Regular.of(size: .small))
+                    .toCardSet()
+                    .withHeight(20)
+                    .margin.left(0)
+                    .margin.top(3)
+                    .margin.bottom(0),
                        xsColWidth: .Twelve)
             ]).addRow(columns: [
                 
                 // ADD THE DELETE BUTTON
                 
                 Column(cardSet: deleteButton
-                .radius(radius: 5)
                 .backgroundColor(UIColor.EZRemember.lightRed)
-                    .toCardSet().withHeight(50), xsColWidth: .Twelve).forSize(.md, .Two)
+                    .toCardSet()
+                    .margin.left(0)
+                    .margin.top(5)
+                    .margin.bottom(0)
+                    .withHeight(35), xsColWidth: .Twelve)
             ], anchorToBottom: true)
         
         let coverImageView = UIImageView(image: nil)
-        coverImageView.contentMode = .scaleAspectFit
+        coverImageView.contentMode = .scaleAspectFill
+        coverImageView.clipsToBounds = true
         
         /// IMAGE COVER VIEW ///
         bookCard.addRow(columns: [
-            // Add the image to the left
+            
+            // ADD THE IMAGE TO THE LEFT
+            
             Column(cardSet: coverImageView
                 .toCardSet()
-                .withHeight(250),
+                .withHeight(100)
+                .margin.left(0)
+                .margin.top(0)
+                .margin.bottom(0)
+                .margin.right(0),
                    xsColWidth: .Three,
-                   anchorToBottom: true),
+                   anchorToBottom: false),
             
             // BOOK DETAILS ADDED ON THE RIGHT HAND SIDE
-            Column(cardSet: detailsCard.toCardSet(), xsColWidth: .Seven)
+            
+            Column(cardSet: detailsCard.toCardSet(), xsColWidth: .Eight)
                         
-        ], anchorToBottom: true)
+        ], anchorToBottom: false)
         
         bookCard.addToSuperview(superview: self.contentView, anchorToBottom: true)
         self.deleteButton = deleteButton

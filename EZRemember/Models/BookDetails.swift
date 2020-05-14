@@ -13,5 +13,7 @@ struct BookDetails {
     let author:String?
     let coverImage:UIImage?
     let title:String?
+    let url:String?
+    let fileName:String?
         
 }

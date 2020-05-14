@@ -21,6 +21,7 @@ public class EBookHandler {
             var booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
                         
             booksInAppDirUrls = self.removeAllNonEpubFiles(urls: booksInAppDirUrls)
+            booksInAppDirUrls.sort(by: { $0.absoluteString > $1.absoluteString })
             return booksInAppDirUrls
         } catch {
             print(error.localizedDescription)

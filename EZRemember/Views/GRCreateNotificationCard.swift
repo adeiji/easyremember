@@ -87,10 +87,10 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
         cancelButton.backgroundColor = UIColor.EZRemember.lightRed
         
         // Enter headword
-        let titleTextView = self.getTextView(placeholder: "What would you like to learn? A word? A phrase? Anything else?", text: self.notification?.caption)
+        let titleTextView = self.getTextView(placeholder: "Enter caption...", text: self.notification?.caption)
 
         // Enter description or content
-        let descriptionTextView = self.getTextView(placeholder: "Enter notes, a definition, a translation, etc...", text: self.notification?.description)
+        let descriptionTextView = self.getTextView(placeholder: "Enter details...", text: self.notification?.description)
                                     
         self
             .addRow(columns: [

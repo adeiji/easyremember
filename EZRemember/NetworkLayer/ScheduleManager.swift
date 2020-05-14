@@ -103,21 +103,22 @@ class ScheduleManager {
         return FirebasePersistenceManager.getDocumentById(forCollection: Schedule.Keys.kCollectionName, id: deviceId)
             .map( { (FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Schedule?)?.maxNumOfCards ?? 5 } )
     }
-    
+            
     /**
      Get the times that the user has selected to have notifications sent to them
      - returns: An observable containing the times
      */
     func getSchedule () -> Observable<Schedule?> {
         let deviceId = UtilityFunctions.deviceId()
-        
+                        
         let getSchedule = FirebasePersistenceManager.getDocumentById(forCollection: Schedule.Keys.kCollectionName, id: deviceId)
         .map({  FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Schedule? })
         
-        getSchedule.bind { [weak self] (schedule) in
-            guard let _ = self else { return }
-            guard let schedule = schedule else { return }
-            ScheduleManager.shared.languages = schedule.languages
+        getSchedule.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            if let settings = event.element, let languages = settings?.languages {
+                self.languages = languages
+            }
         }.disposed(by: self.disposeBag)
         
         return getSchedule

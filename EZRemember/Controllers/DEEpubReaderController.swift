@@ -13,7 +13,35 @@ import SwiftyBootstrap
 import RxSwift
 import RxCocoa
 
-public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
+protocol CollectionViewSizeProtocol {
+    
+}
+
+extension CollectionViewSizeProtocol {
+    
+    func getColWidth (collectionView: UICollectionView) -> CGSize {
+        let width = collectionView.bounds.width
+        var cellWidth:CGFloat!
+        
+        switch GRCurrentDevice.shared.size {
+        case .xl:
+            fallthrough
+        case .lg:
+            fallthrough
+        case .md:
+            cellWidth = (width - 30) / 3 // compute your cell width
+        case .sm:
+            cellWidth = (width - 30) / 2 // compute your cell width
+        case .xs:
+            cellWidth = width - 30
+        }
+        
+        return CGSize(width: cellWidth, height: 100)
+    }
+    
+}
+
+public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol  {
     
     open weak var translateWordButton:UIButton?
     
@@ -21,13 +49,17 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
     
     public var disposeBag:DisposeBag = DisposeBag()
     
-    weak var mainView:GRViewWithTableView?
+    weak var mainView:GRViewWithCollectionView?
     
     private var urlRelay = BehaviorRelay<[URL]>(value: [])
     
     private var ebookUrl:URL?        
     
     public var readerContainer:FolioReaderContainer?
+    
+    weak var collectionView:UICollectionView?
+    
+    var bookDetails:[String:BookDetails] = [String:BookDetails]()
     
     init(ebookUrl: URL? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -43,7 +75,6 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
         let ebookHandler = EBookHandler()
         guard let urls = ebookHandler.getUrls() else { return }
         self.urlRelay.accept(urls)
-
     }
     
     func addMoreBooksButton (viewAbove: UIView) -> UIButton {
@@ -83,24 +114,14 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
             self.showBookReader(url: ebookUrl)
         }
                 
-        self.mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "", rightNavBarButtonTitle: "")
-        self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
-        self.mainView?.navBar.isHidden = true
-        self.mainView?.tableView.register(EBookCell.self, forCellReuseIdentifier: EBookCell.identifier)
-        self.mainView?.tableView.separatorStyle = .none
-        self.mainView?.tableView.backgroundColor = .clear
-        guard let mainView = self.mainView else { return }
-        let yourBooksCard = Style.addLargeHeaderCard(text: "Your\nElectronic Books", superview: mainView, viewAbove: self.mainView?.navBar)
-        
-        let getMoreBooksButton = self.addMoreBooksButton(viewAbove: yourBooksCard)
-        
-        self.mainView?.tableView.snp.remakeConstraints({ (make) in
-            make.left.equalTo(mainView).offset(40)
-            make.right.equalTo(mainView).offset(40)
-            make.top.equalTo(getMoreBooksButton.snp.bottom).offset(40)
-            make.bottom.equalTo(mainView)
-        })
-                
+        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: "Your\nElectronic Books", addNavBar: false)
+        mainView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
+        mainView.collectionView?.register(EBookCell.self, forCellWithReuseIdentifier: EBookCell.identifier)
+        mainView.collectionView?.backgroundColor = .clear
+        mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
+        self.mainView = mainView
+        self.collectionView = mainView.collectionView
+                                
         // Bind our the url relay
         self.showEBooks()
         NotificationCenter.default.addObserver(self, selector: #selector(shouldShowMenu(_:)), name: .CreateMenuCalled, object: nil)
@@ -123,17 +144,24 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
         
     }
     
-    private func getBookInformation (bookPath: String?) -> BookDetails? {
-        
+    private func getBookInformation (bookPath: String?, fileName:String) -> BookDetails? {
+        guard let fullUrl = bookPath else { return nil }
         guard var bookPath = bookPath else { return nil }
+        
         bookPath = bookPath.replacingOccurrences(of: "file:", with: "")
         let title = try? FolioReader.getTitle(bookPath)
         let coverImage = try? FolioReader.getCoverImage(bookPath)
         let authorName = try? FolioReader.getAuthorName(bookPath)
+        let bookDetails = BookDetails(author: authorName, coverImage: coverImage ?? UIImage(named: "NoImage"), title: title, url: bookPath, fileName: fileName)
+        self.bookDetails[fullUrl] = bookDetails
         
-        return BookDetails(author: authorName, coverImage: coverImage ?? UIImage(named: "NoImage"), title: title)
+        return bookDetails
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.collectionView?.reloadData()
+    }
     
     
     // MARK: Show Ebooks
@@ -141,26 +169,27 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
     /// TODO: Rename this
     public func showEBooks () {
                 
-        guard let tableView = self.mainView?.tableView else { return }
+        guard let collectionView = self.mainView?.collectionView else { return }
+        
+        collectionView.rx.setDelegate(self).disposed(by: self.disposeBag)
         
         self.urlRelay
         .bind(to:
-            tableView
+            collectionView
             .rx
             .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { [weak self] (row, url, cell) in
+                
                 guard let self = self else { return }
                 let eBookHandler = EBookHandler()
-                guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
-                                                
-                DispatchQueue.global(qos: .background).async {
-                    guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString) else { return }
-                    DispatchQueue.main.async {
-                        cell.fillWithContent(bookDetails: bookDetails, title: name)
-                    }
-                }
                 
-                cell.textLabel?.font = CustomFontBook.Black.of(size: .medium)
-                cell.url = url
+                if cell.url == nil { cell.url = url }
+                
+                // Get the file name of the Ebook
+                guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
+                guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString, fileName: name) else { return }
+                cell.bookDetails = bookDetails
+                    
+                                                            
                 cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
                     guard let self = self else { return }
                     guard let url = cell.url else { return }
@@ -174,7 +203,7 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
                 })
         }.disposed(by: self.disposeBag)
         
-        tableView
+        collectionView
         .rx
         .itemSelected
             .subscribe { [weak self] (event) in
@@ -184,4 +213,8 @@ public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
         }.disposed(by: self.disposeBag)
         
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return self.getColWidth(collectionView: collectionView)
+     }
 }
