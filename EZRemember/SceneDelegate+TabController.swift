@@ -40,7 +40,7 @@ extension SceneDelegate {
             self.timeSlots = event.element
         }.disposed(by: self.disposeBag)                
         
-        ScheduleManager.getSchedule().subscribe { [weak self] (event) in
+        ScheduleManager.shared.getSchedule().subscribe { [weak self] (event) in
             guard let self = self else { return }
             if let unwrappedSchedule = event.element, let schedule = unwrappedSchedule {
                 self.timeSlots = schedule.timeSlots

@@ -23,8 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         print(URLContexts.description)
         guard let url = URLContexts.first?.url else { return }
-        let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController
-        topController?.showBookReader(url: url)
+        guard let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController as? ShowEpubReaderProtocol else { return }
+        
+        topController.showBookReader(url: url)
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -32,8 +33,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let url = connectionOptions.urlContexts.first?.url
         let window = UIWindow(windowScene: windowScene)
+        
+        EBookHandler().unzipEpubs()
+        
         window.rootViewController = self.createTabController()
         self.window = window
         window.makeKeyAndVisible()

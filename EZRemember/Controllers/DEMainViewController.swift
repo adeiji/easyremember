@@ -54,6 +54,13 @@ public class GRViewWithCollectionView:GRBootstrapElement {
 
 class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, CardClickedProtocol {
     
+    var wordsToTranslate: String?
+    
+    var translateWordButton: UIButton?    
+    
+    /// The container which holds our epub reader
+    var readerContainer: FolioReaderContainer?
+    
     weak var mainView:GRViewWithCollectionView?
     
     let disposeBag = DisposeBag()

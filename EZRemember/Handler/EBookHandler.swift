@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SSZipArchive
 
 public class EBookHandler {
     
@@ -17,16 +18,10 @@ public class EBookHandler {
         guard let applicationDirUrl = URL(string: self.kApplicationDirectory) else { return nil }
         
         do {
-            var urls = try FileManager().contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            if let booksInInbox = FileManager().urls(for: "/Inbox") {
-                urls.append(contentsOf: booksInInbox)
-            }
-            
-            let booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            urls.append(contentsOf: booksInAppDirUrls)
-            
-            urls = self.removeAllNonEpubFiles(urls: urls)
-            return urls
+            var booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+                        
+            booksInAppDirUrls = self.removeAllNonEpubFiles(urls: booksInAppDirUrls)
+            return booksInAppDirUrls
         } catch {
             print(error.localizedDescription)
         }
@@ -59,6 +54,19 @@ public class EBookHandler {
         guard let endOfName = url.absoluteString.lastIndex(of: ".") else { return nil }
         let ebookName = url.absoluteString[startOfName..<endOfName]
         return String(ebookName)
+        
+    }
+    
+    public func unzipEpubs () {
+        guard let resourceURL = Bundle.main.resourceURL else { return  }
+        guard var urls = try? FileManager().contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else { return }
+        guard let applicationDirUrl = URL(string: self.kApplicationDirectory) else { return }
+        
+        urls = self.removeAllNonEpubFiles(urls: urls)
+        urls.forEach({ (url) in
+            guard let epubName = self.getEbookNameFromUrl(url: url) else { return }
+            SSZipArchive.unzipFile(atPath: url.path, toDestination: "\(applicationDirUrl.path)/\(epubName).epub", delegate: nil)
+        })
         
     }
     

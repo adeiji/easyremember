@@ -144,15 +144,7 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                         if self.originalWord.isIncludeChinese() {
                             originalWord = "\(self.originalWord) \(originalWord.transformToPinyin())"
                         }
-                        
-                        let notification = GRNotification(id: UUID().uuidString,
-                                                          caption: originalWord,
-                                                          description: translation.value,
-                                                          deviceId: UtilityFunctions.deviceId(),
-                                                          expiration: Date().timeIntervalSince1970.advanced(by: 86400 * 7),
-                                                          creationDate: Date().timeIntervalSince1970,
-                                                          active: false,
-                                                          language: GRNotification.kSupportedLanguages[translation.key] )                        
+                        let notification = GRNotification(caption: originalWord, description: translation.value, language: GRNotification.kSupportedLanguages[translation.key])                                                
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
                         collectionView.reset()

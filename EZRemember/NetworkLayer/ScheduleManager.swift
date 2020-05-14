@@ -43,6 +43,8 @@ class ScheduleManager {
     
     static let shared = ScheduleManager()
     
+    private let disposeBag = DisposeBag()
+    
     private init () {
         NotificationCenter.default.addObserver(self, selector: #selector(updateLanguages(_:)), name: .LanguagesUpdated, object: nil)
     }
@@ -106,10 +108,18 @@ class ScheduleManager {
      Get the times that the user has selected to have notifications sent to them
      - returns: An observable containing the times
      */
-    static func getSchedule () -> Observable<Schedule?> {
+    func getSchedule () -> Observable<Schedule?> {
         let deviceId = UtilityFunctions.deviceId()
         
-        return FirebasePersistenceManager.getDocumentById(forCollection: Schedule.Keys.kCollectionName, id: deviceId)
-            .map({  FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Schedule? })
+        let getSchedule = FirebasePersistenceManager.getDocumentById(forCollection: Schedule.Keys.kCollectionName, id: deviceId)
+        .map({  FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Schedule? })
+        
+        getSchedule.bind { [weak self] (schedule) in
+            guard let _ = self else { return }
+            guard let schedule = schedule else { return }
+            ScheduleManager.shared.languages = schedule.languages
+        }.disposed(by: self.disposeBag)
+        
+        return getSchedule
     }
 }

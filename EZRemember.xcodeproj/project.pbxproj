@@ -43,6 +43,8 @@
 		F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */; };
 		F4E0E6F0246BF5AF00EA0827 /* CardClickedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */; };
 		F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */; };
+		F4E0E6F6246C70BB00EA0827 /* jy_IN.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4E0E6F5246C705E00EA0827 /* jy_IN.epub */; };
+		F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4C2026624682F4800D59245 /* ylioppilas.epub */; };
 		F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
 		F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F53780246020F00009D3DC /* GoogleService-Info.plist */; };
@@ -160,6 +162,7 @@
 		F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesProtocol.swift; sourceTree = "<group>"; };
 		F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClickedProtocol.swift; sourceTree = "<group>"; };
 		F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRBootstrapElement+Clicked.swift"; sourceTree = "<group>"; };
+		F4E0E6F5246C705E00EA0827 /* jy_IN.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = jy_IN.epub; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
@@ -471,6 +474,7 @@
 			children = (
 				F4C2026624682F4800D59245 /* ylioppilas.epub */,
 				F4F537EA2463B2EB0009D3DC /* Dune.epub */,
+				F4E0E6F5246C705E00EA0827 /* jy_IN.epub */,
 			);
 			path = Epubs;
 			sourceTree = "<group>";
@@ -590,6 +594,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4E0E6F6246C70BB00EA0827 /* jy_IN.epub in Resources */,
 				F4F537C5246127200009D3DC /* Poppins-LightItalic.ttf in Resources */,
 				F4F537C6246127200009D3DC /* Poppins-Bold.ttf in Resources */,
 				F4F537C3246127200009D3DC /* OFL.txt in Resources */,
@@ -600,6 +605,7 @@
 				F4F537BD246127200009D3DC /* Poppins-Light.ttf in Resources */,
 				F4F537BB246127200009D3DC /* Poppins-ExtraLightItalic.ttf in Resources */,
 				F4F537C8246127200009D3DC /* Poppins-Thin.ttf in Resources */,
+				F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */,
 				F4285248245BFA5F00C381DE /* LaunchScreen.storyboard in Resources */,
 				F4F537C4246127200009D3DC /* Poppins-Regular.ttf in Resources */,
 				F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */,

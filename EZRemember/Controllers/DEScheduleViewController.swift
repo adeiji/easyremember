@@ -76,7 +76,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
         // that way the schedule view can expand to whatever size necessary
         let scheduleView = DEScheduleView(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins)
         
-        ScheduleManager.getSchedule().subscribe { [weak self] (event) in
+        ScheduleManager.shared.getSchedule().subscribe { [weak self] (event) in
             guard let self = self else { return }
             
             let loading = self.mainView?.showLoadingNVActivityIndicatorView()

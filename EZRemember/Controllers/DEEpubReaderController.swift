@@ -13,11 +13,11 @@ import SwiftyBootstrap
 import RxSwift
 import RxCocoa
 
-public class DEEpubReaderController: UIViewController  {
+public class DEEpubReaderController: UIViewController, ShowEpubReaderProtocol  {
     
-    open weak var translateWord:UIButton?
+    open weak var translateWordButton:UIButton?
     
-    public var wordToTranslate:String?
+    public var wordsToTranslate:String?
     
     public var disposeBag:DisposeBag = DisposeBag()
     
@@ -28,8 +28,6 @@ public class DEEpubReaderController: UIViewController  {
     private var ebookUrl:URL?        
     
     public var readerContainer:FolioReaderContainer?
-    
-    public var languages:[String] = ["en"]
     
     init(ebookUrl: URL? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -103,67 +101,22 @@ public class DEEpubReaderController: UIViewController  {
             make.bottom.equalTo(mainView)
         })
                 
-        let ebookHandler = EBookHandler()
-        guard let urls = ebookHandler.getUrls() else { return }
         // Bind our the url relay
         self.showEBooks()
-        NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: .CreateMenuCalled, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(shouldShowMenu(_:)), name: .CreateMenuCalled, object: nil)
     }
     
+    @objc private func shouldShowMenu(_ notification: Notification) {
+        self.createMenuCalled(notification)
+    }
 
-    
     // MARK: Ebook Reader
     
     public func pageTap(_ recognizer: UITapGestureRecognizer) {
-        self.translateWord?.removeFromSuperview()
-        self.translateWord = nil
+        self.translateWordButton?.removeFromSuperview()
+        self.translateWordButton = nil
     }
-    
-    // MARK: Create Menu Called
-    
-    @objc public func createMenuCalled (_ notification: Notification) {
         
-        guard let word = notification.userInfo?["SelectedText"] as? String else { return }
-        guard let readerContainer = self.readerContainer else { return }
-        self.wordToTranslate = word
-        
-        if self.translateWord != nil {
-            return
-        }
-        
-        let translateButton = Style.largeButton(with: "Translate", backgroundColor: UIColor.EZRemember.lightGreen, fontColor: .darkGray)
-        translateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
-        translateButton.showsTouchWhenHighlighted = true
-        translateButton.radius(radius: 20.0)
-        
-        readerContainer.view.addSubview(translateButton)
-        translateButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(readerContainer.view).offset(-10)
-            make.centerX.equalTo(readerContainer.view)
-            make.height.equalTo(60)
-            make.width.equalTo(170)
-        }
-        
-        translateButton.addTargetClosure { [weak self] (_) in
-            guard let self = self else { return }
-            guard let wordToTranslate = self.wordToTranslate else { return }
-            let loading = translateButton.showLoadingNVActivityIndicatorView()
-            
-            TranslateManager.translateText(wordToTranslate).subscribe { [weak self] (event) in
-                guard let self = self else { return }
-                translateButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                self.translateWord?.removeFromSuperview()
-                self.translateWord = nil
-                if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate, languages: self.languages)
-                    readerContainer.present(showTranslationsViewController, animated: true, completion: nil)
-                }
-            }.disposed(by: self.disposeBag)
-        }
-        
-        self.translateWord = translateButton
-    }
-    
     // MARK: Show Book Reader
     
     private func pushBookReaderAndSetDelegates () {

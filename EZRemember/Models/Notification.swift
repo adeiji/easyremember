@@ -79,5 +79,16 @@ struct GRNotification: Codable {
     
     /// The language that this notification is in. This is only set when recieving a translation from the server
     var language:String?
+    
+    init(caption: String, description: String, language:String? = nil) {
+        self.id = UUID().uuidString
+        self.caption = caption
+        self.description = description
+        self.deviceId = UtilityFunctions.deviceId()
+        self.expiration = Date().addingTimeInterval(86400 * 7).timeIntervalSince1970
+        self.creationDate = Date().timeIntervalSince1970
+        self.active = false
+        self.language = language                                
+    }
             
 }
