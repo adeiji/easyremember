@@ -62,7 +62,7 @@ class EBookCell: UICollectionViewCell {
 
     private func setup () {
         
-        let deleteButton = Style.largeButton(with: "Delete", fontColor: .red)
+        let deleteButton = Style.largeButton(with: "Delete", fontColor: .white)
         
         // TITLE
         
@@ -88,8 +88,8 @@ class EBookCell: UICollectionViewCell {
                     .font(CustomFontBook.Regular.of(size: .small))
                     .toCardSet()
                     .withHeight(20)
-                    .margin.left(0)
-                    .margin.top(5)
+                    .margin.left(5)
+                    .margin.top(10)
                     .margin.bottom(0),
                        xsColWidth: .Twelve),
                 
@@ -99,7 +99,7 @@ class EBookCell: UICollectionViewCell {
                     .font(CustomFontBook.Regular.of(size: .small))
                     .toCardSet()
                     .withHeight(20)
-                    .margin.left(0)
+                    .margin.left(5)
                     .margin.top(3)
                     .margin.bottom(0),
                        xsColWidth: .Twelve)
@@ -108,9 +108,9 @@ class EBookCell: UICollectionViewCell {
                 // ADD THE DELETE BUTTON
                 
                 Column(cardSet: deleteButton
-                .backgroundColor(UIColor.EZRemember.lightRed)
+                    .backgroundColor(UIColor.Style.grayish)
                     .toCardSet()
-                    .margin.left(0)
+                    .margin.left(5)
                     .margin.top(5)
                     .margin.bottom(0)
                     .withHeight(35), xsColWidth: .Twelve)
@@ -127,7 +127,7 @@ class EBookCell: UICollectionViewCell {
             
             Column(cardSet: coverImageView
                 .toCardSet()
-                .withHeight(100)
+                .withHeight(105)
                 .margin.left(0)
                 .margin.top(0)
                 .margin.bottom(0)

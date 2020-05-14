@@ -284,16 +284,16 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         case .xl:
             fallthrough
         case .lg:
-            cellWidth = (width - 30) / 3 // compute your cell width
+            cellWidth = (width - 20) / 3 // compute your cell width
         case .md:
             fallthrough
         case .sm:
-            cellWidth = (width - 30) / 2 // compute your cell width
+            cellWidth = (width - 20) / 2 // compute your cell width
         case .xs:
-            cellWidth = width - 30
+            cellWidth = width - 20
         }
         
-        return CGSize(width: cellWidth, height: GRCurrentDevice.shared.size == .xs ? 250 : 300)
+        return CGSize(width: cellWidth, height: 300)
         
      }
     
@@ -360,14 +360,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
             guard let self = self else { return }
             
             let deleteCard = DeleteCard(color: .white, anchorWidthToScreenWidth: true)
-            deleteCard.slideUp(superview: self.view, margin: 20, width: GRDevice.smallerThan(.sm) ? nil : 450)
-            
+            deleteCard.draw(superview: self.view)
             deleteCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let self = self else { return }
-                deleteCard.slideDownAndRemove(superview: self.view)
+                deleteCard.close()
             })
             
-            deleteCard.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
+            deleteCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let self = self else { return }
                 guard let notificationId = cell.notification?.id else
                 {
@@ -375,13 +374,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
                     return
                 }
                                                 
-                let loading = deleteCard.deleteButton?.showLoadingNVActivityIndicatorView()
+                let loading = deleteCard.okayButton?.showLoadingNVActivityIndicatorView()
                 
                 NotificationsManager.deleteNotificationWithId(notificationId)
                     .subscribe { [weak self] (event) in
                         guard let self = self else { return }
                         
-                        deleteCard.deleteButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                        deleteCard.okayButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                         
                         // If deleted successfully
                         if event.element == true {

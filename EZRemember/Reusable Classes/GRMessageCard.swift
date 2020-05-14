@@ -17,11 +17,11 @@ import SwiftyBootstrap
  By default, when the okayButton is pressed it will simply close the card, however, you can override this functionality simply
  by changing the target of the okayButton property
  */
-public class GRMessageCard: GRBootstrapElement {
+open class GRMessageCard: GRBootstrapElement {
              
-    public weak var okayButton:UIButton?
+    open weak var okayButton:UIButton?
     
-    public weak var cancelButton:UIButton?
+    open weak var cancelButton:UIButton?
     
     private var blurView: UIView?
     

@@ -62,7 +62,6 @@ class DETimeViewCell: UIView {
             ], anchorToBottom: true)
         
         card.addToSuperview(superview: self, anchorToBottom: true)
-        card.radius(radius: 5)
             
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(timeTapped))
         self.addGestureRecognizer(tapGestureRecognizer)

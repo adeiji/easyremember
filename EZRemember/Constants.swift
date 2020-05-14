@@ -11,6 +11,7 @@ import UIKit
 
 struct UI {
     static let scheduleViewButtonHeights:CGFloat = 50.0
+    static let radius = 0.0
 }
 
 struct Purchasing {

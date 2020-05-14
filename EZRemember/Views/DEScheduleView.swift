@@ -43,7 +43,6 @@ class DEScheduleView: GRBootstrapElement {
             }.disposed(by: self.disposeBag)
             
             columns.append(Column(cardSet: timeViewCell
-                .radius(radius: 5)
                 .toCardSet()
                 .withHeight(UI.scheduleViewButtonHeights), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Two))
         }

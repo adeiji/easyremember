@@ -41,7 +41,6 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
             let button = Style.largeButton(with: "\(number)",backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray),
                                            fontColor: UIColor.darkText.dark(.white))
             button.showsTouchWhenHighlighted = true
-            button.radius(radius: 5)
             
             let column = Column(cardSet:
                 button

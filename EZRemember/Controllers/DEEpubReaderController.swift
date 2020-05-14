@@ -36,7 +36,7 @@ extension CollectionViewSizeProtocol {
             cellWidth = width - 30
         }
         
-        return CGSize(width: cellWidth, height: 100)
+        return CGSize(width: cellWidth, height: 105)
     }
     
 }
@@ -170,7 +170,7 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
     public func showEBooks () {
                 
         guard let collectionView = self.mainView?.collectionView else { return }
-        
+        let loading = self.mainView?.showLoadingNVActivityIndicatorView()
         collectionView.rx.setDelegate(self).disposed(by: self.disposeBag)
         
         self.urlRelay
@@ -178,7 +178,7 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
             collectionView
             .rx
             .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { [weak self] (row, url, cell) in
-                
+                self?.mainView?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 guard let self = self else { return }
                 let eBookHandler = EBookHandler()
                 
@@ -189,17 +189,31 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
                 guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString, fileName: name) else { return }
                 cell.bookDetails = bookDetails
                     
-                                                            
+                // Delete button
                 cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
                     guard let self = self else { return }
                     guard let url = cell.url else { return }
-                    try? FileManager.default.removeItem(at: url)
                     
-                    let eBookHandler = EBookHandler()
+                    let deleteCard = DeleteCard()
+                    deleteCard.draw(superview: self.view)
                     
-                    guard var urls = eBookHandler.getUrls() else { return }
-                    urls = urls.filter({ $0.path != url.path })
-                    self.urlRelay.accept(urls)
+                    deleteCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+                        guard let self = self else { return }
+                        
+                        try? FileManager.default.removeItem(at: url)
+                        let eBookHandler = EBookHandler()
+                        
+                        guard var urls = eBookHandler.getUrls() else { return }
+                        urls = urls.filter({ $0.path != url.path })
+                        self.urlRelay.accept(urls)
+                        deleteCard.close()
+                    })
+                    
+                    deleteCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
+                        guard let _ = self else { return }
+                        deleteCard.close()
+                        
+                    })
                 })
         }.disposed(by: self.disposeBag)
         

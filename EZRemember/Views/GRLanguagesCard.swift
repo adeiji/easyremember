@@ -51,7 +51,6 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
         GRNotification.kSupportedLanguages.forEach({ (key, value) in
             let button = Style.largeButton(with: value, backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), fontColor: UIColor.darkText.dark(Dark.coolGrey50))
             button.showsTouchWhenHighlighted = true
-            button.radius(radius: 5)
             
             let column = Column(cardSet:
                 button

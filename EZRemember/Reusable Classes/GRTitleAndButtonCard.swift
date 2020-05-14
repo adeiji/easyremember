@@ -28,7 +28,6 @@ class GRTitleAndButtonCard: GRBootstrapElement {
         self.addRow(columns: [
             // Sync button
             Column(cardSet: actionButton
-                .radius(radius: 5)
                 .toCardSet()
                 .margin.bottom(50)
                 .withHeight(UI.scheduleViewButtonHeights),
