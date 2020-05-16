@@ -48,10 +48,9 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
     private func setupNavBar () {
         
         self.mainView?.navBar.rightButton?.setTitle("Save", for: .normal)
-        self.mainView?.navBar.rightButton?.setTitleColor(.black, for: .normal)
+        self.mainView?.navBar.rightButton?.setTitleColor(UIColor.black.dark(.white), for: .normal)
         self.mainView?.navBar.rightButton?.isUserInteractionEnabled = true
         
-        self.mainView?.navBar.rightButton?.setTitleColor(.white, for: .normal)
         self.mainView?.navBar.backgroundColor = .clear
         self.mainView?.navBar.header?.textColor = .white
         
@@ -138,6 +137,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
         
         let numberCard = DENumberCard(selectedNumber: schedule.maxNumOfCards, bootstrapMargin: self.margins)
         numberCard.addToSuperview(superview: mainView.containerView, viewAbove: syncCard, anchorToBottom: false)
+        self.maxNumberOfCardsCard = numberCard
         
         let languagesCard = DELanguagesCard(bootstrapMargin: self.margins, selectedLanguages: schedule.languages)
         languagesCard.addToSuperview(superview: mainView.containerView, viewAbove: numberCard, anchorToBottom: false)
@@ -173,7 +173,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
                     cell.selected = !cell.selected
                     self.timeSlots.removeAll(where: { $0 == timeSlot })
                 } else {
-                    if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxTimes, numberToValidate: self.timeSlots.count + 1, testing: true) {
+                    if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxTimes, numberToValidate: self.timeSlots.count + 1, testing: false) {
                         cell.selected = !cell.selected
                         self.timeSlots.append(timeSlot)
                     }

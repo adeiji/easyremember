@@ -72,11 +72,7 @@ class EBookCell: UICollectionViewCell {
         
         let authorLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         
-        let zeroMargin = BootstrapMargin(
-            left: .Zero,
-            top: .Zero,
-            right: .Zero,
-            bottom: .Zero)
+        let zeroMargin = BootstrapMargin.noMargins()
         let bookCard = GRBootstrapElement(color: UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey700), anchorWidthToScreenWidth: false, margin:zeroMargin, superview: self.contentView)
         
         let detailsCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: false, margin: zeroMargin)

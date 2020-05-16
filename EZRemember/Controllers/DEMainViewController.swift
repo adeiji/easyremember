@@ -54,6 +54,8 @@ public class GRViewWithCollectionView:GRBootstrapElement {
 
 class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, CardClickedProtocol {
     
+    var bookName: String
+    
     var wordsToTranslate: String?
     
     var translateWordButton: UIButton?    
@@ -76,6 +78,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
     /// If there is an initial book url that should be displayed at the start of the app, ie. this app is opening due to a user selecting this
     /// app as the "Open In" for an ePub
     init() {
+        self.bookName = ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -201,7 +204,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
     
     @objc func notificationsSavedToServer (_ notification: Notification) {
         guard let notifications = notification.userInfo?[GRNotification.kSavedNotifications] as? [GRNotification] else { return }
-        self.notifications.append(contentsOf: notifications)
+        self.notifications.insert(contentsOf: notifications, at: 0)
         self.notificationsRelay.accept(self.notifications)
     }
     
@@ -293,7 +296,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
             cellWidth = width - 20
         }
         
-        return CGSize(width: cellWidth, height: 300)
+        return CGSize(width: cellWidth, height: 350)
         
      }
     
@@ -344,7 +347,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
      */
     func subscribeToNotificationsObservable (notificationsObservable: Observable<[GRNotification]>, loading: NVActivityIndicatorView?) {
         notificationsObservable.subscribe { (event) in
-            if let notifications = event.element, notifications.count > 0 {
+            if let notifications = event.element?.sorted(by: { $0.creationDate > $1.creationDate }), notifications.count > 0 {
                 self.notificationsRelay.accept(notifications)
                 self.notifications = notifications
             } else {
@@ -414,7 +417,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
             createNotifVC.publishNotification.subscribe { [weak self] (event) in
                 guard let self = self else { return }
                 guard let notification = event.element else { return }
-                self.notifications.append(notification)
+                self.notifications.insert(notification, at: 0)
                 self.notificationsRelay.accept(self.notifications)
             }.disposed(by: self.disposeBag)
             self.present(createNotifVC, animated: true, completion: nil)

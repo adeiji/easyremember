@@ -57,7 +57,7 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
                 guard let buttonText = numberOfButton.titleLabel?.text else { return }
                 guard let number = Int(buttonText) else { return }
                 
-                if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxNotificationCards, numberToValidate: number, testing: true) {
+                if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxNotificationCards, numberToValidate: number, testing: false) {
                     self.selectedNumberButton = numberOfButton
                 }
             }

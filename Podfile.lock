@@ -249,6 +249,8 @@ PODS:
     - RxCocoa
     - RxSwift
     - Stripe
+  - Firebase/Analytics (6.24.0):
+    - Firebase/Core
   - Firebase/Auth (6.24.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.5.3)
@@ -257,6 +259,9 @@ PODS:
     - FirebaseAnalytics (= 6.5.0)
   - Firebase/CoreOnly (6.24.0):
     - FirebaseCore (= 6.7.0)
+  - Firebase/Crashlytics (6.24.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 4.1.0)
   - Firebase/Database (6.24.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 6.2.1)
@@ -298,6 +303,14 @@ PODS:
     - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 1.30905.0)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseCrashlytics (4.1.0):
+    - FirebaseAnalyticsInterop (~> 1.2)
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.1)
+    - GoogleDataTransport (~> 6.1)
+    - GoogleDataTransportCCTSupport (~> 3.1)
+    - nanopb (~> 1.30905.0)
+    - PromisesObjC (~> 1.2)
   - FirebaseDatabase (6.2.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
@@ -443,6 +456,8 @@ PODS:
 DEPENDENCIES:
   - DephynedFire (~> 1.0.31)
   - DephynedPurchasing (from `/Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing`)
+  - Firebase/Analytics
+  - Firebase/Crashlytics
   - FirebaseMessaging
   - FolioReaderKit (from `/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit`)
   - PodAsset
@@ -472,6 +487,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseCrashlytics
     - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseFunctions
@@ -535,6 +551,7 @@ SPEC CHECKSUMS:
   FirebaseCore: e610482f64097b0e9f056cd97bc6b33dfabcbb6a
   FirebaseCoreDiagnostics: 4a773a47bd83bbd5a9b1ccf1ce7caa8b2d535e67
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseCrashlytics: fff345f16a07f0b23cb342d8de5a42cec6de3492
   FirebaseDatabase: 4e99c0c475d1ee0aa64ae2b53c93f80b7b60d7d9
   FirebaseFirestore: 35f8f67d7b25e4743c62ea6e46c38cafa8dc32b5
   FirebaseFunctions: 5af7c35d1c5e41608fecbb667eb6c4e672e318d0
@@ -572,6 +589,6 @@ SPEC CHECKSUMS:
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: 5b27b2048f6d8fd872de085c825c9c806703a6ff
+PODFILE CHECKSUM: 02b4d301a711cc1732460f588b61b981137a7974
 
 COCOAPODS: 1.7.3

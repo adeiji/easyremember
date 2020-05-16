@@ -18,15 +18,19 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
     let originalWord:String
     let disposeBag = DisposeBag()
     var notificationsToSave = [GRNotification]()
+    
+    let bookTitle:String
+    
     weak var saveButton:UIButton?
     
     var languages:[String] = ["en"]
     
     
-    init(translations:Translations, originalWord:String, languages:[String]) {
+    init(translations:Translations, originalWord:String, languages:[String], bookTitle:String) {
         self.translations = translations
         self.originalWord = originalWord
         self.languages = languages
+        self.bookTitle = bookTitle
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -113,7 +117,7 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = collectionView.bounds.width
-        return CGSize(width: width - 30, height: 300)
+        return CGSize(width: width - 30, height: 350)
         
      }
     
@@ -144,7 +148,8 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                         if self.originalWord.isIncludeChinese() {
                             originalWord = "\(self.originalWord) \(originalWord.transformToPinyin())"
                         }
-                        let notification = GRNotification(caption: originalWord, description: translation.value, language: GRNotification.kSupportedLanguages[translation.key])                                                
+                        var notification = GRNotification(caption: originalWord, description: translation.value, language: GRNotification.kSupportedLanguages[translation.key])
+                        notification.bookTitle = self.bookTitle
                         
                         // If the table view is showing a background view because it was empty, then reset it to it's normal state
                         collectionView.reset()

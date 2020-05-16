@@ -124,7 +124,7 @@ class NotificationsManager {
         notifications.forEach { [weak self] (notification) in
             guard let self = self else { return }
             
-            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId))
+            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId, language: notification.language, bookTitle: notification.bookTitle))
         }
                         
         Observable.merge(observables).takeLast(1).subscribe { [weak self] (event) in
@@ -168,11 +168,11 @@ class NotificationsManager {
         
     }
     
-    func saveNotification (title: String, description: String, deviceId:String) -> Observable<GRNotification?> {
+    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil) -> Observable<GRNotification?> {
         
         // 86400 is the amount of seconds in a day
         let expirationDate = Date().timeIntervalSince1970.advanced(by: 86400 * 7)
-        let notificationData:[String:Any] = [
+        var notificationData:[String:Any] = [
             GRNotification.Keys.kNotificationTitle: title,
             GRNotification.Keys.kNotificationDescription: description,
             GRNotification.Keys.kDeviceId: deviceId,
@@ -181,6 +181,14 @@ class NotificationsManager {
             GRNotification.Keys.kId: UUID().uuidString,
             GRNotification.Keys.kActive: false
         ]
+        
+        if let language = language {
+            notificationData[GRNotification.Keys.kLanguage] = language
+        }
+        
+        if let bookTitle = bookTitle {
+            notificationData[GRNotification.Keys.kBookTitle] = bookTitle
+        }
         
         // Create a notificatino object, this will be returned if save to server is successful
         var notification:GRNotification?

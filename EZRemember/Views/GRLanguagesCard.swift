@@ -72,7 +72,7 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
                 let shouldSelect = !self.selectedLanguagesButtons.contains(languageButton)
                 
                 if shouldSelect {
-                    if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxLanguages, numberToValidate: self.selectedLanguagesButtons.count + 1, testing: true) {
+                    if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxLanguages, numberToValidate: self.selectedLanguagesButtons.count + 1, testing: false) {
                         self.handleLanguageSelection(shouldSelect: shouldSelect, button: languageButton)
                     }
                 } else {

@@ -20,6 +20,9 @@ protocol ShowEpubReaderProtocol: UIViewController, FolioReaderPageDelegate, Foli
     var disposeBag:DisposeBag { get }
     
     var translateWordButton:UIButton? { get set }
+    
+    /// The name of the book
+    var bookName:String { get }
 }
 
 extension ShowEpubReaderProtocol {
@@ -80,7 +83,7 @@ extension ShowEpubReaderProtocol {
                 self.translateWordButton?.removeFromSuperview()
                 self.translateWordButton = nil
                 if let translations = event.element {
-                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate, languages: ScheduleManager.shared.getLanguages())
+                    let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordToTranslate, languages: ScheduleManager.shared.getLanguages(), bookTitle: self.bookName)
                     showTranslationsViewController.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
                     readerContainer.present(showTranslationsViewController, animated: true, completion: nil)
                 }

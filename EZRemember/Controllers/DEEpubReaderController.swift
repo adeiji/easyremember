@@ -43,6 +43,8 @@ extension CollectionViewSizeProtocol {
 
 public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol  {
     
+    var bookName: String
+    
     open weak var translateWordButton:UIButton?
     
     public var wordsToTranslate:String?
@@ -62,12 +64,23 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
     var bookDetails:[String:BookDetails] = [String:BookDetails]()
     
     init(ebookUrl: URL? = nil) {
+        self.bookName = ""
         super.init(nibName: nil, bundle: nil)
         self.ebookUrl = ebookUrl
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.collectionView?.isHidden = true
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.collectionView?.isHidden = false
     }
     
     public override func viewDidAppear(_ animated: Bool) {

@@ -54,6 +54,8 @@ struct GRNotification: Codable {
         static let kDeviceId = "deviceId"
         static let kId = "id"
         static let kActive = "active"
+        static let kBookTitle = "bookTitle"
+        static let kLanguage = "language"
     }
     
     /// The id of the Notification to access it
@@ -80,6 +82,9 @@ struct GRNotification: Codable {
     /// The language that this notification is in. This is only set when recieving a translation from the server
     var language:String?
     
+    /// The book that this card came from if there is one
+    var bookTitle:String?
+    
     init(caption: String, description: String, language:String? = nil) {
         self.id = UUID().uuidString
         self.caption = caption
@@ -88,7 +93,7 @@ struct GRNotification: Codable {
         self.expiration = Date().addingTimeInterval(86400 * 7).timeIntervalSince1970
         self.creationDate = Date().timeIntervalSince1970
         self.active = false
-        self.language = language                                
+        self.language = language        
     }
             
 }

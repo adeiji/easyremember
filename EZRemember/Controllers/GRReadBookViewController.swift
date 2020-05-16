@@ -247,7 +247,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
     // MARK: Display Translations
     
     private func displayTranslations (translations: Translations, wordsToTranslate: String) {
-        let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: ScheduleManager.shared.getLanguages() )
+        let showTranslationsViewController = DEShowTranslationsViewController(translations: translations, originalWord: wordsToTranslate, languages: ScheduleManager.shared.getLanguages(), bookTitle: self.bookName)
         
         if !GRDevice.smallerThan(.md) {
             self.translationView?.subviews.forEach({ [weak self] (subview) in

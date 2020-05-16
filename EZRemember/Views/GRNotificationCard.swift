@@ -22,6 +22,8 @@ class GRNotificationCard: UICollectionViewCell {
     /// Displays the content of the notification
     private weak var contentLabel:UILabel?
     
+    private weak var bookNameLabel:UILabel?
+    
     /// User presses this button and the notification is either set to active or inactive
     weak var toggleActivateButton:UIButton?
     
@@ -35,11 +37,13 @@ class GRNotificationCard: UICollectionViewCell {
         didSet {
             if let notification = self.notification {
                 if oldValue == nil {
-                    self.setupUI(title: notification.caption, description: notification.description, language: notification.language, viewToCalculateWidth: self.viewToBaseWidthOffOf)
+                    self.setupUI(title: notification.caption, description: notification.description, language: notification.language, viewToCalculateWidth: self.viewToBaseWidthOffOf, bookTitle: notification.bookTitle)
                 } else {
                     self.toggleButton(self.toggleActivateButton, isActive: notification.active)
                     self.titleLabel?.text = notification.caption
                     self.contentLabel?.text = notification.description
+                    
+                    self.bookNameLabel?.text = "\(notification.bookTitle ?? "No Book")   \(notification.language ?? "")" 
                 }
             }
         }
@@ -62,7 +66,7 @@ class GRNotificationCard: UICollectionViewCell {
     /**
      - parameter viewToCalculateWidth: If you want this card to have it's size calculated based off of it's superview content, than set this property.  Remember though, that the size of this card's width will be based upon the width of the viewToCalculateWidth view at the time you call this method, not after it's layout has been updated.
      */
-    private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil) {
+    private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil, bookTitle:String? = nil) {
                 
         let editButton = Style.largeButton(with: "Edit")
         editButton.titleLabel?.font = FontBook.allBold.of(size: .small)
@@ -90,9 +94,14 @@ class GRNotificationCard: UICollectionViewCell {
         let topTitleLabel = Style.label(withText: language ?? "", superview: nil, color: UIColor.black.dark(.white))
         topTitleLabel.font(CustomFontBook.Medium.of(size: .small))
         
+        // Book Title
+        
+        let bookTitleLabel = Style.label(withText: bookTitle ?? "No Book", superview: nil, color: UIColor.EZRemember.mainBlue.dark(.white))
+        bookTitleLabel.numberOfLines = 1
+        
         let card = GRBootstrapElement(color: UIColor.white.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true,
                                       superview: viewToCalculateWidth ?? self.contentView)
-        
+                        
         if (self.showDeleteButton) {
             card.addRow(columns: [
                 // Delete Button
@@ -129,6 +138,23 @@ class GRNotificationCard: UICollectionViewCell {
             Column(cardSet: contentLabel.font(CustomFontBook.Regular.of(size: .small))
                 .toCardSet().margin.left(20.0).margin.right(20.0).margin.top(10.0).margin.bottom(10.0), xsColWidth: .Twelve)
         ], anchorToBottom: false)
+                          
+        /// CARD DETAILS - ie Book Name or Personal
+        
+        card.addRow(columns: [
+            Column(cardSet: UIView().backgroundColor(.lightGray)
+                .toCardSet()
+                .anchorToViewAbove(false)
+                .margin.left(20.0)
+                .margin.right(20.0)
+                .withHeight(1.0), xsColWidth: .Twelve),
+            Column(cardSet: bookTitleLabel
+                .toCardSet()
+                .margin.left(20.0)
+                .margin.right(20.0)
+                .margin.top(0),
+                   xsColWidth: .Twelve)
+        ], anchorToBottom: true)
         
         card.addToSuperview(superview: self.contentView, anchorToBottom: true)
         card.addShadow()
@@ -138,6 +164,7 @@ class GRNotificationCard: UICollectionViewCell {
         self.toggleActivateButton = toggleActivateButton
         self.titleLabel = titleLabel
         self.contentLabel = contentLabel
+        self.bookNameLabel = bookTitleLabel
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
     }

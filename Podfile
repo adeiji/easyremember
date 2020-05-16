@@ -14,6 +14,8 @@ target 'EZRemember' do
   pod 'DephynedPurchasing', path: '/Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing'
   pod 'UITextView+Placeholder'
   pod 'FirebaseMessaging'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PodAsset'
