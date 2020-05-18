@@ -13,6 +13,7 @@ class UtilityFunctions {
     
     static let kDeviceId = "deviceId"
     static let kSyncIds = "syncIds"
+    static let kTags = "tags"
     
     /**
      Get the deviceId for this user's device and if it doesn't exist, than create it.  Obviously this will change
@@ -52,6 +53,23 @@ class UtilityFunctions {
         let userDefaults = UserDefaults()
         let syncIds = userDefaults.value(forKey: UtilityFunctions.kSyncIds) as? [String] ?? []
         return syncIds
+    }
+    
+    static func addTags (newTags: [String]) {
+        guard let tag = newTags.first else { return }
+        // Add the tag
+        let userDefaults = UserDefaults()
+        var tags:[String] = userDefaults.value(forKey: UtilityFunctions.kTags) as? [String] ?? []
+        if tags.contains(tag) { return }
+        tags.append(contentsOf: newTags)
+        userDefaults.set(tags, forKey: UtilityFunctions.kTags)
+        userDefaults.synchronize()
+    }
+    
+    static func getTags () -> [String]? {
+        let userDefaults = UserDefaults()
+        let tags = userDefaults.value(forKey: UtilityFunctions.kTags) as? [String]
+        return tags
     }
     
 }

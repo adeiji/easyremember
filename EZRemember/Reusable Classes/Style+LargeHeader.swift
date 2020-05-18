@@ -12,7 +12,9 @@ import SwiftyBootstrap
 public extension Style {
     
     /// Add a card at the to of the screen that will serve as a header, and say whatever is text
-    class func addLargeHeaderCard (text: String, superview: UIView, viewAbove: UIView?) -> UIView {
+    /// If you set the superview than this view will automatically be added to the superview, and it's last row
+    /// anchored to the bottom
+    class func largeCardHeader (text: String, superview: UIView? = nil, viewAbove: UIView?) -> GRBootstrapElement {
         let headerCard = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Three,
             top: .One,
@@ -22,12 +24,15 @@ public extension Style {
                 cardSet: Style.label(withText: text, superview: nil, color: UIColor.black.dark(.white))
                     .font(CustomFontBook.Regular.of(size: .logo))
                         .toCardSet(), xsColWidth: .Twelve)
-            ], anchorToBottom: true)
+            ], anchorToBottom: superview != nil ? true : false)
         
         headerCard.isUserInteractionEnabled = false
         headerCard.layer.zPosition = -5
         
-        headerCard.addToSuperview(superview: superview, viewAbove: viewAbove, anchorToBottom: false)
+        if let superview = superview {
+            headerCard.addToSuperview(superview: superview, viewAbove: viewAbove, anchorToBottom: false)
+        }
+        
         return headerCard
     }
     

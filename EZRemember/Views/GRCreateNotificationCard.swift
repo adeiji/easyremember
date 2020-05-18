@@ -13,7 +13,46 @@ import RxSwift
 
 import UITextView_Placeholder;
 
-class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
+class Autocomplete: GRBootstrapElement {
+    
+    let selectedItem = PublishSubject<String>()
+    
+    let items:[String]
+    
+    init(items: [String], superview: UIView) {
+        self.items = items
+        super.init(color: UIColor.white.dark(Dark.coolGrey200), anchorWidthToScreenWidth: false, margin: BootstrapMargin(left: .Zero, top: .One, right: .Zero, bottom: .Zero), superview: superview)
+        self.draw(superview: superview)
+    }
+            
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func draw (superview: UIView) {
+        
+        var columns = [Column]()
+        self.items.forEach { [weak self] (item) in
+            guard let _ = self else { return }
+            let itemButton = Style.largeButton(with: item, backgroundColor: .clear, fontColor: UIColor.black)
+            columns.append(Column(cardSet: itemButton.toCardSet(), xsColWidth: .Twelve))
+            itemButton.addTargetClosure { [weak self] (itemButton) in
+                guard let self = self else { return }
+                self.selectedItem.onNext(itemButton.title(for: .normal) ?? "")
+            }
+        }
+        
+        self.addRow(columns: columns, anchorToBottom: true)
+        self.addToSuperview(superview: superview, anchorToBottom: true)
+    }
+    
+}
+
+protocol AutocompleteProtocol {
+    
+}
+
+class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFieldDelegate {
     
     /// The done button for this card
     weak var addButton:UIButton?
@@ -24,7 +63,13 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
     
     weak var cancelButton:UIButton?
     
+    weak var tagTextField:UITextField?
+    
     var notification:GRNotification?
+    
+    let disposeBag = DisposeBag()
+    
+    weak var autocompleteView:UIView?
     
     func textViewDidChange(_ textView: UITextView) {
         if (self.firstTextView?.text.trimmingCharacters(in: .whitespaces) == ""
@@ -68,6 +113,62 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
         return textView
     }
     
+    private func showAutocomplete (tags: [String]) {
+        let autocompleteView = UIView()
+        
+        self.addSubview(autocompleteView)
+        
+        autocompleteView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.tagTextField ?? self)
+            make.top.equalTo(self.tagTextField?.snp.bottom ?? self)
+            make.right.equalTo(self.tagTextField ?? self)
+        }
+        
+        let autoComplete = Autocomplete(items: tags, superview: autocompleteView)
+        
+        autoComplete.selectedItem.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            if let tag = event.element {
+                self.tagTextField?.text = tag
+            }
+        }.disposed(by: self.disposeBag)
+        autocompleteView.layer.zPosition = 5
+        self.autocompleteView = autocompleteView
+    }
+    
+    
+    @objc func textFieldDidChange (_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        self.autocompleteView?.removeFromSuperview()
+        if text.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+            if var tags = UtilityFunctions.getTags() {
+                tags = tags.filter({ $0.contains(text) })
+                if tags.count > 0 {
+                    self.showAutocomplete(tags: tags)
+                }
+            }
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        textField.backgroundColor = .clear
+        if var tags = UtilityFunctions.getTags() {
+            tags = tags.filter({ $0.contains(text) })
+            if tags.count > 0 {
+                self.showAutocomplete(tags: tags)
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.autocompleteView?.removeFromSuperview()
+        
+        if textField.text == "" {
+            textField.backgroundColor = Dark.coolGrey700
+        }
+    }
+    
     private func setupUI (superview: UIView) {
         self.layer.zPosition = 5
         let addButton = Style.largeButton(with: "Save", backgroundColor: .black, fontColor: .white)
@@ -91,6 +192,14 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
 
         // Enter description or content
         let descriptionTextView = self.getTextView(placeholder: "Enter details...", text: self.notification?.description)
+        
+        let tagTextField = Style.wideTextField(withPlaceholder: "+ Tag", superview: nil, color: Dark.coolGrey900.dark(.white))
+        tagTextField.text = self.notification?.tags?.first
+        tagTextField.radius(radius: 25)
+        tagTextField.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey700)
+        tagTextField.font = CustomFontBook.Regular.of(size: .small)
+        tagTextField.delegate = self
+        tagTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
                                     
         self
             .addRow(columns: [
@@ -118,8 +227,15 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
                     .toCardSet()
                     .margin.left(30)
                     .margin.right(30),
-                       xsColWidth: .Twelve)
+                       xsColWidth: .Twelve),
+                                                
             ]).addRow(columns: [
+                Column(cardSet: tagTextField
+                    .toCardSet()
+                    .margin.left(30)
+                    .margin.right(30), xsColWidth: .Six).forSize(.md, .Two)
+            ])
+            .addRow(columns: [
                 Column(cardSet: addButton
                     .radius(radius: 25)
                     .addShadow()
@@ -141,6 +257,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate {
         self.firstTextView = titleTextView
         self.descriptionTextView = descriptionTextView
         self.firstTextView?.delegate = self
+        self.tagTextField = tagTextField
         self.descriptionTextView?.delegate = self
         self.cancelButton = cancelButton
     }
@@ -196,8 +313,16 @@ public class GRCreateNotificationViewController: UIViewController {
                 let description = createNotifCard.descriptionTextView?.text
                 else { return }
             
+            var tags:[String]?
+            
+            if let text = createNotifCard.tagTextField?.text {
+                tags = [text]
+                UtilityFunctions.addTags(newTags: [text])
+            }
+            
             self.notification?.caption = title
             self.notification?.description = description
+            self.notification?.tags = tags
             
             // Get this device's unique identifier
             let deviceId = UtilityFunctions.deviceId()
@@ -217,9 +342,8 @@ public class GRCreateNotificationViewController: UIViewController {
             notifManager.saveNotification(
                 title: title,
                 description: description,
-                
-                // There's no way that the device Id will be null since if it's not set initially we give it a value
-                deviceId: deviceId).subscribe { (event) in
+                deviceId: deviceId,
+                tags: tags).subscribe { (event) in
                     addButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
                     if event.isCompleted {
                         return

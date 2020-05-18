@@ -33,6 +33,7 @@
 		F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285279245C34F700C381DE /* DEImageHelper.swift */; };
 		F43DDF7E2472327800776941 /* String+Substring.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7D2472327800776941 /* String+Substring.swift */; };
 		F43DDF8024723FC100776941 /* Purchasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7F24723FC100776941 /* Purchasing.swift */; };
+		F43DDF82247255E500776941 /* DEMainViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -153,6 +154,7 @@
 		F4285279245C34F700C381DE /* DEImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEImageHelper.swift; sourceTree = "<group>"; };
 		F43DDF7D2472327800776941 /* String+Substring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Substring.swift"; sourceTree = "<group>"; };
 		F43DDF7F24723FC100776941 /* Purchasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchasing.swift; sourceTree = "<group>"; };
+		F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DEMainViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */,
 				F421B22A24694AA8007DE745 /* DESyncViewController.swift */,
 				F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */,
+				F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -772,6 +775,7 @@
 				F4C2025E2466AA4100D59245 /* GRLanguagesCard.swift in Sources */,
 				F4F537DB2461DE5B0009D3DC /* DEScheduleView.swift in Sources */,
 				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
+				F43DDF82247255E500776941 /* DEMainViewController+CollectionView.swift in Sources */,
 				F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */,
 				F421B23224698E38007DE745 /* EBookHandler.swift in Sources */,
 				F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */,

@@ -139,7 +139,7 @@ class NotificationsManager {
         
     }
     
-    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil) -> Observable<GRNotification?> {
+    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil, tags:[String]? = nil) -> Observable<GRNotification?> {
         
         // 86400 is the amount of seconds in a day
         let expirationDate = Date().timeIntervalSince1970.advanced(by: 86400 * 7)
@@ -159,6 +159,10 @@ class NotificationsManager {
         
         if let bookTitle = bookTitle {
             notificationData[GRNotification.Keys.kBookTitle] = bookTitle
+        }
+        
+        if let tags = tags {
+            notificationData[GRNotification.Keys.kTags] = tags            
         }
         
         // Create a notificatino object, this will be returned if save to server is successful

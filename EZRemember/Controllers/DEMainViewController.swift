@@ -30,7 +30,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
                         
         if let header = header {
             self.addRow(columns: [
-                Column(cardSet: Style.addLargeHeaderCard(text: header, superview: self, viewAbove: nil)
+                Column(cardSet: Style.largeCardHeader(text: header, superview: self, viewAbove: nil)
                     .toCardSet()
                     .margin.top(40),
                        xsColWidth: .Twelve)
@@ -52,7 +52,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     
 }
 
-class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, CardClickedProtocol {
+class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol {
     
     var bookName: String
     
@@ -62,8 +62,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
     
     /// The container which holds our epub reader
     var readerContainer: FolioReaderContainer?
-    
-    weak var mainScrollView:GRViewWithScrollView?
     
     weak var mainView:GRViewWithCollectionView?
     
@@ -256,7 +254,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         
         // Get all the notifications for this device from the server
         let notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
-        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: "Your\nNotifications")
+        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
         mainView.collectionView?.register(GRNotificationCard.self, forCellWithReuseIdentifier: GRNotificationCard.reuseIdentifier)
         mainView.collectionView?.backgroundColor = .clear
         mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
@@ -290,28 +288,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
         
         self.collectionView?.reloadData()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let width = collectionView.bounds.width
-        var cellWidth:CGFloat!
-        
-        switch GRCurrentDevice.shared.size {
-        case .xl:
-            fallthrough
-        case .lg:
-            cellWidth = (width - 20) / 3 // compute your cell width
-        case .md:
-            fallthrough
-        case .sm:
-            cellWidth = (width - 20) / 2 // compute your cell width
-        case .xs:
-            cellWidth = width - 20
-        }
-        
-        return CGSize(width: cellWidth, height: 350)
-        
-     }
     
     /**
      Bind notifications relay object to the table view

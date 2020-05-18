@@ -56,6 +56,7 @@ struct GRNotification: Codable {
         static let kActive = "active"
         static let kBookTitle = "bookTitle"
         static let kLanguage = "language"
+        static let kTags = "tags"
     }
     
     /// The id of the Notification to access it
@@ -84,6 +85,9 @@ struct GRNotification: Codable {
     
     /// The book that this card came from if there is one
     var bookTitle:String?
+    
+    /// The tags for this card.  For example, maybe it's for "programming" or for "poetry" or something along those lines.  Currently on one tag is allowed, but we store as an array because we'll allow for more in the future
+    var tags:[String]?
     
     init(caption: String, description: String, language:String? = nil) {
         self.id = UUID().uuidString
