@@ -45,7 +45,10 @@ class DESyncViewController: UIViewController {
         self.syncButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
             guard let syncId = self.syncIdTextField?.text else { return }
-            UtilityFunctions.addSyncId(syncId)
+            if self.validate() {
+                UtilityFunctions.addSyncId(syncId)
+                self.updateSyncButton(finishedSyncing: true)
+            }
         })
     }
     
@@ -67,7 +70,7 @@ class DESyncViewController: UIViewController {
     private func updateSyncButton (finishedSyncing: Bool) {
         if finishedSyncing {
             self.syncButton?.backgroundColor = UIColor.Style.htMintGreen
-            self.syncButton?.setTitle("Finished Syncing", for: .normal)
+            self.syncButton?.setTitle("Finished Syncing.  Please restart app", for: .normal)
         }
     }
     
@@ -84,6 +87,9 @@ To sync your items across devices...
 •  Click Sync
 
 You only have to input this one time to sync between the different devices, but each time you want to add a new device you must go through the process again.
+
+** IMPORTANT **
+Make sure that you enter the Sync Id correctly, otherwise you will not see the cards from your other device on this one.
 """
         
         let card = GRBootstrapElement(
@@ -93,8 +99,8 @@ You only have to input this one time to sync between the different devices, but 
             superview: syncView.containerView)
         
         let syncIdTextField = Style.wideTextField(withPlaceholder: "Enter your sync Id", superview: nil, color: UIColor.black)
-        syncIdTextField.font = CustomFontBook.Medium.of(size: .medium)
-        let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan))
+        syncIdTextField.font = CustomFontBook.Regular.of(size: .medium)
+        let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
                         
         let deviceId = UtilityFunctions.deviceId()
         let indexOfHyphen = deviceId.firstIndex(of: "-") ?? deviceId.endIndex
@@ -157,7 +163,9 @@ You only have to input this one time to sync between the different devices, but 
             ])
         
         card.addRow(columns: [
-            // The sync button
+
+            // THE SYNC BUTTON
+
             Column(cardSet: syncButton
                 .radius(radius: 5)
                 .toCardSet().withHeight(50), xsColWidth: .Twelve).forSize(.md, .Six)

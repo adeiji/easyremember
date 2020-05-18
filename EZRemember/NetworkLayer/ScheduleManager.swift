@@ -66,8 +66,7 @@ class ScheduleManager {
      */
     static func saveSchedule (timeSlots:[Int], maxNumOfCards:Int, languages:[String]) -> Observable<Bool> {
         
-        let delegate = UIApplication.shared.delegate as? AppDelegate
-        guard let deviceId = delegate?.deviceId else { return .just(false) }
+        let deviceId = UtilityFunctions.deviceId()
         
         return Observable.create { (observer) -> Disposable in
             

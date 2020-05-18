@@ -63,6 +63,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
     /// The container which holds our epub reader
     var readerContainer: FolioReaderContainer?
     
+    weak var mainScrollView:GRViewWithScrollView?
+    
     weak var mainView:GRViewWithCollectionView?
     
     let disposeBag = DisposeBag()

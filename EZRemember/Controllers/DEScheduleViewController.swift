@@ -225,10 +225,10 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
     func saveSchedule() {
         let loading = self.mainView?.navBar.rightButton?.showLoadingNVActivityIndicatorView()
         ScheduleManager.saveSchedule(timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages).subscribe { (event) in
-
+            // Show that saving has finished
+            self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+            
             if let _ = event.element {
-                // Show that saving has finished
-                self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 // Let the app know that the user has just updated the max number of cards
                 NotificationCenter.default.post(name: .UserUpdatedMaxNumberOfCards, object: nil, userInfo: [ "maxNumOfCards": self.maxNumOfCards ])
                 NotificationCenter.default.post(name: .LanguagesUpdated, object: nil, userInfo: [Schedule.Keys.kLanguages: self.selectedLanguages])
