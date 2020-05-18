@@ -20,6 +20,7 @@ public extension UIColor {
         public static var coolGrey200:UIColor { return UIColor(hexString: "CBD2D9" ) }
         public static var coolGrey700:UIColor { return UIColor(hexString: "3E4C59" ) }
         public static var coolGrey900:UIColor { return UIColor(hexString: "1F2933") }
+        public static var neonGreen:UIColor { return UIColor(red: 188/255, green: 138/255, blue: 253/255, alpha: 1.0) }
         
     }
     
@@ -29,7 +30,8 @@ public extension UIColor {
         public static var lightGreen: UIColor { return UIColor(red: 237/255, green: 255/255, blue: 233/255, alpha: 1.0) }
         public static var lightRed: UIColor { return UIColor(red: 255/255, green: 233/255, blue: 233/255, alpha: 1.0) }
         public static var lightGreenButtonText: UIColor { return UIColor(red: 72/255, green: 182/255, blue: 19/255, alpha: 1.0) }
-        public static var lightRedButtonText: UIColor { return UIColor(red: 255/255, green: 74/255, blue: 74/255, alpha: 1.0) }
+        public static var lightRedButtonText: UIColor { return UIColor(red: 255/255, green: 74/255, blue: 74/255, alpha: 1.0) }       
+        
     }
     
 }

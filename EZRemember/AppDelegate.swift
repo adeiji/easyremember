@@ -28,19 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
-        // If this user does not have a DeviceId assigned to it then assign it now
-        let userDefaults = UserDefaults()
-        
-        // Get the id assigned to this device
-        self.deviceId = userDefaults.object(forKey: self.kDeviceId) as? String
-        
-        if (self.deviceId == nil) {
-            self.deviceId = UUID().uuidString
-            userDefaults.set(self.deviceId, forKey: self.kDeviceId)
-        }
-        
+        // Override point for customization after application launch.        
         FirebaseApp.configure()
         self.setupRemoteNotifications(application: application)
         

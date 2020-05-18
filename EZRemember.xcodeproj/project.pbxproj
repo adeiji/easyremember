@@ -31,6 +31,8 @@
 		F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */; };
 		F4285278245C327700C381DE /* UIButton+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285277245C327700C381DE /* UIButton+Image.swift */; };
 		F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285279245C34F700C381DE /* DEImageHelper.swift */; };
+		F43DDF7E2472327800776941 /* String+Substring.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7D2472327800776941 /* String+Substring.swift */; };
+		F43DDF8024723FC100776941 /* Purchasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7F24723FC100776941 /* Purchasing.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -149,6 +151,8 @@
 		F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+FromBundle.swift"; sourceTree = "<group>"; };
 		F4285277245C327700C381DE /* UIButton+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Image.swift"; sourceTree = "<group>"; };
 		F4285279245C34F700C381DE /* DEImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEImageHelper.swift; sourceTree = "<group>"; };
+		F43DDF7D2472327800776941 /* String+Substring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Substring.swift"; sourceTree = "<group>"; };
+		F43DDF7F24723FC100776941 /* Purchasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchasing.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -299,7 +303,6 @@
 				F421B23024698E2F007DE745 /* Handler */,
 				F4C2025F24672B7F00D59245 /* Protocols */,
 				F4C1175C246564C800A145CB /* FolioReader */,
-				F4F537EC2463D1F50009D3DC /* Extensions */,
 				F4F537E92463B2DE0009D3DC /* Epubs */,
 				F4F537DC246276A00009D3DC /* Models */,
 				F4F537A4246127200009D3DC /* Fonts */,
@@ -358,6 +361,7 @@
 		F428526E245C252600C381DE /* Reusable Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F4F537EC2463D1F50009D3DC /* Extensions */,
 				F421B237246A582C007DE745 /* GRPurchasingColumn.swift */,
 				F428526F245C253500C381DE /* UIVIew+Shadow.swift */,
 				F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */,
@@ -465,6 +469,7 @@
 			children = (
 				F4F537DD246276B50009D3DC /* Notification.swift */,
 				F4C2025B246699C200D59245 /* BookDetails.swift */,
+				F43DDF7F24723FC100776941 /* Purchasing.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -482,6 +487,7 @@
 		F4F537EC2463D1F50009D3DC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F43DDF7D2472327800776941 /* String+Substring.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -793,6 +799,7 @@
 				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
 				F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */,
 				F4F537CD2461297F0009D3DC /* UILabel+Extensions.swift in Sources */,
+				F43DDF7E2472327800776941 /* String+Substring.swift in Sources */,
 				F428523E245BFA5E00C381DE /* SceneDelegate.swift in Sources */,
 				F4C2026124672B8D00D59245 /* ShowEpubReaderProtocol.swift in Sources */,
 				F4F537A124611C460009D3DC /* UITableView+Empty.swift in Sources */,
@@ -804,6 +811,7 @@
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
 				F421B23C246A6112007DE745 /* GRPurchasingCard.swift in Sources */,
 				F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */,
+				F43DDF8024723FC100776941 /* Purchasing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

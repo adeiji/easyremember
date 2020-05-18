@@ -54,7 +54,7 @@ public class EBookHandler {
         startOfName = url.absoluteString.index(startOfName, offsetBy: 1)
         guard let endOfName = url.absoluteString.lastIndex(of: ".") else { return nil }
         let ebookName = url.absoluteString[startOfName..<endOfName]
-        return String(ebookName)
+        return String(ebookName).replacingOccurrences(of: "%20", with: " ")
         
     }
     

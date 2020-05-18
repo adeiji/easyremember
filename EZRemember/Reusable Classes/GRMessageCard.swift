@@ -44,7 +44,7 @@ open class GRMessageCard: GRBootstrapElement {
         let okayButton = Style.largeButton(with: buttonText, backgroundColor: buttonBackgroundColor)
         okayButton.showsTouchWhenHighlighted = true
         
-        let messageLabel = Style.label(withText: "", superview: nil, color: isError ? .red : .black)
+        let messageLabel = Style.label(withText: "", superview: nil, color: isError ? .red : UIColor.black.dark(.white))
         messageLabel.attributedText = (message).addLineSpacing()
         
         let cancelButton = Style.largeButton(with: cancelButtonText ?? "", backgroundColor: UIColor.EZRemember.veryLightGray, fontColor: .darkGray)
@@ -59,7 +59,7 @@ open class GRMessageCard: GRBootstrapElement {
             
             // TITLE
             
-            Column(cardSet: Style.label(withText: title, superview: nil, color: .black)
+            Column(cardSet: Style.label(withText: title, superview: nil, color: UIColor.black.dark(.white))
                 .font(CustomFontBook.Regular.of(size: .header))
                 .toCardSet()
                 .margin.left(30)

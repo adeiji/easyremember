@@ -9,7 +9,7 @@ target 'EZRemember' do
   use_frameworks!
 
   pod 'SwiftyBootstrap', path: '/Users/adeiji/Documents/Dephyned/libraries/swifty-bootstrap/SwiftyBootstrap'
-  pod 'DephynedFire', '~> 1.0.31'
+  pod 'DephynedFire', path: '/Users/adeiji/Documents/Dephyned/libraries/DephynedFire'
   pod 'FolioReaderKit', path: '/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit'
   pod 'DephynedPurchasing', path: '/Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing'
   pod 'UITextView+Placeholder'

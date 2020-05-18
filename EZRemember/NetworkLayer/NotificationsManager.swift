@@ -39,30 +39,8 @@ class NotificationsManager {
         }
     }
     
-    static func sync (_ id: String) {
-                
-        UtilityFunctions.updateDeviceId(id)
-        self.getNotifications(deviceId: UtilityFunctions.deviceId()).subscribe { (event) in
-            
-            if let notifications = event.element {
-                
-                let updateDocuments = notifications.flatMap { [$0.id] }.flatMap { (notificationId) -> [String:[String:Any]] in
-                    return [notificationId: [GRNotification.Keys.kDeviceId : id]]
-                }.flatMap({ [$0.key: $0.value] })
-                
-                var updateDict = [String:[String:Any]]()
-                
-                updateDocuments.forEach { (key, value) in
-                    updateDict[key] = value
-                }
-                                                
-                return FirebasePersistenceManager.updateDocument(withId: nil, collection: GRNotification.Keys.kCollectionName, updateDoc: nil, documents:updateDict) { (error) in
-                    
-                }
-                
-            }
-        }
-        
+    enum SyncingError: Error {
+        case NoNotifications
     }
     
     /**
@@ -72,22 +50,15 @@ class NotificationsManager {
      */
     static func getNotifications (deviceId: String) -> Observable<[GRNotification]> {
         
-        return Observable.create { (observer) -> Disposable in
-            FirebasePersistenceManager.getDocuments(withCollection: GRNotification.Keys.kCollectionName, queryDocument: [
-                GRNotification.Keys.kDeviceId: deviceId
-            ], shouldKeepListening: true) { (error, documents) in
-                if let error = error {
-                    observer.onError(error)
-                    observer.onCompleted()
-                }
-                
-                if let documents = documents {
-                    observer.onNext( FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [GRNotification]? ?? [])
-                }
-            }
-            
-            return Disposables.create()
-        }
+        var observables = [
+            FirebasePersistenceManager.getDocumentsAsObservable(withCollection: GRNotification.Keys.kCollectionName, queryDocument: [GRNotification.Keys.kDeviceId: deviceId])
+        ]
+        
+        UtilityFunctions.syncIds()?.forEach({ (syncId) in
+            observables.append(FirebasePersistenceManager.searchForDocumentsAsObservable(value: syncId.lowercased(), collection: GRNotification.Keys.kCollectionName, key: GRNotification.Keys.kDeviceId))
+        })
+        
+        return Observable.merge(observables).map({ FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: $0) as [GRNotification]? ?? [] })
     }
     
     /**

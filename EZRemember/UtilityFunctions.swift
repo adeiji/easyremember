@@ -12,6 +12,7 @@ import UIKit
 class UtilityFunctions {
     
     static let kDeviceId = "deviceId"
+    static let kSyncIds = "syncIds"
     
     /**
      Get the deviceId for this user's device and if it doesn't exist, than create it.  Obviously this will change
@@ -24,7 +25,7 @@ class UtilityFunctions {
         var deviceId = userDefaults.object(forKey: UtilityFunctions.kDeviceId) as? String
         
         if (deviceId == nil) {
-            deviceId = UUID().uuidString
+            deviceId = UUID().uuidString.lowercased()
             userDefaults.set(deviceId, forKey: UtilityFunctions.kDeviceId)
         }
         
@@ -36,6 +37,21 @@ class UtilityFunctions {
         let userDefaults = UserDefaults()
         userDefaults.set(deviceId, forKey: UtilityFunctions.kDeviceId)
         userDefaults.synchronize()
+    }
+    
+    static func addSyncId (_ syncId: String) {
+        // Grab the device Id
+        let userDefaults = UserDefaults()
+        var syncIds:[String] = userDefaults.value(forKey: UtilityFunctions.kSyncIds) as? [String] ?? []
+        syncIds.append(syncId.lowercased())
+        userDefaults.set(syncIds, forKey: UtilityFunctions.kSyncIds)
+        userDefaults.synchronize()
+    }
+    
+    static func syncIds () -> [String]? {
+        let userDefaults = UserDefaults()
+        let syncIds = userDefaults.value(forKey: UtilityFunctions.kSyncIds) as? [String] ?? []
+        return syncIds
     }
     
 }

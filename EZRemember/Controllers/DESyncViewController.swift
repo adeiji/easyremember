@@ -9,12 +9,15 @@
 import Foundation
 import UIKit
 import SwiftyBootstrap
+import RxSwift
 
 class DESyncViewController: UIViewController {
         
     weak var syncButton: UIButton?
     
     weak var syncIdTextField:UITextField?
+    
+    let disposeBag = DisposeBag()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -23,12 +26,49 @@ class DESyncViewController: UIViewController {
         syncView.navBar.isHidden = true
         syncView.containerView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.drawScreen(syncView: syncView)
+        self.syncButtonPressed()
+    }
+    
+    private func validate () -> Bool {
+        guard let count = self.syncIdTextField?.text?.count else { return false }
+        if count < 8 {
+            let idTooSmallCard = GRMessageCard(color: UIColor.white.dark(Dark.coolGrey700))
+            idTooSmallCard.draw(message: "Oops..The Sync Id must be at least 8 characters.  Please make sure you've entered the id in correctly.", title: "Sync Id Too Short", buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), superview: self.view)
+            self.syncIdTextField?.resignFirstResponder()
+            return false
+        }
+        
+        return true
+    }
+    
+    private func syncButtonPressed () {
         self.syncButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
             guard let syncId = self.syncIdTextField?.text else { return }
-                        
-            NotificationsManager.sync(syncId)
+            UtilityFunctions.addSyncId(syncId)
         })
+    }
+    
+    private func showErrorMessage (error: Error){
+                        
+        var message = "Uh oh! Something went wrong while syncing.  Go ahead and try again."
+        
+        if let error = error as? NotificationsManager.SyncingError {
+            if error == .NoNotifications {
+                message = "This Sync Id is invalid.  Please try another one."
+            }
+        }
+        
+        let errorCard = GRMessageCard()
+        errorCard.draw(message: message, title: "Error Syncing", superview: self.view)
+        
+    }
+    
+    private func updateSyncButton (finishedSyncing: Bool) {
+        if finishedSyncing {
+            self.syncButton?.backgroundColor = UIColor.Style.htMintGreen
+            self.syncButton?.setTitle("Finished Syncing", for: .normal)
+        }
     }
     
     private func drawScreen (syncView: GRViewWithScrollView) {
@@ -53,7 +93,12 @@ You only have to input this one time to sync between the different devices, but 
             superview: syncView.containerView)
         
         let syncIdTextField = Style.wideTextField(withPlaceholder: "Enter your sync Id", superview: nil, color: UIColor.black)
+        syncIdTextField.font = CustomFontBook.Medium.of(size: .medium)
         let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan))
+                        
+        let deviceId = UtilityFunctions.deviceId()
+        let indexOfHyphen = deviceId.firstIndex(of: "-") ?? deviceId.endIndex
+        let shortDeviceId = deviceId[..<indexOfHyphen]
         
         card.addRow(columns: [
             // Title
@@ -79,7 +124,7 @@ You only have to input this one time to sync between the different devices, but 
             // Show the device Id
             Column(cardSet:
                 Style.label(
-                    withText: UtilityFunctions.deviceId(),
+                    withText: String(shortDeviceId),
                     superview: nil,
                     color: UIColor.black.dark(.black),
                     textAlignment: .center)

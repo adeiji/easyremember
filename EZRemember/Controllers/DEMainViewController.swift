@@ -69,7 +69,18 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
     
     let notificationsRelay = BehaviorRelay(value: [GRNotification]())
     
-    var notifications = [GRNotification]()
+    var notifications = [GRNotification]() {
+        didSet {
+            let userDefaults = UserDefaults.standard
+            if self.notifications.count == 0 {
+                userDefaults.set(true, forKey: Keys.UserDefaults.kNoNotifications)
+            } else {
+                userDefaults.set(false, forKey: Keys.UserDefaults.kNoNotifications)
+            }
+            
+            userDefaults.synchronize()
+        }
+    }
     
     var maxNumOfCards = 5
     
@@ -347,9 +358,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, UIScrollVi
      */
     func subscribeToNotificationsObservable (notificationsObservable: Observable<[GRNotification]>, loading: NVActivityIndicatorView?) {
         notificationsObservable.subscribe { (event) in
+            
+            if event.isCompleted {
+                self.notificationsRelay.accept(self.notifications)
+            }
+            
             if let notifications = event.element?.sorted(by: { $0.creationDate > $1.creationDate }), notifications.count > 0 {
-                self.notificationsRelay.accept(notifications)
-                self.notifications = notifications
+                self.notifications.append(contentsOf: notifications)
             } else {
                 self.mainView?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             }
