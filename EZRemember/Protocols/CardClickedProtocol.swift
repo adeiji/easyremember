@@ -17,29 +17,30 @@ protocol CardClickedProtocol: UIViewController {
     var disposeBag:DisposeBag { get }
     
     var notifications:[GRNotification] { get set }
+    
+    var allNotifications:[GRNotification] { get set }
         
 }
 
 extension CardClickedProtocol {
     
-    private func showCard (notification: GRNotification, notificationsRelay: BehaviorRelay<[GRNotification]>) {
+    private func showCard (notification: GRNotification) {
         let createCardVC = GRCreateNotificationViewController(notification: notification)
         createCardVC.publishNotification.subscribe { [weak self] (event) in
             guard let self = self else { return }
             guard let notification = event.element else { return }
             self.updateNotificationInNotificationsArray(notification: notification)
-            notificationsRelay.accept(self.notifications)
         }.disposed(by: self.disposeBag)
         self.present(createCardVC, animated: true, completion: nil)
     }
     
-    internal  func setupTapCollectionView (collectionView: UICollectionView?, notificationsRelay: BehaviorRelay<[GRNotification]>) {
+    internal  func setupTapCollectionView (collectionView: UICollectionView?) {
         guard let collectionView = collectionView else { return }
         collectionView.rx.itemSelected.subscribe { [weak self] (event) in
             guard let self = self else { return }
             guard let indexPath = event.element else { return }
             let notification = self.notifications[indexPath.row]
-            self.showCard(notification: notification, notificationsRelay: notificationsRelay)
+            self.showCard(notification: notification)
         }.disposed(by: self.disposeBag)
     }
     
@@ -47,6 +48,10 @@ extension CardClickedProtocol {
         guard let notification = notification else { return }
         if let row = self.notifications.firstIndex(where: { $0.id == notification.id }) {
             self.notifications[row] = notification
+        }
+        
+        if let row = self.allNotifications.firstIndex(where: { $0.id == notification.id }) {
+            self.allNotifications[row] = notification
         }
     }
     

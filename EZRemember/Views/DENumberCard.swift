@@ -37,7 +37,14 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
         
         var selectNumberColumns = [Column]()
         
-        for number in 1...12 {
+        for number in 1...64 {
+            
+            if number > 10 {
+                if number % 5 != 0 {
+                    continue
+                }
+            }
+            
             let button = Style.largeButton(with: "\(number)",backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray),
                                            fontColor: UIColor.darkText.dark(.white))
             button.showsTouchWhenHighlighted = true

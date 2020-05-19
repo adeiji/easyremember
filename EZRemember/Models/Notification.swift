@@ -30,7 +30,13 @@ struct GRNotification: Codable {
         "hi": "Hindi",
         "fr": "French",
         "es": "Spanish",
-        "pt": "Portuguese"
+        "pt": "Portuguese",
+        "ar": "Arabic",
+        "bn": "Bengali",
+        "it": "Italian",
+        "ja": "Japanese",
+        "tl": "Tagolog",
+        "th": "Thai"
     ]
     
     /** Given a value, return the shortcode for that value */

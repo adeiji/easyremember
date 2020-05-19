@@ -48,9 +48,13 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
         
         var selectNumberColumns = [Column]()
         
-        GRNotification.kSupportedLanguages.forEach({ (key, value) in
+        // ADD ALL THE DIFFERENT LANGUAGES TO THE SCREEN
+        
+        GRNotification.kSupportedLanguages.sorted(by: { $0.value < $1.value  }).forEach({ (key, value) in
             let button = Style.largeButton(with: value, backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), fontColor: UIColor.darkText.dark(Dark.coolGrey50))
             button.showsTouchWhenHighlighted = true
+            
+            // CREATE THE COLUMN FOR THE LANGUAGE (BUTTON) AS THE COMPONENT
             
             let column = Column(cardSet:
                 button
@@ -66,8 +70,12 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
                 self.handleLanguageSelection(shouldSelect: true, button: button)
             }
             
+            // ADD THE LANGUAGE BUTTON PRESSED FUNCTIONALITY
+            
             button.addTargetClosure { [weak self] (languageButton) in
                 guard let self = self else { return }
+                
+                // EITHER SELECT OR DESELECT THE LANGUAGE
                 
                 let shouldSelect = !self.selectedLanguagesButtons.contains(languageButton)
                 
@@ -80,6 +88,8 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
                 }
             }
         })
+        
+        // TRANSLATION CARD HEADER MESSAGE
         
         let selectLanguagesMessage = "Which languages would you look to recieve translations for?"
         

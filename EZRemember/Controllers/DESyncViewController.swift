@@ -11,7 +11,7 @@ import UIKit
 import SwiftyBootstrap
 import RxSwift
 
-class DESyncViewController: UIViewController {
+class DESyncViewController: UIViewController, AddCancelButtonProtocol {
         
     weak var syncButton: UIButton?
     
@@ -23,7 +23,7 @@ class DESyncViewController: UIViewController {
         super.viewDidAppear(animated)
         let syncView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "")
         syncView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
-        syncView.navBar.isHidden = true
+        self.addCancelButton(view: syncView)
         syncView.containerView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.drawScreen(syncView: syncView)
         self.syncButtonPressed()
@@ -99,7 +99,7 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
             superview: syncView.containerView)
         
         let syncIdTextField = Style.wideTextField(withPlaceholder: "Enter your sync Id", superview: nil, color: UIColor.black)
-        syncIdTextField.font = CustomFontBook.Regular.of(size: .medium)
+        syncIdTextField.font = CustomFontBook.Regular.of(size: .small)
         let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
                         
         let deviceId = UtilityFunctions.deviceId()

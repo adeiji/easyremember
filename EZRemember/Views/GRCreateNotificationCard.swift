@@ -180,7 +180,8 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
         
         self.addButton = addButton
         
-        // The cancel button
+        // CANCEL BUTTON
+        
         let cancelButton = self.cancelButton(card: self, superview: superview)
 //        let veryLightGrayColor = UIColor(red: 246/255, green: 248/255, blue: 252/255, alpha: 1.0)
         cancelButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
@@ -284,15 +285,23 @@ public class GRCreateNotificationViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "")
-        self.mainView?.navBar.isHidden = true
-        self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
-        self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if self.mainView != nil { return }
+        
+        self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "")
+        self.mainView?.navBar.isHidden = true
+        self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
+        self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
+        
         self.draw()
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     func draw () {
@@ -315,7 +324,7 @@ public class GRCreateNotificationViewController: UIViewController {
             
             var tags:[String]?
             
-            if let text = createNotifCard.tagTextField?.text {
+            if let text = createNotifCard.tagTextField?.text, text.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                 tags = [text]
                 UtilityFunctions.addTags(newTags: [text])
             }

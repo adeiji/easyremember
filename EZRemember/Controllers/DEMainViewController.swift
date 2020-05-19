@@ -24,7 +24,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
          
         // Set the flow layout of the collection view
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
+        flowLayout.scrollDirection = .vertical        
         
         let collectionView = UICollectionView(frame: superview.frame, collectionViewLayout: flowLayout)
                         
@@ -67,8 +67,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     
     let disposeBag = DisposeBag()
     
-    let notificationsRelay = BehaviorRelay(value: [GRNotification]())
-    
     var notifications = [GRNotification]() {
         didSet {
             let userDefaults = UserDefaults.standard
@@ -82,9 +80,28 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         }
     }
     
-    var maxNumOfCards = 5
+    weak var collectionHeaderView:NotificationsHeaderCell? {
+        didSet {
+            self.handleSearch(searchBar: self.collectionHeaderView?.searchBar)
+            self.handleTagPressed(tagPressed: self.collectionHeaderView?.tagPressed)
+        }
+    }
     
-    weak var collectionView:UICollectionView?
+    var allNotifications = [GRNotification]() {
+        didSet {
+            // If there are no notifications AT ALL on this device, than don't show the collection view's header
+            // because it will overlap the empty collection view background view
+            if self.allNotifications.count == 0 {
+                self.collectionHeaderView?.isHidden = true
+                self.showEmptyCollectionView()
+            } else {
+                self.collectionHeaderView?.isHidden = false
+                self.mainView?.collectionView?.reset()
+            }
+        }
+    }
+    
+    var maxNumOfCards = 5
         
     /// If there is an initial book url that should be displayed at the start of the app, ie. this app is opening due to a user selecting this
     /// app as the "Open In" for an ePub
@@ -97,7 +114,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func handleToggleActivateCard (card: GRNotificationCard) {
+    func handleToggleActivateCard (card: GRNotificationCard) {
         
         card.toggleActivateButton?.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
@@ -148,19 +165,22 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                     // notifications array
                     card.notification?.active = isActive
                     self.updateNotificationInNotificationsArray(notification: card.notification)
-                    self.notificationsRelay.accept(self.notifications)
                 }
         }.disposed(by: self.disposeBag)
     }
     
     private func showMaxNumberOfCardsHit () {
         
-        GRMessageCard(color: .white, anchorWidthToScreenWidth: true)
+        let card = GRMessageCard(color: .white, anchorWidthToScreenWidth: true)
+
+        card
         .draw(
             message: "You have already reached your maximum active notifications of \(self.maxNumOfCards).  Please deactivate another card first, or increase your maximum activate notifications on the 'Schedule' page",
             title: "Maximum Active Cards Reached",
-            buttonBackgroundColor: UIColor.EZRemember.mainBlue,
+            buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan),
             superview: self.view)
+        
+        card.backgroundColor = UIColor.white.dark(Dark.coolGrey700)
         
     }
     
@@ -185,8 +205,6 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                             self.updateNotificationInNotificationsArray(notification: updatedNotification)
                         }
                     }
-                    
-                    self.notificationsRelay.accept(self.notifications)
                 }
                 
                 self.maxNumOfCards = maxNum
@@ -215,8 +233,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     
     @objc func notificationsSavedToServer (_ notification: Notification) {
         guard let notifications = notification.userInfo?[GRNotification.kSavedNotifications] as? [GRNotification] else { return }
-        self.notifications.insert(contentsOf: notifications, at: 0)
-        self.notificationsRelay.accept(self.notifications)
+        self.addNotifications(notifications, atBeginning: true)
     }
     
     private func addObservers () {
@@ -234,7 +251,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         self.mainView?.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.right.equalTo(self.mainView ?? self.view).offset(-20)
-            make.top.equalTo(self.mainView ?? self.view).offset(20)
+            make.top.equalTo(self.mainView ?? self.view).offset(Style.isIPhoneX() ? 40 : 20)
             make.width.equalTo(50)
             make.height.equalTo(50)
         }
@@ -244,109 +261,166 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         
     }
     
+    private func initialSetupCollectionView () {
+        guard let collectionView = self.mainView?.collectionView else { return }
+        collectionView.register(NotificationsHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NotificationsHeaderCell.reuseIdentifier)
+        collectionView.register(GRNotificationCard.self, forCellWithReuseIdentifier: GRNotificationCard.reuseIdentifier)
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        collectionView.backgroundColor = .clear
+        
+        self.setupTapCollectionView(collectionView: collectionView)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if self.mainView != nil { return }
+                        
+        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
+        mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
+        mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
+        self.mainView = mainView
+        
+        self.initialSetupCollectionView()
         
         // If this device has a device Id set, which all should
         let deviceId = UtilityFunctions.deviceId()
         
         // Get all the notifications for this device from the server
         let notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
-        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
-        mainView.collectionView?.register(GRNotificationCard.self, forCellWithReuseIdentifier: GRNotificationCard.reuseIdentifier)
-        mainView.collectionView?.backgroundColor = .clear
-        mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
-        mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
-        self.mainView = mainView
-        
-        guard let collectionView = mainView.collectionView else { return }
-        self.collectionView = collectionView
         
         // Show that there is data loading
-        let loading =  self.mainView?.showLoadingNVActivityIndicatorView()
+        let loading =  self.view.showLoadingNVActivityIndicatorView()
         
         let addButton = self.addAddButton()
         
-        self.handleEmptyTableViewState()
-        self.bindNotificationsRelayToCollectionView(collectionView: collectionView, loading: loading)
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
         self.setupAddButton(addButton: addButton)
-        self.setupTapCollectionView(collectionView: collectionView, notificationsRelay: self.notificationsRelay)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addObservers()
         self.getMaxNumOfCardsFromServer()
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.collectionView?.reloadData()
+        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
     }
     
-    /**
-     Bind notifications relay object to the table view
-     */
-    func bindNotificationsRelayToCollectionView (collectionView: UICollectionView, loading: NVActivityIndicatorView?) {
-        
-        collectionView.rx.setDelegate(self).disposed(by: self.disposeBag)
-        // Display the notifications on a table view
-        self.notificationsRelay
-            .bind(to:
-                collectionView
-                    .rx
-                    .items(cellIdentifier: GRNotificationCard.reuseIdentifier, cellType: GRNotificationCard.self)) { [weak self] (row, notification, cell) in
-                        guard let self = self else { return }
-                        if loading?.superview != nil {
-                            // Show that the items have finished loading
-                            self.mainView?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                        }
-                        
-                        // If the table view is showing a background view because it was empty, then reset it to it's normal state
-                        self.mainView?.collectionView?.reset()
-//                        cell.viewToBaseWidthOffOf = self.mainView?.tableView
-                        cell.notification = notification
-                        self.setupNotificationCellDeleteButton(cell: cell)
-                        self.handleToggleActivateCard(card: cell)
-                        
+    private func handleTagPressed (tagPressed: PublishSubject<String>?) {
+        tagPressed?.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            guard let tag = event.element else { return }
+                                                
+            switch tag {
+            case "All":
+                self.notifications = self.allNotifications
+            case "Active":
+                self.notifications = self.allNotifications.filter({ $0.active == true })
+            case "Inactive":
+                self.notifications = self.allNotifications.filter({ $0.active == false })
+            default:
+                self.notifications = self.allNotifications.filter({ $0.tags?.contains(tag) == true })
+            }
+            
+            self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
         }.disposed(by: self.disposeBag)
+    }
+    
+    private func handleSearch (searchBar: UITextField?) {
+        
+        searchBar?.rx.text.orEmpty
+            .throttle(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .skip(1)
+            .distinctUntilChanged()
+            .subscribe({ [weak self] (event) in
+                guard let self = self else { return }
+                guard let text = event.element else { return }
+                
+                if text == "" {
+                    self.notifications = self.allNotifications
+                    self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                } else {
+                    self.notifications = self.allNotifications.filter({
+                        $0.bookTitle?.contains(text) == true ||
+                            $0.caption.contains(text) == true ||
+                            $0.description.contains(text) == true ||
+                            $0.language?.contains(text) == true
+                    })
+                    
+                    var indexPathsToRemove = [IndexPath]()
+                    
+                    for index in self.notifications.count..<self.allNotifications.count {
+                        let indexPath = IndexPath(row: index, section: 0)
+                        indexPathsToRemove.append(indexPath)
+                    }
+                    
+                    self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                }
+            }).disposed(by: self.disposeBag)
     }
     
     /**
      If the notifications relay contains zero elements than we need to display the no data view on the Table View
      */
-    func handleEmptyTableViewState () {
-        notificationsRelay.subscribe { [weak self] (event) in
-            guard let self = self else { return }
-            if let notifications = event.element, notifications.count == 0 {
-                let actionButton = self.mainView?.collectionView?.setEmptyMessage(
-                    message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
-                self.setupAddButton(addButton: actionButton)
-            }
-        }.disposed(by: self.disposeBag)
+    func showEmptyCollectionView () {
+        let actionButton = self.mainView?.collectionView?.setEmptyMessage(
+            message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
+        self.setupAddButton(addButton: actionButton)
     }
     
     /**
         Subscribe to an observable which will return notifications from the server
      */
     func subscribeToNotificationsObservable (notificationsObservable: Observable<[GRNotification]>, loading: NVActivityIndicatorView?) {
-        notificationsObservable.subscribe { (event) in
+        notificationsObservable.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+                                    
+            if let error = event.error {
+                self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+            }
             
             if event.isCompleted {
-                self.notificationsRelay.accept(self.notifications)
+                self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                self.notifications = self.notifications.sorted(by: { $0.creationDate > $1.creationDate })
+                if self.notifications.count > 0 {
+                    self.mainView?.collectionView?.reset()
+                } else {
+                    self.allNotifications = []
+                }
             }
             
-            if let notifications = event.element?.sorted(by: { $0.creationDate > $1.creationDate }), notifications.count > 0 {
-                self.notifications.append(contentsOf: notifications)
-            } else {
-                self.mainView?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+            if let notifications = event.element, notifications.count > 0 {
+                self.addNotifications(notifications)
             }
         }.disposed(by: self.disposeBag)
+    }
+    
+    func addNotifications (_ notifications: [GRNotification], atBeginning:Bool = false) {
+        
+        if atBeginning {
+            self.notifications.insert(contentsOf: notifications, at: 0)
+            self.allNotifications.insert(contentsOf: notifications, at: 0)
+            return
+        }
+        
+        self.notifications.append(contentsOf: notifications)
+        self.allNotifications.append(contentsOf: notifications)
+        
+        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+    }
+    
+    func removeNotification (notificationId: String) {
+        self.notifications.removeAll(where: { $0.id == notificationId })
+        self.allNotifications.removeAll(where: { $0.id == notificationId })
     }
     
     func setupNotificationCellDeleteButton (cell: GRNotificationCard) {
@@ -355,10 +429,10 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
             
-            let deleteCard = DeleteCard(color: .white, anchorWidthToScreenWidth: true)
+            let deleteCard = DeleteCard(color: UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
             deleteCard.draw(superview: self.view)
             deleteCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
-                guard let self = self else { return }
+                guard let _ = self else { return }
                 deleteCard.close()
             })
             
@@ -381,9 +455,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                         // If deleted successfully
                         if event.element == true {
                             // Delete the notification from the server and remove it from the app
-                            deleteCard.slideDownAndRemove(superview: self.view)
-                            self.notifications.removeAll(where: { $0.id == notificationId })
-                            self.notificationsRelay.accept(self.notifications)
+                            deleteCard.close()
+                            self.removeNotification(notificationId: notificationId)
                         }
                 }.disposed(by: self.disposeBag)
             })
@@ -410,8 +483,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
             createNotifVC.publishNotification.subscribe { [weak self] (event) in
                 guard let self = self else { return }
                 guard let notification = event.element else { return }
-                self.notifications.insert(notification, at: 0)
-                self.notificationsRelay.accept(self.notifications)
+                self.addNotifications([notification], atBeginning: true)
             }.disposed(by: self.disposeBag)
             self.present(createNotifVC, animated: true, completion: nil)
         })

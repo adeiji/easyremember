@@ -34,6 +34,7 @@
 		F43DDF7E2472327800776941 /* String+Substring.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7D2472327800776941 /* String+Substring.swift */; };
 		F43DDF8024723FC100776941 /* Purchasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7F24723FC100776941 /* Purchasing.swift */; };
 		F43DDF82247255E500776941 /* DEMainViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */; };
+		F43DDF8424738EEA00776941 /* AddCancelButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -155,6 +156,7 @@
 		F43DDF7D2472327800776941 /* String+Substring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Substring.swift"; sourceTree = "<group>"; };
 		F43DDF7F24723FC100776941 /* Purchasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchasing.swift; sourceTree = "<group>"; };
 		F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DEMainViewController+CollectionView.swift"; sourceTree = "<group>"; };
+		F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCancelButtonProtocol.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				F4C2026024672B8D00D59245 /* ShowEpubReaderProtocol.swift */,
 				F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */,
 				F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */,
+				F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */,
 				F4C2025A246695E100D59245 /* Notifications+EZRemember.swift in Sources */,
 				F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */,
+				F43DDF8424738EEA00776941 /* AddCancelButtonProtocol.swift in Sources */,
 				F4C1175B24655E3900A145CB /* GRReadBookViewController.swift in Sources */,
 				F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */,
 				F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */,

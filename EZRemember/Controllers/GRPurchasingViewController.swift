@@ -12,7 +12,7 @@ import SwiftyBootstrap
 import DephynedPurchasing
 import RxSwift
 
-class GRPurchasingViewController: UIViewController, PurchaseProtocol {        
+class GRPurchasingViewController: UIViewController, PurchaseProtocol, AddCancelButtonProtocol {
     
     var mainView:GRViewWithScrollView?
     
@@ -37,7 +37,7 @@ class GRPurchasingViewController: UIViewController, PurchaseProtocol {
         let mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "What would you like to purchase?")
         mainView.navBar.header?.textColor = UIColor.black.dark(.white)
         mainView.backgroundColor = .clear
-        mainView.navBar.backgroundColor = .clear
+        self.addCancelButton(view: mainView)
         self.mainView = mainView
     }
     

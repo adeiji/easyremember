@@ -57,6 +57,7 @@ class UtilityFunctions {
     
     static func addTags (newTags: [String]) {
         guard let tag = newTags.first else { return }
+        
         // Add the tag
         let userDefaults = UserDefaults()
         var tags:[String] = userDefaults.value(forKey: UtilityFunctions.kTags) as? [String] ?? []

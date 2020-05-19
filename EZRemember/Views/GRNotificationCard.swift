@@ -115,7 +115,7 @@ class GRNotificationCard: UICollectionViewCell {
                 // TOGGLE ACTIVE BUTTON
                 
                 Column(cardSet: toggleActivateButton
-                .radius(radius: 0)
+                .radius(radius: 5)
                 .toCardSet()
                 .withHeight(30),
                    xsColWidth: .Five)
@@ -125,6 +125,7 @@ class GRNotificationCard: UICollectionViewCell {
         card.addRow(columns: [
             // Delete Button
             Column(cardSet: topTitleLabel
+                .radius(radius: 5)
                 .toCardSet()
                 .margin.top(10)
                 .margin.left(20),

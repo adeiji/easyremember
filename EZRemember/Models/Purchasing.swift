@@ -96,7 +96,7 @@ struct Purchasing {
         
         PurchaseableItem(title: "Serious Student", id: ProductIds.Premium.rawValue, info: "This service is good if you're casually learning something", price: 3.99, features: [
             "Translate text into up to 10 languages",
-            "Have a total of 30 notifications cards at one time",
+            "Have a total of 60 notifications cards at one time",
             "Recieve notifications up to 24 times a day"
         ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly")
     ]
