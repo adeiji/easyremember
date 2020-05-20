@@ -17,10 +17,10 @@ class SyncManager {
     
     let disposeBag = DisposeBag()
     
-    func backupEpubs (urls: [String]) -> Completable {
+    func backupEpubs (filenames: [String]) -> Completable {
         
         return Completable.create { completable in
-            FirebasePersistenceManager.updateDocument(withId: UtilityFunctions.deviceId(), collection: Sync.collectionName, updateDoc: [ Sync.Keys.kBooks: FieldValue.arrayUnion(urls) ]) { (error) in
+            FirebasePersistenceManager.updateDocument(withId: UtilityFunctions.deviceId(), collection: Sync.collectionName, updateDoc: [ Sync.Keys.kBooks: FieldValue.arrayUnion(filenames) ]) { (error) in
                 if let error = error {
                     completable(.error(error))
                     return
@@ -47,7 +47,7 @@ class SyncManager {
                 FirebasePersistenceManager.addDocument(withCollection: Sync.collectionName, data: dict, withId: sync.deviceId) { (error, document) in
                     
                     let ebookHandler = EBookHandler()
-                    ebookHandler.backupAllEbooks()
+                    ebookHandler.backupEbooksAtUrls()
                     
                     if let error = error {
                         completable(.error(error))
@@ -71,7 +71,6 @@ class SyncManager {
     
     func syncWithEmail (sync: Sync, completion: @escaping (Bool, Error?) -> Void) {
         
-                
         let getDocuments = FirebasePersistenceManager.getDocumentsAsObservable(withCollection: Sync.collectionName, queryDocument: [Sync.Keys.kEmail: sync.email.lowercased() ])
         
         getDocuments.subscribe { [weak self] (event) in
@@ -83,8 +82,11 @@ class SyncManager {
             if let documents = event.element, documents.count > 0 {
                 guard let sync = (FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [Sync]?)?.first else { return }
                 
+                let ebookHandler = EBookHandler()
+                ebookHandler.downloadBooks(sync: sync)
                 // Sync with the information attached to this user's email address
                 NotificationsManager.sync(sync.deviceId)
+                UtilityFunctions.addSyncEmail(sync.email)
                 completion(true, nil)
             } else {
                 // If this email contains no documents attached to it, meaning that it's the first time that this user is using this email to sync data with, than save the syncing information to the server

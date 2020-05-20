@@ -15,5 +15,7 @@ extension Notification.Name {
     static let ShowPurchaseViewController = NSNotification.Name("ShowPurchaseViewController")
     static let SyncingFinished = NSNotification.Name("SyncingFinished")
     static let SyncingError = NSNotification.Name("SyncingError")
+    static let ErrorDownloadingBooks = NSNotification.Name("ErrorDownloadBooks")
+    static let FinishedDownloadingBooks = NSNotification.Name("FinishedDownloadingBooks")
     
 }

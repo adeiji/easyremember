@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import SwiftyBootstrap
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
 
     var window: UIWindow?
     
@@ -28,6 +28,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController as? ShowEpubReaderProtocol else { return }
             
             topController.showBookReader(url: url)
+            if self.userHasSubscription() {
+                EBookHandler().backupEbooksAtUrls(urls: [url])
+            }
         } else {
             let messageCard = GRMessageCard(color: UIColor.white.dark(Dark.coolGrey700))
             if let window = self.window {

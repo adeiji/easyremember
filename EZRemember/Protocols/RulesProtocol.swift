@@ -112,4 +112,11 @@ extension RulesProtocol {
         })                
     }
     
+    public func userHasSubscription () -> Bool {
+        return
+            PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Basic.rawValue) ||
+            PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Standard.rawValue) ||
+            PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Premium.rawValue)        
+    }
+    
 }

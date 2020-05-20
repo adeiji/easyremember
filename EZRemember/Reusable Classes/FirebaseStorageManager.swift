@@ -18,8 +18,8 @@ class FirebaseStorageManager {
         case NoMetadata
     }
     
-    static func downloadData (urlString: String, saveToUrl:URL) -> Completable {
-        let storageRef = Storage.storage().reference(withPath: urlString)
+    func downloadData (refPath: String, saveToUrl:URL) -> Completable {
+        let storageRef = Storage.storage().reference(withPath: refPath)
         return Completable.create { completable in
             storageRef.write(toFile: saveToUrl) { (url, error) in
                 if let error = error {
@@ -41,7 +41,7 @@ class FirebaseStorageManager {
         - fileName: call this file what?
         - filepath: The local file path of this file
      */
-    func uploadData (refPath: String, fileName: String, fileUrl: URL) -> Observable<String?> {
+    func uploadData (refPath: String, fileName: String, fileUrl: URL) -> Observable<(fileName: String?, url: URL?)> {
         let storageRef = Storage.storage().reference(withPath: "\(refPath)/\(fileName)")
         
         guard let fileData = try? Data(contentsOf: fileUrl) else {
@@ -60,7 +60,7 @@ class FirebaseStorageManager {
                             observable.onError(error)
                             observable.onCompleted()
                         } else {
-                            observable.onNext(url?.absoluteString)
+                            observable.onNext((fileName: fileName, url: url))
                             observable.onCompleted()
                         }
                     }

@@ -14,6 +14,7 @@ class UtilityFunctions {
     static let kDeviceId = "deviceId"
     static let kSyncIds = "syncIds"
     static let kTags = "tags"
+    static let kSyncEmail = "syncEmail"
     
     /**
      Get the deviceId for this user's device and if it doesn't exist, than create it.  Obviously this will change
@@ -97,6 +98,19 @@ class UtilityFunctions {
         }
         
         return hour + 1
+    }
+    
+    static func addSyncEmail (_ email: String) {
+        // Grab the device Id
+        let userDefaults = UserDefaults()
+        userDefaults.setValue(email, forKey: UtilityFunctions.kSyncEmail)
+        userDefaults.synchronize()        
+    }
+    
+    static func getSyncEmail () -> String?
+    {
+        let userDefaults = UserDefaults()
+        return userDefaults.object(forKey: UtilityFunctions.kSyncEmail) as? String
     }
     
 }

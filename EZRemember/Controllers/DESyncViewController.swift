@@ -131,7 +131,6 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol {
         
         let syncInstructions =
 """
-To sync your items across devices...
 
 •  Copy "Your Sync Id" above
 •  Open the app on the other device
@@ -148,7 +147,7 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
         let card = GRBootstrapElement(
             color: .clear,
             anchorWidthToScreenWidth: true,
-            margin: BootstrapMargin(left: .Four, top: .Four, right: .Four, bottom: .Four),
+            margin: BootstrapMargin(left: .Five, top: .Five, right: .Five, bottom: .Five),
             superview: syncView.containerView)
         
         let syncIdTextField = Style.wideTextField(withPlaceholder: "Enter your sync Id", superview: nil, color: UIColor.black)
@@ -162,7 +161,12 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
         
         // EMAIL ADDRESS INSTRUCTIONS LABEL
         
-        let emailAddressSyncMessage = "With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address.  Enter an email address below and press the sync button to do this. Make sure you don't forget the email address you've used to backup your data though."
+        let emailAddressSyncMessage =
+"""
+With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address.  Enter an email address below and press the "Sync with Email" button below.
+
+Then on any other device simply do the same thing with the same email address, to view this device's cards and ePubs on the other device.
+"""
         let emailInstructionsLabel = Style.label(withText: emailAddressSyncMessage, superview: nil, color: UIColor.black.dark(.white))
         emailInstructionsLabel.font = CustomFontBook.Regular.of(size: .medium)
         
@@ -170,11 +174,13 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
         
         let emailAddressSyncTextField = Style.wideTextField(withPlaceholder: "Enter your emaill address", superview: nil, color: UIColor.black)
         emailAddressSyncTextField.font = CustomFontBook.Regular.of(size: .small)
+        if let syncEmail = UtilityFunctions.getSyncEmail() {
+            emailAddressSyncTextField.placeholder = "Currently synced with \(syncEmail)"
+        }
         
         card.addRow(columns: [
             // Title
-            Column(cardSet: Style.label(
-                withText: "How to sync with other devices",
+            Column(cardSet: Style.label(withText: "How to sync with other devices",
                 superview: nil,
                 color: UIColor.black.dark(.white),
                 textAlignment: .center)
@@ -206,6 +212,8 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
                             .withHeight(60),
                 xsColWidth: .Twelve),
             
+            Column(cardSet: Style.label(withText: "To sync your cards across devices...", superview: nil, color: UIColor.black.dark(.white) ).font(CustomFontBook.Bold.of(size: .medium)).toCardSet(), xsColWidth: .Twelve),
+            
             // The sync instruction card
             // How to get syc with other devices instructions
             Column(cardSet: Style.label(
@@ -214,7 +222,6 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
                 color: UIColor.black.dark(.white))
                 .font(CustomFontBook.Regular.of(size: .medium))
                     .toCardSet()
-                    .margin.top(40)
                     .margin.bottom(40),
                    xsColWidth: .Twelve),
             
@@ -235,13 +242,21 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
                 .radius(radius: 5)
                 .toCardSet().withHeight(50), xsColWidth: .Twelve).forSize(.md, .Six),
             
+            // EMAIL SYNCING
+            
+            Column(cardSet: Style.label(withText: "To sync your cards and your eBooks using your email...", superview: nil, color: UIColor.black.dark(.white) )
+                .font(CustomFontBook.Bold.of(size: .medium))
+                .toCardSet().margin.top(40),
+                   xsColWidth: .Twelve),
+            
             // EMAIL INSTRUCTIONS LABEL
             
             Column(cardSet: emailInstructionsLabel.toCardSet(), xsColWidth: .Twelve),
             
             // EMAIL TEXT FIELD
             
-            Column(cardSet: emailAddressSyncTextField.backgroundColor(UIColor.Style.lightGray).radius(radius: 5).toCardSet(), xsColWidth: .Twelve)
+            Column(cardSet: emailAddressSyncTextField.backgroundColor(UIColor.Style.lightGray).radius(radius: 5)
+                .toCardSet().margin.top(40), xsColWidth: .Twelve)
         ])
         
         card.addRow(columns: [
