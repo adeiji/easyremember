@@ -149,6 +149,8 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
             selecteMaxNumber: schedule.maxNumOfCards)
                 .addToSuperview(superview: mainView.containerView, viewAbove: languagesCard, anchorToBottom: true)
         
+        let frequencyCard = GRBootstrapElement()
+        
         self.timeSlotsSubject.onNext(schedule.timeSlots)
         self.scheduleView = scheduleView
         self.maxNumOfCards = schedule.maxNumOfCards
@@ -192,7 +194,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
         self.mainView?.navBar.rightButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
             guard let selectedLanguages = self.languagesCard?.selectedLanguages else { return }
-            let selectedNumber = self.maxNumberOfCardsCard?.selectedNumberButton?.titleLabel?.text ?? "5"
+            let selectedNumber = self.maxNumberOfCardsCard?.selectedButton?.titleLabel?.text ?? "5"
             guard let maxNumOfCards = Int(selectedNumber) else { return }
             self.selectedLanguages = selectedLanguages
             

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1062650335331-4a888444n7t3dhv5n4cvi8beuee50kpd.apps.googleusercontent.com</string>
+	<string>1062650335331-7tsmq3c5orumbihnsfcme2irrjtnmvga.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1062650335331-4a888444n7t3dhv5n4cvi8beuee50kpd</string>
+	<string>com.googleusercontent.apps.1062650335331-7tsmq3c5orumbihnsfcme2irrjtnmvga</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAE31qBSkec7P0JkrMNSlDJ6D2hX7YOw8k</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dephyned.ezremember</string>
+	<string>dephyned.EZRemember</string>
 	<key>PROJECT_ID</key>
 	<string>easyremember-32128</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1062650335331:ios:4c763538ae031319576856</string>
+	<string>1:1062650335331:ios:f297c680888ebe65576856</string>
 	<key>DATABASE_URL</key>
 	<string>https://easyremember-32128.firebaseio.com</string>
 </dict>

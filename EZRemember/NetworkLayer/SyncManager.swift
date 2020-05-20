@@ -10,6 +10,7 @@ import Foundation
 import DephynedFire
 import RxSwift
 import Firebase
+import FirebaseFirestore
 
 class SyncManager {
     

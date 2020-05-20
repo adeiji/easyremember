@@ -40,6 +40,9 @@
 		F43DDF8A2474318D00776941 /* String+IsValidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF892474318D00776941 /* String+IsValidEmail.swift */; };
 		F43DDF8C247447E100776941 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8B247447E100776941 /* SyncManager.swift */; };
 		F43DDF8E247449DD00776941 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */; };
+		F43DDF9124756C4D00776941 /* FCMToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF9024756C4D00776941 /* FCMToken.swift */; };
+		F43DDF9324756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */; };
+		F43DDF962475BD9600776941 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F43DDF952475BD9500776941 /* GoogleService-Info.plist */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -56,7 +59,6 @@
 		F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4C2026624682F4800D59245 /* ylioppilas.epub */; };
 		F4F1A3EACA9D508B69DE148E /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
-		F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F53780246020F00009D3DC /* GoogleService-Info.plist */; };
 		F4F53793246062220009D3DC /* SceneDelegate+TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */; };
 		F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53798246085A60009D3DC /* DEScheduleViewController.swift */; };
 		F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5379A246097980009D3DC /* ScheduleManager.swift */; };
@@ -167,6 +169,10 @@
 		F43DDF892474318D00776941 /* String+IsValidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+IsValidEmail.swift"; sourceTree = "<group>"; };
 		F43DDF8B247447E100776941 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
+		F43DDF9024756C4D00776941 /* FCMToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMToken.swift; sourceTree = "<group>"; };
+		F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebasePersistenceManager+FCMToken.swift"; sourceTree = "<group>"; };
+		F43DDF942475ADDA00776941 /* EZRemember.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EZRemember.entitlements; sourceTree = "<group>"; };
+		F43DDF952475BD9500776941 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -182,7 +188,6 @@
 		F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRBootstrapElement+Clicked.swift"; sourceTree = "<group>"; };
 		F4E0E6F5246C705E00EA0827 /* jy_IN.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = jy_IN.epub; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
-		F4F53780246020F00009D3DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
 		F4F53798246085A60009D3DC /* DEScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEScheduleViewController.swift; sourceTree = "<group>"; };
 		F4F5379A246097980009D3DC /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
@@ -291,7 +296,7 @@
 		F428522F245BFA5E00C381DE = {
 			isa = PBXGroup;
 			children = (
-				F4F53780246020F00009D3DC /* GoogleService-Info.plist */,
+				F43DDF952475BD9500776941 /* GoogleService-Info.plist */,
 				F428523A245BFA5E00C381DE /* EZRemember */,
 				F4285251245BFA5F00C381DE /* EZRememberTests */,
 				F428525C245BFA5F00C381DE /* EZRememberUITests */,
@@ -314,6 +319,7 @@
 		F428523A245BFA5E00C381DE /* EZRemember */ = {
 			isa = PBXGroup;
 			children = (
+				F43DDF942475ADDA00776941 /* EZRemember.entitlements */,
 				F421B23024698E2F007DE745 /* Handler */,
 				F4C2025F24672B7F00D59245 /* Protocols */,
 				F4C1175C246564C800A145CB /* FolioReader */,
@@ -377,6 +383,7 @@
 		F428526E245C252600C381DE /* Reusable Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F43DDF8F24756C3F00776941 /* Models */,
 				F4F537EC2463D1F50009D3DC /* Extensions */,
 				F421B237246A582C007DE745 /* GRPurchasingColumn.swift */,
 				F428526F245C253500C381DE /* UIVIew+Shadow.swift */,
@@ -401,8 +408,17 @@
 				F421B23B246A6112007DE745 /* GRPurchasingCard.swift */,
 				F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */,
 				F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */,
+				F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */,
 			);
 			path = "Reusable Classes";
+			sourceTree = "<group>";
+		};
+		F43DDF8F24756C3F00776941 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F43DDF9024756C4D00776941 /* FCMToken.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F48E65E2245FF34E00CA56FE /* Views */ = {
@@ -629,6 +645,7 @@
 				F4F537C0246127200009D3DC /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				F4F537BF246127200009D3DC /* Poppins-SemiBoldItalic.ttf in Resources */,
 				F4F537C7246127200009D3DC /* Poppins-Black.ttf in Resources */,
+				F43DDF962475BD9600776941 /* GoogleService-Info.plist in Resources */,
 				F4F537B9246127200009D3DC /* Poppins-ExtraLight.ttf in Resources */,
 				F4F537BD246127200009D3DC /* Poppins-Light.ttf in Resources */,
 				F4F537BB246127200009D3DC /* Poppins-ExtraLightItalic.ttf in Resources */,
@@ -636,7 +653,6 @@
 				F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */,
 				F4285248245BFA5F00C381DE /* LaunchScreen.storyboard in Resources */,
 				F4F537C4246127200009D3DC /* Poppins-Regular.ttf in Resources */,
-				F4F53781246020F00009D3DC /* GoogleService-Info.plist in Resources */,
 				F4F537BA246127200009D3DC /* Poppins-ThinItalic.ttf in Resources */,
 				F4F537C2246127200009D3DC /* Poppins-BlackItalic.ttf in Resources */,
 				F4F537C9246127200009D3DC /* Poppins-SemiBold.ttf in Resources */,
@@ -777,6 +793,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43DDF9124756C4D00776941 /* FCMToken.swift in Sources */,
 				F4F537F9246420C50009D3DC /* String+Pinyin.swift in Sources */,
 				F4F537F5246413E90009D3DC /* FirebasePersistanceManager+Watching.swift in Sources */,
 				F43DDF8C247447E100776941 /* SyncManager.swift in Sources */,
@@ -819,6 +836,7 @@
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
 				F43DDF8E247449DD00776941 /* FirebaseStorageManager.swift in Sources */,
 				F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */,
+				F43DDF9324756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift in Sources */,
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
@@ -1013,6 +1031,7 @@
 			baseConfigurationReference = 259168778B4E7DBF1FEDE6CA /* Pods-EZRemember.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRemember/Info.plist;
@@ -1034,6 +1053,7 @@
 			baseConfigurationReference = 2909E7184064B09D39D470FD /* Pods-EZRemember.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRemember/Info.plist;

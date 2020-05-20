@@ -20,12 +20,13 @@ struct Schedule: Codable {
         static let kFcmToken = "fcmToken"
         static let kLanguages = "languages"
     }
-    
+            
     let deviceId:String
     let timeSlots:[Int]
     let maxNumOfCards:Int
     let fcmToken:String?
     let languages:[String]
+    let frequency:Int = 0
     
 }
 

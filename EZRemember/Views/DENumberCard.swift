@@ -12,7 +12,7 @@ import SwiftyBootstrap
 
 class DENumberCard: GRBootstrapElement, RulesProtocol {
     
-    var selectedNumberButton:UIButton? {
+    var selectedButton:UIButton? {
         didSet {
             oldValue?.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray)
             oldValue?.setTitleColor(UIColor.darkText.dark(.white), for: .normal)
@@ -65,12 +65,12 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
                 guard let number = Int(buttonText) else { return }
                 
                 if self.validatePassRuleOrShowFailure(Purchasing.Rules.kMaxNotificationCards, numberToValidate: number, testing: false) {
-                    self.selectedNumberButton = numberOfButton
+                    self.selectedButton = numberOfButton
                 }
             }
             
             if number == selectedNumber {
-                self.selectedNumberButton = button
+                self.selectedButton = button
             }
         }
         

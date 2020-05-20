@@ -47,8 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let _ = GRCurrentDevice.shared // instantiate the current device object
         
         PKIAPHandler.shared.loadProductIds(Purchasing.inAppPurchaseProductIds)
-        
-        
+                        
+        UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound ]) { (success, error) in
             if success {
                 AnalyticsManager.logGenericEvent(name: .AllowNotifications)
@@ -58,15 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        application.registerForRemoteNotifications()
+                        
         return true
     }
-    
-
-    
+        
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        FirebasePersistenceManager.updateDocument(withId: UtilityFunctions.deviceId(), collection: Schedule.Keys.kCollectionName, updateDoc: [
-            Schedule.Keys.kFcmToken: fcmToken
-        ], completion: nil)
+        FirebasePersistenceManager.shared.saveFcmToken(fcmToken)
     }
 
     // MARK: UISceneSession Lifecycle

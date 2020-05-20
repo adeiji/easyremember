@@ -205,6 +205,11 @@ class NotificationsManager {
     static func sync (_ id: String) {
                 
         UtilityFunctions.updateDeviceId(id)
+        
+        if let fcmToken = FirebasePersistenceManager.shared.getFCMToken() {
+            FirebasePersistenceManager.shared.saveFcmToken(fcmToken, forceSave: true)
+        }
+        
         self.getNotifications(deviceId: UtilityFunctions.deviceId()).subscribe { (event) in
             
             if let notifications = event.element {

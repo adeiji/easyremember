@@ -18,6 +18,20 @@ class DEScheduleView: GRBootstrapElement {
     private let disposeBag = DisposeBag()
     
     
+    fileprivate func addTimesCaptionLabel(_ columns: [GRBootstrapElement.Column]) {
+        let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
+        timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium ))
+        timesCaptionLabel.attributedText = ("Select all the times you want to recieve a notification").addLineSpacing()
+        
+        self.addRow(columns: [
+            Column(cardSet: timesCaptionLabel
+                .toCardSet()
+                .margin.top(50)
+                .margin.bottom(50),
+                   xsColWidth: .Twelve)
+        ])
+    }
+    
     /**
      Sets up the view's UI.
      
@@ -47,18 +61,8 @@ class DEScheduleView: GRBootstrapElement {
                 .withHeight(UI.scheduleViewButtonHeights), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Two))
         }
         
-        let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
-        timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium ))
-        timesCaptionLabel.attributedText = ("Select all the times you want to recieve a notification").addLineSpacing()
-        
-        self.addRow(columns: [
-            Column(cardSet: timesCaptionLabel
-            .toCardSet()
-            .margin.top(50)
-            .margin.bottom(50),
-                xsColWidth: .Twelve)
-        ])
-        .addRow(columns: columns, anchorToBottom: true)
+        self.addTimesCaptionLabel(columns)
+        self.addRow(columns: columns, anchorToBottom: true)
         
         return self
     }

@@ -14,7 +14,7 @@ class UtilityFunctions {
     static let kDeviceId = "deviceId"
     static let kSyncIds = "syncIds"
     static let kTags = "tags"
-    static let kSyncEmail = "syncEmail"
+    static let kSyncEmail = "syncEmail"    
     
     /**
      Get the deviceId for this user's device and if it doesn't exist, than create it.  Obviously this will change
@@ -112,5 +112,7 @@ class UtilityFunctions {
         let userDefaults = UserDefaults()
         return userDefaults.object(forKey: UtilityFunctions.kSyncEmail) as? String
     }
+    
+
     
 }
