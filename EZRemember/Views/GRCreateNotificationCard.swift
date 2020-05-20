@@ -113,6 +113,20 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
         return textView
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let character = text.first, character == "\t" {
+            if textView == self.firstTextView {
+                self.descriptionTextView?.becomeFirstResponder()
+            } else if textView == self.descriptionTextView {
+                self.tagTextField?.becomeFirstResponder()
+            }
+            
+            return false
+        }
+        
+        return true
+    }
+    
     private func showAutocomplete (tags: [String]) {
         let autocompleteView = UIView()
         
@@ -165,7 +179,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
         self.autocompleteView?.removeFromSuperview()
         
         if textField.text == "" {
-            textField.backgroundColor = Dark.coolGrey700
+            textField.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey700)
         }
     }
     

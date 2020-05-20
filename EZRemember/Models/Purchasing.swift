@@ -77,7 +77,7 @@ struct Purchasing {
         
         // CASUAL LEARNER PACKAGE
         
-        PurchaseableItem(title: "Casual Learner", id: ProductIds.Basic.rawValue, info: "This service is good if you're casually learning something", price: 4.99, features: [
+        PurchaseableItem(title: "Casual Learner", id: ProductIds.Basic.rawValue, info: "This service is good if you're casually learning something for fun, or perhaps for a simple class.", price: 4.99, features: [
             "Translate text into 1 language",
             "Have a total of 5 notification cards at one time",
             "Recieve notifications up to 5 times a day"
@@ -85,7 +85,7 @@ struct Purchasing {
         
         // SERIOUS STUDENT
         
-        PurchaseableItem(title: "Casual Student", id: ProductIds.Standard.rawValue, info: "This service is good if you're casually learning something", price: 3.99, features: [
+        PurchaseableItem(title: "Casual Student", id: ProductIds.Standard.rawValue, info: "This service is good if you're serious about learning, but you still want to pace things out and speed of learning is not an issue.", price: 9.99, features: [
             "Translate text into up to 3 languages",
             "Have a total of 15 notifications cards at one time",
             "Sync your data across multiple devices",
@@ -94,7 +94,7 @@ struct Purchasing {
         
         // MASTER
         
-        PurchaseableItem(title: "Serious Student", id: ProductIds.Premium.rawValue, info: "This service is good if you're casually learning something", price: 3.99, features: [
+        PurchaseableItem(title: "Serious Student", id: ProductIds.Premium.rawValue, info: "This service is good if you're  serious about learning, maybe for college, monetization, or your just an intense learner.", price: 14.99, features: [
             "Translate text into up to 10 languages",
             "Have a total of 60 notifications cards at one time",
             "Recieve notifications up to 24 times a day"

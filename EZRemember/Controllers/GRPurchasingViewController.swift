@@ -44,7 +44,7 @@ class GRPurchasingViewController: UIViewController, PurchaseProtocol, AddCancelB
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let mainView = self.mainView else { return }
-        let purchaseCard = GRPurchasingCard(color: UIColor.white.dark(Dark.coolGrey900), anchorWidthToScreenWidth: true, superview: self.view, purchaseableItems: self.purchaseableItems)
+        let purchaseCard = GRPurchasingCard(color: UIColor.white.dark(Dark.coolGrey900), anchorWidthToScreenWidth: true, margin: BootstrapMargin.noMargins(), superview: self.view, purchaseableItems: self.purchaseableItems)
         
         // THE USER HAS SELECTED TO PURCHASE SOMETHING
         

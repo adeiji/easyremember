@@ -35,6 +35,11 @@
 		F43DDF8024723FC100776941 /* Purchasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7F24723FC100776941 /* Purchasing.swift */; };
 		F43DDF82247255E500776941 /* DEMainViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */; };
 		F43DDF8424738EEA00776941 /* AddCancelButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */; };
+		F43DDF862473D51900776941 /* AppDelegate+BackgroundNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF852473D51900776941 /* AppDelegate+BackgroundNotifications.swift */; };
+		F43DDF8824742E2100776941 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8724742E2100776941 /* Sync.swift */; };
+		F43DDF8A2474318D00776941 /* String+IsValidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF892474318D00776941 /* String+IsValidEmail.swift */; };
+		F43DDF8C247447E100776941 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8B247447E100776941 /* SyncManager.swift */; };
+		F43DDF8E247449DD00776941 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -157,6 +162,11 @@
 		F43DDF7F24723FC100776941 /* Purchasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchasing.swift; sourceTree = "<group>"; };
 		F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DEMainViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCancelButtonProtocol.swift; sourceTree = "<group>"; };
+		F43DDF852473D51900776941 /* AppDelegate+BackgroundNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+BackgroundNotifications.swift"; sourceTree = "<group>"; };
+		F43DDF8724742E2100776941 /* Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		F43DDF892474318D00776941 /* String+IsValidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+IsValidEmail.swift"; sourceTree = "<group>"; };
+		F43DDF8B247447E100776941 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -326,6 +336,7 @@
 				F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */,
 				F4C20259246695E100D59245 /* Notifications+EZRemember.swift */,
 				F421B233246A4E4A007DE745 /* Constants.swift */,
+				F43DDF852473D51900776941 /* AppDelegate+BackgroundNotifications.swift */,
 			);
 			path = EZRemember;
 			sourceTree = "<group>";
@@ -389,6 +400,7 @@
 				F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */,
 				F421B23B246A6112007DE745 /* GRPurchasingCard.swift */,
 				F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */,
+				F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -432,6 +444,7 @@
 				F4F5377E24601A630009D3DC /* NotificationsManager.swift */,
 				F4F5379A246097980009D3DC /* ScheduleManager.swift */,
 				F4F537F0246404B70009D3DC /* TranslateManager.swift */,
+				F43DDF8B247447E100776941 /* SyncManager.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -476,6 +489,7 @@
 				F4F537DD246276B50009D3DC /* Notification.swift */,
 				F4C2025B246699C200D59245 /* BookDetails.swift */,
 				F43DDF7F24723FC100776941 /* Purchasing.swift */,
+				F43DDF8724742E2100776941 /* Sync.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -494,6 +508,7 @@
 			isa = PBXGroup;
 			children = (
 				F43DDF7D2472327800776941 /* String+Substring.swift */,
+				F43DDF892474318D00776941 /* String+IsValidEmail.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -764,6 +779,7 @@
 			files = (
 				F4F537F9246420C50009D3DC /* String+Pinyin.swift in Sources */,
 				F4F537F5246413E90009D3DC /* FirebasePersistanceManager+Watching.swift in Sources */,
+				F43DDF8C247447E100776941 /* SyncManager.swift in Sources */,
 				F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */,
 				F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */,
 				F4285240245BFA5E00C381DE /* ViewController.swift in Sources */,
@@ -772,6 +788,7 @@
 				F4C2025A246695E100D59245 /* Notifications+EZRemember.swift in Sources */,
 				F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */,
 				F43DDF8424738EEA00776941 /* AddCancelButtonProtocol.swift in Sources */,
+				F43DDF8824742E2100776941 /* Sync.swift in Sources */,
 				F4C1175B24655E3900A145CB /* GRReadBookViewController.swift in Sources */,
 				F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */,
 				F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */,
@@ -800,11 +817,13 @@
 				F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
+				F43DDF8E247449DD00776941 /* FirebaseStorageManager.swift in Sources */,
 				F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */,
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
 				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
+				F43DDF8A2474318D00776941 /* String+IsValidEmail.swift in Sources */,
 				F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */,
 				F4F537CD2461297F0009D3DC /* UILabel+Extensions.swift in Sources */,
 				F43DDF7E2472327800776941 /* String+Substring.swift in Sources */,
@@ -814,6 +833,7 @@
 				F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */,
 				F4F537F724641A520009D3DC /* DEShowTranslationsViewController.swift in Sources */,
 				F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */,
+				F43DDF862473D51900776941 /* AppDelegate+BackgroundNotifications.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
 				F4E0E6F0246BF5AF00EA0827 /* CardClickedProtocol.swift in Sources */,
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
@@ -1001,6 +1021,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.001;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1021,6 +1042,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.001;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

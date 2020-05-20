@@ -121,7 +121,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
             self.navigationController?.popViewController(animated: true)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: .CreateMenuCalled, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: UIMenuController.willShowMenuNotification, object: nil)
         
         self.showEmptyTranslationView()
         
@@ -133,6 +133,12 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
         self.folioReader.readerCenter?.pageDelegate = self
         self.folioReader.readerCenter?.delegate = self
         self.folioReader.nightMode = self.traitCollection.userInterfaceStyle == .dark
+        
+        self.translateWordButton = self.createTranslateButton()
+        self.createCard = self.createCreateCardButton()
+        
+        self.handleTranslateButtonPressed()
+        self.handleCreateCardButtonPressed()
     }
     
     override func viewDidLayoutSubviews() {
@@ -157,15 +163,9 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
     // MARK: Create Menu Called
     
     @objc public func createMenuCalled (_ notification: Notification) {
-                        
-        if self.translateWordButton != nil {
-            return
-        }
-        
-        self.translateWordButton = self.createTranslateButton()
-        self.createCard = self.createCreateCardButton()
-        self.handleCreateCardButtonPressed()
-        self.handleTranslateButtonPressed()
+
+        self.translateWordButton?.isHidden = false
+        self.createCard?.isHidden = false
     }
     
     // MARK: Translate Button
@@ -178,8 +178,8 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
             TranslateManager.translateText(wordsToTranslate).subscribe { [weak self] (event) in
                 guard let self = self else { return }
                 translateButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                self.translateWordButton?.removeFromSuperview()
-                self.translateWordButton = nil
+                self.translateWordButton?.isHidden = true
+                
                 if let translations = event.element {
                     self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
                 }
@@ -192,6 +192,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
         translateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
         translateButton.showsTouchWhenHighlighted = true
         translateButton.radius(radius: 30.0)
+        translateButton.isHidden = true
         
         self.readerView?.addSubview(translateButton)
         translateButton.snp.makeConstraints { (make) in
@@ -214,7 +215,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
             let createCardVC = GRCreateNotificationViewController(notification: notification)
             createCardVC.publishNotification.subscribe { [weak self] (event) in
                 guard let self = self else { return }
-                createCardButton.removeFromSuperview()
+                createCardButton.isHidden = true
                 let manager = NotificationsManager()
                 guard let notification = event.element else { return }
                 manager.saveNotification(title: notification.caption, description: notification.description, deviceId: UtilityFunctions.deviceId())
@@ -232,6 +233,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
         createCardButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
         createCardButton.showsTouchWhenHighlighted = true
         createCardButton.radius(radius: 30.0)
+        createCardButton.isHidden = true
         
         self.readerView?.addSubview(createCardButton)
         createCardButton.snp.makeConstraints { (make) in
@@ -240,7 +242,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
             make.height.equalTo(60)
             make.width.equalTo(170)
         }
-        
+                
         return createCardButton
     }
     
@@ -265,10 +267,8 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
     // MARK: Ebook Reader
     
     public func pageTap(_ recognizer: UITapGestureRecognizer) {
-        self.translateWordButton?.removeFromSuperview()
-        self.createCard?.removeFromSuperview()
-        self.createCard = nil
-        self.translateWordButton = nil
+        self.translateWordButton?.isHidden = true
+        self.createCard?.isHidden = true
     }
         
     func pageDidAppear(_ page: FolioReaderPage) {                                

@@ -23,9 +23,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         print(URLContexts.description)
         guard let url = URLContexts.first?.url else { return }
-        guard let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController as? ShowEpubReaderProtocol else { return }
         
-        topController.showBookReader(url: url)
+        if UtilityFunctions.urlIsEpub(url: url) {
+            guard let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController as? ShowEpubReaderProtocol else { return }
+            
+            topController.showBookReader(url: url)
+        } else {
+            let messageCard = GRMessageCard(color: UIColor.white.dark(Dark.coolGrey700))
+            if let window = self.window {
+                messageCard.draw(message: "This app can only be used to read ePubs, sorry.", title: "Format Not Allowed", superview: window)
+            }
+        }
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -47,9 +55,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
+        
+//        ((UIApplication.shared.delegate) as? AppDelegate)?.scheduleAppRefresh()
+        
         let notificationScheduler = UserNotificationScheduler()
         if let notifications = self.mainViewController?.notifications, let times = self.timeSlots {
-            notificationScheduler.scheduleNotifications(notifications, times: times)
+            let nextHour = UtilityFunctions.getNextHour()
+            if times.contains(nextHour) {
+                notificationScheduler.scheduleNotifications(notifications, times: [nextHour])
+            }
+            
         }
     }
 

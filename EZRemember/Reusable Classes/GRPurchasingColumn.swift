@@ -40,7 +40,7 @@ class GRPurchasingColumn: GRBootstrapElement {
         let price = Style.label(withText: "$\(item.price)", superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         let info = Style.label(withText: item.info, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         let purchaseButton = Style.largeButton(with: "Start your free 7-day trial!", superview: nil, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
-        purchaseButton.titleLabel?.font = CustomFontBook.Medium.of(size: .medium)
+        purchaseButton.titleLabel?.font = CustomFontBook.Medium.forSizeClass()
         let features = Style.label(withText: "", superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         features.attributedText = item.getFeaturesAsString()
         let finePrint = Style.label(withText: item.finePrint, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)

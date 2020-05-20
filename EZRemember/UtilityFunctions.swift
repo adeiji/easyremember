@@ -44,6 +44,12 @@ class UtilityFunctions {
         // Grab the device Id
         let userDefaults = UserDefaults()
         var syncIds:[String] = userDefaults.value(forKey: UtilityFunctions.kSyncIds) as? [String] ?? []
+        
+        // Don't store duplicates
+        if syncId.contains(syncId.lowercased()) {
+            return
+        }
+        
         syncIds.append(syncId.lowercased())
         userDefaults.set(syncIds, forKey: UtilityFunctions.kSyncIds)
         userDefaults.synchronize()
@@ -71,6 +77,26 @@ class UtilityFunctions {
         let userDefaults = UserDefaults()
         let tags = userDefaults.value(forKey: UtilityFunctions.kTags) as? [String]
         return tags
+    }
+    
+    static func urlIsEpub (url: URL) -> Bool {
+        guard let positionOfLastPeriod = url.absoluteString.lastIndex(of: ".") else { return false }
+        let fileType = url.absoluteString.suffix(from: positionOfLastPeriod)
+        if fileType.lowercased() == ".epub" { return true }
+        
+        return false
+    }
+    
+    static func getNextHour () -> Int {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        
+        if hour == 24 {
+            return 0
+        }
+        
+        return hour + 1
     }
     
 }

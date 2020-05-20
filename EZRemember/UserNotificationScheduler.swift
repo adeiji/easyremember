@@ -33,7 +33,6 @@ struct UserNotificationScheduler {
     private func createNotification (_ notification: GRNotification, time: Int) -> UNNotificationRequest {
         let content = UNMutableNotificationContent()
         content.title = "Your Reminder"
-        content.title = notification.caption
         content.body = "\(notification.description)\n\(notification.caption)"
         content.sound = UNNotificationSound.default
 

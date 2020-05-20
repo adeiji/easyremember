@@ -10,12 +10,17 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 import RxSwift
+import DephynedFire
 
 class DESyncViewController: UIViewController, AddCancelButtonProtocol {
         
     weak var syncButton: UIButton?
     
+    weak var saveEmailButton: UIButton?
+    
     weak var syncIdTextField:UITextField?
+    
+    weak var saveEmailTextField:UITextField?
     
     let disposeBag = DisposeBag()
     
@@ -26,7 +31,9 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol {
         self.addCancelButton(view: syncView)
         syncView.containerView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.drawScreen(syncView: syncView)
+        
         self.syncButtonPressed()
+        self.saveEmailButtonPressed()
     }
     
     private func validate () -> Bool {
@@ -50,6 +57,52 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol {
                 self.updateSyncButton(finishedSyncing: true)
             }
         })
+    }
+    
+    private func handleSyncError(_ error: Error?) {
+        if let error = error {
+            AnalyticsManager.logError(message: error.localizedDescription)
+            let errorCard = GRMessageCard()
+            errorCard.draw(message: "Hmm, looks like there was an error storing your email address for syncing.  Please try again.", title: "Email not saved", superview: self.view)
+        }
+    }
+    
+    private func saveSyncInformationToServer(_ emailAddress: String) {
+        let sync = Sync(email: emailAddress, deviceId: UtilityFunctions.deviceId())
+        let loading = self.saveEmailButton?.showLoadingNVActivityIndicatorView()
+        SyncManager.shared.syncWithEmail(sync: sync) { (success, error) in
+            self.saveEmailButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+            self.saveEmailButton?.backgroundColor = UIColor.Style.htMintGreen
+            self.saveEmailButton?.setTitle("Finished! Please restart app.", for: .normal)
+            
+            self.handleSyncError(error)
+        }
+    }
+    
+    private func saveEmailButtonPressed () {
+        self.saveEmailButton?.addTargetClosure(closure: { [weak self] (_) in
+            guard let self = self else { return }
+            
+            guard let emailAddress = self.saveEmailTextField?.text else {
+                self.invalidEmail()
+                return
+            }
+            
+            if emailAddress.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                if emailAddress.isValidEmailAddress() == true {
+                    self.saveSyncInformationToServer(emailAddress.lowercased())
+                } else {
+                    self.invalidEmail()
+                }
+            } else {
+                self.invalidEmail()
+            }
+        })
+    }
+    
+    private func invalidEmail () {
+        let errorCard = GRMessageCard()
+        errorCard.draw(message: "Please enter a valid email address.", title: "Invalid Email", superview: self.view, buttonText: "Okay", isError: true)
     }
     
     private func showErrorMessage (error: Error){
@@ -100,11 +153,23 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
         
         let syncIdTextField = Style.wideTextField(withPlaceholder: "Enter your sync Id", superview: nil, color: UIColor.black)
         syncIdTextField.font = CustomFontBook.Regular.of(size: .small)
+        
         let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
                         
         let deviceId = UtilityFunctions.deviceId()
         let indexOfHyphen = deviceId.firstIndex(of: "-") ?? deviceId.endIndex
         let shortDeviceId = deviceId[..<indexOfHyphen]
+        
+        // EMAIL ADDRESS INSTRUCTIONS LABEL
+        
+        let emailAddressSyncMessage = "With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address.  Enter an email address below and press the sync button to do this. Make sure you don't forget the email address you've used to backup your data though."
+        let emailInstructionsLabel = Style.label(withText: emailAddressSyncMessage, superview: nil, color: UIColor.black.dark(.white))
+        emailInstructionsLabel.font = CustomFontBook.Regular.of(size: .medium)
+        
+        let saveEmailButton = Style.largeButton(with: "Save Email", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
+        
+        let emailAddressSyncTextField = Style.wideTextField(withPlaceholder: "Enter your emaill address", superview: nil, color: UIColor.black)
+        emailAddressSyncTextField.font = CustomFontBook.Regular.of(size: .small)
         
         card.addRow(columns: [
             // Title
@@ -168,7 +233,19 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
 
             Column(cardSet: syncButton
                 .radius(radius: 5)
-                .toCardSet().withHeight(50), xsColWidth: .Twelve).forSize(.md, .Six)
+                .toCardSet().withHeight(50), xsColWidth: .Twelve).forSize(.md, .Six),
+            
+            // EMAIL INSTRUCTIONS LABEL
+            
+            Column(cardSet: emailInstructionsLabel.toCardSet(), xsColWidth: .Twelve),
+            
+            // EMAIL TEXT FIELD
+            
+            Column(cardSet: emailAddressSyncTextField.backgroundColor(UIColor.Style.lightGray).radius(radius: 5).toCardSet(), xsColWidth: .Twelve)
+        ])
+        
+        card.addRow(columns: [
+            Column(cardSet: saveEmailButton.radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Twelve).forSize(.md, .Six)
         ], anchorToBottom: true)
         
         card.addToSuperview(superview: syncView.containerView, viewAbove: nil, anchorToBottom: true)
@@ -176,6 +253,8 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
         
         self.syncButton = syncButton
         self.syncIdTextField = syncIdTextField
+        self.saveEmailButton = saveEmailButton
+        self.saveEmailTextField = emailAddressSyncTextField
         
     }
     

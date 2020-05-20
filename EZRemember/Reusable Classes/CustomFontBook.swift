@@ -35,9 +35,9 @@ public enum CustomFontBook:String {
         
         switch sizeClass {
         case .xs:
-            return self.of(size: .verySmall)
+            return self.of(size: .small)
         case .sm:
-            return self.of(size: .medium)
+            return self.of(size: .small)
         case .md:
             return self.of(size: .medium)
         case .lg:

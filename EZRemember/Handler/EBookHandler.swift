@@ -8,14 +8,51 @@
 
 import Foundation
 import SSZipArchive
+import RxSwift
+import SwiftyBootstrap
+import DephynedFire
 
 public class EBookHandler {
     
     private let kApplicationDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
-    func getUrls () -> [URL]? {
-        guard let resourceURL = Bundle.main.resourceURL else { return nil }
-        guard let applicationDirUrl = URL(string: self.kApplicationDirectory) else { return nil }
+    private let disposeBag = DisposeBag()
+    
+    func backupAllEbooks () {
+        let urls = self.getUrls(fromInbox: true)?.filter( {UtilityFunctions.urlIsEpub(url: $0) })
+        var uploadEpubObservables = [Observable<String?>]()
+        urls?.forEach({ [weak self] (url) in
+            guard let self = self else { return }
+            guard let epubName = self.getEbookNameFromUrl(url: url) else { return }
+            
+            let uploadTask = FirebaseStorageManager.shared.uploadData(refPath: "\(UtilityFunctions.deviceId())/epubs/", fileName: "\(epubName).epub", fileUrl: url)
+            uploadEpubObservables.append(uploadTask)
+        })
+        
+        self.uploadBooks(uploadEpubObservables: uploadEpubObservables)
+    }
+    
+    public func downloadBooks () {
+        
+    }
+    
+    private func uploadBooks (uploadEpubObservables: [Observable<String?>]) {
+        Observable.combineLatest(uploadEpubObservables)
+        .subscribe { (event) in
+            if let elements = event.element, let urls = elements as? [String] {
+                SyncManager.shared.backupEpubs(urls: urls).retry(5).subscribe(onCompleted: {
+                    NotificationCenter.default.post(name: .SyncingFinished, object: nil)
+                }) { (error) in
+                    AnalyticsManager.logError(message: error.localizedDescription)
+                    NotificationCenter.default.post(name: .SyncingError, object: nil)
+                }.disposed(by: self.disposeBag)
+            }
+        }.disposed(by: self.disposeBag)
+    }
+    
+    func getUrls (fromInbox: Bool = false) -> [URL]? {
+        let directoryToGetEbooksFrom = fromInbox ? "\(self.kApplicationDirectory)/Inbox" : self.kApplicationDirectory
+        guard let applicationDirUrl = URL(string: directoryToGetEbooksFrom) else { return nil }
         
         do {
             var booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)

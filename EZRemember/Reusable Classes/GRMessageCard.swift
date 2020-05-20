@@ -40,7 +40,7 @@ open class GRMessageCard: GRBootstrapElement {
         - buttonText: What do you want the button to say?
         - cancelButtonText: Do you want a cancel button? If so, what do you want the text to say? **If you don't set this property, there will be no cancel button**
      */
-    public func draw (message: String, title:String, buttonBackgroundColor:UIColor = .white, superview: UIView, buttonText: String = "Okay", cancelButtonText:String? = nil, isError: Bool = false) {
+    public func draw (message: String, title:String, buttonBackgroundColor:UIColor = UIColor.white.dark(Dark.brownishTan), superview: UIView, buttonText: String = "Okay", cancelButtonText:String? = nil, isError: Bool = false) {
         let okayButton = Style.largeButton(with: buttonText, backgroundColor: buttonBackgroundColor)
         okayButton.showsTouchWhenHighlighted = true
         
@@ -70,7 +70,7 @@ open class GRMessageCard: GRBootstrapElement {
             // MESSAGE
             
             Column(cardSet: messageLabel
-                .font(CustomFontBook.Regular.of(size: .verySmall))
+                .font(CustomFontBook.Regular.of(size: .small))
                 .toCardSet()
                 .margin.left(30)
                 .margin.right(30)

@@ -13,6 +13,8 @@ import UserNotifications
 import FirebaseMessaging
 import SwiftyBootstrap
 import DephynedPurchasing
+import FirebaseCrashlytics
+import BackgroundTasks
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,9 +29,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        self.registerTask()
+        
+        return true
+    }
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // Override point for customization after application launch.        
+//        self.scheduleAppRefresh()
+        // Override point for customization after application launch.
         FirebaseApp.configure()
         self.setupRemoteNotifications(application: application)
         
