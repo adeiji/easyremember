@@ -19,9 +19,13 @@ class NotificationsHeaderCell : UICollectionReusableView {
     
     let tagPressed = PublishSubject<String>()
             
+    fileprivate func getFilterColumn(text: String) -> GRBootstrapElement.Column {
+        return Column(cardSet: self.getTagButton(tag: text).radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.sm, .Two)
+    }
+    
     func draw () {
         
-        let header = Style.largeCardHeader(text: "Your\nNotifications", superview: nil, viewAbove: nil)
+        let header = Style.largeCardHeader(text: "Your\nNotifications", margin: BootstrapMargin.noMargins(), superview: nil, viewAbove: nil)
         let searchBar = Style.wideTextField(withPlaceholder: "Search", superview: nil, color: UIColor.black.dark(.white))
         
         header.addRow(columns: [
@@ -36,9 +40,9 @@ class NotificationsHeaderCell : UICollectionReusableView {
         
         // Add the first button to the columns - All Button
         var columns = [
-            Column(cardSet: self.getTagButton(tag: "All").radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.md, .Two),
-            Column(cardSet: self.getTagButton(tag: "Active").radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.md, .Two),
-            Column(cardSet: self.getTagButton(tag: "Inactive").radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.md, .Two)
+            getFilterColumn(text: "All"),
+            getFilterColumn(text: "Active"),
+            getFilterColumn(text: "Inactive")
         ]
                         
         tags?.forEach({ [weak self] (tag) in

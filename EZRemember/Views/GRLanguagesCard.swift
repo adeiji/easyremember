@@ -62,7 +62,7 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
                     .withHeight(UI.scheduleViewButtonHeights),
                         xsColWidth: .Two)
                             .forSize(.xs, .Six)
-                            .forSize(.lg, .Two)
+                            .forSize(.md, .Four)
                                     
             selectNumberColumns.append(column)
             

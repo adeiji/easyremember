@@ -42,8 +42,7 @@ class GRNotificationCard: UICollectionViewCell {
                     self.toggleButton(self.toggleActivateButton, isActive: notification.active)
                     self.titleLabel?.text = notification.caption
                     self.contentLabel?.text = notification.description
-                    
-                    self.bookNameLabel?.text = "\(notification.bookTitle ?? "No Book")   \(notification.language ?? "")" 
+                    self.bookNameLabel?.text = "\(notification.bookTitle ?? "No Book")   \(notification.language ?? "")"
                 }
             }
         }
@@ -73,6 +72,7 @@ class GRNotificationCard: UICollectionViewCell {
         editButton.showsTouchWhenHighlighted = true
         
         let deleteButton = UIButton()
+        deleteButton.contentMode = .left
         
         let toggleActivateButton = Style.largeButton(with: "")
         self.toggleButton(toggleActivateButton, isActive: self.notification?.active)
@@ -118,12 +118,12 @@ class GRNotificationCard: UICollectionViewCell {
                 .radius(radius: 5)
                 .toCardSet()
                 .withHeight(30),
-                   xsColWidth: .Five)
+                       xsColWidth: .Five)
             ])
         }
         
         card.addRow(columns: [
-            // Delete Button
+            // TOP TITLE LABEL
             Column(cardSet: topTitleLabel
                 .radius(radius: 5)
                 .toCardSet()

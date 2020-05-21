@@ -19,14 +19,14 @@ struct Schedule: Codable {
         static let kMaxNumOfCards = "maxNumOfCards"
         static let kFcmToken = "fcmToken"
         static let kLanguages = "languages"
+        static let kFrequency = "frequency"
     }
             
     let deviceId:String
     let timeSlots:[Int]
     let maxNumOfCards:Int
-    let fcmToken:String?
     let languages:[String]
-    let frequency:Int = 0
+    var frequency:Int = 0
     
 }
 
@@ -65,17 +65,18 @@ class ScheduleManager {
      
      - parameter timeSlots: The times that this user wants to recieve notifications.
      */
-    static func saveSchedule (timeSlots:[Int], maxNumOfCards:Int, languages:[String]) -> Observable<Bool> {
+    static func saveSchedule (_ schedule: Schedule) -> Observable<Bool> {
         
         let deviceId = UtilityFunctions.deviceId()
         
         return Observable.create { (observer) -> Disposable in
             
             FirebasePersistenceManager.addDocument(withCollection: Schedule.Keys.kCollectionName, data: [
-                Schedule.Keys.kDeviceId: deviceId,
-                Schedule.Keys.kTimeSlots: timeSlots,
-                Schedule.Keys.kMaxNumOfCards: maxNumOfCards,
-                Schedule.Keys.kLanguages: languages
+                Schedule.Keys.kDeviceId: schedule.deviceId,
+                Schedule.Keys.kTimeSlots: schedule.timeSlots,
+                Schedule.Keys.kMaxNumOfCards: schedule.maxNumOfCards,
+                Schedule.Keys.kLanguages: schedule.languages,
+                Schedule.Keys.kFrequency: schedule.frequency
             ], withId: deviceId) { (error, documents) in
                 if let error = error {
                     observer.onError(error)

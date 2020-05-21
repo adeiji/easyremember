@@ -49,7 +49,6 @@ public class GRViewWithCollectionView:GRBootstrapElement {
                     
         return self
     }
-    
 }
 
 class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol {
@@ -306,6 +305,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         super.viewDidLoad()
         self.addObservers()
         self.getMaxNumOfCardsFromServer()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        self.mainView?.setNeedsLayout()
+        self.mainView?.layoutIfNeeded()
     }
     
     override func viewDidLayoutSubviews() {

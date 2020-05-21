@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 import RxSwift
+import DephynedFire
 
 extension NSNotification.Name {
     
@@ -27,6 +28,8 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
     private let purchase = "basic"
     
     private var selectedLanguages:[String] = ["en"]
+    
+    private var cardSendFrequency = 60
     
     // The margins for bootstrap elements on this view
     private let margins:BootstrapMargin = BootstrapMargin(
@@ -91,7 +94,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             } else {
-                let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.defaultTimeSlots, maxNumOfCards: 5, fcmToken: nil, languages: ["en"])
+                let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.defaultTimeSlots, maxNumOfCards: 5, languages: ["en"], frequency: 60)
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             }
@@ -147,9 +150,19 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
             superview: mainView,
             timeSlots: schedule.timeSlots,
             selecteMaxNumber: schedule.maxNumOfCards)
-                .addToSuperview(superview: mainView.containerView, viewAbove: languagesCard, anchorToBottom: true)
+                .addToSuperview(superview: mainView.containerView, viewAbove: languagesCard, anchorToBottom: false)
         
-        let frequencyCard = GRBootstrapElement()
+        
+        // FREQUENCY CARD
+        
+        let frequencyCard = DEFrequencyCard(margin: self.margins, selectedFrequency: schedule.frequency)
+        frequencyCard.addToSuperview(superview: mainView.containerView, viewAbove: scheduleView, anchorToBottom: true)
+        frequencyCard.frequencyCardSelected.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            if let selectedFrequency = event.element {
+                self.cardSendFrequency = selectedFrequency
+            }
+        }.disposed(by: self.disposeBag)
         
         self.timeSlotsSubject.onNext(schedule.timeSlots)
         self.scheduleView = scheduleView
@@ -226,7 +239,10 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
     
     func saveSchedule() {
         let loading = self.mainView?.navBar.rightButton?.showLoadingNVActivityIndicatorView()
-        ScheduleManager.saveSchedule(timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages).subscribe { (event) in
+        
+        let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency)
+                                
+        ScheduleManager.saveSchedule(schedule).subscribe { (event) in
             // Show that saving has finished
             self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             
