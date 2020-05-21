@@ -26,7 +26,7 @@ struct Schedule: Codable {
     let timeSlots:[Int]
     let maxNumOfCards:Int
     let languages:[String]
-    var frequency:Int = 0
+    var frequency:Int = 60
     
 }
 

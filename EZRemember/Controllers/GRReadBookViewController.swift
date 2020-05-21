@@ -12,7 +12,24 @@ import RxSwift
 import SwiftyBootstrap
 import FolioReaderKit
 
-class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
+class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol {
+    
+    var explanation: Explanation = Explanation(sections: [
+        ExplanationSection(content:
+        """
+        Translating the text you read is extremely simple.  Simply do the folowing:
+
+        -- Select a word or a phrase just like if you were going to copy it.
+        -- You'll see two buttons pop up at the bottom, "Translate" and "Create Card"
+        -- Click "Translate" and the app will translate the text, and show you the translations.  (To update the languages to translate text into go to the "Settings" screen)
+        -- Once you see the translated cards, just click the "Create Card" button for however many translations you want to create cards for
+        -- Click the "Save" button and you're done!
+        """, title: "Create a card from text", image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
+        ExplanationSection(content:
+        """
+        Alternatively, you can also just simply create a card by clicking the "Create Card" button.  That won't translate the text but will show you the "Create a Notification" screen with the text you selected as content.
+        """, title: "Translating text", image: nil)
+        ])
     
     /// The container that shows our epub reader
     var readerContainer: FolioReaderContainer?
@@ -65,6 +82,9 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        self.translateWordButton?.isHidden = true
+        self.createCard?.isHidden = true
+        
         if self.readerView != nil {
             return
         }
@@ -83,18 +103,18 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
             
             // THE BACK BUTTON
             
-            Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), xsColWidth: .One),
+            Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), xsColWidth: .Two).forSize(.sm, .One),
             
             // THE BOOK NAME HEADER
             
             Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
                 .font(CustomFontBook.Medium.of(size: .medium))
                 .toCardSet().withHeight(self.navBarHeight)
-                , xsColWidth: .Ten),
+                , xsColWidth: .Eight).forSize(.sm, .Ten),
             
             // THE NAV BAR
             
-            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight), xsColWidth: .One),
+            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight), xsColWidth: .Two).forSize(.sm, .One),
             ]).addRow(columns: [
                 
                 // THE READER VIEW
@@ -139,6 +159,8 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol {
         
         self.handleTranslateButtonPressed()
         self.handleCreateCardButtonPressed()
+        
+        self.addHelpButton(nil, superview: self.view)
     }
     
     override func viewDidLayoutSubviews() {

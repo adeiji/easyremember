@@ -14,9 +14,10 @@ import DephynedFire
 import FolioReaderKit
 
 public class EBookHandler {
-    
-    private let kApplicationDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-    
+        
+    private let kTempFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/temp"
+    private let kBooksFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/Books"
+    private let kInboxFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/Inbox"
     private let disposeBag = DisposeBag()
     
     func backupEbooksAtUrls (urls: [URL]? = nil) {
@@ -38,7 +39,7 @@ public class EBookHandler {
      */
     private func unzipBookAtUrl (url: URL) {
         do {
-            let _ = try FREpubParser().readEpub(epubPath: url.path, removeEpub: true, unzipPath: nil)
+            let _ = try FREpubParser().readEpub(epubPath: url.path, removeEpub: true, unzipPath: self.kBooksFolder)
         } catch {
             AnalyticsManager.logError(message: error.localizedDescription)
         }
@@ -51,7 +52,7 @@ public class EBookHandler {
         
         sync.books?.forEach({ (bookName) in
             // Where we're going to save the book to
-            let saveToUrl = URL(fileURLWithPath: "\(self.kApplicationDirectory)/temp/\(bookName)")
+            let saveToUrl = URL(fileURLWithPath: "\(self.kTempFolder)/\(bookName)")
             let downloadTask = FirebaseStorageManager.shared.downloadData(refPath: "\(sync.deviceId)/epubs/\(bookName)", saveToUrl: saveToUrl)
             downloadTasks.append(downloadTask)
             bookUrls.append(saveToUrl)
@@ -94,7 +95,7 @@ public class EBookHandler {
     }
     
     func getUrls (fromInbox: Bool = false) -> [URL]? {
-        let directoryToGetEbooksFrom = fromInbox ? "\(self.kApplicationDirectory)/Inbox" : self.kApplicationDirectory
+        let directoryToGetEbooksFrom = fromInbox ? self.kInboxFolder : self.kBooksFolder
         guard let applicationDirUrl = URL(string: directoryToGetEbooksFrom) else { return nil }
         
         do {
@@ -135,20 +136,44 @@ public class EBookHandler {
         guard let endOfName = url.absoluteString.lastIndex(of: ".") else { return nil }
         let ebookName = url.absoluteString[startOfName..<endOfName]
         return String(ebookName).replacingOccurrences(of: "%20", with: " ")
-        
     }
     
+    // - MARK: Get Book Information
+    
+    public func getTitleFromBookPath (_ path: String) -> String? {
+        let title = try? FolioReader.getTitle(path, unzipPath: self.kBooksFolder)
+        return title
+    }
+    
+    public func getCoverImageFromBookPath (_ path: String) -> UIImage? {
+        let coverImage = try? FolioReader.getCoverImage(path, unzipPath: self.kBooksFolder)
+        return coverImage
+    }
+    
+    public func getAuthorFromBookPath (_ path: String) -> String? {
+        let authorName = try? FolioReader.getAuthorName(path, unzipPath: self.kBooksFolder)
+        return authorName
+    }
+        
+    /**
+     All the ePubs that are originally in this application ie, the application folder, we want to unzip them and put them in the Books folder so that the user can read them, but more specifically so that the user can delete them from the Books folder and not have to view the books within the app anymore
+     */
     public func unzipEpubs () {
+        
+        // Make sure that you don't change this string value.  Read the documentation for isFirstTime function for more details
+        if UtilityFunctions.isFirstTime("Unzipping the ePubs in the application directory") == false {
+            return
+        }
+        
         guard let resourceURL = Bundle.main.resourceURL else { return  }
         guard var urls = try? FileManager().contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else { return }
-        guard let applicationDirUrl = URL(string: self.kApplicationDirectory) else { return }
+        guard let booksDirUrl = URL(string: self.kBooksFolder) else { return }
         
         urls = self.removeAllNonEpubFiles(urls: urls)
         urls.forEach({ (url) in
             guard let epubName = self.getEbookNameFromUrl(url: url) else { return }
-            SSZipArchive.unzipFile(atPath: url.path, toDestination: "\(applicationDirUrl.path)/\(epubName).epub", delegate: nil)
+            SSZipArchive.unzipFile(atPath: url.path, toDestination: "\(booksDirUrl.path)/\(epubName).epub", delegate: nil)
         })
-        
     }
     
 }

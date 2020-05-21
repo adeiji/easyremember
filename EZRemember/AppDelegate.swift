@@ -62,6 +62,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
         return true
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Notification received")
+    }
         
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         FirebasePersistenceManager.shared.saveFcmToken(fcmToken)

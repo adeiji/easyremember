@@ -79,6 +79,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     
     let disposeBag = DisposeBag()
     
+    override var keyCommands: [UIKeyCommand]? {
+        return [
+            UIKeyCommand(input: "a", modifierFlags: .command, action: #selector(addButtonPressed)),
+            UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(assignFirstResponderToSearchBar))
+        ]
+    }
+    
     var notifications = [GRNotification]() {
         didSet {
             let userDefaults = UserDefaults.standard
@@ -114,6 +121,12 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     }
     
     var maxNumOfCards = 5
+    
+    var unfinishedNotification:GRNotification?
+    
+    @objc func assignFirstResponderToSearchBar () {
+        self.collectionHeaderView?.searchBar?.becomeFirstResponder()
+    }
         
     /// If there is an initial book url that should be displayed at the start of the app, ie. this app is opening due to a user selecting this
     /// app as the "Open In" for an ePub
@@ -487,6 +500,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         })
     }
     
+    
     /**
      This function adds all the functionality to the add button that rest in the top right corner of this screen.
      When the user presses the add button they're shown a prompt allowing them to enter a new notification and save that
@@ -499,17 +513,27 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         
         addButton?.addTargetClosure(closure: { [weak self] (_) in
             guard
-                let self = self,
-                let view = self.mainView
+                let self = self
             else { return }
             
-            let createNotifVC = GRCreateNotificationViewController()
-            createNotifVC.publishNotification.subscribe { [weak self] (event) in
-                guard let self = self else { return }
-                guard let notification = event.element else { return }
-                self.addNotifications([notification], atBeginning: true)
-            }.disposed(by: self.disposeBag)
-            self.present(createNotifVC, animated: true, completion: nil)
+            self.addButtonPressed()
         })
+    }
+    
+
+    @objc func addButtonPressed () {
+        let createNotifVC = GRCreateNotificationViewController(notification: self.unfinishedNotification)
+        createNotifVC.publishNotification.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            guard let notification = event.element else { return }
+            self.addNotifications([notification], atBeginning: true)
+        }.disposed(by: self.disposeBag)
+        
+        createNotifVC.unfinishedNotification.subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            self.unfinishedNotification = event.element
+        }.disposed(by: self.disposeBag)
+        
+        self.present(createNotifVC, animated: true, completion: nil)
     }
 }

@@ -26,7 +26,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let syncView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "")
+        let syncView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true, navBarHeaderText: "")
         syncView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.addCancelButton(view: syncView)
         syncView.containerView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)

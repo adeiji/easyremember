@@ -7,7 +7,12 @@
 		<key>EZRemember-Attach.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>63</integer>
+			<integer>1</integer>
+		</dict>
+		<key>EZRemember-Release.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>65</integer>
 		</dict>
 		<key>EZRemember.xcscheme_^#shared#^_</key>
 		<dict>

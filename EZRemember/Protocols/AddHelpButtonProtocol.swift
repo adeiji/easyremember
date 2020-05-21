@@ -27,7 +27,7 @@ extension AddHelpButtonProtocol {
             if let buttonToRight = buttonToRight {
                 make.centerY.equalTo(buttonToRight)
             } else {
-                make.top.equalTo(superview).offset(10)
+                make.top.equalTo(superview).offset(Style.isIPhoneX() ? 50 : 30)
             }
             
         }

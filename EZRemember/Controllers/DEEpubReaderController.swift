@@ -150,21 +150,16 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
         self.translateWordButton?.removeFromSuperview()
         self.translateWordButton = nil
     }
-        
-    // MARK: Show Book Reader
-    
-    private func pushBookReaderAndSetDelegates () {
-        
-    }
     
     private func getBookInformation (bookPath: String?, fileName:String) -> BookDetails? {
         guard let fullUrl = bookPath else { return nil }
         guard var bookPath = bookPath else { return nil }
         
+        let bookHandler = EBookHandler()
         bookPath = bookPath.replacingOccurrences(of: "file:", with: "")
-        let title = try? FolioReader.getTitle(bookPath)
-        let coverImage = try? FolioReader.getCoverImage(bookPath)
-        let authorName = try? FolioReader.getAuthorName(bookPath)
+        let title = bookHandler.getTitleFromBookPath(bookPath)
+        let coverImage = bookHandler.getCoverImageFromBookPath(bookPath)
+        let authorName = bookHandler.getAuthorFromBookPath(bookPath)
         let bookDetails = BookDetails(author: authorName, coverImage: coverImage ?? UIImage(named: "NoImage"), title: title, url: bookPath, fileName: fileName)
         self.bookDetails[fullUrl] = bookDetails
         
@@ -205,7 +200,6 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
                 // Delete button
                 cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
                     guard let self = self else { return }
-                    guard let url = cell.url else { return }
                     
                     let deleteCard = DeleteCard()
                     deleteCard.draw(superview: self.view)

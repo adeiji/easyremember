@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyBootstrap
 
-class ExplanationViewController: UIViewController {
+class ExplanationViewController: UIViewController, AddCancelButtonProtocol {
     
     weak var mainView: GRViewWithScrollView?
     
@@ -26,11 +26,14 @@ class ExplanationViewController: UIViewController {
     }
     
     fileprivate func addSectionImage(_ section: ExplanationSection, card:GRBootstrapElement) {
+        if section.image == nil {
+            return
+        }
+        
         let imageView = UIImageView(image: section.image)
         imageView.contentMode = .scaleAspectFit
         
         card.addRow(columns: [
-            // IMAGE
             Column(cardSet: imageView.toCardSet().withHeight(100).margin.top(50), xsColWidth: .Twelve),
         ])
     }
@@ -45,11 +48,9 @@ class ExplanationViewController: UIViewController {
             // CONTENT TITLE
             
             Column(cardSet: Style.label(withText: section.title, superview: nil, color: .white)
-                .textAlignment(.center)
                 .font(CustomFontBook.Medium.of(size: .large))
                 .toCardSet()
-                .margin.top(50)
-                .margin.bottom(50), xsColWidth: .Twelve),
+                .margin.top(50), xsColWidth: .Twelve),
             
             // CONTENT
             
@@ -62,18 +63,17 @@ class ExplanationViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: false)
+        let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true)
+        self.mainView = mainView
+        self.addCancelButton(view: mainView, white: true)
         let margin = BootstrapMargin(left: .Five, top: .Five, right: .Five, bottom: .Five)
         
         self.mainView?.backgroundColor = UIColor.EZRemember.mainBlue
         
-        
-        
         let card = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true, margin: margin, superview: nil)
         
-        
         self.explanation.sections.forEach { [weak self] (section) in
-            guard let self = self else { return }                                                            
+            guard let self = self else { return }
             self.addSectionImage(section, card: card)
             self.addContent(section, card: card)
         }
@@ -83,8 +83,6 @@ class ExplanationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
     }
     
     

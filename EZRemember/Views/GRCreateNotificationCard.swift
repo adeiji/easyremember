@@ -24,7 +24,7 @@ class Autocomplete: GRBootstrapElement {
         super.init(color: UIColor.white.dark(Dark.coolGrey200), anchorWidthToScreenWidth: false, margin: BootstrapMargin(left: .Zero, top: .One, right: .Zero, bottom: .Zero), superview: superview)
         self.draw(superview: superview)
     }
-            
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -197,14 +197,14 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
         // CANCEL BUTTON
         
         let cancelButton = self.cancelButton(card: self, superview: superview)
-//        let veryLightGrayColor = UIColor(red: 246/255, green: 248/255, blue: 252/255, alpha: 1.0)
+        //        let veryLightGrayColor = UIColor(red: 246/255, green: 248/255, blue: 252/255, alpha: 1.0)
         cancelButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
         cancelButton.setTitleColor(UIColor.EZRemember.lightRedButtonText, for: .normal)
         cancelButton.backgroundColor = UIColor.EZRemember.lightRed
         
         // Enter headword
         let titleTextView = self.getTextView(placeholder: "Enter caption...", text: self.notification?.caption)
-
+        
         // Enter description or content
         let descriptionTextView = self.getTextView(placeholder: "Enter details...", text: self.notification?.description)
         
@@ -215,7 +215,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
         tagTextField.font = CustomFontBook.Regular.of(size: .small)
         tagTextField.delegate = self
         tagTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-                                    
+        
         self
             .addRow(columns: [
                 Column(cardSet:
@@ -224,11 +224,11 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
                         superview: nil,
                         color: UIColor.black.dark(.white))
                         .font(CustomFontBook.Medium.of(size: .large))
-                            .toCardSet()
-                            .margin.left(30)
-                            .margin.right(30)
-                            .margin.top(30),
-                                xsColWidth: .Twelve),
+                        .toCardSet()
+                        .margin.left(30)
+                        .margin.right(30)
+                        .margin.top(30),
+                       xsColWidth: .Twelve),
                 
                 // TITLE
                 Column(cardSet: titleTextView
@@ -243,7 +243,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
                     .margin.left(30)
                     .margin.right(30),
                        xsColWidth: .Twelve),
-                                                
+                
             ]).addRow(columns: [
                 Column(cardSet: tagTextField
                     .toCardSet()
@@ -260,15 +260,15 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
                     .margin.right(30)
                     .withHeight(50.0), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three),
                 Column(cardSet: cancelButton
-                .addShadow()
-                .radius(radius: 25)
-                .toCardSet()
-                .margin.left(30)
-                .margin.right(30)
-                .margin.bottom(30)
-                .withHeight(50.0), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three)
+                    .addShadow()
+                    .radius(radius: 25)
+                    .toCardSet()
+                    .margin.left(30)
+                    .margin.right(30)
+                    .margin.bottom(30)
+                    .withHeight(50.0), xsColWidth: .Twelve).forSize(.md, .Six).forSize(.xl, .Three)
             ], anchorToBottom: true)
-                
+        
         self.firstTextView = titleTextView
         self.descriptionTextView = descriptionTextView
         self.firstTextView?.delegate = self
@@ -287,6 +287,23 @@ public class GRCreateNotificationViewController: UIViewController {
     var notification:GRNotification?
     
     let publishNotification = PublishSubject<GRNotification>()
+    
+    let unfinishedNotification = PublishSubject<GRNotification>()
+    
+    weak var createNotifCard:GRCreateNotificationCard?
+    
+    var shouldSaveUnfinishedNotification = true
+    
+    public override var keyCommands: [UIKeyCommand]? {
+        return [
+            UIKeyCommand(input: "s", modifierFlags: .command, action: #selector(saveButtonPressed)),
+            UIKeyCommand(input: "w", modifierFlags: .command, action: #selector(close))
+        ]
+    }
+    
+    @objc private func close () {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     init(notification: GRNotification? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -314,31 +331,37 @@ public class GRCreateNotificationViewController: UIViewController {
         self.draw()
     }
     
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        if self.shouldSaveUnfinishedNotification == true {
+            var notification = GRNotification(caption: self.createNotifCard?.firstTextView?.text ?? "", description: self.createNotifCard?.descriptionTextView?.text ?? "")
+            if let tag = self.createNotifCard?.tagTextField?.text {
+                notification.tags = [tag]
+            }
+            
+            self.unfinishedNotification.onNext(notification)
+        } else {
+            self.unfinishedNotification.onCompleted()
+        }
+    }
+    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
     
-    func draw () {
-        guard let mainView = self.mainView else { return }
-        let createNotifCard = GRCreateNotificationCard(superview: mainView.containerView, notification: self.notification)
-        createNotifCard.addToSuperview(superview: mainView.containerView, viewAbove: nil, anchorToBottom: true)
-        mainView.updateScrollViewContentSize()
-        
-        createNotifCard.cancelButton?.addTargetClosure { (_) in
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        createNotifCard.addButton?.addTargetClosure(closure: { [weak self] (addButton) in
-                                            
+    @objc func saveButtonPressed () {
+        self.createNotifCard?.addButton?.addTargetClosure(closure: { [weak self] (addButton) in
+            
             guard
                 let self = self,
-                let title = createNotifCard.firstTextView?.text,
-                let description = createNotifCard.descriptionTextView?.text
+                let title = self.createNotifCard?.firstTextView?.text,
+                let description = self.createNotifCard?.descriptionTextView?.text
                 else { return }
             
             var tags:[String]?
             
-            if let text = createNotifCard.tagTextField?.text, text.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+            if let text = self.createNotifCard?.tagTextField?.text, text.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                 tags = [text]
                 UtilityFunctions.addTags(newTags: [text])
             }
@@ -352,12 +375,14 @@ public class GRCreateNotificationViewController: UIViewController {
             
             // Show that the notification is saving
             let activityIndicatorView = addButton.showLoadingNVActivityIndicatorView()
-                     
+            
             let notifManager = NotificationsManager()
             
             if let _ = self.notification {
                 self.updateNotification {
+                    self.shouldSaveUnfinishedNotification = false
                     addButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
+                    self.dismiss(animated: true, completion: nil)
                 }
                 return
             }
@@ -378,12 +403,48 @@ public class GRCreateNotificationViewController: UIViewController {
                     }
                     
                     if let unwrappedNotification = event.element, let notification = unwrappedNotification {
+                        self.shouldSaveUnfinishedNotification = false
                         self.dismiss(animated: true, completion: nil)
                         self.publishNotification.onNext(notification)
                     }
-                                                            
+                    
             }.disposed(by: self.disposeBag)
         })
+    }
+    
+    fileprivate func userHasInputedData () -> Bool {
+        return
+            self.createNotifCard?.tagTextField?.text?.trimmingCharacters(in: .whitespaces) != "" ||
+            self.createNotifCard?.firstTextView?.text?.trimmingCharacters(in: .whitespaces) != "" ||
+            self.createNotifCard?.descriptionTextView?.text?.trimmingCharacters(in: .whitespaces) != ""
+    }
+    
+    func draw () {
+        guard let mainView = self.mainView else { return }
+        let createNotifCard = GRCreateNotificationCard(superview: mainView.containerView, notification: self.notification)
+        createNotifCard.addToSuperview(superview: mainView.containerView, viewAbove: nil, anchorToBottom: true)
+        mainView.updateScrollViewContentSize()
+        createNotifCard.addButton?.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
+        createNotifCard.cancelButton?.addTargetClosure { (_) in
+            
+            if self.userHasInputedData(){
+                
+                let cancelCard = GRMessageCard()
+                cancelCard.becomeFirstResponder()
+                cancelCard.draw(message: "If you close this page than your unsaved data will be lost, are you sure you want to do that?", title: "Are you sure?", superview: mainView, cancelButtonText: "Finish Writing Card")
+                
+                cancelCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+                    guard let self = self else { return }
+                    self.shouldSaveUnfinishedNotification = false
+                    self.dismiss(animated: true, completion: nil)
+                })
+                
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }         
+        }
+        
+        self.createNotifCard = createNotifCard
     }
     
     func updateNotification (completion: @escaping () -> Void) {

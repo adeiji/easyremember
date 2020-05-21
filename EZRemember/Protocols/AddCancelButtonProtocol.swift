@@ -15,12 +15,12 @@ protocol AddCancelButtonProtocol: UIViewController {
 
 extension AddCancelButtonProtocol {
     
-    func addCancelButton (view: GRViewWithScrollView) {
-        
-        if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
+    func addCancelButton (view: GRViewWithScrollView, white:Bool = false) {
+                        
+        if UIScreen.main.traitCollection.userInterfaceStyle == .dark || white {
             view.navBar?.leftButton?.setImage(ImageHelper.image(imageName: "close-button", bundle: "SwiftyBootstrap"), for: .normal)
         } else {
-            view.navBar?.leftButton?.setImage(ImageHelper.image(imageName: "close-black", bundle: "SwiftyBootstrap"), for: .normal)
+            view.navBar?.leftButton?.setImage(ImageHelper.image(imageName: "cancel-black", bundle: "SwiftyBootstrap"), for: .normal)
         }
         
         view.navBar?.leftButton?.showsTouchWhenHighlighted = true

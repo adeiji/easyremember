@@ -84,8 +84,10 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
         
         button.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
-            self.selectedButton = button
-            self.frequencyCardSelected.onNext(frequency)
+            if self.userHasSubscription(ruleName: Purchasing.Rules.kRequiresPurchase) {
+                self.selectedButton = button
+                self.frequencyCardSelected.onNext(frequency)
+            }            
         }
     }
     

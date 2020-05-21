@@ -117,7 +117,7 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = collectionView.bounds.width
-        return CGSize(width: width - 30, height: 350)
+        return CGSize(width: width - 10, height: 350)
         
      }
     

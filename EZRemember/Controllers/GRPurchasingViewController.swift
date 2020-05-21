@@ -34,7 +34,7 @@ class GRPurchasingViewController: UIViewController, PurchaseProtocol, AddCancelB
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
-        let mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "What would you like to purchase?")
+        let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true, navBarHeaderText: "Purchasing?")
         mainView.navBar?.header?.textColor = UIColor.black.dark(.white)
         mainView.backgroundColor = .clear
         self.addCancelButton(view: mainView)

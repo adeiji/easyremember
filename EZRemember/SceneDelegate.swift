@@ -96,15 +96,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
-        
-        let notificationScheduler = UserNotificationScheduler()
-        if let notifications = self.mainViewController?.notifications, let times = self.timeSlots {
-            let nextHour = UtilityFunctions.getNextHour()
-            if times.contains(nextHour) {
-                notificationScheduler.scheduleNotifications(notifications, times: [nextHour])
-            }
-            
-        }
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

@@ -14,7 +14,8 @@ class UtilityFunctions {
     static let kDeviceId = "deviceId"
     static let kSyncIds = "syncIds"
     static let kTags = "tags"
-    static let kSyncEmail = "syncEmail"    
+    static let kSyncEmail = "syncEmail"
+    static let kDeletedBookUrls = "kDeletedBookUrls"
     
     /**
      Get the deviceId for this user's device and if it doesn't exist, than create it.  Obviously this will change
@@ -113,6 +114,22 @@ class UtilityFunctions {
         return userDefaults.object(forKey: UtilityFunctions.kSyncEmail) as? String
     }
     
-
-    
+    /**
+     Checks to see if this is the first time that this string is being detected within the app.  We use this so that we make sure that specific tasks are executed only once within the lifetime of the user using the app.
+     
+     ie, we don't want want to show the user a tutorial every single time they view a specific scene right?  We only want to show them the first time.  Therefore, we would do something like
+     
+     if UtilityFunctions.isFirstTime("viewing create an image screen") {
+        self.showTutorial() // or whatever method
+     }
+     */
+    static func isFirstTime (_ string: String) -> Bool {
+        let userDefaults = UserDefaults()
+        if userDefaults.object(forKey: string) == nil {
+            userDefaults.set(true, forKey: string)
+            return true
+        }
+        
+        return false
+    }
 }

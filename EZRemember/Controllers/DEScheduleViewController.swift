@@ -24,27 +24,27 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         ExplanationSection(content:
         """
         This is set as a reminder for yourself to always keep in eye on how many cards you have activated at a time.  You can have as many total cards as you want (depending on your subscription package) but the amount of active cards is limited.  This is to ensure that you can keep a reasonable limit on what you're learning because too many active cards can begin to overwhelm you and slow down the learning process.
-        """, title: "Max Number of Cards", image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember")),
+        """, title: "Max Number of Cards", image: ImageHelper.image(imageName: "bell-white", bundle: "EZRemember")),
         ExplanationSection(content:
         """
         Since learning is so heavily reliant upon repetition, it's important that you set up a schedule that you feel can help you learn at a pace that will allow you to reach your goals.
 
         The way that it works is you first select the hours that you want to recieve notifications.  Then you select the frequency of which you want to recieve notifications during those hours.  Either
         
-        - Every Ten Minutes
-        - Every Fifteen Minutes
-        - Every Thirty Minutes
-        - Every Hour
+        -- Every Ten Minutes
+        -- Every Fifteen Minutes
+        -- Every Thirty Minutes
+        -- Every Hour
         
         """,
         title: "Scheduling",
-        image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember")),
+        image: ImageHelper.image(imageName: "clock-white", bundle: "EZRemember")),
         ExplanationSection(content:
         """
         Intereseted in learning a language?  Interested in learning 2, or 3 languages?  This app assists you with that by making it very easy when reading to get the translation of the text into multiple languages and convert these translations into cards.  With the continious repetition of seeing the translations, you'll gradually notice that your vocabulary is almost effortlessly expanding.
         """,
         title: "Translations",
-        image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember"))
+        image: ImageHelper.image(imageName: "translator", bundle: "EZRemember"))
     ])
             
     private weak var mainView:GRViewWithScrollView?
@@ -169,6 +169,11 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
             let loading = actionButton.showLoadingNVActivityIndicatorView()
             PKIAPHandler.shared.restorePurchase { (alertType, product, transaction) in
                 actionButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                
+                if alertType == .error {
+                    return
+                }
+                
                 let successCard = GRMessageCard()
                 successCard.draw(message: "Congratulations! If you had any purchases, they've been restored on this device.  Please restart the app.", title: "Purchases Restored", superview: self.view)
             }
@@ -204,9 +209,11 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         frequencyCard.addToSuperview(superview: mainView.containerView, viewAbove: scheduleView, anchorToBottom: true)
         frequencyCard.frequencyCardSelected.subscribe { [weak self] (event) in
             guard let self = self else { return }
+                        
             if let selectedFrequency = event.element {
                 self.cardSendFrequency = selectedFrequency
-            }
+            }            
+                        
         }.disposed(by: self.disposeBag)
         
         self.timeSlotsSubject.onNext(schedule.timeSlots)
