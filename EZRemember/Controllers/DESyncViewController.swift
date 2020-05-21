@@ -12,11 +12,11 @@ import SwiftyBootstrap
 import RxSwift
 import DephynedFire
 
-class DESyncViewController: UIViewController, AddCancelButtonProtocol {
+class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProtocol {
         
     weak var syncButton: UIButton?
     
-    weak var saveEmailButton: UIButton?
+    weak var syncEmailButton: UIButton?
     
     weak var syncIdTextField:UITextField?
     
@@ -69,19 +69,23 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol {
     
     private func saveSyncInformationToServer(_ emailAddress: String) {
         let sync = Sync(email: emailAddress, deviceId: UtilityFunctions.deviceId())
-        let loading = self.saveEmailButton?.showLoadingNVActivityIndicatorView()
+        let loading = self.syncEmailButton?.showLoadingNVActivityIndicatorView()
         SyncManager.shared.syncWithEmail(sync: sync) { (success, error) in
-            self.saveEmailButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-            self.saveEmailButton?.backgroundColor = UIColor.Style.htMintGreen
-            self.saveEmailButton?.setTitle("Finished! Please restart app.", for: .normal)
+            self.syncEmailButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+            self.syncEmailButton?.backgroundColor = UIColor.Style.htMintGreen
+            self.syncEmailButton?.setTitle("Processing...Do not close app", for: .normal)
             
             self.handleSyncError(error)
         }
     }
     
     private func saveEmailButtonPressed () {
-        self.saveEmailButton?.addTargetClosure(closure: { [weak self] (_) in
+        self.syncEmailButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
+            self.saveEmailTextField?.resignFirstResponder()
+            if !self.userHasSubscription(ruleName: Purchasing.Rules.kRequiresPurchase) {                
+                return
+            }
             
             guard let emailAddress = self.saveEmailTextField?.text else {
                 self.invalidEmail()
@@ -170,7 +174,7 @@ Then on any other device simply do the same thing with the same email address, t
         let emailInstructionsLabel = Style.label(withText: emailAddressSyncMessage, superview: nil, color: UIColor.black.dark(.white))
         emailInstructionsLabel.font = CustomFontBook.Regular.of(size: .medium)
         
-        let saveEmailButton = Style.largeButton(with: "Save Email", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
+        let saveEmailButton = Style.largeButton(with: "Sync with Email", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
         
         let emailAddressSyncTextField = Style.wideTextField(withPlaceholder: "Enter your emaill address", superview: nil, color: UIColor.black)
         emailAddressSyncTextField.font = CustomFontBook.Regular.of(size: .small)
@@ -268,7 +272,7 @@ Then on any other device simply do the same thing with the same email address, t
         
         self.syncButton = syncButton
         self.syncIdTextField = syncIdTextField
-        self.saveEmailButton = saveEmailButton
+        self.syncEmailButton = saveEmailButton
         self.saveEmailTextField = emailAddressSyncTextField
         
     }

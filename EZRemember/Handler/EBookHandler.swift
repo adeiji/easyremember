@@ -73,7 +73,7 @@ public class EBookHandler {
         }) { (error) in
             print(error.localizedDescription)
             AnalyticsManager.logError(message: error.localizedDescription)
-            NotificationCenter.default.post(name: .ErrorDownloadingBooks, object: nil)
+            NotificationCenter.default.post(name: .ErrorDownloadingBooks, object: nil, userInfo: ["error": error.localizedDescription])
         }.disposed(by: self.disposeBag)
     }
     

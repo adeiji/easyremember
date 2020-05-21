@@ -96,9 +96,9 @@ extension RulesProtocol {
      
      - parameters:
         - ruleName: The name of the rule.  This can be accessed in Purchasing.Rules.  There's a list of keys there that you can choose from
-        - rule: What is the rule? Basically, what is the number of this item in which they can't go past.  ie, if they can use 3 languages, then you the ruleName would be something like 'languages' and the rule would be 3
+        - rule: What is the rule? Basically, what is the number of this item in which they can't go past.  ie, if they can use 3 languages, then you the ruleName would be something like 'languages' and the rule would be 3.
      */
-    private func displayUpgradeMessage (ruleName: RuleKey, rule:Int) {
+    private func displayUpgradeMessage (ruleName: RuleKey, rule:Int? = nil) {
         guard let topController = GRCurrentDevice.shared.getTopController() else { return }
         
         let message = Purchasing.Rules.getMessage(ruleName: ruleName, rule: rule)
@@ -112,11 +112,20 @@ extension RulesProtocol {
         })                
     }
     
-    public func userHasSubscription () -> Bool {
-        return
+    public func userHasSubscription (ruleName: RuleKey? = nil) -> Bool {
+        
+        let hasSubscription =
             PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Basic.rawValue) ||
             PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Standard.rawValue) ||
-            PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Premium.rawValue)        
+            PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Premium.rawValue)
+        
+        if let ruleName = ruleName {
+            if hasSubscription == false {
+                self.displayUpgradeMessage(ruleName: ruleName)
+            }
+        }
+        
+        return hasSubscription
     }
     
 }

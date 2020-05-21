@@ -11,6 +11,7 @@ import UIKit
 import SwiftyBootstrap
 import RxSwift
 import DephynedFire
+import DephynedPurchasing
 
 extension NSNotification.Name {
     
@@ -128,12 +129,27 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
         purchaseCard.draw(title: "Go Premium?", buttonTitle: "Start Your Free 7-Day Trial")
         purchaseCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
         self.purchaseButtonPressed(button: purchaseCard.actionButton)
+        
+        // RESTORE PURCHASE CARD
+        
+        let restorePurchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
+        restorePurchaseCard.draw(title: "Restore purchases?", buttonTitle: "Restore Previous Purchases")
+        restorePurchaseCard.addToSuperview(superview: mainView.containerView, viewAbove: purchaseCard, anchorToBottom: false)
+        restorePurchaseCard.actionButton?.addTargetClosure(closure: { [weak self] (actionButton) in
+            guard let self = self else { return }
+            let loading = actionButton.showLoadingNVActivityIndicatorView()
+            PKIAPHandler.shared.restorePurchase { (alertType, product, transaction) in
+                actionButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                let successCard = GRMessageCard()
+                successCard.draw(message: "Congratulations! If you had any purchases, they've been restored on this device.  Please restart the app.", title: "Purchases Restored", superview: self.view)
+            }
+        })
                 
         // SYNC CARD
                 
         let syncCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
         syncCard.draw(title: "Would you like to sync your data with your other devices?", buttonTitle: "Sync")
-        syncCard.addToSuperview(superview: mainView.containerView, viewAbove: purchaseCard, anchorToBottom: false)
+        syncCard.addToSuperview(superview: mainView.containerView, viewAbove: restorePurchaseCard, anchorToBottom: false)
         self.syncButtonPressed(button: syncCard.actionButton)
                 
         // NUMBER CARD

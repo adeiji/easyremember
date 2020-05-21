@@ -15,6 +15,7 @@ struct Purchasing {
         static let kMaxNotificationCards = "maxNotificationCards"
         static let kMaxLanguages = "maxLanguages"
         static let kMaxTimes = "maxTimes"
+        static let kRequiresPurchase = "requiresPurchase"
         
         struct Free {
             static let rules = [
@@ -48,14 +49,21 @@ struct Purchasing {
             ]
         }
         
-        static func getMessage (ruleName:String, rule: Int) -> String {
+        static func getMessage (ruleName:String, rule: Int? = nil) -> String {
+            
+            guard let rule = rule else {
+                return "Sorry, but you must subscribe to one of our packages to perform this task."
+            }
+            
             switch ruleName {
             case Rules.kMaxNotificationCards:
                 return "Sorry, but you can't have more than \(rule) active notification cards with your purchased package.  Please upgrade to complete this task."
             case Rules.kMaxLanguages:
                 return "Sorry but you can't select more than \(rule) languages with your purchased package.  Please upgrade to complete this task."
-            default:
+            case Rules.kMaxTimes:
                 return "Sorry but you can't select more than \(rule) time slots with your purchased package.  Please upgrade to complete this task."
+            default:
+                return "Sorry, but your current subscription only allows \(rule) of this task.  Please upgrade to complete this task."
             }
         }
     }
@@ -80,7 +88,7 @@ struct Purchasing {
         PurchaseableItem(title: "Casual Learner", id: ProductIds.Basic.rawValue, info: "This service is good if you're casually learning something for fun, or perhaps for a simple class.", price: 4.99, features: [
             "Translate text into 1 language",
             "Have a total of 5 notification cards at one time",
-            "Recieve notifications up to 5 times a day"
+            "Select 5 different hour slots to recieve notifications"
         ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly"),
         
         // SERIOUS STUDENT
@@ -89,7 +97,7 @@ struct Purchasing {
             "Translate text into up to 3 languages",
             "Have a total of 15 notifications cards at one time",
             "Sync your data across multiple devices",
-            "Recieve notifications up to 10 times a day"
+            "Select 10 different hour slots to recieve notifications"
         ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly"),
         
         // MASTER
@@ -97,7 +105,7 @@ struct Purchasing {
         PurchaseableItem(title: "Serious Student", id: ProductIds.Premium.rawValue, info: "This service is good if you're  serious about learning, maybe for college, monetization, or your just an intense learner.", price: 14.99, features: [
             "Translate text into up to 10 languages",
             "Have a total of 60 notifications cards at one time",
-            "Recieve notifications up to 24 times a day"
+            "Select 24 different hour slots to recieve notifications"
         ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly")
     ]
 

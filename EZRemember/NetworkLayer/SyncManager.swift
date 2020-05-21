@@ -81,15 +81,19 @@ class SyncManager {
             
             // If this email already has been used to sync data, than grab the data associated with this email now
             if let documents = event.element, documents.count > 0 {
-                guard let sync = (FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [Sync]?)?.first else { return }
                 
+                // Get the sync object from the server
+                guard let sync = (FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [Sync]?)?.first else { return }
+    
                 let ebookHandler = EBookHandler()
                 ebookHandler.downloadBooks(sync: sync)
+                
                 // Sync with the information attached to this user's email address
                 NotificationsManager.sync(sync.deviceId)
                 UtilityFunctions.addSyncEmail(sync.email)
                 completion(true, nil)
             } else {
+                
                 // If this email contains no documents attached to it, meaning that it's the first time that this user is using this email to sync data with, than save the syncing information to the server
                 self.saveSyncingInformation(sync).subscribe(onCompleted: {
                     completion(true, nil)

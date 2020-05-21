@@ -9,9 +9,11 @@
 import UIKit
 import RxSwift
 import SwiftyBootstrap
+import DephynedFire
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
-
+    
+    
     var window: UIWindow?
     
     var mainViewController:DEMainViewController?
@@ -39,6 +41,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
         }
     }
     
+    @objc private func syncingFinished (_ notification: Notification) {
+        
+        guard let window = self.window else { return }
+        
+        let messageCard = GRMessageCard()
+        
+        messageCard.draw(message: "Awesome! You've synced your data using your email.  Now your cards and your epubs can be viewed on other devices, and you can use your email address to retrieve your data any time in the future.  Just make sure you don't forget your email address! Please restart the app now.\n\nHappy learning!", title: "Sync Successful!", superview: window)
+    }
+    
+    @objc private func errorSyncing (_ notification: Notification) {
+        if let error = notification.userInfo?["error"] as? String {
+            print(error)
+            AnalyticsManager.logError(message: error)
+        }
+        
+        guard let window = self.window else { return }
+        
+        let messageCard = GRMessageCard()
+                        
+        messageCard.draw(message: "Uh oh! Looks like there was a problem syncing your data.  The most common cause for this is internet problems.  Check to make sure you have a decent internet connection and then try again.", title: "Syncing Failed", superview: window, isError: true)
+    }
+    
+    @objc private func restoringPurchasesFailed (_ notification: Notification) {
+        if let error = notification.userInfo?["error"] as? String {
+            print(error)
+            AnalyticsManager.logError(message: error)
+        }
+        
+        guard let window = self.window else { return }
+        
+        let messageCard = GRMessageCard()
+                        
+        messageCard.draw(message: "Uh oh! Looks like there was a problem restoring your purchases.  The most common cause for this is internet problems.  Check to make sure you have a decent internet connection and then try again.", title: "Syncing Failed", superview: window, isError: true)
+    }
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -51,6 +88,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
         window.rootViewController = self.createTabController()
         self.window = window
         window.makeKeyAndVisible()
+        NotificationCenter.default.addObserver(self, selector: #selector(syncingFinished(_:)), name: .FinishedDownloadingBooks, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(errorSyncing(_:)), name: .ErrorDownloadingBooks, object: nil)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -58,8 +97,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
-        
-//        ((UIApplication.shared.delegate) as? AppDelegate)?.scheduleAppRefresh()
         
         let notificationScheduler = UserNotificationScheduler()
         if let notifications = self.mainViewController?.notifications, let times = self.timeSlots {
