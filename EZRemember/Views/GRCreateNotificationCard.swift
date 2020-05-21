@@ -351,65 +351,63 @@ public class GRCreateNotificationViewController: UIViewController {
     }
     
     @objc func saveButtonPressed () {
-        self.createNotifCard?.addButton?.addTargetClosure(closure: { [weak self] (addButton) in
-            
-            guard
-                let self = self,
-                let title = self.createNotifCard?.firstTextView?.text,
-                let description = self.createNotifCard?.descriptionTextView?.text
-                else { return }
-            
-            var tags:[String]?
-            
-            if let text = self.createNotifCard?.tagTextField?.text, text.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                tags = [text]
-                UtilityFunctions.addTags(newTags: [text])
+        
+        guard
+            let title = self.createNotifCard?.firstTextView?.text,
+            let description = self.createNotifCard?.descriptionTextView?.text
+            else { return }
+        
+        var tags:[String]?
+        
+        if let text = self.createNotifCard?.tagTextField?.text, text.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+            tags = [text]
+            UtilityFunctions.addTags(newTags: [text])
+        }
+        
+        self.notification?.caption = title
+        self.notification?.description = description
+        self.notification?.tags = tags
+        
+        // Get this device's unique identifier
+        let deviceId = UtilityFunctions.deviceId()
+        
+        // Show that the notification is saving
+        let activityIndicatorView = self.createNotifCard?.addButton?.showLoadingNVActivityIndicatorView()
+        
+        let notifManager = NotificationsManager()
+        
+        if let _ = self.notification {
+            self.updateNotification {
+                self.shouldSaveUnfinishedNotification = false
+                self.createNotifCard?.addButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
+                self.dismiss(animated: true, completion: nil)
             }
-            
-            self.notification?.caption = title
-            self.notification?.description = description
-            self.notification?.tags = tags
-            
-            // Get this device's unique identifier
-            let deviceId = UtilityFunctions.deviceId()
-            
-            // Show that the notification is saving
-            let activityIndicatorView = addButton.showLoadingNVActivityIndicatorView()
-            
-            let notifManager = NotificationsManager()
-            
-            if let _ = self.notification {
-                self.updateNotification {
-                    self.shouldSaveUnfinishedNotification = false
-                    addButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
-                    self.dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        notifManager.saveNotification(
+            title: title,
+            description: description,
+            deviceId: deviceId,
+            tags: tags).subscribe { (event) in
+                self.createNotifCard?.addButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
+                if event.isCompleted {
+                    return
                 }
-                return
-            }
-            
-            notifManager.saveNotification(
-                title: title,
-                description: description,
-                deviceId: deviceId,
-                tags: tags).subscribe { (event) in
-                    addButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
-                    if event.isCompleted {
-                        return
-                    }
-                    
-                    if let _ = event.error {
-                        GRMessageCard().draw(message: "There was a problem saving your notification.  Please try again", title: "Try Again", superview: self.view)
-                        return
-                    }
-                    
-                    if let unwrappedNotification = event.element, let notification = unwrappedNotification {
-                        self.shouldSaveUnfinishedNotification = false
-                        self.dismiss(animated: true, completion: nil)
-                        self.publishNotification.onNext(notification)
-                    }
-                    
-            }.disposed(by: self.disposeBag)
-        })
+                
+                if let _ = event.error {
+                    GRMessageCard().draw(message: "There was a problem saving your notification.  Please try again", title: "Try Again", superview: self.view)
+                    return
+                }
+                
+                if let unwrappedNotification = event.element, let notification = unwrappedNotification {
+                    self.shouldSaveUnfinishedNotification = false
+                    self.dismiss(animated: true, completion: nil)
+                    self.publishNotification.onNext(notification)
+                }
+                
+        }.disposed(by: self.disposeBag)
+        
     }
     
     fileprivate func userHasInputedData () -> Bool {
@@ -419,18 +417,31 @@ public class GRCreateNotificationViewController: UIViewController {
             self.createNotifCard?.descriptionTextView?.text?.trimmingCharacters(in: .whitespaces) != ""
     }
     
+    fileprivate func stopEditing () {
+        self.createNotifCard?.tagTextField?.resignFirstResponder()
+        self.createNotifCard?.firstTextView?.resignFirstResponder()
+        self.createNotifCard?.descriptionTextView?.resignFirstResponder()
+    }
+    
     func draw () {
         guard let mainView = self.mainView else { return }
         let createNotifCard = GRCreateNotificationCard(superview: mainView.containerView, notification: self.notification)
         createNotifCard.addToSuperview(superview: mainView.containerView, viewAbove: nil, anchorToBottom: true)
         mainView.updateScrollViewContentSize()
         createNotifCard.addButton?.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
+        createNotifCard.firstTextView?.becomeFirstResponder()
+        
+        createNotifCard.addButton?.addTargetClosure(closure: { [weak self] (_) in
+            guard let self = self else { return }
+            self.saveButtonPressed()
+        })
+        
         createNotifCard.cancelButton?.addTargetClosure { (_) in
             
             if self.userHasInputedData(){
                 
                 let cancelCard = GRMessageCard()
-                cancelCard.becomeFirstResponder()
+                self.stopEditing()
                 cancelCard.draw(message: "If you close this page than your unsaved data will be lost, are you sure you want to do that?", title: "Are you sure?", superview: mainView, cancelButtonText: "Finish Writing Card")
                 
                 cancelCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
@@ -441,7 +452,7 @@ public class GRCreateNotificationViewController: UIViewController {
                 
             } else {
                 self.dismiss(animated: true, completion: nil)
-            }         
+            }
         }
         
         self.createNotifCard = createNotifCard

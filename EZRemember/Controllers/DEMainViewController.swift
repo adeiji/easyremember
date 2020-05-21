@@ -82,7 +82,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     override var keyCommands: [UIKeyCommand]? {
         return [
             UIKeyCommand(input: "a", modifierFlags: .command, action: #selector(addButtonPressed)),
-            UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(assignFirstResponderToSearchBar))
+            UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(assignFirstResponderToSearchBar))            
         ]
     }
     
