@@ -43,6 +43,9 @@
 		F43DDF9124756C4D00776941 /* FCMToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF9024756C4D00776941 /* FCMToken.swift */; };
 		F43DDF9324756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */; };
 		F43DDF962475BD9600776941 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F43DDF952475BD9500776941 /* GoogleService-Info.plist */; };
+		F4503328247675B100307417 /* ExplanationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4503327247675B100307417 /* ExplanationViewController.swift */; };
+		F450332A2476879B00307417 /* AddHelpButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45033292476879B00307417 /* AddHelpButtonProtocol.swift */; };
+		F450332C247688F800307417 /* Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F450332B247688F800307417 /* Explanation.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -173,6 +176,9 @@
 		F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebasePersistenceManager+FCMToken.swift"; sourceTree = "<group>"; };
 		F43DDF942475ADDA00776941 /* EZRemember.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EZRemember.entitlements; sourceTree = "<group>"; };
 		F43DDF952475BD9500776941 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F4503327247675B100307417 /* ExplanationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationViewController.swift; sourceTree = "<group>"; };
+		F45033292476879B00307417 /* AddHelpButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHelpButtonProtocol.swift; sourceTree = "<group>"; };
+		F450332B247688F800307417 /* Explanation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explanation.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -376,6 +382,7 @@
 				F421B22A24694AA8007DE745 /* DESyncViewController.swift */,
 				F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */,
 				F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */,
+				F4503327247675B100307417 /* ExplanationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -450,6 +457,7 @@
 				F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */,
 				F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */,
 				F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */,
+				F45033292476879B00307417 /* AddHelpButtonProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -506,6 +514,7 @@
 				F4C2025B246699C200D59245 /* BookDetails.swift */,
 				F43DDF7F24723FC100776941 /* Purchasing.swift */,
 				F43DDF8724742E2100776941 /* Sync.swift */,
+				F450332B247688F800307417 /* Explanation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -795,6 +804,7 @@
 			files = (
 				F43DDF9124756C4D00776941 /* FCMToken.swift in Sources */,
 				F4F537F9246420C50009D3DC /* String+Pinyin.swift in Sources */,
+				F4503328247675B100307417 /* ExplanationViewController.swift in Sources */,
 				F4F537F5246413E90009D3DC /* FirebasePersistanceManager+Watching.swift in Sources */,
 				F43DDF8C247447E100776941 /* SyncManager.swift in Sources */,
 				F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */,
@@ -819,6 +829,7 @@
 				F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */,
 				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
 				F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */,
+				F450332C247688F800307417 /* Explanation.swift in Sources */,
 				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
 				F4C1175E246564DE00A145CB /* FolioReader+EZRemember.swift in Sources */,
 				F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */,
@@ -839,6 +850,7 @@
 				F43DDF9324756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift in Sources */,
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
+				F450332A2476879B00307417 /* AddHelpButtonProtocol.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
 				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
 				F43DDF8A2474318D00776941 /* String+IsValidEmail.swift in Sources */,

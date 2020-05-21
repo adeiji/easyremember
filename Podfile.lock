@@ -429,6 +429,7 @@ PODS:
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
+  - paper-onboarding (6.1.5)
   - PodAsset (1.0.0)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
@@ -460,6 +461,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - FirebaseMessaging
   - FolioReaderKit (from `/Users/adeiji/Documents/Dephyned/open_source/FolioReaderKit`)
+  - paper-onboarding
   - PodAsset
   - RxCocoa
   - RxSwift
@@ -506,6 +508,7 @@ SPEC REPOS:
     - MenuItemKit
     - nanopb
     - NVActivityIndicatorView
+    - paper-onboarding
     - PodAsset
     - PromisesObjC
     - Protobuf
@@ -573,6 +576,7 @@ SPEC CHECKSUMS:
   MenuItemKit: 0f850e630b0a3d2bd80fec54db87ce0d2077ada2
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  paper-onboarding: fede1799b1da6988f3788e3b71654583c6f3bce1
   PodAsset: c2c2b20013c1edf698fea2bacba6e75a638537a2
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
@@ -589,6 +593,6 @@ SPEC CHECKSUMS:
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: abc370a08c0e6979c153cc7da7f7b51a28eea146
+PODFILE CHECKSUM: d313407d9d589b8a6a5cd2379abdf91e81dd0abf
 
 COCOAPODS: 1.7.3

@@ -12,8 +12,7 @@ import SwiftyBootstrap
 import DephynedFire
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
-    
-    
+        
     var window: UIWindow?
     
     var mainViewController:DEMainViewController?

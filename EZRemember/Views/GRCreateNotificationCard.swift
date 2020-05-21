@@ -307,7 +307,7 @@ public class GRCreateNotificationViewController: UIViewController {
         if self.mainView != nil { return }
         
         self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "")
-        self.mainView?.navBar.isHidden = true
+        self.mainView?.navBar?.isHidden = true
         self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         

@@ -18,8 +18,35 @@ extension NSNotification.Name {
     static let UserUpdatedMaxNumberOfCards = NSNotification.Name("UserUpdatedMaxNumberOfCards")
 }
 
-class DEScheduleViewController: UIViewController, RulesProtocol {
+class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonProtocol {
+    
+    var explanation = Explanation(sections: [
+        ExplanationSection(content:
+        """
+        This is set as a reminder for yourself to always keep in eye on how many cards you have activated at a time.  You can have as many total cards as you want (depending on your subscription package) but the amount of active cards is limited.  This is to ensure that you can keep a reasonable limit on what you're learning because too many active cards can begin to overwhelm you and slow down the learning process.
+        """, title: "Max Number of Cards", image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember")),
+        ExplanationSection(content:
+        """
+        Since learning is so heavily reliant upon repetition, it's important that you set up a schedule that you feel can help you learn at a pace that will allow you to reach your goals.
+
+        The way that it works is you first select the hours that you want to recieve notifications.  Then you select the frequency of which you want to recieve notifications during those hours.  Either
         
+        - Every Ten Minutes
+        - Every Fifteen Minutes
+        - Every Thirty Minutes
+        - Every Hour
+        
+        """,
+        title: "Scheduling",
+        image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember")),
+        ExplanationSection(content:
+        """
+        Intereseted in learning a language?  Interested in learning 2, or 3 languages?  This app assists you with that by making it very easy when reading to get the translation of the text into multiple languages and convert these translations into cards.  With the continious repetition of seeing the translations, you'll gradually notice that your vocabulary is almost effortlessly expanding.
+        """,
+        title: "Translations",
+        image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember"))
+    ])
+            
     private weak var mainView:GRViewWithScrollView?
     private let disposeBag = DisposeBag()
     private weak var scheduleView:DEScheduleView?
@@ -51,20 +78,22 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
     
     private func setupNavBar () {
         
-        self.mainView?.navBar.rightButton?.setTitle("Save", for: .normal)
-        self.mainView?.navBar.rightButton?.setTitleColor(UIColor.black.dark(.white), for: .normal)
-        self.mainView?.navBar.rightButton?.isUserInteractionEnabled = true
+        self.mainView?.navBar?.rightButton?.setTitle("Save", for: .normal)
+        self.mainView?.navBar?.rightButton?.setTitleColor(UIColor.black.dark(.white), for: .normal)
+        self.mainView?.navBar?.rightButton?.isUserInteractionEnabled = true
         
-        self.mainView?.navBar.backgroundColor = .clear
-        self.mainView?.navBar.header?.textColor = .white
+        self.mainView?.navBar?.backgroundColor = .clear
+        self.mainView?.navBar?.header?.textColor = .white
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainView = GRViewWithScrollView().setup(superview: self.view, navBarHeaderText: "EZ Remember")
+        let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true, navBarHeaderText: "EZ Remember")
+        self.mainView = mainView
         self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.setupNavBar()
+        self.addHelpButton(self.mainView?.navBar?.rightButton, superview: mainView)
                 
         self.loadSchedule()
         self.savePressed()
@@ -220,7 +249,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
      Setup the right button of the nav bar which is the save button.
      */
     private func savePressed () {
-        self.mainView?.navBar.rightButton?.addTargetClosure(closure: { [weak self] (_) in
+        self.mainView?.navBar?.rightButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
             guard let selectedLanguages = self.languagesCard?.selectedLanguages else { return }
             let selectedNumber = self.maxNumberOfCardsCard?.selectedButton?.titleLabel?.text ?? "5"
@@ -254,13 +283,13 @@ class DEScheduleViewController: UIViewController, RulesProtocol {
     }
     
     func saveSchedule() {
-        let loading = self.mainView?.navBar.rightButton?.showLoadingNVActivityIndicatorView()
+        let loading = self.mainView?.navBar?.rightButton?.showLoadingNVActivityIndicatorView()
         
         let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency)
                                 
         ScheduleManager.saveSchedule(schedule).subscribe { (event) in
             // Show that saving has finished
-            self.mainView?.navBar.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+            self.mainView?.navBar?.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             
             if let _ = event.element {
                 // Let the app know that the user has just updated the max number of cards

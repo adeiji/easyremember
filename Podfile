@@ -19,6 +19,7 @@ target 'EZRemember' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PodAsset'
+  pod 'paper-onboarding'
 
 
   # Pods for EZRemember

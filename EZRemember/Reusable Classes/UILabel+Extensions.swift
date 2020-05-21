@@ -16,4 +16,9 @@ public extension UILabel {
         return self
     }
     
+    @discardableResult func textAlignment (_ textAlignment: NSTextAlignment) -> UILabel {
+        self.textAlignment = textAlignment
+        return self
+    }
+    
 }

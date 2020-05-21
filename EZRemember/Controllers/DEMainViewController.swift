@@ -51,7 +51,20 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     }
 }
 
-class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol {
+class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol {
+    
+    var explanation: Explanation = Explanation(sections: [
+        ExplanationSection(content:
+    """
+    The key to learning anything is repetition.  Repetition is what makes a skill or knowledge become second nature.  Spaced repetition provides an increase of 30% to your retention rate.  This application uses notifications to help you learn skills permanently and naturally.  How do we do this?
+
+    We help you to be consistent by sending you constistant reminders.  But the reminders are not reminders for you to open the app, instead, whatever you want to remember is sent as a notification.  You can then read through that notification without having to open the app.
+
+    Once you've remembered a notification, you simply delete it.
+    """
+    , title: "Never forget anything",
+      image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember"))
+        ])
     
     var bookName: String
     
@@ -273,8 +286,11 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         self.setupTapCollectionView(collectionView: collectionView)
     }
     
+
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         
         if self.mainView != nil { return }
                         
@@ -295,9 +311,11 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         let loading =  self.view.showLoadingNVActivityIndicatorView()
         
         let addButton = self.addAddButton()
+        self.setupAddButton(addButton: addButton)
+        
+        self.addHelpButton(addButton, superview: mainView)
         
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
-        self.setupAddButton(addButton: addButton)
         
     }
     
