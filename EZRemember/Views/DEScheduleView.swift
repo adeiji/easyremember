@@ -43,7 +43,7 @@ class DEScheduleView: GRBootstrapElement {
         var columns = [Column]()
         
         // Generate all the labels that represent the different times that a notification can be sent
-        for timeSlot in 1...24  {
+        for timeSlot in 0...23  {
             let timeViewCell = DETimeViewCell(timeSlot: timeSlot).setupUI(time: "\(timeSlot):00")
             if (timeSlots.contains(timeSlot)) {
                 timeViewCell.selected = true

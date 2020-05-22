@@ -31,7 +31,7 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
     
     init(color: UIColor? = .white, anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil, superview: UIView? = nil, selectedFrequency:Int) {
         self.originalSelectedFrequency = selectedFrequency
-        super.init(color: color, anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin, superview: nil)
+        super.init(color: UIColor.white.dark(Dark.coolGrey900), anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin, superview: nil)
         self.setupUI(selectedFrequency: selectedFrequency)
     }
     
@@ -87,7 +87,7 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
             if self.userHasSubscription(ruleName: Purchasing.Rules.kRequiresPurchase) {
                 self.selectedButton = button
                 self.frequencyCardSelected.onNext(frequency)
-            }            
+            }
         }
     }
     

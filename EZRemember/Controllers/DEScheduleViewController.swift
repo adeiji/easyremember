@@ -120,7 +120,9 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
                 return
             }
             
-            if let unwrappedSchedule = event.element, let schedule = unwrappedSchedule {
+            if let unwrappedSchedule = event.element, var schedule = unwrappedSchedule {
+                schedule.convertTimeSlotsUTC(to: false)
+                self.cardSendFrequency = schedule.frequency
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             } else {
@@ -151,7 +153,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     private func drawSchedule (schedule: Schedule, scheduleView: DEScheduleView) {
         
         guard let mainView = mainView else { return }
-        
+                        
         // PURCHASE CARD
         
         let purchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)

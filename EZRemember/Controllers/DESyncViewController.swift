@@ -34,6 +34,8 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         
         self.syncButtonPressed()
         self.saveEmailButtonPressed()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(syncFinished), name: .FinishedDownloadingBooks, object: nil)
     }
     
     private func validate () -> Bool {
@@ -72,11 +74,16 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         let loading = self.syncEmailButton?.showLoadingNVActivityIndicatorView()
         SyncManager.shared.syncWithEmail(sync: sync) { (success, error) in
             self.syncEmailButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-            self.syncEmailButton?.backgroundColor = UIColor.Style.htMintGreen
+            self.syncEmailButton?.backgroundColor = UIColor.Style.htLightOrange
             self.syncEmailButton?.setTitle("Processing...Do not close app", for: .normal)
             
             self.handleSyncError(error)
         }
+    }
+    
+    @objc private func syncFinished () {
+        self.syncEmailButton?.backgroundColor = UIColor.Style.htMintGreen
+        self.syncEmailButton?.setTitle("Finished Syncing!!", for: .normal)
     }
     
     private func saveEmailButtonPressed () {

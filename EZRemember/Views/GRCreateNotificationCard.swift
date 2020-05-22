@@ -83,7 +83,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
     }
     
     init(superview: UIView, notification: GRNotification? = nil) {
-        super.init(color: UIColor.white.dark(Dark.coolGrey900), anchorWidthToScreenWidth: true)
+        super.init(color: UIColor.white.dark(Dark.coolGrey900), anchorWidthToScreenWidth: true, superview: superview)
         self.notification = notification
         self.setupUI(superview: superview)
     }

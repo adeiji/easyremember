@@ -45,6 +45,10 @@ extension RulesProtocol {
     
     func validatePassRuleOrShowFailure (_ ruleName: RuleKey, numberToValidate:Int, testing:Bool = false) -> Bool {
         
+        #if DEBUG
+            return true
+        #endif
+        
         if testing {
             guard let value = Purchasing.Rules.Free.rules[ruleName] else {
                 assertionFailure("Baaka, this rule does not exists, why?  Make sure you add the rule to the Purchasing.Rules.Free.rules array")
@@ -113,6 +117,10 @@ extension RulesProtocol {
     }
     
     public func userHasSubscription (ruleName: RuleKey? = nil) -> Bool {
+        
+        #if DEBUG
+            return true
+        #endif
         
         let hasSubscription =
             PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Basic.rawValue) ||

@@ -41,25 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        self.scheduleAppRefresh()
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        self.setupRemoteNotifications(application: application)
-        
+                
         let _ = ScheduleManager.shared // instantiate our schedule manager singleton object
         let _ = GRCurrentDevice.shared // instantiate the current device object
         
         PKIAPHandler.shared.loadProductIds(Purchasing.inAppPurchaseProductIds)
-                        
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound ]) { (success, error) in
-            if success {
-                AnalyticsManager.logGenericEvent(name: .AllowNotifications)
-            } else if let error = error {
-                AnalyticsManager.logError(message: error.localizedDescription)
-                print(error.localizedDescription)
-            }
+        
+        if application.isRegisteredForRemoteNotifications {
+            application.registerForRemoteNotifications()
+            self.setupRemoteNotifications(application: application)
         }
         
-        application.registerForRemoteNotifications()
-                        
         return true
     }
     

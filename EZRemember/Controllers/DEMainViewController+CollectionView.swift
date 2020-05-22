@@ -23,10 +23,51 @@ class NotificationsHeaderCell : UICollectionReusableView {
         return Column(cardSet: self.getTagButton(tag: text).radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.sm, .Two)
     }
     
+    func allowNotificationsCard () -> GRBootstrapElement {
+        let enableNotificationsButton = Style.largeButton(with: "Enable Notifications (very important)", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey700))
+
+        let enableNotificationsLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(.white))
+        enableNotificationsLabel.attributedText = "Enabling notifications is very important.  They are what will really help you to remember the information on the cards that you create.  This app relies heavily on notifications.  Please enable them now, so you can fully benefit from the app.".addLineSpacing(amount: 10.0, centered: false)
+        
+        let card = GRBootstrapElement(color: UIColor.lightGray.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
+        card.addRow(columns: [
+            Column(cardSet: enableNotificationsLabel
+                .font(CustomFontBook.Regular.of(size: .small))
+                .toCardSet()
+                .margin.left(40)
+                .margin.right(40)
+                .margin.top(40),
+                   xsColWidth: .Twelve),
+            Column(cardSet: enableNotificationsButton.toCardSet()
+                .withHeight(50)
+                .margin.left(40)
+                .margin.right(40)
+                .margin.bottom(40),
+                   xsColWidth: .Twelve).forSize(.md, .Six)
+        ], anchorToBottom: true)
+        
+        enableNotificationsButton.addTargetClosure { [weak self] (button) in
+            guard let _ = self else { return }
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            appDelegate.setupRemoteNotifications(application: UIApplication.shared)
+            button.backgroundColor = UIColor.EZRemember.lightGreen
+            button.setTitleColor(UIColor.EZRemember.lightGreenButtonText, for: .normal)
+            button.setTitle("Awesome!", for: .normal)
+        }
+        
+        return card
+    }
+    
     func draw () {
         
         let header = Style.largeCardHeader(text: "Your\nNotifications", margin: BootstrapMargin.noMargins(), superview: nil, viewAbove: nil)
         let searchBar = Style.wideTextField(withPlaceholder: "Search", superview: nil, color: UIColor.black.dark(.white))
+        
+        if UIApplication.shared.isRegisteredForRemoteNotifications == false {
+            header.addRow(columns: [
+                Column(cardSet: allowNotificationsCard().toCardSet(), xsColWidth: .Twelve)
+            ])
+        }
         
         header.addRow(columns: [
             Column(cardSet: searchBar.toCardSet(), xsColWidth: .Twelve)

@@ -25,6 +25,14 @@ open class GRMessageCard: GRBootstrapElement {
     
     private var blurView: UIView?
     
+    public override init(color: UIColor? = UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil, superview: UIView? = nil) {
+        super.init(color: color, anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin, superview: superview)
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     /**
      Displays the message card on the screen with the given parameters.  It also blurs the view that is responsible for showing it
      

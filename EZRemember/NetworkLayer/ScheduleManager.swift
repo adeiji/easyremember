@@ -23,10 +23,42 @@ struct Schedule: Codable {
     }
             
     let deviceId:String
-    let timeSlots:[Int]
+    var timeSlots:[Int]
     let maxNumOfCards:Int
     let languages:[String]
     var frequency:Int = 60
+    
+    /**
+     Convert all the time slots to their UTC equivalent
+     
+    - parameter to: Converting to or from UTC
+     */
+    mutating func convertTimeSlotsUTC (to: Bool) {
+        var timeSlotsCopy = self.timeSlots
+        for index in 0..<self.timeSlots.count {
+            let time = self.timeSlots[index]
+            
+            var timeDifference = (TimeZone.current.secondsFromGMT() / 60 / 60)
+            if (!to) {
+                timeDifference = timeDifference * -1
+            }
+            
+            timeSlotsCopy[index] = self.addHoursToHour(time, timeDifference)
+        }
+        
+        self.timeSlots = timeSlotsCopy
+    }
+    
+    private func addHoursToHour (_ hour: Int, _ hoursToAdd: Int) -> Int {
+        var newHour = hour + hoursToAdd
+        if newHour >= 24 {
+            newHour = newHour - 24
+        } else if newHour < 0 {
+            newHour = 24 + newHour
+        }
+        
+        return newHour
+    }
     
 }
 
@@ -65,9 +97,11 @@ class ScheduleManager {
      
      - parameter timeSlots: The times that this user wants to recieve notifications.
      */
-    static func saveSchedule (_ schedule: Schedule) -> Observable<Bool> {
+    static func saveSchedule (_ mySchedule: Schedule) -> Observable<Bool> {
         
         let deviceId = UtilityFunctions.deviceId()
+        var schedule = mySchedule
+        schedule.convertTimeSlotsUTC(to: true)
         
         return Observable.create { (observer) -> Disposable in
             

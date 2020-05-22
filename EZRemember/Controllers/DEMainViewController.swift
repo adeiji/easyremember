@@ -330,7 +330,25 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
         
+        self.promptForAllowNotifications()
+        
     }
+    
+    fileprivate func promptForAllowNotifications () {
+        if (UtilityFunctions.isFirstTime("opening the main view controller")) {
+            let messageCard = GRMessageCard()
+            messageCard.draw(message: "Enabling notifications is very important.  They are what will really help you to remember the information on the cards that you create.  This app relies heavily on notifications.  Please enable them now, so you can fully benefit from the app.", title: "Please Enable Notifications", superview: self.view, buttonText: "Enable Notifications", cancelButtonText: "Don't Enable - Not recommended")
+            
+            messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+                guard let _ = self else { return }
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                appDelegate.setupRemoteNotifications(application: UIApplication.shared)
+                messageCard.close()
+            })
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
