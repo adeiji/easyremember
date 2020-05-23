@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import StoreKit
 
 class UtilityFunctions {
     
@@ -132,4 +133,16 @@ class UtilityFunctions {
         
         return false
     }
+    
+    static func requestReviewIfAppropriate () {
+        let appOpenedKey = "appOpenedCount"
+        let userDefaults = UserDefaults()
+        let appOpenedCount = userDefaults.object(forKey: appOpenedKey) as? Int ?? 0
+        if appOpenedCount % 10 == 0 {
+            SKStoreReviewController.requestReview()
+        }
+    
+        userDefaults.set(appOpenedCount + 1, forKey: appOpenedKey)
+    }
+        
 }

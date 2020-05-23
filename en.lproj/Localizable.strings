@@ -1,0 +1,226 @@
+/* 
+  Localizable.strings
+  EZRemember
+
+  Created by Adebayo Ijidakinro on 5/22/20.
+  Copyright © 2020 Dephyned. All rights reserved.
+*/
+
+/** SUPPORTED LANGUAGES */
+
+
+
+"en" = "English";
+"zh-TW" = "Chinese (Traditional)";
+"zh-CN" = "Chinese (Simplified)";
+"id" = "Indonesian";
+"hi" = "Hindi";
+"fr" = "French";
+"es" = "Spanish";
+"pt" = "Portuguese";
+"ar" = "Arabic";
+"bn" = "Bengali";
+"it" = "Italian";
+"ja" = "Japanese";
+"tl" = "Tagolog";
+"th" = "Thai";
+
+// TAB BAR CONTROLLER
+
+"notifications" = "Notifications";
+
+"schedule" = "Schedule";
+
+"reader" = "Reader";
+
+// EPub Reader View Controller
+
+"yourElectronicBooksHeader" = "Your\nElectronic Books";
+
+// MAIN VIEW CONTROLLER
+
+/** The explanation page content for the Main View Controller */
+"repetitionExplanation" = "The key to learning anything is repetition.  Repetition is what makes a skill or knowledge become second nature.  Spaced repetition provides an increase of 30% to your retention rate.  This application uses notifications to help you learn skills permanently and naturally.  How do we do this?\n\nWe help you to be consistent by sending you constistant reminders.  But, the reminders are not reminders for you to open the app, instead, whatever you want to remember is sent as a notification.  You can then read through those notifications from the Home Screen without having to open the app, which will help you because you can read through them quickly without having to open the app.";
+
+// Explanation page content title
+"repetitionExplanationTitle" = "Never Forget Anything";
+
+// Enable notifications card when user first opens the app and if they haven't enabled notifications this will appear as the header for the main collection view
+"enableNotificationsMessageContent" = "Enabling notifications is very important. They are what will help you to remember the information on the cards that you create. This app relies heavily on notifications. Please enable them now, so you can fully benefit from the app.";
+
+"enableNotificationsTitleContent" = "Enable Notifications";
+
+"enableNotificationsButton" = "Enable Notifications";
+
+"enableNotificationsCancelButton" = "Cancel (Not Recommended)";
+
+// Error saving notification card's content
+"notificationSaveError" = "Uh oh! It looks like there was an issue saving your notification. The most common reason for this is a weak internet collection. Please check your internet connection and then try again.";
+
+// Error saving notification card's title
+"notificationSaveErrorTitle" = "Error saving notification";
+
+// Card that shows user reached max notification's content
+"maxActiveNotificationsContent" = "You have already reached your maximum active notifications of %@.  Please deactivate another card first, or increase your maximum activate notifications on the 'Schedule' page.";
+
+// Title for the card that shows that the user has reached the max notifications
+"maxActiveNotificationsTitle" = "Max Active Notifications Reached";
+
+"noNotificationsMessage" = "No Notifications";
+
+"addNotificationMessage" = "Looks like you haven't added created any notifications yet.  Click on the plus button up at the top right to create your first notification.";
+
+
+/** THE SCHEDULE VIEW CONTROLLER */
+
+"everyTenMinutes" = "Every 10 Minutes";
+
+"everyFifteenMinutes" = "Every 15 Minutes";
+
+"everyThirtyMinutes" = "Every 30 Minutes";
+
+"everyHour" = "Every Hour";
+
+
+/** Paragraph 1 of the schedule view explanation as to why and how we handle reminders */
+"reminderExplanation" = "This is set as a reminder for yourself to always keep in eye on how many cards you have activated at a time.  You can have as many total cards as you want (depending on your subscription package) but the amount of active cards is limited.  This is to ensure that you can keep a reasonable limit on what you're learning because too many active cards can begin to overwhelm you and slow down the learning process.";
+
+"reminderExplanationTitle" = "Max Number of Cards";
+
+/** Paragraph 2 of the schedule view explanation as to why and how we have a schedule */
+"scheduleExplanation" = "Since learning is so heavily reliant upon repetition, it's important that you set up a schedule that you feel can help you learn at a pace that will allow you to reach your goals.\n\nThe way that it works is you first select the hours that you want to recieve notifications.  Then you select the frequency of which you want to recieve notifications during those hours.  Either\n\n-- Every Ten Minutes\n-- Every Fifteen Minutes\n-- Every Thirty Minutes\n -- Every Hour";
+
+"scheduleExplanationTitle" = "Scheduling";
+
+/** Paragraph 3 of the schedule view explanation as to how you can use the app to learn a language */
+"learnLanguageExplanation" = "Intereseted in learning a language?  Interested in learning 2, or 3 languages?  This app assists you with that by making it very easy when reading to get the translation of the text into multiple languages and convert these translations into cards.  With the continious repetition of seeing the translations, you'll gradually notice that your vocabulary is almost effortlessly expanding.";
+
+"learnLanguageExplanationTitle" = "Translations";
+
+// The button for going premium
+"goPremium" = "Go Premium?";
+
+// Text for the start trial button
+"startTrial" = "Start Your Free 7-Day Trial";
+
+"restorePurchases" = "Restore your previous purchases";
+
+"resturePurchasesButton" = "Restore Purchases";
+
+"purchasesRetrievedMessage" = "Awesome! Any previous purchases that you made have now been restored to this device.";
+
+"purchasesRestoredTitle" = "Purchases Restored";
+
+"promptToSync" = "Would you like to sync your data?";
+
+// This is the generic sync text
+"sync" = "Sync";
+
+/** MAIN COLLECTION VIEW HEADER */
+
+"enableNotificationsButton" = "Enable Notifications";
+
+"notificationsHeader" = "Your\nNotifications";
+
+"search" = "Search";
+
+"all" = "All";
+
+"active" = "Active";
+
+"inactive" = "Inactive";
+
+
+/** READ BOOK VIEW CONTROLLER */
+
+// EXPLANATION
+
+"readBookTranslationExplanation" = "Translating the text you read is extremely simple.  Simply do the folowing:\n\n-- Select a word or a phrase just like if you were going to copy it.\n-- You'll see two buttons pop up at the bottom, 'Translate' and 'Create Card'\n-- Click 'Translate' and the app will translate the text, and show you the translations.  (To update the languages to translate text into go to the 'Settings' screen)\n-- Once you see the translated cards, just click the 'Create Card' button for however many translations you want to create cards for\n\n-- Click the 'Save' button and you're done!";
+
+"translateTextTitle" = "Translate text and create a card";
+
+"createCardExplanation" = "Alternatively, you can also just simply create a card by clicking the 'Create Card' button.  That won't translate the text but will show you the 'Create a Notification' screen with the text you selected as content.";
+
+// The message that appears on the translation view controller when there are no translations there
+"emptyTranslationMessage" = "Here is where the translations will show";
+
+"emptyTranslationMessageTitle" = "Translations";
+
+"translateButton" = "Translate";
+
+// The text for the create card button on the read book view controller
+"createCardButton" = "Create Card";
+
+// SYNC VIEW CONTROLLER
+
+"syncInstructions" =
+"•  Copy 'Your Sync Id' above\n•  Open the app on the other device\n•  Click on the Sync with other devices button\n•  Enter the 'Sync Id' into the input box below\n•  Click Sync\n\nYou only have to input this one time to sync between the different devices, but each time you want to add a new device you must go through the process again.\n\n** IMPORTANT **\nMake sure that you enter the Sync Id correctly, otherwise you will not see the cards from your other device on this one.";
+
+"syncingFinishedButtonText" = "Finished Syncing.  Please restart app.";
+
+// The placeholder for the sync id text field
+"enterSyncId" = "Enter your Sync Id";
+
+"emailAddressSyncMessage" = "With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address.  Enter an email address below and press the 'Sync with Email' button below.\n\nThen on any other device simply do the same thing with the same email address, to view this device's cards and ePubs on the other device.";
+
+"emailSyncButton" = "Sync with Email";
+
+"enterEmail" = "Enter your email address";
+
+"currentSyncEmail" = "Currently synced with %@";
+
+"howToSync" = "How to sync with other devices";
+
+"yourSyncId" = "- Your Sync Id -";
+
+"syncAcrossDevices" = "To sync your cards across devices...";
+
+"syncEbooks" = "To sync your cards and your eBooks using your email...";
+
+"syncIdValidationError" = "Oops..The Sync Id must be at least 8 characters.  Please make sure you've entered the id in correctly.";
+
+"syncIdTooShort" = "Sync Id Too Short";
+
+"syncingError" = "Hmm, looks like there was an error storing your email address for syncing.  Please try again.";
+
+"emailNotSaved" = "Email not saved";
+
+"processing" = "Processing...Do not close app";
+
+"finishedSyncing" = "Finished Syncing!!";
+
+"promptValidEmail" = "Please enter a valid email address.";
+
+"invalidEmail" = "Invalid Email";
+
+// GENERIC OKAY
+"okay" = "Okay";
+
+"syncIssue" = "Uh oh! Something went wrong while syncing.  Check your internet connection and then try again.";
+
+"syncIdInvalid" = "This Sync Id is invalid.  Please try another one.";
+
+"errorSyncingTitle" = "Error Syncing";
+
+"cancel" = "Cancel";
+
+"save" = "Save";
+
+"enterCaption" = "Enter caption...";
+
+"enterDetails" = "Enter details...";
+
+"tag" = "+ Tag";
+
+"savingNotificationError" = "There was a problem saving your notification.  Please try again";
+
+"tryAgain" = "Try Again";
+
+"loseDataWarning" = "If you close this page than your unsaved data will be lost, are you sure you want to do that?";
+
+"areYouSure" = "Are you sure?";
+
+"finishWritingCard" = "Finish Writing Card";
+
+"problemUpdatingCard" = "There was a problem updating your card.  Please try again.";
+

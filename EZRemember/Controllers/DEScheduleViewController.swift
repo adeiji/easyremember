@@ -21,29 +21,12 @@ extension NSNotification.Name {
 class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonProtocol {
     
     var explanation = Explanation(sections: [
-        ExplanationSection(content:
-        """
-        This is set as a reminder for yourself to always keep in eye on how many cards you have activated at a time.  You can have as many total cards as you want (depending on your subscription package) but the amount of active cards is limited.  This is to ensure that you can keep a reasonable limit on what you're learning because too many active cards can begin to overwhelm you and slow down the learning process.
-        """, title: "Max Number of Cards", image: ImageHelper.image(imageName: "bell-white", bundle: "EZRemember")),
-        ExplanationSection(content:
-        """
-        Since learning is so heavily reliant upon repetition, it's important that you set up a schedule that you feel can help you learn at a pace that will allow you to reach your goals.
-
-        The way that it works is you first select the hours that you want to recieve notifications.  Then you select the frequency of which you want to recieve notifications during those hours.  Either
-        
-        -- Every Ten Minutes
-        -- Every Fifteen Minutes
-        -- Every Thirty Minutes
-        -- Every Hour
-        
-        """,
-        title: "Scheduling",
+        ExplanationSection(content: NSLocalizedString("reminderExplanation", comment: "The first sections explanation for why there is a number of cards section"), title: NSLocalizedString("reminderExplanationTitle", comment: "The title for this section"), image: ImageHelper.image(imageName: "bell-white", bundle: "EZRemember")),
+        ExplanationSection(content: NSLocalizedString("scheduleExplanation", comment: "The second section's explanation for why we have a schedule"),
+        title: NSLocalizedString("scheduleExplanationTitle", comment: "The title for the scheduling sectino"),
         image: ImageHelper.image(imageName: "clock-white", bundle: "EZRemember")),
-        ExplanationSection(content:
-        """
-        Intereseted in learning a language?  Interested in learning 2, or 3 languages?  This app assists you with that by making it very easy when reading to get the translation of the text into multiple languages and convert these translations into cards.  With the continious repetition of seeing the translations, you'll gradually notice that your vocabulary is almost effortlessly expanding.
-        """,
-        title: "Translations",
+        ExplanationSection(content: NSLocalizedString("learnLanguageExplanation", comment: "The third section's explanation for how the language feature works"),
+        title: NSLocalizedString("learnLanguageExplanationTitle", comment: "The title for the language explanation of scheduling"),
         image: ImageHelper.image(imageName: "translator", bundle: "EZRemember"))
     ])
             
@@ -156,15 +139,21 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
                         
         // PURCHASE CARD
         
+        let goPremiumLocalized = NSLocalizedString("goPremium", comment: "On the schedule view controller its the header for purchasing a package")
+        let startTrialLocalized = NSLocalizedString("startTrial", comment: "On the schedule view controller its the start free 7 day trial button text")
+        
         let purchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
-        purchaseCard.draw(title: "Go Premium?", buttonTitle: "Start Your Free 7-Day Trial")
+        purchaseCard.draw(title: goPremiumLocalized, buttonTitle: startTrialLocalized)
         purchaseCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
         self.purchaseButtonPressed(button: purchaseCard.actionButton)
         
         // RESTORE PURCHASE CARD
         
+        let restorePurchasesLocalized = NSLocalizedString("restorePurchases", comment: "The header for the restore purchases section")
+        let restorePurchasesButtonLocalized = NSLocalizedString("restorePurchasesButton", comment: "The text for the restore purchases button")
+        
         let restorePurchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
-        restorePurchaseCard.draw(title: "Restore purchases?", buttonTitle: "Restore Previous Purchases")
+        restorePurchaseCard.draw(title: restorePurchasesLocalized, buttonTitle: restorePurchasesButtonLocalized)
         restorePurchaseCard.addToSuperview(superview: mainView.containerView, viewAbove: purchaseCard, anchorToBottom: false)
         restorePurchaseCard.actionButton?.addTargetClosure(closure: { [weak self] (actionButton) in
             guard let self = self else { return }
@@ -177,14 +166,20 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
                 }
                 
                 let successCard = GRMessageCard()
-                successCard.draw(message: "Congratulations! If you had any purchases, they've been restored on this device.  Please restart the app.", title: "Purchases Restored", superview: self.view)
+                let purchasesRetrievedMessage = NSLocalizedString("purchasesRetrievedMessage", comment: "when the previous purchases are finished being retrieved than this is the message displayed on the card that you see")
+                let purchasesRestored = NSLocalizedString("purchasesRestoredTitle", comment: "When the purchases are restored and the message card shows, this is the title of that card")
+                
+                successCard.draw(message: purchasesRetrievedMessage, title: purchasesRestored, superview: self.view)
             }
         })
                 
         // SYNC CARD
                 
+        let syncHeaderLocalized = NSLocalizedString("promptToSync", comment: "The header for the sync section asking if the user wants to sync or not")
+        let syncLocalized = NSLocalizedString("sync", comment: "generic sync text")
+        
         let syncCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
-        syncCard.draw(title: "Would you like to sync your data with your other devices?", buttonTitle: "Sync")
+        syncCard.draw(title: syncHeaderLocalized, buttonTitle: syncLocalized)
         syncCard.addToSuperview(superview: mainView.containerView, viewAbove: restorePurchaseCard, anchorToBottom: false)
         self.syncButtonPressed(button: syncCard.actionButton)
                 
@@ -276,7 +271,9 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     
     func showMaxNumberLessThanPreviousCard (maxNumOfCards:Int) {
         let messageCard = GRMessageCard()
-        messageCard.draw(message: "You're setting a max number less than your previous.  If you do this, your current active cards will all be set to inactive, and you'll have to reactive them again.  Is this okay?  If not, choose a number higher than you previous of \(self.maxNumOfCards)", title: "Max Number Less than Previous", buttonBackgroundColor: UIColor.EZRemember.mainBlue, superview: self.view, cancelButtonText: "Cancel")
+        let maxNumberMessage = String(format: NSLocalizedString("maxNumberLowWarning", comment: "The max number is less than the previous max number warning"), self.maxNumOfCards)
+        let maxNumberMessageTitle = NSLocalizedString("maxNumberLowTitle", comment: "The card to display to the user that the max number is less than the previous title")
+        messageCard.draw(message: maxNumberMessage, title: maxNumberMessageTitle, buttonBackgroundColor: UIColor.EZRemember.mainBlue, superview: self.view, cancelButtonText: "Cancel")
         
         messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }

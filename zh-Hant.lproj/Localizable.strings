@@ -1,0 +1,224 @@
+/*
+  Localizable.strings
+  EZRemember
+
+  Created by Adebayo Ijidakinro on 5/22/20.
+  Copyright © 2020 Dephyned. All rights reserved.
+*/
+
+/** SUPPORTED LANGUAGES */
+
+"en" = "英文";
+"zh-TW" = "中文（繁體字）";
+"zh-CN" = "中文 （簡體字）";
+"id" = "印尼語";
+"hi" = "印度語";
+"fr" = "法語";
+"es" = "西班牙語";
+"pt" = "葡萄牙語";
+"ar" = "阿拉伯";
+"bn" = "孟加拉";
+"it" = "義大利語";
+"ja" = "日語";
+"tl" = "他加禄语";
+"th" = "泰語";
+
+// TAB BAR CONTROLLER
+
+"notifications" = "通知";
+
+"schedule" = "設定";
+
+"reader" = "看書";
+
+// EPub Reader View Controller
+
+"yourElectronicBooksHeader" = "你的電子書";
+
+// MAIN VIEW CONTROLLER
+
+/** The explanation page content for the Main View Controller */
+"repetitionExplanation" = "為了學技能，重複很重要。 重複讓新技能成行。間隔重複系統幫我們比較好學。這個應用用通知幫你比較輕鬆比較好好學。我們怎麼辦？\n\n我們用通知幫你保持一致性。這種的同志不要鼓勵你打開應用。 反而，我們用通知發給你，你不想忘記的內容。你能從主屏幕可以看看這些通知，讓你比較容易記得內容。你需要打開應用。怎麼做的話，你可以快快看通知，快快學通知的內容。";
+
+// Explanation page content title
+"repetitionExplanationTitle" = "永遠不會忘記任何事情";
+
+// Enable notifications card when user first opens the app and if they haven't enabled notifications this will appear as the header for the main collection view
+"enableNotificationsMessageContent" = "其用通知是非常重要。通知會幫你記得你自己做的電子卡的內容。這應用依靠你其用通知。請先在啟用，讓你充分收益。";
+
+"enableNotificationsTitleContent" = "其用通知";
+
+"enableNotificationsButton" = "其用通知";
+
+"enableNotificationsCancelButton" = "取消 （不建議的）";
+
+// Error saving notification card's content
+"notificationSaveError" = "保存通知中遇到問題。經常這是網絡連結的問題。請檢查你的網絡連結然後再試試看。;
+
+// Error saving notification card's title
+"notificationSaveErrorTitle" = "保存通知中遇到問題";
+
+// Card that shows user reached max notification's content
+"maxActiveNotificationsContent" = "你已經到了開著通知限%@。清關其他的卡，或是在設定畫面增加你開著通知限。";
+
+// Title for the card that shows that the user has reached the max notifications
+"maxActiveNotificationsTitle" = "你到了開著通知限";
+
+"noNotificationsMessage" = "沒有通知";
+
+"addNotificationMessage" = "你現在還沒有做通知卡。請點擊上面的‘加’按鈕做你第一個通知。";
+
+
+/** THE SCHEDULE VIEW CONTROLLER */
+
+"everyTenMinutes" = "每一個10分鐘";
+
+"everyFifteenMinutes" = "每一個十五分鐘";
+
+"everyThirtyMinutes" = "每一個三十分鐘";
+
+"everyHour" = "每一個小時";
+
+
+/** Paragraph 1 of the schedule view explanation as to why and how we handle reminders */
+"reminderExplanation" = "這部分的目的是幫你記得你開著通知卡的數額。沒有打開的通知卡數額是無限的（倚靠你購買的內容）。可是打開這的通知卡數額有限。這限的目的是讓你控制你想學通知卡的數額。如果你覺得你開這的通知卡太多，你可以從這裡邊限制。";
+
+"reminderExplanationTitle" = "通知卡的限制";
+
+/** Paragraph 2 of the schedule view explanation as to why and how we have a schedule */
+"scheduleExplanation" = "因為學習依靠重複很多，是非常重要你指定時間表是合理的。你不要太多或是太少的提醒。你因該確定幫你到你目標的時間表。\n\n指確定間表示怎樣子。你首先選擇你想接受通知的小時。然後選擇這些小時中想接收通知的頻率。可以選擇：\n\n每一個十分鐘\n\n每一個十五分鐘\n\n每一個三十分鐘\n\n咩一個小時;
+
+"scheduleExplanationTitle" = "確定時間表";
+
+/** Paragraph 3 of the schedule view explanation as to how you can use the app to learn a language */
+"learnLanguageExplanation" = "你有學語言的興趣嗎？你有學二個或三個語言的興趣嗎？ 這應用助攻你好學語言。我們怎麼做？你可以用我們的翻譯功能把國語成外語，或是吧外語成國語。你甚至可以句子翻譯成很多的外語。然後你可以很容易把翻譯成通知卡。跟連續重複系統，你會看你詞彙最燃的越來越大。";
+
+"learnLanguageExplanationTitle" = "翻譯功能";
+
+// The button for going premium
+"goPremium" = "要用特別的特色嗎?";
+
+// Text for the start trial button
+"startTrial" = "開始你免費的七天的測試使用";
+
+"restorePurchases" = "恢復你之前的購買";
+
+"resturePurchasesButton" = "恢復你之前的購買";
+
+"purchasesRetrievedMessage" = "太棒了！你之前的購買是恢復了。";
+
+"purchasesRestoredTitle" = "之前的購買時恢復了";
+
+"promptToSync" = "你想同步妳的數據嗎？";
+
+// This is the generic sync text
+"sync" = "同步";
+
+/** MAIN COLLECTION VIEW HEADER */
+
+"enableNotificationsButton" = "其用通知";
+
+"notificationsHeader" = "你的\n通知";
+
+"search" = "尋求";
+
+"all" = "多";
+
+"active" = "開著";
+
+"inactive" = "關著";
+
+
+/** READ BOOK VIEW CONTROLLER */
+
+// EXPLANATION
+
+"readBookTranslationExplanation" = "用翻譯功能是非常容易。你就需要怎麼做\n\n--選擇你想翻譯的句子或是字而已。（跟複製一樣)\n--在下面會出來連個按鈕。 ‘翻譯’和‘做卡’\n--點擊'翻譯'和應用會翻譯內容，然後給你看內容的翻譯。如果你想改變翻譯的語言你應該用‘設定’畫面改變。\n-- 你看翻譯卡後，你就需要把你想保存的翻譯卡們點擊‘做卡’的按鈕\n\n-- 點擊‘保存’按鈕和你結束了！";
+
+"translateTextTitle" = "翻譯句子合做卡";
+
+"createCardExplanation" = "你也可以就電機‘做卡’按鈕做卡。這部會翻譯句子，就會把‘做通知卡’畫面呈現。那畫面的細節文本框會有你選擇的內容。";
+
+// The message that appears on the translation view controller when there are no translations there
+"emptyTranslationMessage" = "你的翻譯會在這裡出來。";
+
+"emptyTranslationMessageTitle" = "翻譯功能";
+
+"translateButton" = "翻譯";
+
+// The text for the create card button on the read book view controller
+"createCardButton" = "做卡";
+
+// SYNC VIEW CONTROLLER
+
+"syncInstructions" =
+"•  複製你的同步編號\n•  用其他的電器打開應用。\n•  電機‘跟其他的電器同步’按鈕。\n•   用下面的文本框輸入‘同步編號’\n•  電機‘同步’ \n\n你就需要輸入編號一次而已。可是每一次你想加一個電器你需要再做一樣的過程。\n\n**非常重要 **\n確定你好好輸入正確的編號。沒有的話，這個電器沒辦法下載你其他的電器的通知卡。";
+
+"syncingFinishedButtonText" = "同步結束了。請重新開始你的電器";
+
+// The placeholder for the sync id text field
+"enterSyncId" = "輸入你的同步編號。";
+
+"emailAddressSyncMessage" = "跟購買的應用，你可以用你的電子郵件同步通知卡和和epub。 在下面的文本框輸入電器郵件然後電機‘用電子郵件’按鈕。\n\n然後你可以用其他的電器做一樣的和在其他的電器看你的ePubs和你的通知卡。";
+
+"emailSyncButton" = "用電子郵件同步";
+
+"enterEmail" = "輸入你的電子同步地址";
+
+"currentSyncEmail" = "已經用%@同步";
+
+"howToSync" = "怎麼跟其他的電器同步？";
+
+"yourSyncId" = "- 你的同步編號 -";
+
+"syncAcrossDevices" = "跟其他的電器同步妳需要...";
+
+"syncEbooks" = "用你的電子郵件同步通知卡妳需要...";
+
+"syncIdValidationError" = "同步編號必須超過八個字符。 請客訂你寫好了。";
+
+"syncIdTooShort" = "同步編號太短了";
+
+"syncingError" = "保存你電子郵件為了同步中遇到了一個問題。請再試試。";
+
+"emailNotSaved" = "電子郵件還沒保存";
+
+"processing" = "處理中...別管應用;
+
+"finishedSyncing" = "同步結束了!!";
+
+"promptValidEmail" = "請輸入你的電子郵件。";
+
+"invalidEmail" = "無效電子郵件";
+
+// GENERIC OKAY
+"okay" = "好";
+
+"syncIssue" = "同步中遇到了一個問題。請檢查你的網絡連線然後再試試。";
+
+"syncIdInvalid" = "這個同步編號是無效了。請用其他的。";
+
+"errorSyncingTitle" = "遇到了一個問題。";
+
+"cancel" = "取消";
+
+"save" = "保存";
+
+"enterCaption" = "輸入標題...";
+
+"enterDetails" = "輸入內容...";
+
+"tag" = "+ 標籤";
+
+"savingNotificationError" = "保存通知卡中遇到了一個問題。請再試試。";
+
+"tryAgain" = "再試試";
+
+"loseDataWarning" = "這個畫面的內容還沒保存。你管畫面的話你的數據會刪除了。你肯定要怎麼做？";
+
+"areYouSure" = "你肯定嗎？";
+
+"finishWritingCard" = "我要結束寫通知卡";
+
+"problemUpdatingCard" = "保存你的通知卡中遇到了一個問題。請再試試。";
+

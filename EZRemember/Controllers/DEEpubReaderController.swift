@@ -127,7 +127,7 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
             self.showBookReader(url: ebookUrl)
         }
                 
-        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: "Your\nElectronic Books", addNavBar: false)
+        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: NSLocalizedString("yourElectronicBooksHeader", comment: "the header for this page"), addNavBar: false)
         mainView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         mainView.collectionView?.register(EBookCell.self, forCellWithReuseIdentifier: EBookCell.identifier)
         mainView.collectionView?.backgroundColor = .clear

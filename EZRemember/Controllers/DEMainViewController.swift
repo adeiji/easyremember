@@ -54,16 +54,10 @@ public class GRViewWithCollectionView:GRBootstrapElement {
 class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol {
     
     var explanation: Explanation = Explanation(sections: [
-        ExplanationSection(content:
-    """
-    The key to learning anything is repetition.  Repetition is what makes a skill or knowledge become second nature.  Spaced repetition provides an increase of 30% to your retention rate.  This application uses notifications to help you learn skills permanently and naturally.  How do we do this?
-
-    We help you to be consistent by sending you constistant reminders.  But the reminders are not reminders for you to open the app, instead, whatever you want to remember is sent as a notification.  You can then read through that notification without having to open the app.
-
-    Once you've remembered a notification, you simply delete it.
-    """
-    , title: "Never forget anything",
-      image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember"))
+        ExplanationSection(
+            content: NSLocalizedString("repetitionExplanation", comment: "The long explanation of why repetition is important"),
+            title: NSLocalizedString("repetitionExplanationTitle", comment: "The title for the explanation of why repetition is so important"),
+            image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember"))
         ])
     
     var bookName: String
@@ -182,7 +176,10 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                 card.toggleActivateButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 // If there is an error saving then show it now
                 if let error = event.error {
-                    GRMessageCard().draw(message: "Seems like there was a problem saving your information, please try activating or deactiving this notification again", title: "Uh oh! Something is wrong...", buttonBackgroundColor: .red, superview: self.view, buttonText: "Okay", isError: true)
+                    
+                    GRMessageCard().draw(
+                        message: NSLocalizedString("notificationSaveError", comment: "Error saving notification content"),
+                        title: NSLocalizedString("notificationSaveErrorTitle", comment: "Error saving notification title"), buttonBackgroundColor: .red, superview: self.view, buttonText: NSLocalizedString("okay", comment: "The generic okay text"), isError: true)
                     // Log the error using google analytics
                     AnalyticsManager.logError(message: error.localizedDescription)
                 } else {
@@ -197,11 +194,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     private func showMaxNumberOfCardsHit () {
         
         let card = GRMessageCard(color: .white, anchorWidthToScreenWidth: true)
-
+        let maxCardMessage = String(format: NSLocalizedString("maxActiveNotificationsContent", comment: "The content for the max active notifications card"), arguments: [self.maxNumOfCards])
+        let maxCardTitle = String(format: NSLocalizedString("maxActiveNotificationsTitle", comment: "The title for the max active notifications card"))
+        
         card
         .draw(
-            message: "You have already reached your maximum active notifications of \(self.maxNumOfCards).  Please deactivate another card first, or increase your maximum activate notifications on the 'Schedule' page",
-            title: "Maximum Active Cards Reached",
+            message: maxCardMessage,
+            title: maxCardTitle,
             buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan),
             superview: self.view)
         
@@ -303,8 +302,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        
+                
         if self.mainView != nil { return }
                         
         let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
@@ -332,12 +330,19 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         
         self.promptForAllowNotifications()
         
+        // If appropriate than request the user to write a review
+        UtilityFunctions.requestReviewIfAppropriate()
     }
     
     fileprivate func promptForAllowNotifications () {
         if (UtilityFunctions.isFirstTime("opening the main view controller")) {
             let messageCard = GRMessageCard()
-            messageCard.draw(message: "Enabling notifications is very important.  They are what will really help you to remember the information on the cards that you create.  This app relies heavily on notifications.  Please enable them now, so you can fully benefit from the app.", title: "Please Enable Notifications", superview: self.view, buttonText: "Enable Notifications", cancelButtonText: "Don't Enable - Not recommended")
+            let enableNotificationsMessageContent = NSLocalizedString("enableNotificationsMessageContent", comment: "The message content for the card prompting the user to enable notifications")
+            let enableNotificationsMessageTitle = NSLocalizedString("enableNotificationsTitleContent", comment: "The title for the card prompting the user to enable notifications")
+            let enableNotificationsButton = NSLocalizedString("enableNotificationsButton", comment: "The button for the enable notifications message card to enable the notifications")
+            let enableNotificationsCancelButton = NSLocalizedString("enableNotificationsCancelButton", comment: "The cancel button for the enable notifications message card to not enable notifications")
+            
+            messageCard.draw(message: enableNotificationsMessageContent, title: enableNotificationsMessageTitle, superview: self.view, buttonText: enableNotificationsButton, cancelButtonText: enableNotificationsCancelButton)
             
             messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let _ = self else { return }
@@ -426,8 +431,11 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
      If the notifications relay contains zero elements than we need to display the no data view on the Table View
      */
     func showEmptyCollectionView () {
+        let noNotificationsMessageLocalized = NSLocalizedString("noNotificationsMessage", comment: "When the user has created no notifications and we display that on the collection views background")
+        let addNotificationMessageLocalized = NSLocalizedString("addNotificationMessage", comment: "The button on the collection views background that when pressed the user can add a notification")
+        
         let actionButton = self.mainView?.collectionView?.setEmptyMessage(
-            message: "Looks like you haven't added any notifications yet on this device.  Let's add a notification now", header: "Add a Notification", imageName: "interface")
+            message: noNotificationsMessageLocalized, header: addNotificationMessageLocalized, imageName: "interface")
         self.setupAddButton(addButton: actionButton)
     }
     
@@ -464,6 +472,8 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         if atBeginning {
             self.notifications.insert(contentsOf: notifications, at: 0)
             self.allNotifications.insert(contentsOf: notifications, at: 0)
+            self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+            
             return
         }
         

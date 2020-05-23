@@ -42,7 +42,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         guard let count = self.syncIdTextField?.text?.count else { return false }
         if count < 8 {
             let idTooSmallCard = GRMessageCard(color: UIColor.white.dark(Dark.coolGrey700))
-            idTooSmallCard.draw(message: "Oops..The Sync Id must be at least 8 characters.  Please make sure you've entered the id in correctly.", title: "Sync Id Too Short", buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), superview: self.view)
+            idTooSmallCard.draw(message: NSLocalizedString("syncIdValidationError", comment: "The error message when the user enters an invalid sync id"), title: NSLocalizedString("syncIdTooShort", comment: "Sync Id Too Short"), buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), superview: self.view)
             self.syncIdTextField?.resignFirstResponder()
             return false
         }
@@ -65,7 +65,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         if let error = error {
             AnalyticsManager.logError(message: error.localizedDescription)
             let errorCard = GRMessageCard()
-            errorCard.draw(message: "Hmm, looks like there was an error storing your email address for syncing.  Please try again.", title: "Email not saved", superview: self.view)
+            errorCard.draw(message: NSLocalizedString("syncingError", comment: "Error storing email address for sycing message"), title:  NSLocalizedString("emailNotSaved", comment: "Email not saved"), superview: self.view)
         }
     }
     
@@ -75,7 +75,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         SyncManager.shared.syncWithEmail(sync: sync) { (success, error) in
             self.syncEmailButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             self.syncEmailButton?.backgroundColor = UIColor.Style.htLightOrange
-            self.syncEmailButton?.setTitle("Processing...Do not close app", for: .normal)
+            self.syncEmailButton?.setTitle(NSLocalizedString("processing", comment: "Processing...do not close app"), for: .normal)
             
             self.handleSyncError(error)
         }
@@ -83,7 +83,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
     
     @objc private func syncFinished () {
         self.syncEmailButton?.backgroundColor = UIColor.Style.htMintGreen
-        self.syncEmailButton?.setTitle("Finished Syncing!!", for: .normal)
+        self.syncEmailButton?.setTitle(NSLocalizedString("finishedSyncing", comment: "Finished syncing!!"), for: .normal)
     }
     
     private func saveEmailButtonPressed () {
@@ -113,47 +113,34 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
     
     private func invalidEmail () {
         let errorCard = GRMessageCard()
-        errorCard.draw(message: "Please enter a valid email address.", title: "Invalid Email", superview: self.view, buttonText: "Okay", isError: true)
+        errorCard.draw(message: NSLocalizedString("promptValidEmail", comment: "Please enter a valid email address"), title: NSLocalizedString("invalidEmail", comment: "Invalid Email"), superview: self.view, buttonText: NSLocalizedString("okay", comment: "generic okay throughout the app"), isError: true)
     }
     
     private func showErrorMessage (error: Error){
                         
-        var message = "Uh oh! Something went wrong while syncing.  Go ahead and try again."
+        var message = NSLocalizedString("syncIssue", comment: "Something went wrong while syncing")
         
         if let error = error as? NotificationsManager.SyncingError {
             if error == .NoNotifications {
-                message = "This Sync Id is invalid.  Please try another one."
+                message = NSLocalizedString("syncIdInvalid", comment: "This Sync Id is invalid")
             }
         }
         
         let errorCard = GRMessageCard()
-        errorCard.draw(message: message, title: "Error Syncing", superview: self.view)
+        errorCard.draw(message: message, title: NSLocalizedString("errorSyncingTitle", comment: "Error Syncing"), superview: self.view)
         
     }
     
     private func updateSyncButton (finishedSyncing: Bool) {
         if finishedSyncing {
             self.syncButton?.backgroundColor = UIColor.Style.htMintGreen
-            self.syncButton?.setTitle("Finished Syncing.  Please restart app", for: .normal)
+            self.syncButton?.setTitle(NSLocalizedString("syncFinishedButtonText", comment: "The text that shows when the syncing has finished"), for: .normal)
         }
     }
     
     private func drawScreen (syncView: GRViewWithScrollView) {
         
-        let syncInstructions =
-"""
-
-•  Copy "Your Sync Id" above
-•  Open the app on the other device
-•  Click on the Sync with other devices button
-•  Enter the "Sync Id" into the input box below
-•  Click Sync
-
-You only have to input this one time to sync between the different devices, but each time you want to add a new device you must go through the process again.
-
-** IMPORTANT **
-Make sure that you enter the Sync Id correctly, otherwise you will not see the cards from your other device on this one.
-"""
+        let syncInstructions = NSLocalizedString("syncInstructions", comment: "The sync instructions")
         
         let card = GRBootstrapElement(
             color: .clear,
@@ -161,10 +148,10 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
             margin: BootstrapMargin(left: .Five, top: .Five, right: .Five, bottom: .Five),
             superview: syncView.containerView)
         
-        let syncIdTextField = Style.wideTextField(withPlaceholder: "Enter your sync Id", superview: nil, color: UIColor.black)
+        let syncIdTextField = Style.wideTextField(withPlaceholder: NSLocalizedString("enterSyncId", comment: "The placeholder for the sync id text field"), superview: nil, color: UIColor.black)
         syncIdTextField.font = CustomFontBook.Regular.of(size: .small)
         
-        let syncButton = Style.largeButton(with: "Sync", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
+        let syncButton = Style.largeButton(with: NSLocalizedString("sync", comment: "generic sync"), backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
                         
         let deviceId = UtilityFunctions.deviceId()
         let indexOfHyphen = deviceId.firstIndex(of: "-") ?? deviceId.endIndex
@@ -172,26 +159,21 @@ Make sure that you enter the Sync Id correctly, otherwise you will not see the c
         
         // EMAIL ADDRESS INSTRUCTIONS LABEL
         
-        let emailAddressSyncMessage =
-"""
-With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address.  Enter an email address below and press the "Sync with Email" button below.
-
-Then on any other device simply do the same thing with the same email address, to view this device's cards and ePubs on the other device.
-"""
+        let emailAddressSyncMessage = NSLocalizedString("emailAddressSyncMessage", comment: "Explanation of how the syncing with email works")
         let emailInstructionsLabel = Style.label(withText: emailAddressSyncMessage, superview: nil, color: UIColor.black.dark(.white))
         emailInstructionsLabel.font = CustomFontBook.Regular.of(size: .medium)
         
-        let saveEmailButton = Style.largeButton(with: "Sync with Email", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
+        let saveEmailButton = Style.largeButton(with: NSLocalizedString("emailSyncButton", comment: "Button text for sync email button"), backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
         
-        let emailAddressSyncTextField = Style.wideTextField(withPlaceholder: "Enter your emaill address", superview: nil, color: UIColor.black)
+        let emailAddressSyncTextField = Style.wideTextField(withPlaceholder: NSLocalizedString("enterEmail", comment: "Enter your email address"), superview: nil, color: UIColor.black)
         emailAddressSyncTextField.font = CustomFontBook.Regular.of(size: .small)
         if let syncEmail = UtilityFunctions.getSyncEmail() {
-            emailAddressSyncTextField.placeholder = "Currently synced with \(syncEmail)"
+            emailAddressSyncTextField.placeholder = String(format: NSLocalizedString("currentSyncEmail", comment: "Currently synced with <-email->"), syncEmail)
         }
         
         card.addRow(columns: [
             // Title
-            Column(cardSet: Style.label(withText: "How to sync with other devices",
+            Column(cardSet: Style.label(withText: NSLocalizedString("howToSync", comment: "How to sync with other devices"),
                 superview: nil,
                 color: UIColor.black.dark(.white),
                 textAlignment: .center)
@@ -201,7 +183,7 @@ Then on any other device simply do the same thing with the same email address, t
             
             // Your Sync Id
             Column(cardSet: Style.label(
-                withText: "- Your Sync Id -",
+                withText: NSLocalizedString("yourSyncId", comment: "- Your Sync Id -"),
                 superview: nil,
                 color: UIColor.black.dark(.white),
                 textAlignment: .center)
@@ -223,7 +205,7 @@ Then on any other device simply do the same thing with the same email address, t
                             .withHeight(60),
                 xsColWidth: .Twelve),
             
-            Column(cardSet: Style.label(withText: "To sync your cards across devices...", superview: nil, color: UIColor.black.dark(.white) ).font(CustomFontBook.Bold.of(size: .medium)).toCardSet(), xsColWidth: .Twelve),
+            Column(cardSet: Style.label(withText: NSLocalizedString("syncAcrossDevices", comment: "To sync your cards across devices..."), superview: nil, color: UIColor.black.dark(.white) ).font(CustomFontBook.Bold.of(size: .medium)).toCardSet(), xsColWidth: .Twelve),
             
             // The sync instruction card
             // How to get syc with other devices instructions
@@ -255,7 +237,7 @@ Then on any other device simply do the same thing with the same email address, t
             
             // EMAIL SYNCING
             
-            Column(cardSet: Style.label(withText: "To sync your cards and your eBooks using your email...", superview: nil, color: UIColor.black.dark(.white) )
+            Column(cardSet: Style.label(withText: NSLocalizedString("syncEbooks", comment: "To sync your cards and your eBooks using your email..."), superview: nil, color: UIColor.black.dark(.white) )
                 .font(CustomFontBook.Bold.of(size: .medium))
                 .toCardSet().margin.top(40),
                    xsColWidth: .Twelve),

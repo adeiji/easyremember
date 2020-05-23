@@ -35,12 +35,10 @@ extension ShowEpubReaderProtocol {
         config.displayTitle = true
         let folioReader = FolioReader()
         
-        // If the device is large enough we want to push the epub reader as opposed to presenting it, and the larger screen has
-        // a different layout as well
+        let ebookHandler = EBookHandler()
         
-        // Push the Read Book View Controller which will show the book on the left hand side
-        let title = try? FolioReader.getTitle(url.path)
-        let reader = folioReader.getReader(parentViewController: self, withEpubPath: url.path, andConfig: config, shouldRemoveEpub: false)
+        let title = ebookHandler.getTitleFromBookPath(url.path)
+        let reader = ebookHandler.getReader(url: url, folioReader: folioReader, parentVC: self)
         let readBookViewVC = GRReadBookViewController(reader: reader, folioReader: folioReader, bookName: title ?? "No Name")
         self.navigationController?.pushViewController(readBookViewVC, animated: true)
         return nil

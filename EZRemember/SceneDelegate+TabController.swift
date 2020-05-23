@@ -28,9 +28,9 @@ extension SceneDelegate {
             buttonsBackgroundColor: UIColor.white.dark(Dark.mediumShadeGray),
             buttonSelectedColor: UIColor.Style.lightGray.dark(.darkGray) )
         
-        tabController.addFooterButton(title: "Notifications", imageName: "bell", viewControllerToShow: mainNavigationViewController)
-        tabController.addFooterButton(title: "Schedule", imageName: "clock", viewControllerToShow: scheduleVC)
-        tabController.addFooterButton(title: "Reader", imageName: "book", viewControllerToShow: epubReaderNavVC)
+        tabController.addFooterButton(title: NSLocalizedString("notifications", comment: "Notifications tab bar title"), imageName: "bell", viewControllerToShow: mainNavigationViewController)
+        tabController.addFooterButton(title: NSLocalizedString("schedule", comment: "Schedule tab bar title"), imageName: "clock", viewControllerToShow: scheduleVC)
+        tabController.addFooterButton(title: NSLocalizedString("reader", comment: "Reader tab bar title"), imageName: "book", viewControllerToShow: epubReaderNavVC)
         
         // Have to add the view controller and it's view to the tab bar controller in order to work properly
         tabController.addChildViewControllerWithView(mainNavigationViewController, toView: tabController.mainView)

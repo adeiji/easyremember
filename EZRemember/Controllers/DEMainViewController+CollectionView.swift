@@ -20,16 +20,21 @@ class NotificationsHeaderCell : UICollectionReusableView {
     let tagPressed = PublishSubject<String>()
             
     fileprivate func getFilterColumn(text: String) -> GRBootstrapElement.Column {
-        return Column(cardSet: self.getTagButton(tag: text).radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.sm, .Two)
+        return Column(cardSet: self.getTagButton(tag: text).toCardSet().withHeight(40), xsColWidth: .Six).forSize(.sm, .Two)
     }
     
     func allowNotificationsCard () -> GRBootstrapElement {
-        let enableNotificationsButton = Style.largeButton(with: "Enable Notifications (very important)", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey700))
-
-        let enableNotificationsLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(.white))
-        enableNotificationsLabel.attributedText = "Enabling notifications is very important.  They are what will really help you to remember the information on the cards that you create.  This app relies heavily on notifications.  Please enable them now, so you can fully benefit from the app.".addLineSpacing(amount: 10.0, centered: false)
         
-        let card = GRBootstrapElement(color: UIColor.lightGray.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
+        let enableNotificationsButtonLocalized = NSLocalizedString("enableNotificationsButton", comment: "the enable notifications button with important added on the Notifications Header Cell")
+        
+        let enableNotificationsButton = Style.largeButton(with: enableNotificationsButtonLocalized, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey700))
+
+        let enableNotificationsLabelLocalized = NSLocalizedString("enableNotificationsMessageContent", comment: "The description of why enabling notifications is so important")
+        
+        let enableNotificationsLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(.white))
+        enableNotificationsLabel.attributedText = enableNotificationsLabelLocalized.addLineSpacing(amount: 10.0, centered: false)
+        
+        let card = GRBootstrapElement(color: UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
         card.addRow(columns: [
             Column(cardSet: enableNotificationsLabel
                 .font(CustomFontBook.Regular.of(size: .small))
@@ -59,9 +64,13 @@ class NotificationsHeaderCell : UICollectionReusableView {
     }
     
     func draw () {
+                        
+        let notificationsLocalized = NSLocalizedString("notificationsHeader", comment: "The header that says Your Notifications at the top of the notifications page")
         
-        let header = Style.largeCardHeader(text: "Your\nNotifications", margin: BootstrapMargin.noMargins(), superview: nil, viewAbove: nil)
-        let searchBar = Style.wideTextField(withPlaceholder: "Search", superview: nil, color: UIColor.black.dark(.white))
+        let searchLocalized = NSLocalizedString("search", comment: "placeholder for the search bar")
+        
+        let header = Style.largeCardHeader(text: notificationsLocalized, margin: BootstrapMargin.noMargins(), superview: nil, viewAbove: nil)
+        let searchBar = Style.wideTextField(withPlaceholder: searchLocalized, superview: nil, color: UIColor.black.dark(.white))
         
         if UIApplication.shared.isRegisteredForRemoteNotifications == false {
             header.addRow(columns: [
@@ -75,15 +84,19 @@ class NotificationsHeaderCell : UICollectionReusableView {
         
         searchBar.backgroundColor = UIColor.white.dark(Dark.coolGrey700)
         searchBar.radius(radius: 5)
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = searchLocalized
 
         let tags = UtilityFunctions.getTags()
         
+        let allLocalized = NSLocalizedString("all", comment: "The text for all on the filter button")
+        let activeLocalized = NSLocalizedString("active", comment: "The text for active on the filter button")
+        let inactiveLocalized = NSLocalizedString("inactive", comment: "The text for inactive on the filter button")
+        
         // Add the first button to the columns - All Button
         var columns = [
-            getFilterColumn(text: "All"),
-            getFilterColumn(text: "Active"),
-            getFilterColumn(text: "Inactive")
+            getFilterColumn(text: allLocalized),
+            getFilterColumn(text: activeLocalized),
+            getFilterColumn(text: inactiveLocalized)
         ]
                         
         tags?.forEach({ [weak self] (tag) in
@@ -91,7 +104,7 @@ class NotificationsHeaderCell : UICollectionReusableView {
             if tag.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return }
             
             let tagButton = self.getTagButton(tag: tag)
-            let column = Column(cardSet: tagButton.radius(radius: 5).toCardSet().withHeight(50), xsColWidth: .Six).forSize(.md, .Two)
+            let column = Column(cardSet: tagButton.toCardSet().withHeight(40), xsColWidth: .Six).forSize(.md, .Two)
             columns.append(column)
         })
         

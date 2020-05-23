@@ -23,20 +23,20 @@ struct GRNotification: Codable {
     
     public static let kSavedNotifications = "savedNotifications"
     public static let kSupportedLanguages = [
-        "en": "English",
-        "zh-TW": "Chinese (Traditional)",
-        "zh-CN": "Chinese (Simplified)",
-        "id": "Indonesian",
-        "hi": "Hindi",
-        "fr": "French",
-        "es": "Spanish",
-        "pt": "Portuguese",
-        "ar": "Arabic",
-        "bn": "Bengali",
-        "it": "Italian",
-        "ja": "Japanese",
-        "tl": "Tagolog",
-        "th": "Thai"
+        "en": NSLocalizedString("en", comment: "English"),
+        "zh-TW": NSLocalizedString("zh-TW", comment: "Chinese (Traditional)"),
+        "zh-CN": NSLocalizedString("zh-CN", comment: "Chinese (Simplified"),
+        "id": NSLocalizedString("id", comment: "Indonesian"),
+        "hi": NSLocalizedString("hi", comment: "Hindi"),
+        "fr": NSLocalizedString("fr", comment: "French"),
+        "es": NSLocalizedString("es", comment: "Spanish"),
+        "pt": NSLocalizedString("pt", comment: "Portuguese"),
+        "ar": NSLocalizedString("ar", comment: "Arabic"),
+        "bn": NSLocalizedString("bn", comment: "Bengali"),
+        "it": NSLocalizedString("it", comment: "Italian"),
+        "ja": NSLocalizedString("ja", comment: "Japanese"),
+        "tl": NSLocalizedString("tl", comment: "Tagolog"),
+        "th": NSLocalizedString("th", comment: "Thai")
     ]
     
     /** Given a value, return the shortcode for that value */

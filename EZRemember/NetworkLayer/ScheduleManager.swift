@@ -39,7 +39,7 @@ struct Schedule: Codable {
             let time = self.timeSlots[index]
             
             var timeDifference = (TimeZone.current.secondsFromGMT() / 60 / 60)
-            if (!to) {
+            if (to) {
                 timeDifference = timeDifference * -1
             }
             

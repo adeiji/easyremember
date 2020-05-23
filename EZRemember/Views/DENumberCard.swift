@@ -95,13 +95,13 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
         
         var selectNumberColumns = [Column]()
         
-        let tenMinutesButton = self.addButtonColumn(&selectNumberColumns, label: "Every 10 Minutes")
+        let tenMinutesButton = self.addButtonColumn(&selectNumberColumns, label: NSLocalizedString("everyTenMinutes", comment: "Every 10 Minutes"))
         self.addFrequencyButtonPressedClosure(tenMinutesButton, frequency: 10)
-        let fifteenMinutesButton = self.addButtonColumn(&selectNumberColumns, label: "Every 15 Minutes")
+        let fifteenMinutesButton = self.addButtonColumn(&selectNumberColumns, label: NSLocalizedString("everyFifteenMinutes", comment: "Every Fifteen Minutes"))
         self.addFrequencyButtonPressedClosure(fifteenMinutesButton, frequency: 15)
-        let thirtyMinutesButton = self.addButtonColumn(&selectNumberColumns, label: "Every 30 Minutes")
+        let thirtyMinutesButton = self.addButtonColumn(&selectNumberColumns, label: NSLocalizedString("everyThirtyMinutes", comment: "Every 30 Minutes"))
         self.addFrequencyButtonPressedClosure(thirtyMinutesButton, frequency: 30)
-        let hourButton = self.addButtonColumn(&selectNumberColumns, label: "Every Hour")
+        let hourButton = self.addButtonColumn(&selectNumberColumns, label: NSLocalizedString("everyHour", comment: "Every Hour"))
         self.addFrequencyButtonPressedClosure(hourButton, frequency: 60)
         self.addMaxNumberMessage()
         self.addRow(columns: selectNumberColumns, anchorToBottom: true)

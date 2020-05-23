@@ -15,20 +15,8 @@ import FolioReaderKit
 class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol {
     
     var explanation: Explanation = Explanation(sections: [
-        ExplanationSection(content:
-        """
-        Translating the text you read is extremely simple.  Simply do the folowing:
-
-        -- Select a word or a phrase just like if you were going to copy it.
-        -- You'll see two buttons pop up at the bottom, "Translate" and "Create Card"
-        -- Click "Translate" and the app will translate the text, and show you the translations.  (To update the languages to translate text into go to the "Settings" screen)
-        -- Once you see the translated cards, just click the "Create Card" button for however many translations you want to create cards for
-        -- Click the "Save" button and you're done!
-        """, title: "Create a card from text", image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
-        ExplanationSection(content:
-        """
-        Alternatively, you can also just simply create a card by clicking the "Create Card" button.  That won't translate the text but will show you the "Create a Notification" screen with the text you selected as content.
-        """, title: "Translating text", image: nil)
+        ExplanationSection(content: NSLocalizedString("readBookTranslationExplanation", comment: "The first paragraph of the read translation explanation"), title: NSLocalizedString("translateTextTitle", comment: "The title for the section about translating text on the Read book page"), image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
+        ExplanationSection(content: NSLocalizedString("createCardExplanation", comment: "Explanation for creating a card from text on the read book view controller"), title: "Translating text", image: nil)
         ])
     
     /// The container that shows our epub reader
@@ -171,7 +159,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     
     func showEmptyTranslationView () {
         if self.translationView?.subviews.count == 0 {
-            let emptyView = EmptyView().getView(message: "Here is where the translations will show", header: "Translations", imageName: "")
+            let emptyView = EmptyView().getView(message: NSLocalizedString("emptyTranslationMessage", comment: "The message that appears on the translation view controller when there are no translations there"), header: NSLocalizedString("emptyTranslationMessageTitle", comment: "The title that will show when there are no translations on the translations view controller/collection view"), imageName: "")
             
             let emptyViewCard = GRBootstrapElement()
             emptyViewCard.addRow(columns: [
@@ -210,7 +198,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     }
     
     private func createTranslateButton () -> UIButton {
-        let translateButton = Style.largeButton(with: "Translate", backgroundColor: UIColor.EZRemember.lightGreen, fontColor: .darkGray)
+        let translateButton = Style.largeButton(with: NSLocalizedString("translateButton", comment: "The text for the translate button"), backgroundColor: UIColor.EZRemember.lightGreen, fontColor: .darkGray)
         translateButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
         translateButton.showsTouchWhenHighlighted = true
         translateButton.radius(radius: 30.0)
@@ -251,7 +239,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     
     private func createCreateCardButton () -> UIButton {
         
-        let createCardButton = Style.largeButton(with: "Create Card", backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
+        let createCardButton = Style.largeButton(with: NSLocalizedString("createCardButton", comment: "The text for the create card button on the read book view controller"), backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
         createCardButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
         createCardButton.showsTouchWhenHighlighted = true
         createCardButton.radius(radius: 30.0)

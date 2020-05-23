@@ -93,7 +93,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
     }
     
     func cancelButton (card:GRBootstrapElement, superview: UIView) -> UIButton {
-        let cancelButton = Style.largeButton(with: "Cancel", backgroundColor: .red, fontColor: .white)
+        let cancelButton = Style.largeButton(with: NSLocalizedString("cancel", comment: "generic cancel text"), backgroundColor: .red, fontColor: .white)
         cancelButton.titleLabel?.font = FontBook.allBold.of(size: .medium)
         cancelButton.showsTouchWhenHighlighted = true
         
@@ -185,7 +185,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
     
     private func setupUI (superview: UIView) {
         self.layer.zPosition = 5
-        let addButton = Style.largeButton(with: "Save", backgroundColor: .black, fontColor: .white)
+        let addButton = Style.largeButton(with: NSLocalizedString("save", comment: "generic save text throughout the app"), backgroundColor: .black, fontColor: .white)
         addButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
         addButton.showsTouchWhenHighlighted = true
         addButton.backgroundColor = UIColor.EZRemember.mainBlue
@@ -203,12 +203,13 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
         cancelButton.backgroundColor = UIColor.EZRemember.lightRed
         
         // Enter headword
-        let titleTextView = self.getTextView(placeholder: "Enter caption...", text: self.notification?.caption)
+        let titleTextView = self.getTextView(placeholder: NSLocalizedString("enterCaption", comment: "Enter caption..."), text: self.notification?.caption)
         
         // Enter description or content
-        let descriptionTextView = self.getTextView(placeholder: "Enter details...", text: self.notification?.description)
+        let descriptionTextView = self.getTextView(placeholder: NSLocalizedString("enterDetails", comment: "Enter details..."), text: self.notification?.description)
         
-        let tagTextField = Style.wideTextField(withPlaceholder: "+ Tag", superview: nil, color: Dark.coolGrey900.dark(.white))
+        let tagTextField = Style.wideTextField(withPlaceholder: NSLocalizedString("tag", comment: "+ Tag"), superview: nil, color: Dark.coolGrey900.dark(.white))
+        
         tagTextField.text = self.notification?.tags?.first
         tagTextField.radius(radius: 25)
         tagTextField.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey700)
@@ -396,7 +397,7 @@ public class GRCreateNotificationViewController: UIViewController {
                 }
                 
                 if let _ = event.error {
-                    GRMessageCard().draw(message: "There was a problem saving your notification.  Please try again", title: "Try Again", superview: self.view)
+                    GRMessageCard().draw(message: NSLocalizedString("savingNotificationError", comment: "problem saving your notification"), title: NSLocalizedString("tryAgain", comment: "Try Again"), superview: self.view)
                     return
                 }
                 
@@ -431,18 +432,13 @@ public class GRCreateNotificationViewController: UIViewController {
         createNotifCard.addButton?.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         createNotifCard.firstTextView?.becomeFirstResponder()
         
-        createNotifCard.addButton?.addTargetClosure(closure: { [weak self] (_) in
-            guard let self = self else { return }
-            self.saveButtonPressed()
-        })
-        
         createNotifCard.cancelButton?.addTargetClosure { (_) in
             
             if self.userHasInputedData(){
                 
                 let cancelCard = GRMessageCard()
                 self.stopEditing()
-                cancelCard.draw(message: "If you close this page than your unsaved data will be lost, are you sure you want to do that?", title: "Are you sure?", superview: mainView, cancelButtonText: "Finish Writing Card")
+                cancelCard.draw(message: NSLocalizedString("loseDataWarning", comment: "Unsaved data warning"), title: NSLocalizedString("areYouSure", comment: "Generic - Are you sure? - throughout the app"), superview: mainView, cancelButtonText: NSLocalizedString("finishWritingCard", comment: "Finish Writing Card"))
                 
                 cancelCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
                     guard let self = self else { return }
@@ -471,8 +467,8 @@ public class GRCreateNotificationViewController: UIViewController {
                 let messageCard = GRMessageCard()
                 
                 messageCard.draw(
-                    message: "There was a problem updating your card.  Please try again.",
-                    title: "Try Again", buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan),
+                    message: NSLocalizedString("problemUpdatingCard", comment: "There was a problem updating your card"),
+                    title: NSLocalizedString("areYouSure", comment: "generic Are You Sure?"), buttonBackgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan),
                     superview: self.view, buttonText: "Okay", isError: true)
             } else {
                 self.dismiss(animated: true, completion: nil)

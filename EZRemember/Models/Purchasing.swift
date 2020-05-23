@@ -85,7 +85,7 @@ struct Purchasing {
         
         // CASUAL LEARNER PACKAGE
         
-        PurchaseableItem(title: "Casual Learner", id: ProductIds.Basic.rawValue, info: "This service is good if you're casually learning something for fun, or perhaps for a simple class.", price: 4.99, features: [
+        PurchaseableItem(title: NSLocalizedString("casualLearnerTitle", comment: "The title for purchasing package casual learner"), id: ProductIds.Basic.rawValue, info: NSLocalizedString("casualLearnContent", comment: "The content for purchasing package casual learner"), price: 4.99, features: [
             "Translate text into 1 language",
             "Have a total of 5 notification cards at one time",
             "Select 5 different hour slots to recieve notifications"
@@ -105,7 +105,7 @@ struct Purchasing {
         PurchaseableItem(title: "Serious Student", id: ProductIds.Premium.rawValue, info: "This service is good if you're  serious about learning, maybe for college, monetization, or your just an intense learner.", price: 14.99, features: [
             "Translate text into up to 10 languages",
             "Have a total of 60 notifications cards at one time",
-            "Select 24 different hour slots to recieve notifications"
+            "Select 24 different hour slots to recieve notifications, and recieve notifications up to every ten minutes."
         ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly")
     ]
 

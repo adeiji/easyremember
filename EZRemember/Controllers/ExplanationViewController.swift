@@ -41,13 +41,13 @@ class ExplanationViewController: UIViewController, AddCancelButtonProtocol {
     fileprivate func addContent(_ section: ExplanationSection, card: GRBootstrapElement) {
         let contentLabel = Style.label(withText: "", superview: nil, color: .white)
             .font(CustomFontBook.Medium.of(size: .small))
-        contentLabel.attributedText = section.content.addLineSpacing(amount: 15.0, centered: false)
+        contentLabel.attributedText = section.content.addLineSpacing(amount: 15.0, centered: GRCurrentDevice.shared.size == .xs ? true : false)
         
         card.addRow(columns: [
             
             // CONTENT TITLE
             
-            Column(cardSet: Style.label(withText: section.title, superview: nil, color: .white)
+            Column(cardSet: Style.label(withText: section.title, superview: nil, color: .white, textAlignment: GRCurrentDevice.shared.size == .xs ? .center : .left)
                 .font(CustomFontBook.Medium.of(size: .large))
                 .toCardSet()
                 .margin.top(50), xsColWidth: .Twelve),

@@ -65,7 +65,7 @@ class GRNotificationCard: UICollectionViewCell {
     /**
      - parameter viewToCalculateWidth: If you want this card to have it's size calculated based off of it's superview content, than set this property.  Remember though, that the size of this card's width will be based upon the width of the viewToCalculateWidth view at the time you call this method, not after it's layout has been updated.
      */
-    private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil, bookTitle:String? = nil) {
+    private func setupUI (title: String, description: String, language:String?, viewToCalculateWidth: UIView? = nil, bookTitle:String? = nil, showDeleteButton:Bool = true) {
                 
         let editButton = Style.largeButton(with: "Edit")
         editButton.titleLabel?.font = FontBook.allBold.of(size: .small)

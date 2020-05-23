@@ -140,6 +140,13 @@ public class EBookHandler {
     
     // - MARK: Get Book Information
     
+    public func getReader (url: URL, folioReader: FolioReader, parentVC: UIViewController) -> FolioReaderContainer {
+        let config = FolioReaderConfig()
+        config.displayTitle = true
+        let reader = folioReader.getReader(parentViewController: parentVC, withEpubPath: url.path, unzipPath: self.kBooksFolder, andConfig: config, shouldRemoveEpub: false)
+        return reader
+    }
+    
     public func getTitleFromBookPath (_ path: String) -> String? {
         let title = try? FolioReader.getTitle(path, unzipPath: self.kBooksFolder)
         return title
