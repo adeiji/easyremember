@@ -73,6 +73,12 @@
 
 /** THE SCHEDULE VIEW CONTROLLER */
 
+"hourSelection" = "Select all the times you want to recieve a notification";
+
+"maxNotifications" = "What is the maximum number of notification cards that you want to be sent to you?  The less there are, the higher your retention rate will be.";
+
+"frequencyMessage" = "How frequently do you want to recieve notifications during the hours that you've set?";
+
 "everyTenMinutes" = "Every 10 Minutes";
 
 "everyFifteenMinutes" = "Every 15 Minutes";
@@ -224,3 +230,8 @@
 
 "problemUpdatingCard" = "There was a problem updating your card.  Please try again.";
 
+// NOTIFICATION CARD
+
+"deactivate" = "Deactivate";
+
+"activate" = "Activate";

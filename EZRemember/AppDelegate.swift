@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        self.scheduleAppRefresh()
         // Override point for customization after application launch.
         FirebaseApp.configure()
-                
+
         let _ = ScheduleManager.shared // instantiate our schedule manager singleton object
         let _ = GRCurrentDevice.shared // instantiate the current device object
         

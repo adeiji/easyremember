@@ -364,6 +364,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        // We need to make sure that we update all the views if the layout changes because this can mean the app has shrunk size or has gotten bigger and we need to make our UI adjustments accordingly.
         self.mainView?.setNeedsLayout()
         self.mainView?.layoutIfNeeded()
     }
@@ -371,6 +372,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        // If the screen changes size then we have to make sure that we reload the sections in order to make sure that the card's are the proper size for the size of the screen
         self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
     }
     
@@ -380,11 +382,11 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
             guard let tag = event.element else { return }
                                                 
             switch tag {
-            case "All":
+            case NSLocalizedString("all", comment: "All button") :
                 self.notifications = self.allNotifications
-            case "Active":
+            case NSLocalizedString("active", comment: "active"):
                 self.notifications = self.allNotifications.filter({ $0.active == true })
-            case "Inactive":
+            case NSLocalizedString("inactive", comment: "inactive"):
                 self.notifications = self.allNotifications.filter({ $0.active == false })
             default:
                 self.notifications = self.allNotifications.filter({ $0.tags?.contains(tag) == true })

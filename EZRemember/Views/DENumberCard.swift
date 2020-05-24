@@ -58,7 +58,7 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
     }
     
     fileprivate func addMaxNumberMessage() {
-        let maxNumberMessage = "How frequently do you want to recieve notifications during the hours that you've set?"
+        let maxNumberMessage = NSLocalizedString("frequencyMessage", comment: "The header for frequency section")
         
         let maxNumberCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         maxNumberCaptionLabel.attributedText = maxNumberMessage.addLineSpacing()
@@ -174,7 +174,7 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
             }
         }
         
-        let maxNumberMessage = "What is the maximum number of notification cards that you want to be sent to you?  The less there are, the higher your retention rate will be."
+        let maxNumberMessage = NSLocalizedString("maxNotifications", comment: "header for maximum notifications")
         
         let maxNumberCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         maxNumberCaptionLabel.attributedText = maxNumberMessage.addLineSpacing()

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F4285237245BFA5E00C381DE"
-               BuildableName = "EZRemember.app"
+               BuildableName = "Easy Remember.app"
                BlueprintName = "EZRemember"
                ReferencedContainer = "container:EZRemember.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4285237245BFA5E00C381DE"
-            BuildableName = "EZRemember.app"
+            BuildableName = "Easy Remember.app"
             BlueprintName = "EZRemember"
             ReferencedContainer = "container:EZRemember.xcodeproj">
          </BuildableReference>
@@ -63,7 +63,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4285237245BFA5E00C381DE"
-            BuildableName = "EZRemember.app"
+            BuildableName = "Easy Remember.app"
             BlueprintName = "EZRemember"
             ReferencedContainer = "container:EZRemember.xcodeproj">
          </BuildableReference>

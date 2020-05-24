@@ -55,7 +55,7 @@ class GRNotificationCard: UICollectionViewCell {
             button.backgroundColor = isActive == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
             button.setTitleColor(isActive == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
         } else {
-            button.setTitle(isActive == true ? "Deactivate" : "Activate", for: .normal)
+            button.setTitle(isActive == true ? NSLocalizedString("deactivate", comment: "deactivate the card") : NSLocalizedString("activate", comment: "activate the card"), for: .normal)
             button.backgroundColor = isActive == true ? UIColor.EZRemember.lightRed : UIColor.EZRemember.lightGreen
             button.setTitleColor(isActive == true ? UIColor.EZRemember.lightRedButtonText : UIColor.EZRemember.lightGreenButtonText, for: .normal)
         }

@@ -104,7 +104,7 @@ class NotificationsHeaderCell : UICollectionReusableView {
             if tag.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return }
             
             let tagButton = self.getTagButton(tag: tag)
-            let column = Column(cardSet: tagButton.toCardSet().withHeight(40), xsColWidth: .Six).forSize(.md, .Two)
+            let column = Column(cardSet: tagButton.toCardSet().withHeight(40), xsColWidth: .Six).forSize(.md, .Three)
             columns.append(column)
         })
         

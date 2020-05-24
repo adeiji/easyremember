@@ -53,7 +53,7 @@
 "enableNotificationsCancelButton" = "取消 （不建議的）";
 
 // Error saving notification card's content
-"notificationSaveError" = "保存通知中遇到問題。經常這是網絡連結的問題。請檢查你的網絡連結然後再試試看。;
+"notificationSaveError" = "保存通知中遇到問題。經常這是網絡連結的問題。請檢查你的網絡連結然後再試試看。";
 
 // Error saving notification card's title
 "notificationSaveErrorTitle" = "保存通知中遇到問題";
@@ -71,6 +71,13 @@
 
 /** THE SCHEDULE VIEW CONTROLLER */
 
+"hourSelection" = "選擇你想接收通知的小時。";
+
+"maxNotifications" = "你想接收幾個通知？";
+
+"frequencyMessage" = "你選擇了接收通知的小時中想什麼頻率接收?";
+
+
 "everyTenMinutes" = "每一個10分鐘";
 
 "everyFifteenMinutes" = "每一個十五分鐘";
@@ -86,7 +93,7 @@
 "reminderExplanationTitle" = "通知卡的限制";
 
 /** Paragraph 2 of the schedule view explanation as to why and how we have a schedule */
-"scheduleExplanation" = "因為學習依靠重複很多，是非常重要你指定時間表是合理的。你不要太多或是太少的提醒。你因該確定幫你到你目標的時間表。\n\n指確定間表示怎樣子。你首先選擇你想接受通知的小時。然後選擇這些小時中想接收通知的頻率。可以選擇：\n\n每一個十分鐘\n\n每一個十五分鐘\n\n每一個三十分鐘\n\n咩一個小時;
+"scheduleExplanation" = "因為學習依靠重複很多，是非常重要你指定時間表是合理的。你不要太多或是太少的提醒。你因該確定幫你到你目標的時間表。\n\n指確定間表示怎樣子。你首先選擇你想接受通知的小時。然後選擇這些小時中想接收通知的頻率。可以選擇：\n\n每一個十分鐘\n\n每一個十五分鐘\n\n每一個三十分鐘\n\n咩一個小時";
 
 "scheduleExplanationTitle" = "確定時間表";
 
@@ -103,7 +110,7 @@
 
 "restorePurchases" = "恢復你之前的購買";
 
-"resturePurchasesButton" = "恢復你之前的購買";
+"restorePurchasesButton" = "恢復你之前的購買";
 
 "purchasesRetrievedMessage" = "太棒了！你之前的購買是恢復了。";
 
@@ -183,7 +190,7 @@
 
 "emailNotSaved" = "電子郵件還沒保存";
 
-"processing" = "處理中...別管應用;
+"processing" = "處理中...別管應用";
 
 "finishedSyncing" = "同步結束了!!";
 
@@ -222,3 +229,8 @@
 
 "problemUpdatingCard" = "保存你的通知卡中遇到了一個問題。請再試試。";
 
+// NOTIFICATION CARD
+
+"deactivate" = "關";
+
+"activate" = "打開";
