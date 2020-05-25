@@ -249,7 +249,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
                 Column(cardSet: tagTextField
                     .toCardSet()
                     .margin.left(30)
-                    .margin.right(30), xsColWidth: .Six).forSize(.md, .Two)
+                    .margin.right(30), xsColWidth: .Six).forSize(.md, .Three)
             ])
             .addRow(columns: [
                 Column(cardSet: addButton
@@ -281,20 +281,39 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
 
 public class GRCreateNotificationViewController: UIViewController {
     
+    /// The main view displaying all the information on this screen
     weak var mainView:GRViewWithScrollView?
     
+    /// Used to dispose of our Rx observables
     let disposeBag = DisposeBag()
     
+    /// The current notification that is being updated or created
     var notification:GRNotification?
     
+    /// Emits the notification that was created on this screen
     let publishNotification = PublishSubject<GRNotification>()
     
+    /**
+     Emits the notification that was not finished if this screen is dismissed by a scroll down (most likely unintionally)
+     */
     let unfinishedNotification = PublishSubject<GRNotification>()
     
+    /**
+     The card that displays the create notification information
+     */
     weak var createNotifCard:GRCreateNotificationCard?
     
+    /**
+     If the user closes the view controller by scrolling down (probably accidentally), then we need to save the notification so that they don't accidentally lose their information.  That's why this is set to true by default.
+     
+     Once a notification is saved or updated tho, than we don't need to have this save protection so this variable can than be set to false.
+     */
     var shouldSaveUnfinishedNotification = true
     
+    /** Whether the current card is an existing card being edited or is a new card */
+    private var isEditingCard = false
+    
+    /** These are the keyboard shortcuts*/
     public override var keyCommands: [UIKeyCommand]? {
         return [
             UIKeyCommand(input: "s", modifierFlags: .command, action: #selector(saveButtonPressed)),
@@ -306,9 +325,17 @@ public class GRCreateNotificationViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    init(notification: GRNotification? = nil) {
+    /**
+     - parameters:
+        - notification: The initial notification.  Set this if you're editing a notification
+        - isEditingCard: Whether you're editing a card or not
+     
+     - TODO: We need to decide whether we should just set isEditingCard to true if a notification is sent on initialization
+     */
+    init(notification: GRNotification? = nil, isEditingCard:Bool = false) {
         super.init(nibName: nil, bundle: nil)
         self.notification = notification
+        self.isEditingCard = isEditingCard
     }
     
     required init?(coder: NSCoder) {
@@ -335,12 +362,13 @@ public class GRCreateNotificationViewController: UIViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
+        // If upon dismissing of this screen by scrolling down, (accidentally) we need to save the unsaved notification so that the user does not lose their information if this dismissal was unintentional
         if self.shouldSaveUnfinishedNotification == true {
             var notification = GRNotification(caption: self.createNotifCard?.firstTextView?.text ?? "", description: self.createNotifCard?.descriptionTextView?.text ?? "")
             if let tag = self.createNotifCard?.tagTextField?.text {
                 notification.tags = [tag]
             }
-            
+            // Emit the newly created unsaved notification
             self.unfinishedNotification.onNext(notification)
         } else {
             self.unfinishedNotification.onCompleted()
@@ -379,6 +407,7 @@ public class GRCreateNotificationViewController: UIViewController {
         
         if let _ = self.notification {
             self.updateNotification {
+                // This notification is no longer considered unsaved, so we don't have to worry about the user accidentally closing this screen
                 self.shouldSaveUnfinishedNotification = false
                 self.createNotifCard?.addButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: activityIndicatorView)
                 self.dismiss(animated: true, completion: nil)
@@ -437,14 +466,22 @@ public class GRCreateNotificationViewController: UIViewController {
             if self.userHasInputedData(){
                 
                 let cancelCard = GRMessageCard()
-                self.stopEditing()
-                cancelCard.draw(message: NSLocalizedString("loseDataWarning", comment: "Unsaved data warning"), title: NSLocalizedString("areYouSure", comment: "Generic - Are you sure? - throughout the app"), superview: mainView, cancelButtonText: NSLocalizedString("finishWritingCard", comment: "Finish Writing Card"))
                 
-                cancelCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
-                    guard let self = self else { return }
-                    self.shouldSaveUnfinishedNotification = false
+                // Resign all the responders for the text field so that the keyboard goes away
+                self.stopEditing()
+                
+                // If this screen was shown because the user is editing a card, than we don't want to show the dialog about them losing their information, since the information will not change unless they click the save button
+                if (self.isEditingCard == false) {
+                    cancelCard.draw(message: NSLocalizedString("loseDataWarning", comment: "Unsaved data warning"), title: NSLocalizedString("areYouSure", comment: "Generic - Are you sure? - throughout the app"), superview: mainView, cancelButtonText: NSLocalizedString("finishWritingCard", comment: "Finish Writing Card"))
+                    
+                    cancelCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+                        guard let self = self else { return }
+                        self.shouldSaveUnfinishedNotification = false
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                } else {
                     self.dismiss(animated: true, completion: nil)
-                })
+                }
                 
             } else {
                 self.dismiss(animated: true, completion: nil)

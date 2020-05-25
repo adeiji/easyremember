@@ -49,6 +49,8 @@
 		F45033332478227400307417 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F45033352478227400307417 /* Localizable.strings */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
+		F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */; };
+		F4B0CBEC247B81DD001DE87C /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F4B0CBEB247B81DD001DE87C /* test.pdf */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
 		F4C1175B24655E3900A145CB /* GRReadBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */; };
 		F4C1175E246564DE00A145CB /* FolioReader+EZRemember.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C1175D246564DE00A145CB /* FolioReader+EZRemember.swift */; };
@@ -145,7 +147,7 @@
 		F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRTitleAndButtonCard.swift; sourceTree = "<group>"; };
 		F421B23B246A6112007DE745 /* GRPurchasingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRPurchasingCard.swift; sourceTree = "<group>"; };
 		F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRPurchasingViewController.swift; sourceTree = "<group>"; };
-		F4285238245BFA5E00C381DE /* EZRemember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZRemember.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4285238245BFA5E00C381DE /* Easy Remember.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Easy Remember.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428523B245BFA5E00C381DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F428523D245BFA5E00C381DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F428523F245BFA5E00C381DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,8 @@
 		F45033362478228200307417 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
+		F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToEpubHandler.swift; sourceTree = "<group>"; };
+		F4B0CBEB247B81DD001DE87C /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
 		F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRReadBookViewController.swift; sourceTree = "<group>"; };
 		F4C1175D246564DE00A145CB /* FolioReader+EZRemember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolioReader+EZRemember.swift"; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				F421B23124698E38007DE745 /* EBookHandler.swift */,
+				F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */,
 			);
 			path = Handler;
 			sourceTree = "<group>";
@@ -321,7 +326,7 @@
 		F4285239245BFA5E00C381DE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F4285238245BFA5E00C381DE /* EZRemember.app */,
+				F4285238245BFA5E00C381DE /* Easy Remember.app */,
 				F428524E245BFA5F00C381DE /* EZRememberTests.xctest */,
 				F4285259245BFA5F00C381DE /* EZRememberUITests.xctest */,
 			);
@@ -335,7 +340,7 @@
 				F421B23024698E2F007DE745 /* Handler */,
 				F4C2025F24672B7F00D59245 /* Protocols */,
 				F4C1175C246564C800A145CB /* FolioReader */,
-				F4F537E92463B2DE0009D3DC /* Epubs */,
+				F4F537E92463B2DE0009D3DC /* Books */,
 				F4F537DC246276A00009D3DC /* Models */,
 				F4F537A4246127200009D3DC /* Fonts */,
 				F4F5377D24601A2D0009D3DC /* NetworkLayer */,
@@ -525,14 +530,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F4F537E92463B2DE0009D3DC /* Epubs */ = {
+		F4F537E92463B2DE0009D3DC /* Books */ = {
 			isa = PBXGroup;
 			children = (
+				F4B0CBEB247B81DD001DE87C /* test.pdf */,
 				F4C2026624682F4800D59245 /* ylioppilas.epub */,
 				F4F537EA2463B2EB0009D3DC /* Dune.epub */,
 				F4E0E6F5246C705E00EA0827 /* jy_IN.epub */,
 			);
-			path = Epubs;
+			path = Books;
 			sourceTree = "<group>";
 		};
 		F4F537EC2463D1F50009D3DC /* Extensions */ = {
@@ -564,7 +570,7 @@
 			);
 			name = EZRemember;
 			productName = EZRemember;
-			productReference = F4285238245BFA5E00C381DE /* EZRemember.app */;
+			productReference = F4285238245BFA5E00C381DE /* Easy Remember.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F428524D245BFA5F00C381DE /* EZRememberTests */ = {
@@ -662,6 +668,7 @@
 				F4F537C0246127200009D3DC /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				F4F537BF246127200009D3DC /* Poppins-SemiBoldItalic.ttf in Resources */,
 				F4F537C7246127200009D3DC /* Poppins-Black.ttf in Resources */,
+				F4B0CBEC247B81DD001DE87C /* test.pdf in Resources */,
 				F43DDF962475BD9600776941 /* GoogleService-Info.plist in Resources */,
 				F4F537B9246127200009D3DC /* Poppins-ExtraLight.ttf in Resources */,
 				F4F537BD246127200009D3DC /* Poppins-Light.ttf in Resources */,
@@ -817,6 +824,7 @@
 				F43DDF8C247447E100776941 /* SyncManager.swift in Sources */,
 				F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */,
 				F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */,
+				F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */,
 				F4285240245BFA5E00C381DE /* ViewController.swift in Sources */,
 				F4F537E42463AFDF0009D3DC /* DEEpubReaderController.swift in Sources */,
 				F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */,
@@ -1073,7 +1081,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.001;
+				MARKETING_VERSION = 1.002;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				SWIFT_VERSION = 5.0;
@@ -1095,7 +1103,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.001;
+				MARKETING_VERSION = 1.002;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				SWIFT_VERSION = 5.0;

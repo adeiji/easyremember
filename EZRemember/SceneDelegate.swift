@@ -82,6 +82,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
+        let testUrl = Bundle.main.url(forResource: "test", withExtension: "pdf")
+        let convert = ConvertToEpubHandler()
+        convert.downloadConvertedEPUB(jobId: "12742178")
+        
         EBookHandler().unzipEpubs()
         
         window.rootViewController = self.createTabController()

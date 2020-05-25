@@ -553,6 +553,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
 
     @objc func addButtonPressed () {
         let createNotifVC = GRCreateNotificationViewController(notification: self.unfinishedNotification)
+        
         createNotifVC.publishNotification.subscribe { [weak self] (event) in
             guard let self = self else { return }
             guard let notification = event.element else { return }

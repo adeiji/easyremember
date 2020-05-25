@@ -45,6 +45,17 @@ public class EBookHandler {
         }
     }
     
+    func saveEpubDataWithName (_ data: Data, bookName: String) {
+        let saveToUrl = URL(fileURLWithPath: "\(self.kTempFolder)/\(bookName)")
+        do {
+            try data.write(to: saveToUrl)
+            self.unzipBookAtUrl(url: saveToUrl)
+        } catch {
+            print(error.localizedDescription)
+            AnalyticsManager.logError(message: error.localizedDescription)
+        }
+    }
+    
     func downloadBooks (sync: Sync) {
         
         var downloadTasks = [Completable]()
