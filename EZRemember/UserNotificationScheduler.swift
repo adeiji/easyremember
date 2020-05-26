@@ -37,7 +37,8 @@ struct UserNotificationScheduler {
         content.sound = UNNotificationSound.default
 
         var date = DateComponents()
-        date.hour = time
+        date.hour = 15
+        date.minute = 21
         
         // show this notification five seconds from now
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)

@@ -100,9 +100,6 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
-                
     }            
     
     func showTranslationForLanguage (_ language:(key: String, value: String)) -> Bool {
@@ -163,10 +160,10 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                             guard let notification = cell.notification else { return }
                                                                                     
                             if (self.notificationsToSave.contains(where: { $0.id == notification.id })) {
-                                cell.toggleButton(cell.toggleActivateButton, isActive: false)
+                                cell.toggleActiveButtonState(false)
                                 self.notificationsToSave = self.notificationsToSave.filter({ $0.id != notification.id })
                             } else {
-                                cell.toggleButton(cell.toggleActivateButton, isActive: true)
+                                cell.toggleActiveButtonState(true)
                                 self.notificationsToSave.append(notification)
                             }
                         })

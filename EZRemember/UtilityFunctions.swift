@@ -90,6 +90,14 @@ class UtilityFunctions {
         return false
     }
     
+    static func urlIsPDF (url: URL) -> Bool {
+        guard let positionOfLastPeriod = url.absoluteString.lastIndex(of: ".") else { return false }
+        let fileType = url.absoluteString.suffix(from: positionOfLastPeriod)
+        if fileType.lowercased() == ".pdf" { return true }
+        
+        return false
+    }
+    
     static func getNextHour () -> Int {
         let date = Date()
         let calendar = Calendar.current
@@ -138,7 +146,7 @@ class UtilityFunctions {
         let appOpenedKey = "appOpenedCount"
         let userDefaults = UserDefaults()
         let appOpenedCount = userDefaults.object(forKey: appOpenedKey) as? Int ?? 0
-        if appOpenedCount % 10 == 0 {
+        if appOpenedCount > 0 && appOpenedCount % 15 == 0 {
             SKStoreReviewController.requestReview()
         }
     

@@ -8,15 +8,23 @@
 
 import Foundation
 import SwiftyBootstrap
+import RxSwift
 
+@available(iOS 13.0, *)
 extension SceneDelegate {
     
+}
+
+protocol TabControllerProtocol {    
+    var disposeBag:DisposeBag { get }
+}
+
+extension TabControllerProtocol {
     func createTabController () -> GRTabController {
         
         let vc = DEMainViewController()
         let mainNavigationViewController = UINavigationController(rootViewController: vc as UIViewController);
         mainNavigationViewController.navigationBar.isHidden = true
-        self.mainViewController = vc
         
         let scheduleVC = DEScheduleViewController()
                 
@@ -35,15 +43,8 @@ extension SceneDelegate {
         // Have to add the view controller and it's view to the tab bar controller in order to work properly
         tabController.addChildViewControllerWithView(mainNavigationViewController, toView: tabController.mainView)
         
-        scheduleVC.timeSlotsSubject.subscribe { [weak self] (event) in
-            guard let self = self else { return }
-            self.timeSlots = event.element
-        }.disposed(by: self.disposeBag)                
-        
-        ScheduleManager.shared.getSchedule().subscribe { [weak self] (event) in
-            guard let self = self else { return }
+        ScheduleManager.shared.getSchedule().subscribe {(event) in
             if let unwrappedSchedule = event.element, let schedule = unwrappedSchedule {
-                self.timeSlots = schedule.timeSlots
                 NotificationCenter.default.post(name: .LanguagesUpdated, object: nil, userInfo: [Schedule.Keys.kLanguages: schedule.languages])
             }
         }.disposed(by: self.disposeBag)

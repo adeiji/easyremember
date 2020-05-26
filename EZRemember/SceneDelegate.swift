@@ -11,90 +11,60 @@ import RxSwift
 import SwiftyBootstrap
 import DephynedFire
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, RulesProtocol {
-        
+@available(iOS 13.0, *)
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, PDFEpubHandlerProtocol, TabControllerProtocol, HandleSyncingEventsProtocol {
+    
+    let toastHandler: ToastHandler = ToastHandler()
+    
     var window: UIWindow?
     
-    var mainViewController:DEMainViewController?
-    
-    var timeSlots:[Int]?
-    
     let disposeBag = DisposeBag()
-
+        
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         print(URLContexts.description)
         guard let url = URLContexts.first?.url else { return }
-        
-        if UtilityFunctions.urlIsEpub(url: url) {
-            guard let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController as? ShowEpubReaderProtocol else { return }
-            
-            topController.showBookReader(url: url)
-            if self.userHasSubscription() {
-                EBookHandler().backupEbooksAtUrls(urls: [url])
-            }
-        } else {
-            let messageCard = GRMessageCard(color: UIColor.white.dark(Dark.coolGrey700))
-            if let window = self.window {
-                messageCard.draw(message: "This app can only be used to read ePubs, sorry.", title: "Format Not Allowed", superview: window)
-            }
-        }
+        self.handleDocImportedIntoAppWithUrl(url)        
     }
     
-    @objc private func syncingFinished (_ notification: Notification) {
-        
-        guard let window = self.window else { return }
-        
-        let messageCard = GRMessageCard()
-        
-        messageCard.draw(message: "Awesome! You've synced your data using your email.  Now your cards and your epubs can be viewed on other devices, and you can use your email address to retrieve your data any time in the future.  Just make sure you don't forget your email address! Please restart the app now.\n\nHappy learning!", title: "Sync Successful!", superview: window)
+    @objc internal func syncingFinished(_ notification: Notification) {
+        self.handleSyncingFinished(notification)
     }
     
-    @objc private func errorSyncing (_ notification: Notification) {
-        if let error = notification.userInfo?["error"] as? String {
-            print(error)
-            AnalyticsManager.logError(message: error)
-        }
-        
-        guard let window = self.window else { return }
-        
-        let messageCard = GRMessageCard()
-                        
-        messageCard.draw(message: "Uh oh! Looks like there was a problem syncing your data.  The most common cause for this is internet problems.  Check to make sure you have a decent internet connection and then try again.", title: "Syncing Failed", superview: window, isError: true)
+    @objc internal func restoringPurchasesFailed(_ notification: Notification) {
+        self.handleRestoringPurchasesFailed(notification)
     }
     
-    @objc private func restoringPurchasesFailed (_ notification: Notification) {
-        if let error = notification.userInfo?["error"] as? String {
-            print(error)
-            AnalyticsManager.logError(message: error)
-        }
-        
-        guard let window = self.window else { return }
-        
-        let messageCard = GRMessageCard()
-                        
-        messageCard.draw(message: "Uh oh! Looks like there was a problem restoring your purchases.  The most common cause for this is internet problems.  Check to make sure you have a decent internet connection and then try again.", title: "Syncing Failed", superview: window, isError: true)
+    @objc internal func finishedConvertingPDF(_ notification: Notification) {
+        self.handleFinishedConvertingPDF(notification)
     }
     
+    @objc internal func errorSyncing (_ notification: Notification) {
+        self.handleErrorSyncing(notification)
+    }
+                   
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        
-        let testUrl = Bundle.main.url(forResource: "test", withExtension: "pdf")
-        let convert = ConvertToEpubHandler()
-        convert.downloadConvertedEPUB(jobId: "12742178")
-        
+                            
+        self.startUnfinishedPDFConversionProcess()
         EBookHandler().unzipEpubs()
         
         window.rootViewController = self.createTabController()
         self.window = window
         window.makeKeyAndVisible()
+        self.addObservers()                
+    }
+    
+    private func addObservers () {
         NotificationCenter.default.addObserver(self, selector: #selector(syncingFinished(_:)), name: .FinishedDownloadingBooks, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(errorSyncing(_:)), name: .ErrorDownloadingBooks, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(finishedConvertingPDF(_:)), name: .FinishedConvertingPDF, object: nil)
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

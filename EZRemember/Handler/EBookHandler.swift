@@ -45,14 +45,16 @@ public class EBookHandler {
         }
     }
     
-    func saveEpubDataWithName (_ data: Data, bookName: String) {
+    @discardableResult func saveEpubDataWithName (_ data: Data, bookName: String) -> Bool {
         let saveToUrl = URL(fileURLWithPath: "\(self.kTempFolder)/\(bookName)")
         do {
             try data.write(to: saveToUrl)
             self.unzipBookAtUrl(url: saveToUrl)
+            return true
         } catch {
             print(error.localizedDescription)
             AnalyticsManager.logError(message: error.localizedDescription)
+            return false
         }
     }
     
@@ -138,6 +140,14 @@ public class EBookHandler {
             return true
         }
                         
+    }
+    
+    public func getURLForBookNamed (_ bookName: String) -> String {
+        if bookName.contains(".epub") {
+            return "\(self.kBooksFolder)/\(bookName)"
+        } else {
+            return "\(self.kBooksFolder)/\(bookName).epub"
+        }        
     }
     
     public func getEbookNameFromUrl (url: URL?) -> String? {

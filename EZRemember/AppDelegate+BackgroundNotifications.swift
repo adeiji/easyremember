@@ -112,6 +112,7 @@ class GRGetNotificationsAndSchedule: Operation {
     
 }
 
+@available(iOS 13.0, *)
 extension AppDelegate {
     
     func scheduleAppRefresh() {

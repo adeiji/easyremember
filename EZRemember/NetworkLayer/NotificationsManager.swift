@@ -15,6 +15,8 @@ class NotificationsManager {
         
     let disposeBag = DisposeBag()
     
+    static let shared = NotificationsManager()
+    
     /**
      Delete a notification with the given Id
      - parameter id: The unique id for this notification on Firebase.  **This is the documentId of the object on Firebase**
@@ -61,6 +63,16 @@ class NotificationsManager {
         return Observable.merge(observables).map({ FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: $0) as [GRNotification]? ?? [] })
     }
     
+    func rememberNotificationWithId (_ notificationId: String) {
+        NotificationsManager.toggleNotification(notificationId: notificationId, active: false, remembered: true).subscribe { [weak self] (event) in
+            guard let _ = self else { return }
+            if event.isCompleted { return }
+            if event.element == true {
+                AnalyticsManager.logMethodEvent(name: "User selected remember through a notification for notification with ID: \(notificationId)" )
+            }
+        }.disposed(by: self.disposeBag)
+    }
+    
     /**
      Toggle this notification as active or inactive
      
@@ -68,12 +80,13 @@ class NotificationsManager {
         - notificationId: The id for this notification, it should be the document Id for the notification in the Notification collection
         - active: The active state of this notification, this needs to be the state that you want to be saved on the server.  So if you want this to now be an active notification you need to set **active** to **true**
      */
-    static func toggleActiveNotification (notificationId: String, active: Bool) -> Observable<Bool> {
+    static func toggleNotification (notificationId: String, active: Bool, remembered: Bool) -> Observable<Bool> {
         
         return Observable.create { (observer) -> Disposable in
             
             FirebasePersistenceManager.updateDocument(withId: notificationId, collection: GRNotification.Keys.kCollectionName, updateDoc: [
-                GRNotification.Keys.kActive: active
+                GRNotification.Keys.kActive: active,
+                GRNotification.Keys.kRemembered: remembered
             ]) { (error) in
                 if let error = error {
                     observer.onError(error)
@@ -83,6 +96,7 @@ class NotificationsManager {
                 
                 // Successful
                 observer.onNext(true)
+                observer.onCompleted()
             }
             
             return Disposables.create()

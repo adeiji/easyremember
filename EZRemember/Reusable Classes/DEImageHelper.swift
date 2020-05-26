@@ -15,7 +15,13 @@ public struct ImageHelper {
             
     public static func image(imageName: String, bundle:String = "SwiftyBootstrap") -> UIImage? {
         let bundle = PodAsset.bundle(forPod: bundle)
-        let img = UIImage(named: imageName, in: bundle, compatibleWith: .current)
-        return img
+        if #available(iOS 13.0, *) {
+            let img = UIImage(named: imageName, in: bundle, compatibleWith: .current)
+            return img
+        } else {
+            // Fallback on earlier versions
+            let img = UIImage(named: imageName, in: bundle, compatibleWith: .none)
+            return img
+        }        
     }
 }

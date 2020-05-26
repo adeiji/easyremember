@@ -10,26 +10,124 @@ import Foundation
 
 class ConvertToEpubHandler {
     
-    public func convertPDFAtUrl (_ url: URL) {
+    public static let shared = ConvertToEpubHandler()
+    
+    private let kConversionJobs = "conversionJobs"
+    
+    private var jobProcess = [String:JobState]()
+    
+    private var timer:Timer?
+    
+    private enum JobState {
+        case Downloading
+        case Finished
+        case Waiting
+    }
+    
+    private init() {}
+    
+    // - MARK: Entry Point Methods
+    
+    public func convertPDFAtUrl (_ url: URL, completion: @escaping (Bool) -> Void) {
         
         guard let convertUrl = URL(string: "https://ezremember.ngrok.io/convertPDF") else { return }
         guard let fileToConvert = try? Data(contentsOf: url) else { return }
-        var request = URLRequest(url: url)
         
+        var request = URLRequest(url: url)
         request.httpMethod = "POST"
-                        
         request.url = convertUrl
         request.httpBody = fileToConvert
         request.addValue("application/pdf", forHTTPHeaderField: "Content-Type")
+        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            print(response)
+            guard let data = data else { return }
+            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else { return }
+            if let object = json as? [String:Any] {
+                if self.createEpubJob(object["jobId"] as? Int, name: object["fileName"] as? String) {
+                    completion(true)
+                    self.isStillDownloadingEpubs(completion: nil)
+                } else {
+                    completion(false)
+                }
+            }
+            
         }
         
         task.resume()
     }
     
-    public func downloadConvertedEPUB (jobId: String) {
+    /**
+     - parameter completion: Returns a boolean value representing whether there are any conversion processes still in queue
+     */
+    public func isStillDownloadingEpubs (completion: ((Bool) -> Void)?) {
+                        
+        let jobIds = Array(self.getCurrentConversionJobs().keys)
         
+        jobIds.forEach { (key) in
+            // Only create a job process for a job id that has not already been created
+            if self.jobProcess[key] == nil {
+                self.jobProcess[key] = .Waiting
+            }
+            
+        }
+        
+        if jobIds.count > 0 {
+            completion?(true)
+        } else {
+            completion?(false)
+            return
+        }
+                                
+        self.timer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(downloadFinishedEpubs), userInfo: nil, repeats: true)
+        
+        self.downloadFinishedEpubs()
+        
+    }
+    
+    
+    @objc private func downloadFinishedEpubs() {
+                
+        self.jobProcess.keys.forEach { (jobId) in
+            // If this job has already been marked finished that means its currently downloading
+            if self.jobProcess[jobId] != .Waiting {
+                return
+            }
+            
+            self.isJobComplete(jobId) { (finished) in
+                if (finished) {
+                    self.jobProcess[jobId] = .Downloading
+                    self.downloadEpubWithJobId(jobId)
+                }
+            }
+        }
+    }
+    
+    private func isJobComplete (_ jobId: String, completion: @escaping (Bool) -> Void) {
+        guard var isCompleteUrl = URLComponents(string: "https://ezremember.ngrok.io/isJobComplete") else { return }
+        
+        isCompleteUrl.queryItems = [
+            URLQueryItem(name: "jobId", value: jobId)
+        ]
+            
+        let request = URLRequest(url: isCompleteUrl.url!)
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data else { return }
+            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else { return }
+            if let object = json as? [String:Bool] {
+                if (object["finished"] == true) {
+                    completion(true)
+                }
+            } else {
+                completion(false)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    
+    private func downloadEpubWithJobId (_ jobId: String) {
         guard var downloadUrl = URLComponents(string: "https://ezremember.ngrok.io/downloadEpub") else { return }
         
         downloadUrl.queryItems = [
@@ -38,20 +136,49 @@ class ConvertToEpubHandler {
         
         let request = URLRequest(url: downloadUrl.url!)
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data else {
-                
-                return
+            guard let data = data else { return }
+            let ebookHandler = EBookHandler()
+            let bookName = self.epubNameForJobId(jobId) ?? "\(UUID().uuidString).epub"
+            if ebookHandler.saveEpubDataWithName(data, bookName: bookName) {
+                self.jobProcess[jobId] = .Finished
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .FinishedConvertingPDF, object: nil, userInfo: [ "bookName": bookName ])
+                }
             }
             
-            let ebookHandler = EBookHandler()
-            ebookHandler.saveEpubDataWithName(data, bookName: self.epubNameForJobId(jobId) ?? "No_Name.epub")
+            self.finishedJobWithId(jobId)
         }
         
         task.resume()
     }
     
+    private func createEpubJob (_ jobId: Int?, name: String?) -> Bool {
+        guard
+            let jobId = jobId,
+            let name = name else
+        { return false }
+                        
+        var conversionJobs = UserDefaults.standard.object(forKey: self.kConversionJobs) as? [String:Any] ?? [String:Any]()
+        conversionJobs["\(jobId)"] = name.replacingOccurrences(of: ".pdf", with: ".epub")
+        UserDefaults.standard.set(conversionJobs, forKey: self.kConversionJobs)
+        UserDefaults.standard.synchronize()
+        return true
+    }
+    
+    private func getCurrentConversionJobs () -> [String:Any] {
+        return UserDefaults.standard.object(forKey: self.kConversionJobs) as? [String:Any] ?? [String:Any]()
+    }
+    
     private func epubNameForJobId (_ jobId: String) -> String? {
-        return UserDefaults.standard.object(forKey: jobId) as? String
+        let conversionJobs = UserDefaults.standard.object(forKey: self.kConversionJobs) as? [String:Any] ?? [String:Any]()
+        return conversionJobs[jobId] as? String
+    }
+    
+    private func finishedJobWithId (_ jobId: String) {
+        var conversionJobs = UserDefaults.standard.object(forKey: self.kConversionJobs) as? [String:Any] ?? [String:Any]()
+        conversionJobs[jobId] = nil
+        UserDefaults.standard.set(conversionJobs, forKey: self.kConversionJobs)
+        UserDefaults.standard.synchronize()
     }
     
 }

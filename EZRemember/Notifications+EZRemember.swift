@@ -17,5 +17,6 @@ extension Notification.Name {
     static let SyncingError = NSNotification.Name("SyncingError")
     static let ErrorDownloadingBooks = NSNotification.Name("ErrorDownloadBooks")
     static let FinishedDownloadingBooks = NSNotification.Name("FinishedDownloadingBooks")
+    static let FinishedConvertingPDF = NSNotification.Name("FinishedConvertingPDF")
     
 }

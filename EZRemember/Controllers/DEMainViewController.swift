@@ -83,6 +83,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     var notifications = [GRNotification]() {
         didSet {
             let userDefaults = UserDefaults.standard
+            
             if self.notifications.count == 0 {
                 userDefaults.set(true, forKey: Keys.UserDefaults.kNoNotifications)
             } else {
@@ -133,11 +134,26 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         fatalError("init(coder:) has not been implemented")
     }
     
+    func handleToggleRememberedCard (card: GRNotificationCard) {
+        card.toggleRememberedButton?.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            guard let active = card.notification?.active else { return }
+            
+            if (card.notification?.remembered == false) {
+                // Once a card is remembered we want to immediately deactivate it because there's no point in going over a word that you already know, right?
+                self.updateNotification(notification: card.notification, card: card, button: card.toggleRememberedButton, isActive: false, isRemembered: true)
+            
+            } else {
+                self.updateNotification(notification: card.notification, card: card, button: card.toggleRememberedButton, isActive: active, isRemembered: false)
+            }
+        }
+    }
+    
     func handleToggleActivateCard (card: GRNotificationCard) {
         
         card.toggleActivateButton?.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
-                        
+            guard let isRemembered = card.notification?.remembered else { return }
             // We need to check first to make sure that the user hasn't hit their max number of notifications if
             // they're trying to activate a notification right now
             if (card.notification?.active == false) {
@@ -145,10 +161,10 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                 if activeNotifications.count >= self.maxNumOfCards {
                     self.showMaxNumberOfCardsHit()
                 } else {
-                    self.updateNotificationActive(notification: card.notification, card: card, isActive: true)
+                    self.updateNotification(notification: card.notification, card: card, button: card.toggleActivateButton, isActive: true, isRemembered: isRemembered)
                 }
             } else {
-                self.updateNotificationActive(notification: card.notification, card: card, isActive: false)
+                self.updateNotification(notification: card.notification, card: card, button: card.toggleActivateButton, isActive: false, isRemembered: isRemembered)
             }
         }
     }
@@ -162,33 +178,38 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         - card: The card which contains the notification
         - isActive: Whether or not this updated to have an active or an inactive state
      */
-    private func updateNotificationActive (notification: GRNotification?, card:GRNotificationCard, isActive: Bool) {
+    private func updateNotification (notification: GRNotification?, card:GRNotificationCard, button:UIButton?, isActive: Bool, isRemembered: Bool) {
         
         guard let notification = notification else { return }
         
         // Show that an activity is going on in the background
-        let loading =  card.toggleActivateButton?.showLoadingNVActivityIndicatorView()
+        let loading =  button?.showLoadingNVActivityIndicatorView()
+        
         // Save the new active state to the server
-        NotificationsManager.toggleActiveNotification(notificationId: notification.id, active: isActive)
+        NotificationsManager.toggleNotification(notificationId: notification.id, active: isActive, remembered: isRemembered)
             .subscribe { [weak self] (event) in
                 
                 guard let self = self else { return }
-                card.toggleActivateButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                button?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 // If there is an error saving then show it now
                 if let error = event.error {
-                    
-                    GRMessageCard().draw(
-                        message: NSLocalizedString("notificationSaveError", comment: "Error saving notification content"),
-                        title: NSLocalizedString("notificationSaveErrorTitle", comment: "Error saving notification title"), buttonBackgroundColor: .red, superview: self.view, buttonText: NSLocalizedString("okay", comment: "The generic okay text"), isError: true)
-                    // Log the error using google analytics
-                    AnalyticsManager.logError(message: error.localizedDescription)
+                    self.showNotificationSaveError(error)
                 } else {
                     // Update the active state of the notification on it's table view cell (card) and within the local
                     // notifications array
                     card.notification?.active = isActive
+                    card.notification?.remembered = isRemembered
                     self.updateNotificationInNotificationsArray(notification: card.notification)
                 }
         }.disposed(by: self.disposeBag)
+    }
+    
+    private func showNotificationSaveError (_ error: Error) {
+        GRMessageCard().draw(
+            message: NSLocalizedString("notificationSaveError", comment: "Error saving notification content"),
+            title: NSLocalizedString("notificationSaveErrorTitle", comment: "Error saving notification title"), buttonBackgroundColor: .red, superview: self.view, buttonText: NSLocalizedString("okay", comment: "The generic okay text"), isError: true)
+        // Log the error using google analytics
+        AnalyticsManager.logError(message: error.localizedDescription)
     }
     
     private func showMaxNumberOfCardsHit () {
@@ -298,17 +319,25 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         self.setupTapCollectionView(collectionView: collectionView)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if self.mainView != nil { return }
 
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
                 
         if self.mainView != nil { return }
-                        
+        
         let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
         mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
         mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
         self.mainView = mainView
+        
+        self.mainView?.setNeedsLayout()
+        self.mainView?.layoutIfNeeded()
         
         self.initialSetupCollectionView()
         
@@ -324,7 +353,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         let addButton = self.addAddButton()
         self.setupAddButton(addButton: addButton)
         
-        self.addHelpButton(addButton, superview: mainView)
+        self.addHelpButton(addButton, superview: self.mainView ?? self.view)
         
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
         
@@ -373,6 +402,10 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         super.viewDidLayoutSubviews()
         
         // If the screen changes size then we have to make sure that we reload the sections in order to make sure that the card's are the proper size for the size of the screen
+        if (self.mainView?.collectionView?.dataSource == nil) {
+            return
+        }
+        
         self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
     }
     
@@ -388,9 +421,15 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                 self.notifications = self.allNotifications.filter({ $0.active == true })
             case NSLocalizedString("inactive", comment: "inactive"):
                 self.notifications = self.allNotifications.filter({ $0.active == false })
+            case "Remembered":
+                self.notifications = self.allNotifications.filter({ $0.remembered == true })
+            case "Not Remembered":
+                self.notifications = self.allNotifications.filter({ $0.remembered == false || $0.remembered == nil })
             default:
                 self.notifications = self.allNotifications.filter({ $0.tags?.contains(tag) == true })
             }
+            
+            self.sortNotifications()
             
             self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
         }.disposed(by: self.disposeBag)
@@ -455,7 +494,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
             if event.isCompleted {
                 self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
-                self.notifications = self.notifications.sorted(by: { $0.creationDate > $1.creationDate })
+                self.sortNotifications()
                 if self.notifications.count > 0 {
                     self.mainView?.collectionView?.reset()
                 } else {
@@ -467,6 +506,10 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
                 self.addNotifications(notifications)
             }
         }.disposed(by: self.disposeBag)
+    }
+    
+    private func sortNotifications () {
+        self.notifications = self.notifications.sorted(by: { $0.creationDate > $1.creationDate })
     }
     
     func addNotifications (_ notifications: [GRNotification], atBeginning:Bool = false) {

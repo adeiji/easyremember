@@ -31,6 +31,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
 
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
+                
+        let rememberedNotification = UNNotificationAction(identifier: "REMEMBERED", title: "Remembered", options: UNNotificationActionOptions(rawValue: 0))
+        
+        let notificationCategory = UNNotificationCategory(identifier: "NOTIFICATION", actions: [rememberedNotification], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.setNotificationCategories([notificationCategory])
         
     }
 }

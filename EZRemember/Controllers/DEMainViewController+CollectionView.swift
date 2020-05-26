@@ -96,7 +96,9 @@ class NotificationsHeaderCell : UICollectionReusableView {
         var columns = [
             getFilterColumn(text: allLocalized),
             getFilterColumn(text: activeLocalized),
-            getFilterColumn(text: inactiveLocalized)
+            getFilterColumn(text: inactiveLocalized),
+            getFilterColumn(text: "Remembered"),
+            getFilterColumn(text: "Not Remembered")
         ]
                         
         tags?.forEach({ [weak self] (tag) in
@@ -184,6 +186,10 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
             return headerView ?? UICollectionReusableView()
         }
         
+        if kind == UICollectionView.elementKindSectionFooter {
+            return UICollectionReusableView()
+        }
+        
         fatalError("Unknown kind")
     }
     
@@ -202,6 +208,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         cell.notification = self.notifications[indexPath.row]
         self.handleToggleActivateCard(card: cell)
         self.setupNotificationCellDeleteButton(cell: cell)
+        self.handleToggleRememberedCard(card: cell)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
