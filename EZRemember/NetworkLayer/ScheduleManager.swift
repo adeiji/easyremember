@@ -20,6 +20,13 @@ struct Schedule: Codable {
         static let kFcmToken = "fcmToken"
         static let kLanguages = "languages"
         static let kFrequency = "frequency"
+        static let kStyle = "style"
+    }
+    
+    struct NotificationsType {
+        static let kFlashcardContentVisible = "Flashcard - Hide Content"
+        static let kFlashcardCaptionVisible = "Flashcard - Hide Caption"
+        static let kShowEverything = "Show Everything"
     }
             
     let deviceId:String
@@ -27,6 +34,11 @@ struct Schedule: Codable {
     let maxNumOfCards:Int
     let languages:[String]
     var frequency:Int = 60
+    
+    /// The type of notification to be shown, is it Flashcard Style with only the caption showing and then needing to click to show the content
+    /// or Flashcard Style with content showing
+    /// or Show Everything
+    var style:String?
     
     /**
      Convert all the time slots to their UTC equivalent
@@ -105,13 +117,18 @@ class ScheduleManager {
         
         return Observable.create { (observer) -> Disposable in
             
-            FirebasePersistenceManager.addDocument(withCollection: Schedule.Keys.kCollectionName, data: [
-                Schedule.Keys.kDeviceId: schedule.deviceId,
-                Schedule.Keys.kTimeSlots: schedule.timeSlots,
-                Schedule.Keys.kMaxNumOfCards: schedule.maxNumOfCards,
-                Schedule.Keys.kLanguages: schedule.languages,
-                Schedule.Keys.kFrequency: schedule.frequency
-            ], withId: deviceId) { (error, documents) in
+            var documentToSave = [
+            Schedule.Keys.kDeviceId: schedule.deviceId,
+            Schedule.Keys.kTimeSlots: schedule.timeSlots,
+            Schedule.Keys.kMaxNumOfCards: schedule.maxNumOfCards,
+            Schedule.Keys.kLanguages: schedule.languages,
+            Schedule.Keys.kFrequency: schedule.frequency] as [String : Any]
+            
+            if let style = schedule.style {
+                documentToSave[Schedule.Keys.kStyle] = style
+            }
+            
+            FirebasePersistenceManager.addDocument(withCollection: Schedule.Keys.kCollectionName, data: documentToSave, withId: deviceId) { (error, documents) in
                 if let error = error {
                     observer.onError(error)
                     observer.onCompleted()

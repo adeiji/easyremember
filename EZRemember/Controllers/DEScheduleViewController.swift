@@ -59,6 +59,8 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     
     public var defaultTimeSlots = [11, 12, 13, 14, 15]
     
+    private var notificationStyle:String = Schedule.NotificationsType.kShowEverything
+    
     private func setupNavBar () {
         
         self.mainView?.navBar?.rightButton?.setTitle("Save", for: .normal)
@@ -106,6 +108,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
             if let unwrappedSchedule = event.element, var schedule = unwrappedSchedule {
                 schedule.convertTimeSlotsUTC(to: false)
                 self.cardSendFrequency = schedule.frequency
+                self.notificationStyle = schedule.style ?? Schedule.NotificationsType.kShowEverything
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             } else {
@@ -203,7 +206,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         // FREQUENCY CARD
         
         let frequencyCard = DEFrequencyCard(margin: self.margins, selectedFrequency: schedule.frequency)
-        frequencyCard.addToSuperview(superview: mainView.containerView, viewAbove: scheduleView, anchorToBottom: true)
+        frequencyCard.addToSuperview(superview: mainView.containerView, viewAbove: scheduleView, anchorToBottom: false)
         frequencyCard.frequencyCardSelected.subscribe { [weak self] (event) in
             guard let self = self else { return }
                         
@@ -212,6 +215,20 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
             }            
                         
         }.disposed(by: self.disposeBag)
+        
+        let notificationTypeCard = DEMultiSelectCard(listOfItems: [
+            Schedule.NotificationsType.kFlashcardCaptionVisible,
+            Schedule.NotificationsType.kFlashcardContentVisible,
+            Schedule.NotificationsType.kShowEverything
+        ],  margin: self.margins, selectedItem: self.notificationStyle)
+        
+        notificationTypeCard.selectedItem.bind { [weak self] (notificationStyle) in
+            guard let self = self else { return }
+            guard let notificationStyle = notificationStyle else { return }
+            self.notificationStyle = notificationStyle
+        }.disposed(by: self.disposeBag)
+        
+        notificationTypeCard.addToSuperview(superview: mainView.containerView, viewAbove: frequencyCard, anchorToBottom: true)
         
         self.timeSlotsSubject.onNext(schedule.timeSlots)
         self.scheduleView = scheduleView
@@ -291,7 +308,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     func saveSchedule() {
         let loading = self.mainView?.navBar?.rightButton?.showLoadingNVActivityIndicatorView()
         
-        let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency)
+        let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency, style: self.notificationStyle)
                                 
         ScheduleManager.saveSchedule(schedule).subscribe { (event) in
             // Show that saving has finished

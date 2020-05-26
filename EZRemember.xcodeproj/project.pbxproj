@@ -48,6 +48,13 @@
 		F450332C247688F800307417 /* Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F450332B247688F800307417 /* Explanation.swift */; };
 		F45033332478227400307417 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F45033352478227400307417 /* Localizable.strings */; };
 		F467E4EE247D82D700E10EEA /* GRTabController+EZRemember.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */; };
+		F467E4F0247D94F600E10EEA /* DEMultiSelectCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E4EF247D94F600E10EEA /* DEMultiSelectCard.swift */; };
+		F467E50A247DAAD400E10EEA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F467E509247DAAD400E10EEA /* UserNotifications.framework */; };
+		F467E50C247DAAD400E10EEA /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F467E50B247DAAD400E10EEA /* UserNotificationsUI.framework */; };
+		F467E50F247DAAD400E10EEA /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E50E247DAAD400E10EEA /* NotificationViewController.swift */; };
+		F467E512247DAAD400E10EEA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F467E510247DAAD400E10EEA /* MainInterface.storyboard */; };
+		F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F467E51F247DAC1C00E10EEA /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A041E719063883CC004C797A /* Pods_EZRemember.framework */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */; };
@@ -129,7 +136,28 @@
 			remoteGlobalIDString = F4285237245BFA5E00C381DE;
 			remoteInfo = EZRemember;
 		};
+		F467E514247DAAD500E10EEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4285230245BFA5E00C381DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F467E507247DAAD400E10EEA;
+			remoteInfo = EZRememberNotifications;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F467E51A247DAAD500E10EEA /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRememberTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +218,14 @@
 		F45033342478227400307417 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F45033362478228200307417 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRTabController+EZRemember.swift"; sourceTree = "<group>"; };
+		F467E4EF247D94F600E10EEA /* DEMultiSelectCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEMultiSelectCard.swift; sourceTree = "<group>"; };
+		F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EZRememberNotifications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F467E509247DAAD400E10EEA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		F467E50B247DAAD400E10EEA /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		F467E50E247DAAD400E10EEA /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		F467E511247DAAD400E10EEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		F467E513247DAAD500E10EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBootstrap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToEpubHandler.swift; sourceTree = "<group>"; };
@@ -280,6 +316,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F467E505247DAAD400E10EEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F467E50C247DAAD400E10EEA /* UserNotificationsUI.framework in Frameworks */,
+				F467E50A247DAAD400E10EEA /* UserNotifications.framework in Frameworks */,
+				F467E51F247DAC1C00E10EEA /* Pods_EZRemember.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -299,9 +345,12 @@
 		CC26F1FAFE324989DBAAA602 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */,
 				A041E719063883CC004C797A /* Pods_EZRemember.framework */,
 				0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */,
 				245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */,
+				F467E509247DAAD400E10EEA /* UserNotifications.framework */,
+				F467E50B247DAAD400E10EEA /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -323,6 +372,7 @@
 				F428523A245BFA5E00C381DE /* EZRemember */,
 				F4285251245BFA5F00C381DE /* EZRememberTests */,
 				F428525C245BFA5F00C381DE /* EZRememberUITests */,
+				F467E50D247DAAD400E10EEA /* EZRememberNotifications */,
 				F4285239245BFA5E00C381DE /* Products */,
 				0CCEBE7347B9670030E4F30D /* Pods */,
 				CC26F1FAFE324989DBAAA602 /* Frameworks */,
@@ -335,6 +385,7 @@
 				F4285238245BFA5E00C381DE /* Easy Remember.app */,
 				F428524E245BFA5F00C381DE /* EZRememberTests.xctest */,
 				F4285259245BFA5F00C381DE /* EZRememberUITests.xctest */,
+				F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -448,6 +499,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		F467E50D247DAAD400E10EEA /* EZRememberNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				F467E50E247DAAD400E10EEA /* NotificationViewController.swift */,
+				F467E510247DAAD400E10EEA /* MainInterface.storyboard */,
+				F467E513247DAAD500E10EEA /* Info.plist */,
+			);
+			path = EZRememberNotifications;
+			sourceTree = "<group>";
+		};
 		F48E65E2245FF34E00CA56FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,6 +519,7 @@
 				F4F537DA2461DE5B0009D3DC /* DEScheduleView.swift */,
 				F4C2025D2466AA4100D59245 /* GRLanguagesCard.swift */,
 				F421B22E24698DE9007DE745 /* EbookCell.swift */,
+				F467E4EF247D94F600E10EEA /* DEMultiSelectCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -572,10 +634,12 @@
 				F4285236245BFA5E00C381DE /* Resources */,
 				529175901BE3059341C8F6F0 /* [CP] Embed Pods Frameworks */,
 				F49FDC612470603D002148C1 /* ShellScript */,
+				F467E51A247DAAD500E10EEA /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F467E515247DAAD500E10EEA /* PBXTargetDependency */,
 			);
 			name = EZRemember;
 			productName = EZRemember;
@@ -620,12 +684,30 @@
 			productReference = F4285259245BFA5F00C381DE /* EZRememberUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		F467E507247DAAD400E10EEA /* EZRememberNotifications */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F467E517247DAAD500E10EEA /* Build configuration list for PBXNativeTarget "EZRememberNotifications" */;
+			buildPhases = (
+				F467E504247DAAD400E10EEA /* Sources */,
+				F467E505247DAAD400E10EEA /* Frameworks */,
+				F467E506247DAAD400E10EEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EZRememberNotifications;
+			productName = EZRememberNotifications;
+			productReference = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		F4285230245BFA5E00C381DE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = Dephyned;
@@ -640,6 +722,9 @@
 					F4285258245BFA5F00C381DE = {
 						CreatedOnToolsVersion = 11.3.1;
 						TestTargetID = F4285237245BFA5E00C381DE;
+					};
+					F467E507247DAAD400E10EEA = {
+						CreatedOnToolsVersion = 11.3.1;
 					};
 				};
 			};
@@ -660,6 +745,7 @@
 				F4285237245BFA5E00C381DE /* EZRemember */,
 				F428524D245BFA5F00C381DE /* EZRememberTests */,
 				F4285258245BFA5F00C381DE /* EZRememberUITests */,
+				F467E507247DAAD400E10EEA /* EZRememberNotifications */,
 			);
 		};
 /* End PBXProject section */
@@ -711,6 +797,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F467E506247DAAD400E10EEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F467E512247DAAD400E10EEA /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -840,6 +934,7 @@
 				F4C2025A246695E100D59245 /* Notifications+EZRemember.swift in Sources */,
 				F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */,
 				F43DDF8424738EEA00776941 /* AddCancelButtonProtocol.swift in Sources */,
+				F467E4F0247D94F600E10EEA /* DEMultiSelectCard.swift in Sources */,
 				F43DDF8824742E2100776941 /* Sync.swift in Sources */,
 				F4C1175B24655E3900A145CB /* GRReadBookViewController.swift in Sources */,
 				F428523C245BFA5E00C381DE /* AppDelegate.swift in Sources */,
@@ -917,6 +1012,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F467E504247DAAD400E10EEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F467E50F247DAAD400E10EEA /* NotificationViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -929,6 +1032,11 @@
 			isa = PBXTargetDependency;
 			target = F4285237245BFA5E00C381DE /* EZRemember */;
 			targetProxy = F428525A245BFA5F00C381DE /* PBXContainerItemProxy */;
+		};
+		F467E515247DAAD500E10EEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F467E507247DAAD400E10EEA /* EZRememberNotifications */;
+			targetProxy = F467E514247DAAD500E10EEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -958,6 +1066,14 @@
 				F45033362478228200307417 /* zh-Hant */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F467E510247DAAD400E10EEA /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F467E511247DAAD400E10EEA /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1083,6 +1199,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 259168778B4E7DBF1FEDE6CA /* Pods-EZRemember.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1105,6 +1222,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2909E7184064B09D39D470FD /* Pods-EZRemember.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1211,6 +1329,46 @@
 			};
 			name = Release;
 		};
+		F467E518247DAAD500E10EEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F467E519247DAAD500E10EEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1246,6 +1404,15 @@
 			buildConfigurations = (
 				F4285269245BFA5F00C381DE /* Debug */,
 				F428526A245BFA5F00C381DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F467E517247DAAD500E10EEA /* Build configuration list for PBXNativeTarget "EZRememberNotifications" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F467E518247DAAD500E10EEA /* Debug */,
+				F467E519247DAAD500E10EEA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

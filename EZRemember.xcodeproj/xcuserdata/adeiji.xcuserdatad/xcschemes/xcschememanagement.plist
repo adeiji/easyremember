@@ -19,6 +19,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>EZRememberNotifications.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>67</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -33,6 +38,11 @@
 			<true/>
 		</dict>
 		<key>F4285258245BFA5F00C381DE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F467E507247DAAD400E10EEA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

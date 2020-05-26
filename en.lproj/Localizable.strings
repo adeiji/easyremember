@@ -235,3 +235,43 @@
 "deactivate" = "Deactivate";
 
 "activate" = "Activate";
+
+// PURCHASING - BASIC
+
+"basicPackageTitle" = "Casual Learner";
+
+"basicPackageDescription" = "A great service if you're just trying to very casually learn something new.  If you're trying to learn a new language, than it will probably take you about 2 years to learn 1000 words";
+
+"basicPackageTranslation" = "Translate text into 1 language";
+
+"basicPackageMaxNotifications" = "Have a total of 5 notification cards at one time";
+
+"basicPackageMaxHourSlots" = "Receive reminders up to 5 times a day";
+
+"purchasingFinePrint" = "After your 7-day travel ends, unless you unsubscribe, you will be charged monthly";
+
+// PURCHASING - STANDARD
+
+"standardPackageTitle" = "Casual Student";
+
+"standardPackageSpeed" = "Learn up to 6x faster than the Casual Learner package";
+
+"standardPackageDescription" = "A great service if you're learning something for school or for work.  If you're trying to learn a new language, than it will probably take you about 1 year and 3 months to learn 1000 words";
+
+"standardPackageTranslation" = "Translate text into up 3 language simultaneously";
+
+"standardPackageMaxNotifications" = "Have a total of 15 active notification cards at one time";
+
+"standardPackageMaxHourSlots" = "Receive reminders up to 10 times a day";
+
+// PURCHASING - PREMIUM
+
+"premiumPackageTitle" = "Serious Learner";
+
+"premiumPackageDescription" = "This package is for the serious learners.  Perhaps in college or looking to advance your career, or desirous of learning a language quickly.  If you're trying to learn a new language, than it will probably take you about 2 months to learn 1000 words";
+
+"premiumPackageTranslation" = "Translate text into up 10 language simultaneously";
+
+"premiumPackageMaxNotifications" = "Have a total of 60 active notification cards at one time";
+
+"premiumPackageMaxHourSlots" = "Receive reminders up to every 10 minutes a day (if you really want to do that)";

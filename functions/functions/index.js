@@ -16,8 +16,11 @@ async function sendNotifications (time) {
 
     const minutes = new Date().getUTCMinutes()
 
-    // If it's the start of the hour than we send all notifications
-    if (minutes !== 0) {
+    const debug = true
+
+    if (debug) {
+        retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 60).get()
+    } else if (minutes !== 0) { // If it's the start of the hour than we send all notifications
         if (minutes % 10 === 0) {
             retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 10).get()
         } else if (minutes % 15 === 0) {
@@ -63,20 +66,44 @@ async function sendNotifications (time) {
 
             fcmTokensSent.push(token)
 
-            notificationsSnapshot.docs.forEach( async(notificationSnapshot) => {
-                var title = notificationSnapshot.get("caption")
-                var body = notificationSnapshot.get("description")      
-                var id = notificationSnapshot.get("id")     
-                var creationDate = notificationSnapshot.get("creationDate")                                                 
-                sendNotification(title, body, token, id, creationDate, tokenDoc.id)                    
+            var index = 0
+
+            notificationsSnapshot.docs.forEach( async(notificationSnapshot) => {                
+                if (debug === true && index > 0) {                    
+                    return
+                }                
+
+                sendNotification(notificationSnapshot, schedule.get("style"), token, tokenDoc.id)                    
+                index = index + 1
             })            
         })
     });
 }
 
 
-function sendNotification (title, body, fcmToken, id, creationDate, fcmTokenDocId) {
+function sendNotification (notificationSnapshot, style, fcmToken, fcmTokenDocId) {
 
+    var title = ""
+    var body = ""
+
+    console.log("Sending notification")
+
+    if (style === "Show Everything") {
+        title = notificationSnapshot.get("caption")
+        body = notificationSnapshot.get("description")      
+    } else if (style === "Flashcard - Hide Content") {
+        title = notificationSnapshot.get("caption")
+        body = notificationSnapshot.get("description")
+    } else if (style === "Flashcard - Hide Caption") {
+        body = notificationSnapshot.get("caption")
+        title = notificationSnapshot.get("description")
+    }
+
+    console.log("Notification message created")
+    
+    var id = notificationSnapshot.get("id")     
+    var creationDate = notificationSnapshot.get("creationDate")          
+                                         
     var message = {
         "token": fcmToken,
         "notification": {
@@ -93,6 +120,8 @@ function sendNotification (title, body, fcmToken, id, creationDate, fcmTokenDocI
             }
         }
     }
+
+    console.log(message)
 
     admin.messaging().send(message).then().catch(error => {
         if (error.errorInfo.code === 'messaging/registration-token-not-registered') {
