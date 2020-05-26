@@ -279,7 +279,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
     }
 }
 
-public class GRCreateNotificationViewController: UIViewController {
+public class GRNotificationViewController: UIViewController {
     
     /// The main view displaying all the information on this screen
     weak var mainView:GRViewWithScrollView?

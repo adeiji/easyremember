@@ -51,7 +51,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     }
 }
 
-class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol {
+public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol {
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(
@@ -73,7 +73,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     
     let disposeBag = DisposeBag()
     
-    override var keyCommands: [UIKeyCommand]? {
+    override public var keyCommands: [UIKeyCommand]? {
         return [
             UIKeyCommand(input: "a", modifierFlags: .command, action: #selector(addButtonPressed)),
             UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(assignFirstResponderToSearchBar))            
@@ -319,14 +319,14 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         self.setupTapCollectionView(collectionView: collectionView)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if self.mainView != nil { return }
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
                 
         if self.mainView != nil { return }
@@ -382,15 +382,13 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         }
     }
     
-    
-    
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.addObservers()
         self.getMaxNumOfCardsFromServer()
     }
     
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         // We need to make sure that we update all the views if the layout changes because this can mean the app has shrunk size or has gotten bigger and we need to make our UI adjustments accordingly.
@@ -398,7 +396,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
         self.mainView?.layoutIfNeeded()
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         // If the screen changes size then we have to make sure that we reload the sections in order to make sure that the card's are the proper size for the size of the screen
@@ -595,7 +593,7 @@ class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClicke
     
 
     @objc func addButtonPressed () {
-        let createNotifVC = GRCreateNotificationViewController(notification: self.unfinishedNotification)
+        let createNotifVC = GRNotificationViewController(notification: self.unfinishedNotification)
         
         createNotifVC.publishNotification.subscribe { [weak self] (event) in
             guard let self = self else { return }

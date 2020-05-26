@@ -25,7 +25,7 @@ protocol CardClickedProtocol: UIViewController {
 extension CardClickedProtocol {
     
     private func showCard (notification: GRNotification) {
-        let createCardVC = GRCreateNotificationViewController(notification: notification, isEditingCard: true)                
+        let createCardVC = GRNotificationViewController(notification: notification, isEditingCard: true)                
         createCardVC.publishNotification.subscribe { [weak self] (event) in
             guard let self = self else { return }
             guard let notification = event.element else { return }

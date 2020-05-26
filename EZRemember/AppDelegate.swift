@@ -22,7 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
             
     var toastHandler: ToastHandler = ToastHandler()
     
-    var window:UIWindow?
+    var window:UIWindow? {
+        didSet {
+            guard let notificationId = self.remoteNotificationOpenedId else { return }
+            self.showNotificationWithId(notificationId)
+        }
+    }
     
     /// Key for the user's device Id stored in UserDefaults
     let kDeviceId = "deviceId"
@@ -31,6 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     var deviceId:String?
     
     let disposeBag = DisposeBag()
+    
+    /// If a remote notification was clicked to open this app then set it's Id here so that after the root view controller has been set we can display
+    /// the notification
+    var remoteNotificationOpenedId:String? = nil
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
@@ -80,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         if application.isRegisteredForRemoteNotifications {
             self.setupRemoteNotifications(application: application)
         }
-        
+                
         // If we're on iOS 13 then the loading of the view should be handle by the scene delegate
         if #available(iOS 13.0, *) {
             return true
@@ -105,20 +114,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         guard let notificationId = userInfo["notificationId"] as? String else { return }
+        guard let creationDateString = userInfo["creationDate"] as? String else { return }
+        guard let creationDate = Double(creationDateString) else { return }
         
         switch response.actionIdentifier {
         case "REMEMBERED":
             NotificationsManager.shared.rememberNotificationWithId(notificationId)
+            NotificationsManager.shared.setNextNotificationToActive(creationDate: creationDate)
             break
         default:
-            return
+            if (self.window?.rootViewController != nil) {
+                self.showNotificationWithId(notificationId)
+            }
+            
+            break;
         }
         
         completionHandler()
     }
     
+    private func showNotificationWithId (_ notificationId: String) {
+        NotificationsManager.shared.getNotificationWithId(notificationId) { [weak self] (notification) in
+            guard let self = self else { return }
+            self.showNotificationViewController(notification: notification)
+        }
+    }
+    
+    private func showNotificationViewController (notification: GRNotification?) {
+        let tabController = self.window?.rootViewController as? GRTabController
+        tabController?.showNotificationsViewController()
+        let mainVC = tabController?.getNotificationsViewController()
+        
+        guard let notification = notification else { return }
+        mainVC?.present(GRNotificationViewController(notification: notification, isEditingCard: true), animated: true, completion: nil)
+    }
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("Notification received")
+        if (application.applicationState == .inactive || application.applicationState == .background) {
+            // App was opened from a push notification
+        }
     }
         
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
@@ -140,7 +174,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 

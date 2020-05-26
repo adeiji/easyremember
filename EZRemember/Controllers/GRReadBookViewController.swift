@@ -222,7 +222,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
             guard let self = self else { return }
             guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
             let notification = GRNotification(caption: "", description: wordsToTranslate)
-            let createCardVC = GRCreateNotificationViewController(notification: notification)
+            let createCardVC = GRNotificationViewController(notification: notification)
             createCardVC.publishNotification.subscribe { [weak self] (event) in
                 guard let self = self else { return }
                 createCardButton.isHidden = true

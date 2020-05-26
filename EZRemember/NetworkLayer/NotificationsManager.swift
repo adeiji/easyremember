@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import DephynedFire
 import RxSwift
+import FirebaseFirestore
 
 class NotificationsManager {
         
@@ -45,6 +46,21 @@ class NotificationsManager {
         case NoNotifications
     }
     
+    func getNotificationWithId (_ id: String, completion: @escaping (GRNotification?) -> Void) {
+        FirebasePersistenceManager.getDocumentById(forCollection: GRNotification.Keys.kCollectionName, id: id)
+            .subscribe { [weak self] (event) in
+                guard let _ = self else { return }
+                
+                if let element = event.element {
+                    let notification = FirebasePersistenceManager.generateObject(fromFirebaseDocument: element) as GRNotification?
+                    completion(notification)
+                    return
+                }
+                
+                completion(nil)
+        }.disposed(by: self.disposeBag)
+    }
+    
     /**
      Get all the notifications for this device
      
@@ -61,6 +77,23 @@ class NotificationsManager {
         })
         
         return Observable.merge(observables).map({ FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: $0) as [GRNotification]? ?? [] })
+    }
+    
+    func setNextNotificationToActive (creationDate: TimeInterval) {
+        
+        let db = Firestore.firestore()
+        let notificationsRef = db.collection(GRNotification.Keys.kCreationDate)
+        
+        notificationsRef.whereField(GRNotification.Keys.kRemembered, isEqualTo: false)
+        notificationsRef.whereField(GRNotification.Keys.kActive, isEqualTo: false)
+        notificationsRef.limit(to: 1)
+        
+        notificationsRef.getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot else { return }
+            let firebaseDocuments = FirebasePersistenceManager.convertSnapshotToFirebaseDocuments(querySnapshot: snapshot)
+            guard let notification = (FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: firebaseDocuments) as [GRNotification]?)?.first else { return }
+            NotificationsManager.toggleNotification(notificationId: notification.id, active: true, remembered: false).subscribe().disposed(by: self.disposeBag)            
+        }
     }
     
     func rememberNotificationWithId (_ notificationId: String) {
@@ -164,7 +197,8 @@ class NotificationsManager {
             GRNotification.Keys.kCreationDate: Date().timeIntervalSince1970,
             GRNotification.Keys.kExpiration: expirationDate,
             GRNotification.Keys.kId: UUID().uuidString,
-            GRNotification.Keys.kActive: false
+            GRNotification.Keys.kActive: false,
+            GRNotification.Keys.kRemembered: false
         ]
         
         if let language = language {

@@ -47,6 +47,7 @@
 		F450332A2476879B00307417 /* AddHelpButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45033292476879B00307417 /* AddHelpButtonProtocol.swift */; };
 		F450332C247688F800307417 /* Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F450332B247688F800307417 /* Explanation.swift */; };
 		F45033332478227400307417 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F45033352478227400307417 /* Localizable.strings */; };
+		F467E4EE247D82D700E10EEA /* GRTabController+EZRemember.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */; };
@@ -188,6 +189,7 @@
 		F4503330247821E800307417 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		F45033342478227400307417 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F45033362478228200307417 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRTabController+EZRemember.swift"; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToEpubHandler.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				F421B23D246A6482007DE745 /* GRPurchasingViewController.swift */,
 				F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */,
 				F4503327247675B100307417 /* ExplanationViewController.swift */,
+				F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -863,6 +866,7 @@
 				F421B23A246A5E75007DE745 /* GRTitleAndButtonCard.swift in Sources */,
 				F4F537CF24613ED60009D3DC /* Style+Colors.swift in Sources */,
 				F4F537F1246404B70009D3DC /* TranslateManager.swift in Sources */,
+				F467E4EE247D82D700E10EEA /* GRTabController+EZRemember.swift in Sources */,
 				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
 				F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,

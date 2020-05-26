@@ -140,12 +140,12 @@ class NotificationsHeaderCell : UICollectionReusableView {
 
 extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         // We have two sections, one with a header one without, this is so that we can reset just the second section, which contains the notification cards, without having to update the top header which would cause problems.
         return 2
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         // Only show a header if it's the first section
         if section == 1 {
@@ -159,7 +159,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         verticalFittingPriority: .fittingSizeLevel) // Height can be as large as needed
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if section == 0 {
             return 0
@@ -168,7 +168,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         return self.notifications.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if indexPath.section == 1 {
             return UICollectionReusableView()
@@ -193,7 +193,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         fatalError("Unknown kind")
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GRNotificationCard.reuseIdentifier, for: indexPath) as? GRNotificationCard else {
             fatalError("This cell does not exists")
         }
@@ -202,7 +202,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? GRNotificationCard else { return }
         
         cell.notification = self.notifications[indexPath.row]
@@ -211,7 +211,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         self.handleToggleRememberedCard(card: cell)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = collectionView.bounds.width
         var cellWidth:CGFloat!

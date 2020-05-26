@@ -15,20 +15,19 @@ async function sendNotifications (time) {
     var retrievedSnapshot;
 
     const minutes = new Date().getUTCMinutes()
-    // If it's the start of the hour than we send all notifications
-    // if (minutes !== 0) {
-    //     if (minutes % 10 === 0) {
-    //         retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 10).get()
-    //     } else if (minutes % 15 === 0) {
-    //         retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 15).get()
-    //     } else if (minutes % 30 === 0) {
-    //         retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 30).get()
-    //     }
-    // } else {
-    //     retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 60).get()
-    // }
 
-    retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 10).get()
+    // If it's the start of the hour than we send all notifications
+    if (minutes !== 0) {
+        if (minutes % 10 === 0) {
+            retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 10).get()
+        } else if (minutes % 15 === 0) {
+            retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 15).get()
+        } else if (minutes % 30 === 0) {
+            retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 30).get()
+        }
+    } else {
+        retrievedSnapshot = await scheduleSnapshot.where("frequency", "==", 60).get()
+    }
 
     if (!retrievedSnapshot) {
         return
@@ -55,34 +54,28 @@ async function sendNotifications (time) {
 
         console.log("Sending notifications for deviceId: " + deviceId)
         var fcmTokensSent = []
-        fcmTokensSnapshot.docs.map( (tokenDoc) => tokenDoc.get('token')).forEach(token => {                                
+        fcmTokensSnapshot.docs.map( (tokenDoc) => {                                
+            const token = tokenDoc.get('token')
 
             if (fcmTokensSent.indexOf(token) !== -1) {
                 return
             }
 
             fcmTokensSent.push(token)
-            var index = 0;
+
             notificationsSnapshot.docs.forEach( async(notificationSnapshot) => {
                 var title = notificationSnapshot.get("caption")
                 var body = notificationSnapshot.get("description")      
-                var id = notificationSnapshot.get("id")                                                      
-
-                if (index === 0) {
-                    sendNotification(title, body, token, id)                    
-                } else {
-                    return
-                }
-
-                index = index + 1
-                
+                var id = notificationSnapshot.get("id")     
+                var creationDate = notificationSnapshot.get("creationDate")                                                 
+                sendNotification(title, body, token, id, creationDate, tokenDoc.id)                    
             })            
         })
     });
 }
 
 
-function sendNotification (title, body, fcmToken, id) {
+function sendNotification (title, body, fcmToken, id, creationDate, fcmTokenDocId) {
 
     var message = {
         "token": fcmToken,
@@ -90,7 +83,8 @@ function sendNotification (title, body, fcmToken, id) {
             "title": title,
             "body": body,            
         }, "data": {            
-            "notificationId": id
+            "notificationId": id,
+            "creationDate": `${creationDate}`
         }, "apns": {
             "payload": {
                 "aps": {
@@ -100,5 +94,10 @@ function sendNotification (title, body, fcmToken, id) {
         }
     }
 
-    admin.messaging().send(message).then().catch((error) => console.log(error))
+    admin.messaging().send(message).then().catch(error => {
+        if (error.errorInfo.code === 'messaging/registration-token-not-registered') {
+            admin.firestore().collection('fcmTokens').doc(fcmTokenDocId).delete()
+        }
+        console.log(error)
+    })
 }

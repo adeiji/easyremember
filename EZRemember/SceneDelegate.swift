@@ -55,8 +55,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, PDFEpubHandlerProtocol,
         
         window.rootViewController = self.createTabController()
         self.window = window
+        
+        self.setRootControllerForAppDelegate()
         window.makeKeyAndVisible()
         self.addObservers()                
+    }
+    
+    private func setRootControllerForAppDelegate () {
+        let delegate = UIApplication.shared.delegate as? AppDelegate
+        delegate?.window = self.window
     }
     
     private func addObservers () {
