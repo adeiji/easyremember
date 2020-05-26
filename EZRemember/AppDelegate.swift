@@ -78,7 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         PKIAPHandler.shared.loadProductIds(Purchasing.inAppPurchaseProductIds)
         
         if application.isRegisteredForRemoteNotifications {
-            application.registerForRemoteNotifications()
             self.setupRemoteNotifications(application: application)
         }
         
@@ -114,6 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         default:
             return
         }
+        
+        completionHandler()
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
