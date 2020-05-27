@@ -73,7 +73,7 @@
 		F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */; };
 		F4E0E6F6246C70BB00EA0827 /* jy_IN.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4E0E6F5246C705E00EA0827 /* jy_IN.epub */; };
 		F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4C2026624682F4800D59245 /* ylioppilas.epub */; };
-		F4F1A3EACA9D508B69DE148E /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		F4F1A3EACA9D508B69DE148E /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
 		F4F53793246062220009D3DC /* SceneDelegate+TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */; };
 		F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F53798246085A60009D3DC /* DEScheduleViewController.swift */; };
@@ -296,7 +296,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4F1A3EACA9D508B69DE148E /* BuildFile in Frameworks */,
+				F4F1A3EACA9D508B69DE148E /* (null) in Frameworks */,
 				E99408D1CC458EEB12D3B68F /* Pods_EZRemember.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1335,7 +1335,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1355,7 +1355,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

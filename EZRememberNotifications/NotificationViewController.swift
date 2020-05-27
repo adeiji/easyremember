@@ -17,7 +17,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any required interface initialization here.
     }
     
     func didReceive(_ notification: UNNotification) {
@@ -30,10 +29,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         } else {
             self.contentLabel?.text = notification.request.content.body
         }
-        
-        
-                        
+                                        
         self.titleLabel?.text = "Did you remember it?\n\n\(notification.request.content.title)"
     }
-
 }

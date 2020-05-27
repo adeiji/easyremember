@@ -11,7 +11,9 @@ import DephynedFire
 
 extension FirebasePersistenceManager {
     
-    open func saveFcmToken (_ fcmToken: String, forceSave:Bool = false) {
+    open func saveFcmToken (_ fcmToken: String?, forceSave:Bool = false) {
+        guard let fcmToken = fcmToken else { return }
+        
         if self.getFCMToken() == fcmToken && forceSave == false {
             return
         }
