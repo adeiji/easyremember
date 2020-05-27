@@ -21,11 +21,6 @@ target 'EZRemember' do
   pod 'PodAsset'
   pod 'paper-onboarding'
 
-  target 'EZRememberNotifications' do
-    inherit! :search_paths
-    pod 'SwiftyBootstrap', path: '/Users/adeiji/Documents/Dephyned/libraries/swifty-bootstrap/SwiftyBootstrap'
-  end
-
   # Pods for EZRemember
 
   target 'EZRememberTests' do

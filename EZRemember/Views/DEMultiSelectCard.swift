@@ -42,7 +42,7 @@ class DEMultiSelectCard: GRBootstrapElement {
     }
     
     func getColumnButton (_ caption: String) -> Column {
-        let button = Style.largeButton(with: caption, backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), fontColor: .white)
+        let button = Style.largeButton(with: caption, backgroundColor: UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray), fontColor: UIColor.darkText.dark(.white))
         self.createButtonTarget(button)
         
         if caption == self.initiallySelectedItem {

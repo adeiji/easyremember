@@ -85,18 +85,21 @@ function sendNotification (notificationSnapshot, style, fcmToken, fcmTokenDocId)
 
     var title = ""
     var body = ""
+    var hiddenData = ""
 
     console.log("Sending notification")
 
     if (style === "Show Everything") {
         title = notificationSnapshot.get("caption")
-        body = notificationSnapshot.get("description")      
+        body = notificationSnapshot.get("description")
     } else if (style === "Flashcard - Hide Content") {
         title = notificationSnapshot.get("caption")
-        body = notificationSnapshot.get("description")
+        body = "Press and hold or swipe down to see content..."
+        hiddenData = notificationSnapshot.get("description")
     } else if (style === "Flashcard - Hide Caption") {
-        body = notificationSnapshot.get("caption")
         title = notificationSnapshot.get("description")
+        hiddenData = notificationSnapshot.get("caption")
+        body = "Press and hold or swipe down to see content..."
     }
 
     console.log("Notification message created")
@@ -111,6 +114,7 @@ function sendNotification (notificationSnapshot, style, fcmToken, fcmTokenDocId)
             "body": body,            
         }, "data": {            
             "notificationId": id,
+            "hiddenData": hiddenData,
             "creationDate": `${creationDate}`
         }, "apns": {
             "payload": {
