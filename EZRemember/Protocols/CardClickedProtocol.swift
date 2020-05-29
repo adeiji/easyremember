@@ -44,6 +44,14 @@ extension CardClickedProtocol {
         }.disposed(by: self.disposeBag)
     }
     
+    func incrementNotificationRememberedCount (notificationId: String) {
+        var notification = self.notifications.first(where: { $0.id == notificationId })
+        let rememberedCount = notification?.rememberedCount
+        notification?.rememberedCount = (rememberedCount ?? 0) + 1
+        self.updateNotificationInNotificationsArray(notification: notification)
+    }
+
+    
     internal func updateNotificationInNotificationsArray (notification:GRNotification?) {
         guard let notification = notification else { return }
         if let row = self.notifications.firstIndex(where: { $0.id == notification.id }) {

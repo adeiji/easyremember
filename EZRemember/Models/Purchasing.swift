@@ -85,28 +85,29 @@ struct Purchasing {
         
         // CASUAL LEARNER PACKAGE
         
-        PurchaseableItem(title: NSLocalizedString("casualLearnerTitle", comment: "The title for purchasing package casual learner"), id: ProductIds.Basic.rawValue, info: NSLocalizedString("casualLearnContent", comment: "The content for purchasing package casual learner"), price: 4.99, features: [
-            "Translate text into 1 language",
-            "Have a total of 5 notification cards at one time",
-            "Select 5 different hour slots to recieve notifications"
-        ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly"),
+        PurchaseableItem(title: NSLocalizedString("basicPackageTitle", comment: "The title for purchasing package casual learner"), id: ProductIds.Basic.rawValue, info: NSLocalizedString("basicPackageDescription", comment: "An overview of this package"), price: 4.99, features: [
+            NSLocalizedString("basicPackageTranslation", comment: "What you receive with this package with regards to language translation"),
+            NSLocalizedString("basicPackageMaxNotifications", comment: "What you receive with this package with regards to max notifications"),
+            NSLocalizedString("basicPackageMaxHourSlots", comment: "What you receive with this package with regards to hour slots")
+        ], finePrint: NSLocalizedString("purchasingFinePrint", comment: "The fine print for this package")),
         
         // SERIOUS STUDENT
         
-        PurchaseableItem(title: "Casual Student", id: ProductIds.Standard.rawValue, info: "This service is good if you're serious about learning, but you still want to pace things out and speed of learning is not an issue.", price: 9.99, features: [
-            "Translate text into up to 3 languages",
-            "Have a total of 15 notifications cards at one time",
-            "Sync your data across multiple devices",
-            "Select 10 different hour slots to recieve notifications"
-        ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly"),
+        PurchaseableItem(title: NSLocalizedString("standardPackageTitle", comment: "The title for this package"), id: ProductIds.Standard.rawValue, info: NSLocalizedString("standardPackageDescription", comment: "An overview of this package"), price: 4.99, features: [
+            NSLocalizedString("standardPackageSpeed", comment: "What you receive with this package with regards to speed of learning"),
+            NSLocalizedString("standardPackageTranslation", comment: "What you receive with this package with regards to language translation"),
+            NSLocalizedString("standardPackageMaxNotifications", comment: "What you receive with this package with regards to max notifications"),
+            NSLocalizedString("standardPackageMaxHourSlots", comment: "What you receive with this package with regards to hour slots")
+        ], finePrint: NSLocalizedString("purchasingFinePrint", comment: "The fine print for this package")),
         
         // MASTER
         
-        PurchaseableItem(title: "Serious Student", id: ProductIds.Premium.rawValue, info: "This service is good if you're  serious about learning, maybe for college, monetization, or your just an intense learner.", price: 14.99, features: [
-            "Translate text into up to 10 languages",
-            "Have a total of 60 notifications cards at one time",
-            "Select 24 different hour slots to recieve notifications, and recieve notifications up to every ten minutes."
-        ], finePrint: "After your 7-day trial ends unless you unsubscribe you will be charged monthly")
+        PurchaseableItem(title: NSLocalizedString("premiumPackageTitle", comment: "The title for this package"), id: ProductIds.Standard.rawValue, info: NSLocalizedString("premiumPackageDescription", comment: "An overview of this package"), price: 4.99, features: [
+            NSLocalizedString("premiumPackageSpeed", comment: "What you receive with this package with regards to speed of learning"),
+            NSLocalizedString("premiumPackageTranslation", comment: "What you receive with this package with regards to language translation"),
+            NSLocalizedString("premiumPackageMaxNotifications", comment: "What you receive with this package with regards to max notifications"),
+            NSLocalizedString("premiumPackageMaxHourSlots", comment: "What you receive with this package with regards to hour slots")
+        ], finePrint: NSLocalizedString("purchasingFinePrint", comment: "The fine print for this package"))
     ]
 
     

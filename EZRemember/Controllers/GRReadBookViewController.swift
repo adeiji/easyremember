@@ -12,7 +12,7 @@ import RxSwift
 import SwiftyBootstrap
 import FolioReaderKit
 
-class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol {
+class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol, TranslationProtocol {
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(content: NSLocalizedString("readBookTranslationExplanation", comment: "The first paragraph of the read translation explanation"), title: NSLocalizedString("translateTextTitle", comment: "The title for the section about translating text on the Read book page"), image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
@@ -181,19 +181,19 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     // MARK: Translate Button
     
     private func handleTranslateButtonPressed () {
+                            
         self.translateWordButton?.addTargetClosure { [weak self] (translateButton) in
             guard let self = self else { return }
-            let loading = translateButton.showLoadingNVActivityIndicatorView()
             guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
-            TranslateManager.translateText(wordsToTranslate).subscribe { [weak self] (event) in
-                guard let self = self else { return }
-                translateButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                self.translateWordButton?.isHidden = true
+                                    
+            self.translateButtonPressed(self.translateWordButton, wordsToTranslate: wordsToTranslate) { (translations) in
+                self.translationView?.subviews.forEach({ [weak self] (subview) in
+                    guard let _ = self else { return }
+                    subview.removeFromSuperview()
+                })
                 
-                if let translations = event.element {
-                    self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
-                }
-            }.disposed(by: self.disposeBag)
+                self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
+            }
         }
     }
     
@@ -221,7 +221,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
         self.createCard?.addTargetClosure { [weak self] (createCardButton) in
             guard let self = self else { return }
             guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
-            let notification = GRNotification(caption: "", description: wordsToTranslate)
+            let notification = GRNotification(caption: wordsToTranslate, description: "")
             let createCardVC = GRNotificationViewController(notification: notification)
             createCardVC.publishNotification.subscribe { [weak self] (event) in
                 guard let self = self else { return }

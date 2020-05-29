@@ -64,6 +64,8 @@ struct GRNotification: Codable {
         static let kLanguage = "language"
         static let kTags = "tags"
         static let kRemembered = "remembered"
+        static let kRememberedCount = "rememberedCount"
+        static let kDeckId = "deckId"
     }
     
     /// The id of the Notification to access it
@@ -99,7 +101,12 @@ struct GRNotification: Codable {
     /// Whether this card has been set to remembered for this user
     var remembered:Bool? = false
     
-    init(caption: String, description: String, language:String? = nil) {
+    var rememberedCount:Int? = 0
+    
+    /// If this notification was added from a deck than this value will be set
+    var deckId:String?
+    
+    init(caption: String, description: String, language:String? = nil, tags:[String]? = nil, deckId:String? = nil) {
         self.id = UUID().uuidString
         self.caption = caption
         self.description = description
@@ -107,7 +114,8 @@ struct GRNotification: Codable {
         self.expiration = Date().addingTimeInterval(86400 * 7).timeIntervalSince1970
         self.creationDate = Date().timeIntervalSince1970
         self.active = false
-        self.language = language        
+        self.language = language
+        self.deckId = deckId
     }
             
 }

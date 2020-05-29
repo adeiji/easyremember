@@ -24,6 +24,8 @@ class GRNotificationCard: UICollectionViewCell {
     
     private weak var bookNameLabel:UILabel?
     
+    private weak var rememberedCountLabel:UILabel?
+    
     /// User presses this button and the notification is either set to active or inactive
     weak var toggleActivateButton:UIButton? {
         didSet {
@@ -54,6 +56,7 @@ class GRNotificationCard: UICollectionViewCell {
                     self.titleLabel?.text = notification.caption
                     self.contentLabel?.text = notification.description
                     self.bookNameLabel?.text = "\(notification.bookTitle ?? "No Book")   \(notification.language ?? "")"
+                    self.rememberedCountLabel?.text = "Remembered \(notification.rememberedCount ?? 0) times"
                 }
             }
         }
@@ -118,6 +121,8 @@ class GRNotificationCard: UICollectionViewCell {
             Column(cardSet: toggleActivateButton
                 .radius(radius: 5)
                 .toCardSet()
+                .margin.left(20)
+                .margin.top(20)
                 .withHeight(30),
                    xsColWidth: .Four)
     }
@@ -126,13 +131,14 @@ class GRNotificationCard: UICollectionViewCell {
         return Column(cardSet: toggleRememberedButton
             .radius(radius: 5)
             .toCardSet()
+            .margin.bottom(10)
             .withHeight(30),
                       xsColWidth: .Four)
     }
     
-    fileprivate func getWhenCreatedLabel(_ createdLabel: UILabel) -> Column {
+    fileprivate func getSimpleTextFullSizeColumn(_ label: UILabel) -> Column {
         return // CREATED WHEN LABEL
-            Column(cardSet: createdLabel
+            Column(cardSet: label
                 .radius(radius: 5)
                 .toCardSet()
                 .margin.top(5)
@@ -217,6 +223,9 @@ class GRNotificationCard: UICollectionViewCell {
         let createdLabel = Style.label(withText: self.format(duration: notification.creationDate), superview: nil, color: UIColor.black.dark(.white))
         createdLabel.font(CustomFontBook.Medium.of(size: .small))
         
+        let timesRememberedLabel = Style.label(withText: "Remembered \(notification.rememberedCount ?? 0) times", superview: nil, color: UIColor.black.dark(.white))
+        timesRememberedLabel.font(CustomFontBook.Bold.of(size: .small))
+        
         // TOP TITLE LABEL
         
         let topTitleLabel = Style.label(withText: notification.language ?? "", superview: nil, color: UIColor.black.dark(.white))
@@ -232,18 +241,15 @@ class GRNotificationCard: UICollectionViewCell {
                         
         if (self.showDeleteButton) {
             card.addRow(columns: [
-                self.getDeleteButtonColumn(deleteButton),
                 self.getActiveButtonColumn(toggleActivateButton),
                 self.getRememberedButtonColumn(toggleRememberedButton),
+                self.getDeleteButtonColumn(deleteButton)
             ])
         }
         
         card.addRow(columns: [
-            self.getWhenCreatedLabel(createdLabel),
-        ])
-        
-        card.addRow(columns: [
-            self.getTopTitleLabel(topTitleLabel)
+            self.getSimpleTextFullSizeColumn(timesRememberedLabel),
+            self.getSimpleTextFullSizeColumn(createdLabel)
         ])
         .addRow(columns: [
             self.getTitleLabel(titleLabel),
@@ -267,6 +273,7 @@ class GRNotificationCard: UICollectionViewCell {
         self.contentLabel = contentLabel
         self.bookNameLabel = bookTitleLabel
         self.toggleRememberedButton = toggleRememberedButton
+        self.rememberedCountLabel = timesRememberedLabel
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         

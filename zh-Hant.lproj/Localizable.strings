@@ -234,3 +234,45 @@
 "deactivate" = "關";
 
 "activate" = "打開";
+
+// PURCHASING - BASIC
+
+"basicPackageTitle" = "隨便學";
+
+"basicPackageDescription" = "如果你想睡邊學，這個是對你比較好。你想學外語的話，應該是兩年可以學1000詞。";
+
+"basicPackageTranslation" = "翻譯成為一個外語";
+
+"basicPackageMaxNotifications" = "讓你有一共五開著卡";
+
+"basicPackageMaxHourSlots" = "接收一共一天五次的通知";
+
+"purchasingFinePrint" = "你七天試用結束時，沒有取消訂閱的話，你會每月付錢";
+
+// PURCHASING - STANDARD
+
+"standardPackageTitle" = "輕鬆學";
+
+"standardPackageSpeed" = "這是‘随便学购买套餐’的六倍快";
+
+"standardPackageDescription" = "如果你為了工作或是學校想學事情，這個為你是比較好。你想學外語的話，應該一年三個月學了1000詞。";
+
+"standardPackageTranslation" = "Translate text into up 3 language simultaneously";
+
+"standardPackageMaxNotifications" = "Have a total of 15 active notification cards at one time";
+
+"standardPackageMaxHourSlots" = "Receive reminders up to 10 times a day";
+
+// PURCHASING - PREMIUM
+
+"premiumPackageTitle" = "Serious Learner";
+
+"premiumPackageSpeed" = "Learn up to 50x faster than the Casual Learner package";
+
+"premiumPackageDescription" = "This package is for the serious learners.  Perhaps in college or looking to advance your career, or desirous of learning a language quickly.  If you're trying to learn a new language, than it will probably take you about 2 months to learn 1000 words";
+
+"premiumPackageTranslation" = "Translate text into up 10 language simultaneously";
+
+"premiumPackageMaxNotifications" = "Have a total of 60 active notification cards at one time";
+
+"premiumPackageMaxHourSlots" = "Receive reminders up to every 10 minutes a day (if you really want to do that)";

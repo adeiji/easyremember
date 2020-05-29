@@ -1,5 +1,7 @@
-
+const admin = require('firebase-admin')
+var serviceAccount = require("./config/keyFile.json");
 const { sendNotifications } = require('./sendNotifications')
 
-sendNotifications(4)
+admin.initializeApp(serviceAccount)
+sendNotifications(admin, 4, true)
 

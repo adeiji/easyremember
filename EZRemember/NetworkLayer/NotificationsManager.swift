@@ -18,6 +18,115 @@ class NotificationsManager {
     
     static let shared = NotificationsManager()
     
+    func getDecks (_ completion: @escaping ([Deck]) -> Void) {
+        FirebasePersistenceManager.getDocuments(collection: Deck.Keys.kCollectionName) { (error, documents) in
+            guard let decks = FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [Deck]? else { return }
+            completion(decks)
+        }
+    }
+    
+    func removeCardsFromDeck (_ deck: Deck, completion: @escaping (Bool) -> Void) {
+        
+        
+        var batches = [WriteBatch]()
+        let db = Firestore.firestore()
+        var batch = db.batch()
+        
+        NotificationsManager.getNotifications(deviceId: UtilityFunctions.deviceId())
+            .bind { (notifications) in
+                let notifications = notifications.filter({ $0.deckId == deck.id })
+                
+                for index in 0...notifications.count - 1 {
+                    let notification = notifications[index]
+                    batch.deleteDocument(db.collection(GRNotification.Keys.kCollectionName).document(notification.id))
+                    
+                    if (index + 1) % 100 == 0 {
+                        batches.append(batch)
+                        batch = db.batch()
+                    }
+                }
+                
+                batches.forEach { (batch) in
+                    batch.commit { (error) in
+                        if batch == batches.last {
+                            completion(error == nil)
+                        }
+                    }
+                }
+        }.disposed(by: self.disposeBag)
+    }
+    
+    func saveCardsFromDeck (_ deck: Deck, completion: @escaping ([GRNotification]) -> Void) {
+        
+        FirebasePersistenceManager.getDocumentsAsObservable(withCollection: DeckNotification.Keys.kCollectionName, queryDocument: [DeckNotification.Keys.deckId: deck.id])
+            .bind { [weak self] (documents) in
+                guard let self = self else { return }
+                guard let deckNotifications = FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [DeckNotification]? else {
+                    completion([])
+                    return
+                }
+                var notifications = [GRNotification]()
+                
+                deckNotifications.forEach { [weak self] (deckNotification) in
+                    guard let self = self else { return }
+                    let notification = self.deckNotificationToNotification(deckNotification)
+                    notifications.append(notification)
+                }
+                
+                self.saveNotificationsForDeck(notifications) { (success) in
+                    completion(notifications)
+                }
+                
+        }.disposed(by: self.disposeBag)
+        
+    }
+    
+    private func saveNotificationsForDeck (_ notifications: [GRNotification], completed: @escaping (Bool) -> Void ) {
+        
+        let db = Firestore.firestore()
+        var batch = db.batch()
+        
+        var batches = [WriteBatch]()
+        
+        for index in 0...notifications.count - 1 {
+            let notification = notifications[index]
+            guard let jsonData = try? JSONEncoder().encode(notification) else { return }
+            guard let dictionary = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any] else { return }
+            
+            batch.setData(dictionary, forDocument: db.collection(GRNotification.Keys.kCollectionName).document(notification.id))
+            if (index + 1) % 100 == 0 {
+                batches.append(batch)
+                batch = db.batch()
+            }
+        }
+        
+        batches.forEach { (batch) in
+            batch.commit { (error) in
+                if batch == batches.last {
+                    completed(error == nil)
+                }
+            }
+        }
+    }
+    
+    private func deckNotificationToNotification (_ deckNotification: DeckNotification) -> GRNotification {
+        UtilityFunctions.addTags(newTags: [deckNotification.tags])
+        return GRNotification(caption: deckNotification.caption, description: deckNotification.description, language: deckNotification.language, tags: [deckNotification.tags], deckId: deckNotification.deckId)
+    }
+    
+    /** DO NOT RUN THIS UNLESS YOU REALLY NEED TO */
+    static func batchTask () {
+        FirebasePersistenceManager.getDocuments(collection: "notifications") { (error, documents) in
+            if let documents = documents {
+                documents.forEach { (document) in
+                    guard let notification = FirebasePersistenceManager.generateObject(fromFirebaseDocument: documents.first!) as GRNotification? else { return }
+                    FirebasePersistenceManager.updateDocument(withId: notification.id, collection: "notifications", updateDoc: [GRNotification.Keys.kRememberedCount: 0], completion: nil)
+                    return
+                }
+            }
+        }
+    }
+    
     /**
      Delete a notification with the given Id
      - parameter id: The unique id for this notification on Firebase.  **This is the documentId of the object on Firebase**
@@ -59,6 +168,10 @@ class NotificationsManager {
                 
                 completion(nil)
         }.disposed(by: self.disposeBag)
+    }
+    
+    func incrementNotificationRememberCount (notificationId id: String) {
+        FirebasePersistenceManager.increment(collection: GRNotification.Keys.kCollectionName, documentID: id, field: GRNotification.Keys.kRememberedCount, incrementBy: 1)
     }
     
     /**
@@ -142,7 +255,7 @@ class NotificationsManager {
         notifications.forEach { [weak self] (notification) in
             guard let self = self else { return }
             
-            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId, language: notification.language, bookTitle: notification.bookTitle))
+            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId, language: notification.language, bookTitle: notification.bookTitle, deckId: notification.deckId))
         }
                         
         Observable.merge(observables).takeLast(1).subscribe { [weak self] (event) in
@@ -186,7 +299,7 @@ class NotificationsManager {
         
     }
     
-    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil, tags:[String]? = nil) -> Observable<GRNotification?> {
+    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil, tags:[String]? = nil, deckId: String? = nil) -> Observable<GRNotification?> {
         
         // 86400 is the amount of seconds in a day
         let expirationDate = Date().timeIntervalSince1970.advanced(by: 86400 * 7)
@@ -198,8 +311,13 @@ class NotificationsManager {
             GRNotification.Keys.kExpiration: expirationDate,
             GRNotification.Keys.kId: UUID().uuidString,
             GRNotification.Keys.kActive: false,
-            GRNotification.Keys.kRemembered: false
+            GRNotification.Keys.kRemembered: false,
+            GRNotification.Keys.kRememberedCount: 0
         ]
+        
+        if let deckId = deckId {
+            notificationData[GRNotification.Keys.kDeckId] = deckId
+        }
         
         if let language = language {
             notificationData[GRNotification.Keys.kLanguage] = language

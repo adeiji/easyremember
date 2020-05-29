@@ -42,26 +42,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     var remoteNotificationOpenedId:String? = nil
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        
         self.handleDocImportedIntoAppWithUrl(url)
         
         return true
     }
     
     @objc internal func syncingFinished(_ notification: Notification) {
-        self.handleSyncingFinished(notification)
+        DispatchQueue.main.async {
+            self.handleSyncingFinished(notification)
+        }
+        
     }
     
     @objc internal func restoringPurchasesFailed(_ notification: Notification) {
-        self.handleRestoringPurchasesFailed(notification)
+        DispatchQueue.main.async {
+            self.handleRestoringPurchasesFailed(notification)
+        }
     }
     
     @objc internal func errorSyncing(_ notification: Notification) {
-        self.handleErrorSyncing(notification)
+        DispatchQueue.main.async {
+            self.handleErrorSyncing(notification)
+        }
+        
     }
         
     @objc internal func finishedConvertingPDF(_ notification: Notification) {
-        self.handleFinishedConvertingPDF(notification)
+        DispatchQueue.main.async {
+            self.handleFinishedConvertingPDF(notification)
+        }
     }
     
     private func addObservers () {
@@ -76,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     }
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+                
 //        self.scheduleAppRefresh()
         // Override point for customization after application launch.
         FirebaseApp.configure()
@@ -89,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         if application.isRegisteredForRemoteNotifications {
             self.setupRemoteNotifications(application: application)
         }
-                
+        
         // If we're on iOS 13 then the loading of the view should be handle by the scene delegate
         if #available(iOS 13.0, *) {
             return true
@@ -114,14 +123,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         guard let notificationId = userInfo["notificationId"] as? String else { return }
-        guard let creationDateString = userInfo["creationDate"] as? String else { return }
-        guard let creationDate = Double(creationDateString) else { return }
+        guard let creationDate = userInfo["creationDate"] as? String else { return }
+        guard let creationDateDouble = Double(creationDate) else { return }
         
         switch response.actionIdentifier {
         case "REMEMBERED":
-            NotificationsManager.shared.rememberNotificationWithId(notificationId)
-            NotificationsManager.shared.setNextNotificationToActive(creationDate: creationDate)
+            NotificationsManager.shared.incrementNotificationRememberCount(notificationId: notificationId)
+            if let mainViewController = (self.window?.rootViewController as? GRTabController)?.getNotificationsViewController() {
+                mainViewController.incrementNotificationRememberedCount(notificationId: notificationId)
+            }
             break
+        case "NOT_REMEMBERED":
+            break
+        case "MASTERED":
+            NotificationsManager.shared.rememberNotificationWithId(notificationId)
+            NotificationsManager.shared.setNextNotificationToActive(creationDate: creationDateDouble)
+            break;
         default:
             if (self.window?.rootViewController != nil) {
                 self.showNotificationWithId(notificationId)
@@ -150,8 +167,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if (application.applicationState == .inactive || application.applicationState == .background) {
+        if (application.applicationState == .active) {
             // App was opened from a push notification
+            
         }
     }
         
@@ -175,4 +193,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 }
+
 

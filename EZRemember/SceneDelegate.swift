@@ -27,19 +27,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, PDFEpubHandlerProtocol,
     }
     
     @objc internal func syncingFinished(_ notification: Notification) {
-        self.handleSyncingFinished(notification)
+        DispatchQueue.main.async {
+            self.handleSyncingFinished(notification)
+        }
+        
     }
     
     @objc internal func restoringPurchasesFailed(_ notification: Notification) {
-        self.handleRestoringPurchasesFailed(notification)
+        DispatchQueue.main.async {
+            self.handleRestoringPurchasesFailed(notification)
+        }
     }
     
     @objc internal func finishedConvertingPDF(_ notification: Notification) {
-        self.handleFinishedConvertingPDF(notification)
+        DispatchQueue.main.async {
+            self.handleFinishedConvertingPDF(notification)
+        }
+        
     }
     
     @objc internal func errorSyncing (_ notification: Notification) {
-        self.handleErrorSyncing(notification)
+        DispatchQueue.main.async {
+            self.handleErrorSyncing(notification)
+        }
     }
                    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

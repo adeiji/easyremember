@@ -57,6 +57,12 @@
 		F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
+		F499819B24801A500059AC13 /* TranslationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F499819A24801A500059AC13 /* TranslationProtocol.swift */; };
+		F499819D2480E6350059AC13 /* DecksProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F499819C2480E6350059AC13 /* DecksProtocol.swift */; };
+		F499819F2480EFAF0059AC13 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = F499819E2480EFAF0059AC13 /* Deck.swift */; };
+		F49981A12480EFE60059AC13 /* DeckNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A02480EFE60059AC13 /* DeckNotification.swift */; };
+		F49981A32480F36B0059AC13 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A22480F36B0059AC13 /* DecksViewController.swift */; };
+		F49981A52480F4AE0059AC13 /* DeckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A42480F4AE0059AC13 /* DeckCell.swift */; };
 		F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */; };
 		F4B0CBEC247B81DD001DE87C /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F4B0CBEB247B81DD001DE87C /* test.pdf */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -228,6 +234,12 @@
 		F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBootstrap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
+		F499819A24801A500059AC13 /* TranslationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationProtocol.swift; sourceTree = "<group>"; };
+		F499819C2480E6350059AC13 /* DecksProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksProtocol.swift; sourceTree = "<group>"; };
+		F499819E2480EFAF0059AC13 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		F49981A02480EFE60059AC13 /* DeckNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckNotification.swift; sourceTree = "<group>"; };
+		F49981A22480F36B0059AC13 /* DecksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
+		F49981A42480F4AE0059AC13 /* DeckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCell.swift; sourceTree = "<group>"; };
 		F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToEpubHandler.swift; sourceTree = "<group>"; };
 		F4B0CBEB247B81DD001DE87C /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -453,6 +465,7 @@
 				F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */,
 				F4503327247675B100307417 /* ExplanationViewController.swift */,
 				F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */,
+				F49981A22480F36B0059AC13 /* DecksViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -520,6 +533,7 @@
 				F4C2025D2466AA4100D59245 /* GRLanguagesCard.swift */,
 				F421B22E24698DE9007DE745 /* EbookCell.swift */,
 				F467E4EF247D94F600E10EEA /* DEMultiSelectCard.swift */,
+				F49981A42480F4AE0059AC13 /* DeckCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -540,6 +554,8 @@
 				F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */,
 				F43DDF8324738EEA00776941 /* AddCancelButtonProtocol.swift */,
 				F45033292476879B00307417 /* AddHelpButtonProtocol.swift */,
+				F499819A24801A500059AC13 /* TranslationProtocol.swift */,
+				F499819C2480E6350059AC13 /* DecksProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -597,6 +613,8 @@
 				F43DDF7F24723FC100776941 /* Purchasing.swift */,
 				F43DDF8724742E2100776941 /* Sync.swift */,
 				F450332B247688F800307417 /* Explanation.swift */,
+				F499819E2480EFAF0059AC13 /* Deck.swift */,
+				F49981A02480EFE60059AC13 /* DeckNotification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -959,18 +977,22 @@
 				F4F537E22462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift in Sources */,
 				F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */,
 				F421B23A246A5E75007DE745 /* GRTitleAndButtonCard.swift in Sources */,
+				F499819B24801A500059AC13 /* TranslationProtocol.swift in Sources */,
 				F4F537CF24613ED60009D3DC /* Style+Colors.swift in Sources */,
 				F4F537F1246404B70009D3DC /* TranslateManager.swift in Sources */,
 				F467E4EE247D82D700E10EEA /* GRTabController+EZRemember.swift in Sources */,
 				F4285278245C327700C381DE /* UIButton+Image.swift in Sources */,
 				F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */,
+				F499819D2480E6350059AC13 /* DecksProtocol.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
 				F43DDF8E247449DD00776941 /* FirebaseStorageManager.swift in Sources */,
 				F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */,
 				F43DDF9324756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift in Sources */,
+				F49981A52480F4AE0059AC13 /* DeckCell.swift in Sources */,
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
+				F49981A32480F36B0059AC13 /* DecksViewController.swift in Sources */,
 				F450332A2476879B00307417 /* AddHelpButtonProtocol.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
 				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
@@ -986,10 +1008,12 @@
 				F4D17E42247C29C7006F0C83 /* SceneDelegate+PDFConverter.swift in Sources */,
 				F4F537F724641A520009D3DC /* DEShowTranslationsViewController.swift in Sources */,
 				F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */,
+				F499819F2480EFAF0059AC13 /* Deck.swift in Sources */,
 				F43DDF862473D51900776941 /* AppDelegate+BackgroundNotifications.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
 				F4E0E6F0246BF5AF00EA0827 /* CardClickedProtocol.swift in Sources */,
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
+				F49981A12480EFE60059AC13 /* DeckNotification.swift in Sources */,
 				F421B23C246A6112007DE745 /* GRPurchasingCard.swift in Sources */,
 				F4F53799246085A60009D3DC /* DEScheduleViewController.swift in Sources */,
 				F43DDF8024723FC100776941 /* Purchasing.swift in Sources */,

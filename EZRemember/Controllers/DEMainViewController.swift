@@ -51,7 +51,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     }
 }
 
-public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol {
+public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol, TranslationProtocol {
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(
@@ -281,9 +281,25 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         self.addNotifications(notifications, atBeginning: true)
     }
     
+    @objc func deckAdded (_ notification: Notification) {
+        guard let notifications = notification.userInfo?[GRNotification.kSavedNotifications] as? [GRNotification] else { return }
+        self.addNotifications(notifications, atBeginning: true)
+        self.mainView?.collectionView?.reloadData()
+    }
+    
+    @objc func deckRemoved (_ notification: Notification) {
+        guard let deckId = notification.userInfo?[GRNotification.Keys.kDeckId] as? String else { return }
+        self.notifications = self.notifications.filter({ $0.deckId != deckId })
+        self.allNotifications = self.allNotifications.filter({ $0.deckId != deckId })
+        
+        self.mainView?.collectionView?.reloadData()
+    }
+    
     private func addObservers () {
         NotificationCenter.default.addObserver(self, selector: #selector(maxNumCardsUpdated(_:)), name: .UserUpdatedMaxNumberOfCards, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(notificationsSavedToServer(_:)), name: .NotificationsSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deckAdded(_:)), name: .DeckSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deckRemoved(_:)), name: .DeckRemoved, object: nil)
     }
     
     private func showEpubOpenedInApp (url: URL) {
@@ -353,7 +369,18 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         let addButton = self.addAddButton()
         self.setupAddButton(addButton: addButton)
         
-        self.addHelpButton(addButton, superview: self.mainView ?? self.view)
+        let helpButton = self.addHelpButton(addButton, superview: self.mainView ?? self.view)
+        
+        let translateButton = self.addButtonNextTo(helpButton, imageName: "language")
+        
+        let deckCard = self.addButtonNextTo(translateButton, imageName: "deck")
+        
+        deckCard.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            self.showDecksViewController()
+        }
+        
+        self.setupTranslateButtonPressedClosure(translateButton)
         
         self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
         
@@ -374,12 +401,24 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             messageCard.draw(message: enableNotificationsMessageContent, title: enableNotificationsMessageTitle, superview: self.view, buttonText: enableNotificationsButton, cancelButtonText: enableNotificationsCancelButton)
             
             messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
-                guard let _ = self else { return }
+                guard let self = self else { return }
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 appDelegate.setupRemoteNotifications(application: UIApplication.shared)
                 messageCard.close()
+                self.showDecksViewController()
+            })
+            
+            messageCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
+                guard let self = self else { return }
+                messageCard.close()
+                self.showDecksViewController()
             })
         }
+    }
+    
+    private func showDecksViewController () {
+        let decksVC = DecksViewController()
+        self.present(decksVC, animated: true, completion: nil)
     }
     
     override public func viewDidLoad() {
@@ -448,10 +487,10 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
                     self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
                 } else {
                     self.notifications = self.allNotifications.filter({
-                        $0.bookTitle?.contains(text) == true ||
-                            $0.caption.contains(text) == true ||
-                            $0.description.contains(text) == true ||
-                            $0.language?.contains(text) == true
+                        $0.bookTitle?.lowercased().contains(text.lowercased()) == true ||
+                            $0.caption.lowercased().contains(text.lowercased()) == true ||
+                            $0.description.lowercased().contains(text.lowercased()) == true ||
+                            $0.language?.lowercased().contains(text.lowercased()) == true
                     })
                     
                     var indexPathsToRemove = [IndexPath]()
@@ -485,7 +524,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         notificationsObservable.subscribe { [weak self] (event) in
             guard let self = self else { return }
                                     
-            if let error = event.error {
+            if event.error != nil {
                 self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             }
             
@@ -529,6 +568,11 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
     func removeNotification (notificationId: String) {
         self.notifications.removeAll(where: { $0.id == notificationId })
         self.allNotifications.removeAll(where: { $0.id == notificationId })
+        self.reloadCollectionView()
+    }
+    
+    func reloadCollectionView () {
+        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
     }
     
     func setupNotificationCellDeleteButton (cell: GRNotificationCard) {
@@ -591,6 +635,51 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         })
     }
     
+    func addButtonNextTo (_ nextToButton: UIButton, imageName: String) -> UIButton {
+        let button = Style.largeButton(with: "", backgroundColor: UIColor.EZRemember.mainBlue)
+        button.setImage(UIImage(named: imageName), for: .normal)
+        self.mainView?.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.right.equalTo(nextToButton.snp.left).offset(-20)
+            make.centerY.equalTo(nextToButton)
+            make.width.equalTo(32)
+            make.height.equalTo(32)
+        }
+        
+        button.layer.cornerRadius = 16.0
+        
+        return button
+    }
+    
+    func setupTranslateButtonPressedClosure (_ translateButton: UIButton ) {
+        translateButton.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            let messageCard = GRMessageCard(addTextField: true, textFieldPlaceholder: "Enter words to translate...", showFromTop: true)
+            messageCard.draw(message: "Enter the text you would like to translate.", title: "Translate", superview: self.mainView ?? self.view, buttonText: "Translate", cancelButtonText: "Cancel")
+            guard let okayButton = messageCard.okayButton else { return }
+            
+            okayButton.addTargetClosure { [weak self] (okayButton) in
+                if messageCard.textField?.text == "" {
+                    return
+                }
+                
+                guard let self = self else { return }
+                guard let textToTranslate = messageCard.textField?.text else { return }
+                self.translateTextButtonPressed(okayButton, translationMessageCard: messageCard, text: textToTranslate)
+            }
+        }
+    }
+    
+    func translateTextButtonPressed (_ button:UIButton, translationMessageCard: GRMessageCard, text: String) {
+        self.translateButtonPressed(button, wordsToTranslate: text) { (translations) in
+            translationMessageCard.close()
+            let translationsVC = DEShowTranslationsViewController(translations: translations, originalWord: text, languages: ScheduleManager.shared.getLanguages(), bookTitle: nil)
+                        
+            self.present(translationsVC, animated: true) {
+                translationsVC.view.backgroundColor = UIColor.EZRemember.veryLightGray.dark(.black)
+            }
+        }
+    }
 
     @objc func addButtonPressed () {
         let createNotifVC = GRNotificationViewController(notification: self.unfinishedNotification)

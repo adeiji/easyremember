@@ -65,10 +65,10 @@ class ExplanationViewController: UIViewController, AddCancelButtonProtocol {
         
         let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true)
         self.mainView = mainView
-        self.addCancelButton(view: mainView, white: true)
+        self.addCancelButton(navBar: mainView.navBar, white: true)
         let margin = BootstrapMargin(left: .Five, top: .Five, right: .Five, bottom: .Five)
         
-        self.mainView?.backgroundColor = UIColor.EZRemember.mainBlue
+        self.mainView?.backgroundColor = UIColor.EZRemember.mainBlue.dark(Dark.coolGrey900)
         
         let card = GRBootstrapElement(color: .clear, anchorWidthToScreenWidth: true, margin: margin, superview: nil)
         

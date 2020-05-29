@@ -25,12 +25,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         
-        let rememberedNotification = UNNotificationAction(identifier: "REMEMBERED", title: "Remembered", options: UNNotificationActionOptions(rawValue: 0))
+        let rememberedNotification = UNNotificationAction(identifier: "REMEMBERED", title: "Yes", options: UNNotificationActionOptions(rawValue: 0))
         
-        let notificationCategory = UNNotificationCategory(identifier: "NOTIFICATIONS", actions: [rememberedNotification], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        let notRememberedNotification = UNNotificationAction(identifier: "NOT_REMEMBERED", title: "No", options: UNNotificationActionOptions(rawValue: 0))
+        
+        let masteredNotification = UNNotificationAction(identifier: "MASTERED", title: "I've Mastered This Card", options: UNNotificationActionOptions(rawValue: 0))
+        
+        let notificationCategory = UNNotificationCategory(identifier: "NOTIFICATIONS", actions: [rememberedNotification, notRememberedNotification, masteredNotification], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
         
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.setNotificationCategories([notificationCategory])
         
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
     }
 }

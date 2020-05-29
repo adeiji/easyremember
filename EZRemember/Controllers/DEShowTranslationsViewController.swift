@@ -11,7 +11,7 @@ import UIKit
 import SwiftyBootstrap
 import RxSwift
 
-class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
+class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, AddCancelButtonProtocol {
     
     var mainView:GRViewWithCollectionView?
     let translations:Translations
@@ -19,14 +19,14 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
     let disposeBag = DisposeBag()
     var notificationsToSave = [GRNotification]()
     
-    let bookTitle:String
+    let bookTitle:String?
     
     weak var saveButton:UIButton?
     
     var languages:[String] = ["en"]
     
     
-    init(translations:Translations, originalWord:String, languages:[String], bookTitle:String) {
+    init(translations:Translations, originalWord:String, languages:[String], bookTitle:String? = nil) {
         self.translations = translations
         self.originalWord = originalWord
         self.languages = languages
@@ -153,7 +153,7 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                         cell.isTranslation = true
                         cell.notification = notification
                         
-                        cell.showDeleteButton = false
+                        cell.deleteButton?.isHidden = true
                         
                         cell.toggleActivateButton?.addTargetClosure(closure: { [weak self] (_) in
                             guard let self = self else { return }

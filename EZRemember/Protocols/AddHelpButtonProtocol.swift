@@ -16,7 +16,7 @@ protocol AddHelpButtonProtocol: UIViewController {
 
 extension AddHelpButtonProtocol {
     
-    internal func addHelpButton(_ buttonToRight: UIButton?, superview: UIView) {
+    @discardableResult internal func addHelpButton(_ buttonToRight: UIButton?, superview: UIView) -> UIButton {
         let helpButton = Style.largeButton(with: "?", backgroundColor: UIColor.EZRemember.mainBlue, fontColor: .white)
         helpButton.titleLabel?.font = CustomFontBook.Medium.of(size: .medium)
         superview.addSubview(helpButton)
@@ -34,6 +34,8 @@ extension AddHelpButtonProtocol {
         
         helpButton.radius(radius: 16)
         self.setupOnTapHelpButton(helpButton)
+        
+        return helpButton
     }
     
     internal func setupOnTapHelpButton(_ helpButton: UIButton) {

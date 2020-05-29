@@ -25,8 +25,24 @@ open class GRMessageCard: GRBootstrapElement {
     
     private var blurView: UIView?
     
+    private var addTextField:Bool
+    
+    private var showFromTop = false
+    
+    private var textFieldPlaceholder = ""
+    
+    open weak var textField:UITextField?
+    
     public override init(color: UIColor? = UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil, superview: UIView? = nil) {
+        self.addTextField = false
         super.init(color: color, anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin, superview: superview)
+    }
+    
+    convenience init(addTextField: Bool, textFieldPlaceholder:String, showFromTop: Bool) {
+        self.init()
+        self.addTextField = addTextField
+        self.showFromTop = showFromTop
+        self.textFieldPlaceholder = textFieldPlaceholder
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -84,7 +100,20 @@ open class GRMessageCard: GRBootstrapElement {
                 .margin.right(30)
                 .margin.top(30),
                    xsColWidth: .Twelve)
-            ]).addRow(columns: [
+            ])
+        
+        if (self.addTextField) {
+            let textField = Style.wideTextField(withPlaceholder: self.textFieldPlaceholder, superview: nil, color: Dark.coolGrey900.dark(.white))
+            self.addRow(columns: [
+                Column(cardSet: textField.toCardSet()
+                    .margin.left(25)
+                    .margin.right(25),
+                       xsColWidth: .Twelve)
+            ])
+            self.textField = textField
+        }
+        
+        self.addRow(columns: [
                 
                 // OKAY BUTTON
                 
@@ -107,8 +136,12 @@ open class GRMessageCard: GRBootstrapElement {
                 .margin.bottom(30),
                    xsColWidth: .Twelve)
             ], anchorToBottom: true)
-        
-        self.slideUp(superview: superview, margin: 20, width: GRDevice.smallerThan(.sm) ? nil : 350)
+                
+        if self.showFromTop {
+            self.slideDown(superview: superview, margin: 20, width: GRDevice.smallerThan(.sm) ? nil : 350)
+        } else {
+            self.slideUp(superview: superview, margin: 20, width: GRDevice.smallerThan(.sm) ? nil : 350)
+        }
         
         okayButton.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
@@ -126,8 +159,14 @@ open class GRMessageCard: GRBootstrapElement {
     
     public func close () {
         if let superview = self.superview {
-            self.slideDownAndRemove(superview: superview)
-            self.blurView?.removeFromSuperview()
+            if self.showFromTop {
+                self.slideUpAndRemove(superview: superview)
+                self.blurView?.removeFromSuperview()
+            } else {
+                self.slideDownAndRemove(superview: superview)
+                self.blurView?.removeFromSuperview()
+            }
+            
         }
     }
     

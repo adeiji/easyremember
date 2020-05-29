@@ -268,6 +268,8 @@
 
 "premiumPackageTitle" = "Serious Learner";
 
+"premiumPackageSpeed" = "Learn up to 50x faster than the Casual Learner package";
+
 "premiumPackageDescription" = "This package is for the serious learners.  Perhaps in college or looking to advance your career, or desirous of learning a language quickly.  If you're trying to learn a new language, than it will probably take you about 2 months to learn 1000 words";
 
 "premiumPackageTranslation" = "Translate text into up 10 language simultaneously";

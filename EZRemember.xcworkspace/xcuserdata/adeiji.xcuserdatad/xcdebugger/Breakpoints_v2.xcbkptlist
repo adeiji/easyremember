@@ -47,16 +47,128 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BFEAD4E5-A810-4743-B1DE-80B4E9ED0B10"
+            uuid = "9060E06A-94FF-4920-8A13-A08D461CA068"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "purchase(product:Completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D61D649F-A207-47B3-8F74-C88982E342D5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseProtocol.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "purchaseProduct(product:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D61D649F-A207-47B3-8F74-C88982E342D5 - a17190d6148d5ea4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in DephynedPurchasing):DephynedPurchasing.PurchaseProtocol.(purchaseProduct in _A4E9EA04D494666C3A19790E4DDE81F4)(product: __C.SKProduct, completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "DephynedPurchasing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseProtocol.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "D61D649F-A207-47B3-8F74-C88982E342D5 - 8f7907ff96348fa1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (DephynedPurchasing.PKIAPHandlerAlertType, Swift.Optional&lt;__C.SKProduct&gt;, Swift.Optional&lt;__C.SKPaymentTransaction&gt;) -&gt; () in (extension in DephynedPurchasing):DephynedPurchasing.PurchaseProtocol.(purchaseProduct in _A4E9EA04D494666C3A19790E4DDE81F4)(product: __C.SKProduct, completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "DephynedPurchasing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseProtocol.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "192">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CB88501B-507B-47B5-AAF3-CBEF634D0DF1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseProtocol.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "purchaseProductWithId(id:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CB88501B-507B-47B5-AAF3-CBEF634D0DF1 - 7ffc2e32f311ba62"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;__C.SKProduct&gt;) -&gt; () in (extension in DephynedPurchasing):DephynedPurchasing.PurchaseProtocol.purchaseProductWithId(id: Swift.String, completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "DephynedPurchasing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseProtocol.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "380">
+               </Location>
+               <Location
+                  uuid = "CB88501B-507B-47B5-AAF3-CBEF634D0DF1 - d679225f47a20a35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #1 (Swift.Array&lt;__C.SKProduct&gt;) -&gt; () in (extension in DephynedPurchasing):DephynedPurchasing.PurchaseProtocol.purchaseProductWithId(id: Swift.String, completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "DephynedPurchasing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adeiji/Documents/Dephyned/libraries/DephynedPurchasing/DephynedPurchasing/Classes/PurchaseProtocol.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "116">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "412E950C-2E2A-4B9B-B078-48BF9AA1C4E1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EZRemember/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
-            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "userNotificationCenter(_:didReceive:withCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
