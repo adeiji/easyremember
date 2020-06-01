@@ -29,6 +29,9 @@ class DeckCell: UITableViewCell {
     var deck:Deck? {
         didSet {
             if let deck = self.deck {
+                if oldValue == nil {
+                    self.addUIElements()
+                }
                 self.draw(deck)
             }
         }
@@ -48,7 +51,6 @@ class DeckCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.addUIElements()
     }
     
     required init?(coder: NSCoder) {
@@ -88,15 +90,11 @@ class DeckCell: UITableViewCell {
         self.descriptionLabel = descriptionLabel
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        guard let deck = self.deck else { return }
-        self.draw(deck)
-    }
-    
     func draw (_ deck: Deck) {
         self.nameLabel?.text = deck.name
         self.cardCountLabel?.text = "\(deck.cardCount) Cards"
         self.descriptionLabel?.text = deck.description
+        self.contentView.setNeedsLayout()
+        self.contentView.layoutIfNeeded()
     }
 }

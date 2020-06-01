@@ -41,9 +41,12 @@ extension AddHelpButtonProtocol {
     internal func setupOnTapHelpButton(_ helpButton: UIButton) {
         helpButton.addTargetClosure { [weak self] (_) in
             guard let self = self else { return }
-            let explanationViewController = ExplanationViewController(explanation: self.explanation)
-            self.present(explanationViewController, animated: true, completion: nil)
+            self.showExplanationViewController()
         }
     }
     
+    internal func showExplanationViewController () {
+        let explanationViewController = ExplanationViewController(explanation: self.explanation)
+        self.present(explanationViewController, animated: true, completion: nil)
+    }
 }

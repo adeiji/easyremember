@@ -465,6 +465,7 @@ DEPENDENCIES:
   - PodAsset
   - RxCocoa
   - RxSwift
+  - SnapKit
   - SwiftyBootstrap (from `/Users/adeiji/Documents/Dephyned/libraries/swifty-bootstrap/SwiftyBootstrap`)
   - "UITextView+Placeholder"
 
@@ -593,6 +594,6 @@ SPEC CHECKSUMS:
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: 89e7d72e90ccb78b6781127e294fec7fec0aa63d
+PODFILE CHECKSUM: af0970747cd806c169c1cad1f1abc3ba82f82dfb
 
 COCOAPODS: 1.7.3

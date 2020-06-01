@@ -26,6 +26,8 @@ class GRNotificationCard: UICollectionViewCell {
     
     private weak var rememberedCountLabel:UILabel?
     
+    private weak var notificationCard:GRBootstrapElement?
+    
     /// User presses this button and the notification is either set to active or inactive
     weak var toggleActivateButton:UIButton? {
         didSet {
@@ -236,9 +238,10 @@ class GRNotificationCard: UICollectionViewCell {
         let bookTitleLabel = Style.label(withText: notification.bookTitle ?? "No Book", superview: nil, color: UIColor.EZRemember.mainBlue.dark(.white))
         bookTitleLabel.numberOfLines = 1
         
-        let card = GRBootstrapElement(color: UIColor.white.dark(Dark.mediumShadeGray), anchorWidthToScreenWidth: true,
+        let card = GRBootstrapElement(color: UIColor.white.dark(Dark.mediumShadeGray),
+                                      anchorWidthToScreenWidth: true,
                                       superview: viewToCalculateWidth ?? self.contentView)
-                        
+                                                
         if (self.showDeleteButton) {
             card.addRow(columns: [
                 self.getActiveButtonColumn(toggleActivateButton),
@@ -276,6 +279,6 @@ class GRNotificationCard: UICollectionViewCell {
         self.rememberedCountLabel = timesRememberedLabel
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
-        
+        self.notificationCard = card
     }
 }

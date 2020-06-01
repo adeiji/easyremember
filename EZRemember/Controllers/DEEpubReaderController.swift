@@ -41,7 +41,15 @@ extension CollectionViewSizeProtocol {
     
 }
 
-public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol  {
+public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol, AddHelpButtonProtocol  {
+    
+    var explanation: Explanation = Explanation(sections: [
+        ExplanationSection(content: "One of the best ways to learn a new skill like programming, or a new language, is through reading.  This application allows you to import epub files.  It also allows you to import PDF files, which this app converts to ePub for you.  Open up a book to see some of the cool features that this app provides to help you to remember what you read.\n\nBelow are the steps for important an epub or a PDF", title: "Your Electronic Books", image: nil),
+        ExplanationSection(content: "After you've downloaded the epub or PDF, click the downloaded button at the top right of Safari. (May be different if you use another mobile browser)", title: "Importing an epub or PDF", image: nil, largeImage: false),
+        ExplanationSection(content: "Then click the share button", title: "Share", image: UIImage(named: "import-step1"), largeImage: false),
+        ExplanationSection(content: "You'll then see a screen like the one below.  Click 'Copy to Easy Remember' and it will be imported into the app", title: "Copy to Easy Remember", image: UIImage(named: "import-step2"), largeImage: true),
+        ExplanationSection(content: "", title: "", image: UIImage(named: "import-step3"), largeImage: true)
+    ])
     
     var bookName: String
     
@@ -126,6 +134,14 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
         if let ebookUrl = self.ebookUrl {
             self.showBookReader(url: ebookUrl)
         }
+        
+        #if DEBUG
+        self.showExplanationViewController()
+        #else
+        if UtilityFunctions.isFirstTime("viewing the epub reader page") {
+            self.showExplanationViewController()
+        }
+        #endif
                 
         let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: NSLocalizedString("yourElectronicBooksHeader", comment: "the header for this page"), addNavBar: false)
         mainView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
@@ -204,7 +220,7 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
                     let deleteCard = DeleteCard()
                     deleteCard.draw(superview: self.view)
                     
-                    deleteCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+                    deleteCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
                         guard let self = self else { return }
                         
                         try? FileManager.default.removeItem(at: url)
@@ -216,7 +232,7 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
                         deleteCard.close()
                     })
                     
-                    deleteCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
+                    deleteCard.secondButton?.addTargetClosure(closure: { [weak self] (_) in
                         guard let _ = self else { return }
                         deleteCard.close()
                         

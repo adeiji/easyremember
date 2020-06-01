@@ -57,7 +57,12 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         ExplanationSection(
             content: NSLocalizedString("repetitionExplanation", comment: "The long explanation of why repetition is important"),
             title: NSLocalizedString("repetitionExplanationTitle", comment: "The title for the explanation of why repetition is so important"),
-            image: ImageHelper.image(imageName: "brain-white", bundle: "EZRemember"))
+            image: nil),
+        ExplanationSection(content:
+            "Notification Cards that you create will look like the one above, and they consist of 8 components.\n\n\t1. The ACTIVATE button -  By default, this button will say 'Activate'.  Press this button when you want to Activate or Deactive a card.  When a notification is active, it will be sent to you in the form of Push Notifications.\n\t2. The REMEMBERED button - Press this button when you feel you've remembered the word or the phrase.  Remembered cards will not be sent as push notifications.  When you click the Remembered button, it will then say 'Forgot'.  Click the 'Forgot' button if you feel like you've forgotten the card information and it will start being sent as push notifications again.\n\t3. The DELETE button - Press this if you want to delete the card.\n\t4. The REMEMBERED COUNT - This is the number of times you've said you've remembered this card. (see push notifications below) Everytime you select yes on the custom push notification, the Remembered count increases by one.\n\t5. This just shows you when you created the card.\n\t6. This is the caption.  It can be anything that you want when creating the card.\n\t7. This is the content of the card.  It can be any data that you want.\n\t8. If you have saved this card from an epub in this app, this is where the title of the book you saved the card from will be.  If you used the translate feature to create this card, then the language that you translated into will be one the right, where it says English."
+            , title: "Notification Breakdown", image: UIImage(named: "notification-active"), largeImage: true),
+        ExplanationSection(content: "This is a basic notification that is sent to you based off of the cards you create.  You can either set the notifications to show Caption and Content, show Caption and hide Content, or Show Content and hide Caption.", title: "Simple Push Notification", image: UIImage(named: "notification-unpressed"), largeImage: false),
+        ExplanationSection(content: "When on your Lock Screen, you press and hold, when on your Home Page you swipe down, and you'll see this view.  You can then say whether you remembered this card or not.  If you select 'Yes', the 'Remembered Count' will increase by 1 (see above).  If you feel like you've got this card down and you don't need anymore notifications, than just click 'I've Mastered This Card' and it will be set as Remembered and will not be sent as a push notification anymore.", title: "Expanded Notifications", image: UIImage(named: "notification-pressed"), largeImage: true)
         ])
     
     var bookName: String
@@ -91,6 +96,8 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             }
             
             userDefaults.synchronize()
+            
+            self.notificationCountLabel?.text = "\(self.notifications.count) Notifications"
         }
     }
     
@@ -98,6 +105,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         didSet {
             self.handleSearch(searchBar: self.collectionHeaderView?.searchBar)
             self.handleTagPressed(tagPressed: self.collectionHeaderView?.tagPressed)
+            self.notificationCountLabel = self.collectionHeaderView?.notificationCountLabel
         }
     }
     
@@ -114,6 +122,8 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             }
         }
     }
+    
+    weak var notificationCountLabel:UILabel?
     
     var maxNumOfCards = 5
     
@@ -215,7 +225,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
     private func showMaxNumberOfCardsHit () {
         
         let card = GRMessageCard(color: .white, anchorWidthToScreenWidth: true)
-        let maxCardMessage = String(format: NSLocalizedString("maxActiveNotificationsContent", comment: "The content for the max active notifications card"), arguments: [self.maxNumOfCards])
+        let maxCardMessage = String(format: NSLocalizedString("maxActiveNotificationsContent", comment: "The content for the max active notifications card"), arguments: ["\(self.maxNumOfCards)"])
         let maxCardTitle = String(format: NSLocalizedString("maxActiveNotificationsTitle", comment: "The title for the max active notifications card"))
         
         card
@@ -347,6 +357,11 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
                 
         if self.mainView != nil { return }
         
+        #if DEBUG
+        self.showExplanationViewController()
+        #endif
+        
+        
         let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
         mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
         mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
@@ -400,7 +415,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             
             messageCard.draw(message: enableNotificationsMessageContent, title: enableNotificationsMessageTitle, superview: self.view, buttonText: enableNotificationsButton, cancelButtonText: enableNotificationsCancelButton)
             
-            messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+            messageCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let self = self else { return }
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 appDelegate.setupRemoteNotifications(application: UIApplication.shared)
@@ -408,7 +423,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
                 self.showDecksViewController()
             })
             
-            messageCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
+            messageCard.secondButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let self = self else { return }
                 messageCard.close()
                 self.showDecksViewController()
@@ -523,7 +538,13 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
     func subscribeToNotificationsObservable (notificationsObservable: Observable<[GRNotification]>, loading: NVActivityIndicatorView?) {
         notificationsObservable.subscribe { [weak self] (event) in
             guard let self = self else { return }
-                                    
+                            
+            if let error = event.error {
+                print(error.localizedDescription)
+                AnalyticsManager.logError(message: error.localizedDescription)
+                GRMessageCard().draw(message: "There seems to be a problem with your internet connection.  Please check your internet connection.", title: "Error", superview: self.view, isError: true)
+            }
+            
             if event.error != nil {
                 self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             }
@@ -583,12 +604,12 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             
             let deleteCard = DeleteCard(color: UIColor.white.dark(Dark.coolGrey700), anchorWidthToScreenWidth: true)
             deleteCard.draw(superview: self.view)
-            deleteCard.cancelButton?.addTargetClosure(closure: { [weak self] (_) in
+            deleteCard.secondButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let _ = self else { return }
                 deleteCard.close()
             })
             
-            deleteCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+            deleteCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
                 guard let self = self else { return }
                 guard let notificationId = cell.notification?.id else
                 {
@@ -596,13 +617,13 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
                     return
                 }
                                                 
-                let loading = deleteCard.okayButton?.showLoadingNVActivityIndicatorView()
+                let loading = deleteCard.firstButton?.showLoadingNVActivityIndicatorView()
                 
                 NotificationsManager.deleteNotificationWithId(notificationId)
                     .subscribe { [weak self] (event) in
                         guard let self = self else { return }
                         
-                        deleteCard.okayButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                        deleteCard.firstButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                         
                         // If deleted successfully
                         if event.element == true {
@@ -656,7 +677,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             guard let self = self else { return }
             let messageCard = GRMessageCard(addTextField: true, textFieldPlaceholder: "Enter words to translate...", showFromTop: true)
             messageCard.draw(message: "Enter the text you would like to translate.", title: "Translate", superview: self.mainView ?? self.view, buttonText: "Translate", cancelButtonText: "Cancel")
-            guard let okayButton = messageCard.okayButton else { return }
+            guard let okayButton = messageCard.firstButton else { return }
             
             okayButton.addTargetClosure { [weak self] (okayButton) in
                 if messageCard.textField?.text == "" {

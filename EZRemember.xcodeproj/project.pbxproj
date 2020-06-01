@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		09D9691BE3F36392C06CEAC4 /* Pods_EZRememberTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */; };
 		8F6CD3D4D524E46B03D55FA6 /* Pods_EZRememberUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */; };
+		933DBE4023E2EC2A516B7BF9 /* Pods_EZRememberNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF11B92DB5EDD7894827E946 /* Pods_EZRememberNotifications.framework */; };
 		E99408D1CC458EEB12D3B68F /* Pods_EZRemember.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8260E8C35CD0FD2F13D057A0 /* Pods_EZRemember.framework */; };
 		F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22A24694AA8007DE745 /* DESyncViewController.swift */; };
 		F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22C24696913007DE745 /* Array+ToDictionary.swift */; };
@@ -55,6 +56,7 @@
 		F467E50F247DAAD400E10EEA /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E50E247DAAD400E10EEA /* NotificationViewController.swift */; };
 		F467E512247DAAD400E10EEA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F467E510247DAAD400E10EEA /* MainInterface.storyboard */; };
 		F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F487227E248399CF001A0EF3 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487227D248399CF001A0EF3 /* Sentence.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F499819B24801A500059AC13 /* TranslationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F499819A24801A500059AC13 /* TranslationProtocol.swift */; };
@@ -63,6 +65,8 @@
 		F49981A12480EFE60059AC13 /* DeckNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A02480EFE60059AC13 /* DeckNotification.swift */; };
 		F49981A32480F36B0059AC13 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A22480F36B0059AC13 /* DecksViewController.swift */; };
 		F49981A52480F4AE0059AC13 /* DeckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A42480F4AE0059AC13 /* DeckCell.swift */; };
+		F49981A724824A030059AC13 /* OnlinePurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A624824A030059AC13 /* OnlinePurchase.swift */; };
+		F49981A9248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A8248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift */; };
 		F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */; };
 		F4B0CBEC247B81DD001DE87C /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F4B0CBEB247B81DD001DE87C /* test.pdf */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
@@ -167,6 +171,7 @@
 
 /* Begin PBXFileReference section */
 		0A03359E346236DB448F3407 /* Pods_EZRememberTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRememberTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		10632309467A6F7F54E38924 /* Pods-EZRememberNotifications.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberNotifications.release.xcconfig"; path = "Target Support Files/Pods-EZRememberNotifications/Pods-EZRememberNotifications.release.xcconfig"; sourceTree = "<group>"; };
 		245370A744907098C2B09E8C /* Pods_EZRememberUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRememberUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		259168778B4E7DBF1FEDE6CA /* Pods-EZRemember.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRemember.debug.xcconfig"; path = "Target Support Files/Pods-EZRemember/Pods-EZRemember.debug.xcconfig"; sourceTree = "<group>"; };
 		2909E7184064B09D39D470FD /* Pods-EZRemember.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRemember.release.xcconfig"; path = "Target Support Files/Pods-EZRemember/Pods-EZRemember.release.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +179,7 @@
 		6C086F3604E1D1BE3AC8C224 /* Pods-EZRememberUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberUITests.release.xcconfig"; path = "Target Support Files/Pods-EZRememberUITests/Pods-EZRememberUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6F0E3443B0A114725AC933FC /* Pods-EZRememberTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberTests.release.xcconfig"; path = "Target Support Files/Pods-EZRememberTests/Pods-EZRememberTests.release.xcconfig"; sourceTree = "<group>"; };
 		8260E8C35CD0FD2F13D057A0 /* Pods_EZRemember.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRemember.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF11B92DB5EDD7894827E946 /* Pods_EZRememberNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZRememberNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6EA27F11652034F71BF6BCF /* Pods-EZRememberTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberTests.debug.xcconfig"; path = "Target Support Files/Pods-EZRememberTests/Pods-EZRememberTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F421B22A24694AA8007DE745 /* DESyncViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DESyncViewController.swift; sourceTree = "<group>"; };
 		F421B22C24696913007DE745 /* Array+ToDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ToDictionary.swift"; sourceTree = "<group>"; };
@@ -232,6 +238,7 @@
 		F467E511247DAAD400E10EEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		F467E513247DAAD500E10EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBootstrap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F487227D248399CF001A0EF3 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F499819A24801A500059AC13 /* TranslationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationProtocol.swift; sourceTree = "<group>"; };
@@ -240,6 +247,8 @@
 		F49981A02480EFE60059AC13 /* DeckNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckNotification.swift; sourceTree = "<group>"; };
 		F49981A22480F36B0059AC13 /* DecksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
 		F49981A42480F4AE0059AC13 /* DeckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCell.swift; sourceTree = "<group>"; };
+		F49981A624824A030059AC13 /* OnlinePurchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePurchase.swift; sourceTree = "<group>"; };
+		F49981A8248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DEScheduleViewController+RestorePurchases.swift"; sourceTree = "<group>"; };
 		F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToEpubHandler.swift; sourceTree = "<group>"; };
 		F4B0CBEB247B81DD001DE87C /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
@@ -301,6 +310,7 @@
 		F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebasePersistanceManager+Watching.swift"; sourceTree = "<group>"; };
 		F4F537F624641A520009D3DC /* DEShowTranslationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEShowTranslationsViewController.swift; sourceTree = "<group>"; };
 		F4F537F8246420C50009D3DC /* String+Pinyin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pinyin.swift"; sourceTree = "<group>"; };
+		FDA724829790A63391F084CE /* Pods-EZRememberNotifications.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZRememberNotifications.debug.xcconfig"; path = "Target Support Files/Pods-EZRememberNotifications/Pods-EZRememberNotifications.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +345,7 @@
 			files = (
 				F467E50C247DAAD400E10EEA /* UserNotificationsUI.framework in Frameworks */,
 				F467E50A247DAAD400E10EEA /* UserNotifications.framework in Frameworks */,
+				933DBE4023E2EC2A516B7BF9 /* Pods_EZRememberNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +361,8 @@
 				6F0E3443B0A114725AC933FC /* Pods-EZRememberTests.release.xcconfig */,
 				306DDE41D00DB151BFAF21F0 /* Pods-EZRememberUITests.debug.xcconfig */,
 				6C086F3604E1D1BE3AC8C224 /* Pods-EZRememberUITests.release.xcconfig */,
+				FDA724829790A63391F084CE /* Pods-EZRememberNotifications.debug.xcconfig */,
+				10632309467A6F7F54E38924 /* Pods-EZRememberNotifications.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -363,6 +376,7 @@
 				F467E509247DAAD400E10EEA /* UserNotifications.framework */,
 				F467E50B247DAAD400E10EEA /* UserNotificationsUI.framework */,
 				8260E8C35CD0FD2F13D057A0 /* Pods_EZRemember.framework */,
+				BF11B92DB5EDD7894827E946 /* Pods_EZRememberNotifications.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -466,6 +480,7 @@
 				F4503327247675B100307417 /* ExplanationViewController.swift */,
 				F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */,
 				F49981A22480F36B0059AC13 /* DecksViewController.swift */,
+				F49981A8248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -615,6 +630,8 @@
 				F450332B247688F800307417 /* Explanation.swift */,
 				F499819E2480EFAF0059AC13 /* Deck.swift */,
 				F49981A02480EFE60059AC13 /* DeckNotification.swift */,
+				F49981A624824A030059AC13 /* OnlinePurchase.swift */,
+				F487227D248399CF001A0EF3 /* Sentence.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -706,6 +723,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F467E517247DAAD500E10EEA /* Build configuration list for PBXNativeTarget "EZRememberNotifications" */;
 			buildPhases = (
+				7330DB0C27610F68B68C3D4E /* [CP] Check Pods Manifest.lock */,
 				F467E504247DAAD400E10EEA /* Sources */,
 				F467E505247DAAD400E10EEA /* Frameworks */,
 				F467E506247DAAD400E10EEA /* Resources */,
@@ -868,6 +886,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7330DB0C27610F68B68C3D4E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EZRememberNotifications-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B2071D4CB649AD66EE3B58A4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -946,6 +986,7 @@
 				F4F537D12461413F0009D3DC /* GRBootstrapElement+ResignResponder.swift in Sources */,
 				F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */,
 				F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */,
+				F49981A9248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift in Sources */,
 				F4285240245BFA5E00C381DE /* ViewController.swift in Sources */,
 				F4F537E42463AFDF0009D3DC /* DEEpubReaderController.swift in Sources */,
 				F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */,
@@ -965,6 +1006,7 @@
 				F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */,
 				F421B23224698E38007DE745 /* EBookHandler.swift in Sources */,
 				F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */,
+				F487227E248399CF001A0EF3 /* Sentence.swift in Sources */,
 				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
 				F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */,
 				F450332C247688F800307417 /* Explanation.swift in Sources */,
@@ -985,6 +1027,7 @@
 				F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */,
 				F499819D2480E6350059AC13 /* DecksProtocol.swift in Sources */,
 				F4F537DE246276B50009D3DC /* Notification.swift in Sources */,
+				F49981A724824A030059AC13 /* OnlinePurchase.swift in Sources */,
 				F4F537D3246162DA0009D3DC /* GRBootstrapElement+Delete.swift in Sources */,
 				F43DDF8E247449DD00776941 /* FirebaseStorageManager.swift in Sources */,
 				F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */,
@@ -1226,6 +1269,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRemember/Info.plist;
@@ -1234,9 +1278,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.002;
+				MARKETING_VERSION = 1.003;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1249,6 +1294,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRemember/Info.plist;
@@ -1257,9 +1303,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.002;
+				MARKETING_VERSION = 1.003;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1355,7 +1402,9 @@
 		};
 		F467E518247DAAD500E10EEA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDA724829790A63391F084CE /* Pods-EZRememberNotifications.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
@@ -1367,6 +1416,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1375,7 +1425,9 @@
 		};
 		F467E519247DAAD500E10EEA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 10632309467A6F7F54E38924 /* Pods-EZRememberNotifications.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
@@ -1387,6 +1439,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

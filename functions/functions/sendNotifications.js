@@ -25,7 +25,7 @@ async function sendNotifications (admin, time, debug) {
         }
     } else {
         console.log("Retrieving schedules for frequency 60...")
-        retrievedSnapshot.push(await scheduleSnapshot.get())
+        retrievedSnapshots.push(await scheduleSnapshot.get())
     }
 
     retrievedSnapshots.forEach (retrievedSnapshot => {
@@ -70,14 +70,65 @@ async function sendNotifications (admin, time, debug) {
                         return
                     }                
     
-                    sendNotification(notificationSnapshot, schedule.get("style"), token, tokenDoc.id, admin)                    
+                    sendNotification(notificationSnapshot, schedule.get("style"), token, tokenDoc.id, admin)                                        
                     index = index + 1
-                })            
+                })       
+                
+                sendSentenceNotification(notificationsSnapshot, token, schedule.get("sentence"), admin)
             })
         });
     })
 }
 
+function sendSentenceNotification (notificationsSnapshot, fcmToken, previousSentence, admin) {
+    var counter = 0
+    var words = []
+    var usedIndexes = []
+
+    while (counter < notificationsSnapshot.docs.length && counter < 5) {
+        var index = Math.floor(Math.random() * notificationsSnapshot.docs.length)
+        
+        while (usedIndexes.indexOf(index) !== -1) {
+            index = Math.floor(Math.random() * notificationsSnapshot.docs.length)
+        }
+
+        words.push(getRandomWordFromSentence(notificationsSnapshot.docs[index].get('caption')))
+        usedIndexes.push(index)
+
+        counter = counter + 1;        
+    }
+    
+    var hiddenData = ""
+
+    if (previousSentence) {
+        hiddenData = `Your previous sentence was:\n'${previousSentence}'\nYou can try keeping the same theme, or start something from scratch.`
+    }
+
+    var message = {
+        "token": fcmToken,
+        "notification": {
+            "title": "Writing Practice - press and hold or swipe down to write your sentence",
+            "body": `Try to write at least one sentence using one or all of these words:\n${words.join(", ")}`,            
+        }, "data": {            
+            "hiddenData": hiddenData,
+        }, "apns": {
+            "payload": {
+                "aps": {
+                    "category": "SENTENCE"
+                }                
+            }
+        }
+    }
+
+    admin.messaging().send(message).then().catch(error => {        
+        console.log(error)
+    })
+}
+
+function getRandomWordFromSentence (sentence) {
+    const sentenceWords = sentence.split(" ")
+    return randomWord = sentenceWords[Math.floor(Math.random() * sentenceWords.length)]
+}
 
 function sendNotification (notificationSnapshot, style, fcmToken, fcmTokenDocId, admin) {
 

@@ -30,11 +30,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         let notRememberedNotification = UNNotificationAction(identifier: "NOT_REMEMBERED", title: "No", options: UNNotificationActionOptions(rawValue: 0))
         
         let masteredNotification = UNNotificationAction(identifier: "MASTERED", title: "I've Mastered This Card", options: UNNotificationActionOptions(rawValue: 0))
-        
+                        
         let notificationCategory = UNNotificationCategory(identifier: "NOTIFICATIONS", actions: [rememberedNotification, notRememberedNotification, masteredNotification], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
         
+        // SENTENCE CATEGORY
+        
+        let finishedSentence = UNTextInputNotificationAction(
+        identifier: "WRITTEN.SENTENCE",
+        title: "Write your sentence",
+        options: [UNNotificationActionOptions.foreground],
+        textInputButtonTitle: "Check if correct",
+        textInputPlaceholder: "")
+                        
+        let sentenceCategory = UNNotificationCategory(identifier: "SENTENCE", actions: [finishedSentence], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        
         let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.setNotificationCategories([notificationCategory])
+        notificationCenter.setNotificationCategories([notificationCategory, sentenceCategory])
         
     }
     

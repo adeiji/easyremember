@@ -43,7 +43,7 @@ extension TabControllerProtocol {
         // Have to add the view controller and it's view to the tab bar controller in order to work properly
         tabController.addChildViewControllerWithView(mainNavigationViewController, toView: tabController.mainView)
         
-        ScheduleManager.shared.getSchedule().subscribe {(event) in
+        ScheduleManager.shared.getScheduleFromServer().subscribe {(event) in
             if let unwrappedSchedule = event.element, let schedule = unwrappedSchedule {
                 NotificationCenter.default.post(name: .LanguagesUpdated, object: nil, userInfo: [Schedule.Keys.kLanguages: schedule.languages])
             }

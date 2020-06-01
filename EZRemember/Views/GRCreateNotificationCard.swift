@@ -246,10 +246,11 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
                        xsColWidth: .Twelve),
                 
             ]).addRow(columns: [
+                // TAG TEXT FIELD
                 Column(cardSet: tagTextField
                     .toCardSet()
                     .margin.left(30)
-                    .margin.right(30), xsColWidth: .Six).forSize(.md, .Three)
+                    .margin.right(30), xsColWidth: .Eight)
             ])
             .addRow(columns: [
                 Column(cardSet: addButton
@@ -474,7 +475,7 @@ public class GRNotificationViewController: UIViewController {
                 if (self.isEditingCard == false) {
                     cancelCard.draw(message: NSLocalizedString("loseDataWarning", comment: "Unsaved data warning"), title: NSLocalizedString("areYouSure", comment: "Generic - Are you sure? - throughout the app"), superview: mainView, cancelButtonText: NSLocalizedString("finishWritingCard", comment: "Finish Writing Card"))
                     
-                    cancelCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+                    cancelCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
                         guard let self = self else { return }
                         self.shouldSaveUnfinishedNotification = false
                         self.dismiss(animated: true, completion: nil)

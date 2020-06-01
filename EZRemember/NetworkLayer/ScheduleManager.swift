@@ -21,6 +21,7 @@ struct Schedule: Codable {
         static let kLanguages = "languages"
         static let kFrequency = "frequency"
         static let kStyle = "style"
+        static let kSentence = "sentence"
     }
     
     struct NotificationsType {
@@ -28,12 +29,20 @@ struct Schedule: Codable {
         static let kFlashcardCaptionVisible = "Flashcard - Hide Caption"
         static let kShowEverything = "Show Everything"
     }
+    
+    struct PurchaseTypes {
+        static let kBasic = "Basic"
+        static let kStandard = "Standard"
+        static let kPremium = "Premium"
+    }
             
     let deviceId:String
     var timeSlots:[Int]
     let maxNumOfCards:Int
     let languages:[String]
     var frequency:Int = 60
+    
+    var purchasedPackage:String?
     
     /// The type of notification to be shown, is it Flashcard Style with only the caption showing and then needing to click to show the content
     /// or Flashcard Style with content showing
@@ -72,6 +81,13 @@ struct Schedule: Codable {
         return newHour
     }
     
+    func encode () -> [String:Any]? {
+        guard let jsonData = try? JSONEncoder().encode(self) else { return nil }
+        guard let dictionary = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any] else { return nil }
+        
+        return dictionary
+    }
+    
 }
 
 /**
@@ -90,6 +106,8 @@ class ScheduleManager {
     
     private let disposeBag = DisposeBag()
     
+    private var schedule:Schedule?
+    
     private init () {
         NotificationCenter.default.addObserver(self, selector: #selector(updateLanguages(_:)), name: .LanguagesUpdated, object: nil)
     }
@@ -100,7 +118,27 @@ class ScheduleManager {
     }
     
     public func getLanguages () -> [String] {
-        return languages
+        return self.languages
+    }
+    
+    public func getSchedule () -> Schedule? {
+        return self.schedule
+    }
+    
+    public func getPurchaseWithId (_ purchaseId: String, completion: @escaping (OnlinePurchase?, Error?) -> Void) {
+        FirebasePersistenceManager.getDocumentById(forCollection: OnlinePurchase.kCollectionName, id: purchaseId).subscribe({ [weak self] (event) in
+            guard let _ = self else { return }
+            
+            if let error = event.error {
+                completion(nil, error)
+            } else if let document = event.element {
+                let onlinePurchase = FirebasePersistenceManager.generateObject(fromFirebaseDocument: document) as OnlinePurchase?
+                completion(onlinePurchase, nil)
+            } else if event.isCompleted == false {
+                completion(nil, nil)
+            }
+                        
+        }).disposed(by: self.disposeBag)
     }
     
     /**
@@ -109,25 +147,20 @@ class ScheduleManager {
      
      - parameter timeSlots: The times that this user wants to recieve notifications.
      */
-    static func saveSchedule (_ mySchedule: Schedule) -> Observable<Bool> {
+    func saveSchedule (_ mySchedule: Schedule) -> Observable<Bool> {
         
         let deviceId = UtilityFunctions.deviceId()
         var schedule = mySchedule
         schedule.convertTimeSlotsUTC(to: true)
         
-        return Observable.create { (observer) -> Disposable in
-            
-            var documentToSave = [
-            Schedule.Keys.kDeviceId: schedule.deviceId,
-            Schedule.Keys.kTimeSlots: schedule.timeSlots,
-            Schedule.Keys.kMaxNumOfCards: schedule.maxNumOfCards,
-            Schedule.Keys.kLanguages: schedule.languages,
-            Schedule.Keys.kFrequency: schedule.frequency] as [String : Any]
-            
-            if let style = schedule.style {
-                documentToSave[Schedule.Keys.kStyle] = style
-            }
-            
+        guard let documentToSave = schedule.encode() else {
+            assertionFailure("Baaka, why is it that the Schedule object is not encodable")
+            return .empty()
+        }
+        
+        self.schedule = schedule
+        
+        return Observable.create { (observer) -> Disposable in                                    
             FirebasePersistenceManager.addDocument(withCollection: Schedule.Keys.kCollectionName, data: documentToSave, withId: deviceId) { (error, documents) in
                 if let error = error {
                     observer.onError(error)
@@ -140,6 +173,18 @@ class ScheduleManager {
             
             return Disposables.create()
         }
+    }
+    
+    func saveSentence (_ sentence: String) {
+        
+        let deviceId = UtilityFunctions.deviceId()
+        FirebasePersistenceManager.updateDocument(withId: deviceId, collection: Schedule.Keys.kCollectionName, updateDoc: [Schedule.Keys.kSentence: sentence], completion: nil)
+        let sentenceId = UUID().uuidString
+        let sentence = Sentence(sentence: sentence, creationDate: Date().timeIntervalSince1970, deviceId: deviceId, id: sentenceId)
+        
+        // Save the sentence for future usage
+        guard let sentenceDict = sentence.encode() else { return }
+        FirebasePersistenceManager.addDocument(withCollection: Sentence.kCollectionName, data: sentenceDict, withId: sentenceId, completion: nil)
     }
     
     /**
@@ -160,7 +205,7 @@ class ScheduleManager {
      Get the times that the user has selected to have notifications sent to them
      - returns: An observable containing the times
      */
-    func getSchedule () -> Observable<Schedule?> {
+    func getScheduleFromServer () -> Observable<Schedule?> {
         let deviceId = UtilityFunctions.deviceId()
                         
         let getSchedule = FirebasePersistenceManager.getDocumentById(forCollection: Schedule.Keys.kCollectionName, id: deviceId)

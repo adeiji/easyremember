@@ -73,7 +73,7 @@ class GRGetNotificationsAndSchedule: Operation {
         
         // We have to cast these objects to any object so that we can merge observables of the same type
         let notifications = NotificationsManager.getNotifications(deviceId: UtilityFunctions.deviceId()).map { $0 as AnyObject }
-        let schedule = ScheduleManager.shared.getSchedule().map { $0 as AnyObject }
+        let schedule = ScheduleManager.shared.getScheduleFromServer().map { $0 as AnyObject }
         
         Observable.zip([notifications, schedule])
             .subscribe { [weak self] (event) in

@@ -36,7 +36,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     private weak var maxNumberOfCardsCard:DENumberCard?
     private weak var languagesCard:DELanguagesCard?
     
-    private let purchase = "basic"
+    var purchaseType:String?
     
     private var selectedLanguages:[String] = ["en"]
     
@@ -74,6 +74,15 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        #if DEBUG
+        self.showExplanationViewController()
+        #else
+        if UtilityFunctions.isFirstTime("viewing the schedule page") {
+            self.showExplanationViewController()
+        }
+        #endif
+        
         let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true, navBarHeaderText: "EZ Remember")
         self.mainView = mainView
         self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
@@ -95,7 +104,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         
         let loading = self.mainView?.showLoadingNVActivityIndicatorView()
         
-        ScheduleManager.shared.getSchedule().subscribe { [weak self] (event) in
+        ScheduleManager.shared.getScheduleFromServer().subscribe { [weak self] (event) in
             guard let self = self else { return }
                         
             // Show finished loading
@@ -158,23 +167,8 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         let restorePurchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
         restorePurchaseCard.draw(title: restorePurchasesLocalized, buttonTitle: restorePurchasesButtonLocalized)
         restorePurchaseCard.addToSuperview(superview: mainView.containerView, viewAbove: purchaseCard, anchorToBottom: false)
-        restorePurchaseCard.actionButton?.addTargetClosure(closure: { [weak self] (actionButton) in
-            guard let self = self else { return }
-            let loading = actionButton.showLoadingNVActivityIndicatorView()
-            PKIAPHandler.shared.restorePurchase { (alertType, product, transaction) in
-                actionButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                
-                if alertType == .error {
-                    return
-                }
-                
-                let successCard = GRMessageCard()
-                let purchasesRetrievedMessage = NSLocalizedString("purchasesRetrievedMessage", comment: "when the previous purchases are finished being retrieved than this is the message displayed on the card that you see")
-                let purchasesRestored = NSLocalizedString("purchasesRestoredTitle", comment: "When the purchases are restored and the message card shows, this is the title of that card")
-                
-                successCard.draw(message: purchasesRetrievedMessage, title: purchasesRestored, superview: self.view)
-            }
-        })
+        
+        self.setupPurchaseCardPurchaseButton(restorePurchaseCard)
                 
         // SYNC CARD
                 
@@ -292,7 +286,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         let maxNumberMessageTitle = NSLocalizedString("maxNumberLowTitle", comment: "The card to display to the user that the max number is less than the previous title")
         messageCard.draw(message: maxNumberMessage, title: maxNumberMessageTitle, buttonBackgroundColor: UIColor.EZRemember.mainBlue, superview: self.view, cancelButtonText: "Cancel")
         
-        messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+        messageCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
             self.maxNumOfCards = maxNumOfCards
             messageCard.close()
@@ -300,7 +294,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
             
         })
         
-        messageCard.cancelButton?.addTargetClosure(closure: { (_) in
+        messageCard.secondButton?.addTargetClosure(closure: { (_) in
             messageCard.close()
         })
     }
@@ -308,9 +302,9 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     func saveSchedule() {
         let loading = self.mainView?.navBar?.rightButton?.showLoadingNVActivityIndicatorView()
         
-        let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency, style: self.notificationStyle)
+        let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency, purchasedPackage: self.purchaseType, style: self.notificationStyle)
                                 
-        ScheduleManager.saveSchedule(schedule).subscribe { (event) in
+        ScheduleManager.shared.saveSchedule(schedule).subscribe { (event) in
             // Show that saving has finished
             self.mainView?.navBar?.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             

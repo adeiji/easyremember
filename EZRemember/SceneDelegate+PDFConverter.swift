@@ -109,7 +109,7 @@ extension PDFEpubHandlerProtocol {
            
            card.draw(message: "Your PDF \(bookName) has finished converting to Epub.\n\nWould you like to open it now?", title: "Finished Converting PDF to Epub", superview: window, buttonText:"Read Now", cancelButtonText: "No")
            
-           card.okayButton?.addTargetClosure(closure: { (_) in
+           card.firstButton?.addTargetClosure(closure: { (_) in
                card.close()
                guard let bookUrl = URL(string: EBookHandler().getURLForBookNamed(bookName)) else { return }
                self.showBookWithUrl(bookUrl)

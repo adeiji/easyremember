@@ -17,10 +17,12 @@ class NotificationsHeaderCell : UICollectionReusableView {
     
     weak var searchBar:UITextField?
     
+    weak var notificationCountLabel:UILabel?
+    
     let tagPressed = PublishSubject<String>()
             
     fileprivate func getFilterColumn(text: String) -> GRBootstrapElement.Column {
-        return Column(cardSet: self.getTagButton(tag: text).toCardSet().withHeight(40), xsColWidth: .Six).forSize(.sm, .Two)
+        return Column(cardSet: self.getTagButton(tag: text).toCardSet().withHeight(40), xsColWidth: .Six).forSize(.sm, .Three)
     }
     
     func allowNotificationsCard () -> GRBootstrapElement {
@@ -72,6 +74,8 @@ class NotificationsHeaderCell : UICollectionReusableView {
         let header = Style.largeCardHeader(text: notificationsLocalized, margin: BootstrapMargin.noMargins(), superview: nil, viewAbove: nil)
         let searchBar = Style.wideTextField(withPlaceholder: searchLocalized, superview: nil, color: UIColor.black.dark(.white))
         
+        let notificationCountLabel = Style.label(withText: "", superview: nil, color: UIColor.darkGray.dark(.white)).font(CustomFontBook.Medium.of(size: .medium))
+        
         if UIApplication.shared.isRegisteredForRemoteNotifications == false {
             header.addRow(columns: [
                 Column(cardSet: allowNotificationsCard().toCardSet(), xsColWidth: .Twelve)
@@ -110,6 +114,11 @@ class NotificationsHeaderCell : UICollectionReusableView {
             columns.append(column)
         })
         
+        header.addRow(columns: [
+            Column(cardSet: notificationCountLabel.toCardSet(), xsColWidth: .Twelve),
+            Column(cardSet: UIView().backgroundColor(UIColor.lightGray.dark(.white)).toCardSet().withHeight(1), xsColWidth: .Twelve)
+        ])
+        
         header.addRow(columns: columns, anchorToBottom: true)
         
         if self.subviews.count == 0 {
@@ -118,6 +127,7 @@ class NotificationsHeaderCell : UICollectionReusableView {
                         
         header.isUserInteractionEnabled = true
         self.searchBar = searchBar
+        self.notificationCountLabel = notificationCountLabel
     }
     
     private func getTagButton (tag: String) -> UIButton {

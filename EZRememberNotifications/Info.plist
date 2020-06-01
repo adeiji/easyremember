@@ -27,7 +27,10 @@
 			<key>UNNotificationExtensionDefaultContentHidden</key>
 			<true/>
 			<key>UNNotificationExtensionCategory</key>
-			<string>NOTIFICATIONS</string>
+			<array>
+				<string>NOTIFICATIONS</string>
+				<string>SENTENCE</string>
+			</array>
 			<key>UNNotificationExtensionInitialContentSizeRatio</key>
 			<real>1</real>
 		</dict>

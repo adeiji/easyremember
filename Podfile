@@ -23,6 +23,11 @@ target 'EZRemember' do
 
   # Pods for EZRemember
 
+  target 'EZRememberNotifications' do
+    inherit! :search_paths
+    pod 'SnapKit'
+  end
+
   target 'EZRememberTests' do
     inherit! :search_paths
     # Pods for testing

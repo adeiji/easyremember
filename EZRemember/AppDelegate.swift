@@ -86,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
                 
-//        self.scheduleAppRefresh()
         // Override point for customization after application launch.
         FirebaseApp.configure()
 
@@ -120,12 +119,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         self.window?.makeKeyAndVisible()
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func handleRememberedNotification (response: UNNotificationResponse) {
         let userInfo = response.notification.request.content.userInfo
         guard let notificationId = userInfo["notificationId"] as? String else { return }
         guard let creationDate = userInfo["creationDate"] as? String else { return }
         guard let creationDateDouble = Double(creationDate) else { return }
-        
+                
         switch response.actionIdentifier {
         case "REMEMBERED":
             NotificationsManager.shared.incrementNotificationRememberCount(notificationId: notificationId)
@@ -134,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
             }
             break
         case "NOT_REMEMBERED":
-            break
+            break;
         case "MASTERED":
             NotificationsManager.shared.rememberNotificationWithId(notificationId)
             NotificationsManager.shared.setNextNotificationToActive(creationDate: creationDateDouble)
@@ -146,7 +145,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
             
             break;
         }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
+        switch response.notification.request.content.categoryIdentifier {
+        case "NOTIFICATIONS":
+            self.handleRememberedNotification(response: response)
+            break;
+        case "SENTENCE":
+            if let textResponse =  response as? UNTextInputNotificationResponse {
+                let sentence =  textResponse.userText
+                ScheduleManager.shared.saveSentence(sentence)
+                let mainViewController = (self.window?.rootViewController as? GRTabController)?.getNotificationsViewController()
+                mainViewController?.mainView?.showLoadingNVActivityIndicatorView()
+                TranslateManager.translateText(sentence).subscribe { [weak self] (event) in
+                    mainViewController?.mainView?.showFinishedLoadingNVActivityIndicatorView()
+                    guard let _ = self else { return }
+                    if let translations = event.element {
+                        let translation = translations.translated[Locale.current.languageCode ?? "en"]
+                        guard let view = mainViewController?.view else { return }
+                        GRMessageCard().draw(message: translation ?? "Could not get translation", title: "Is this what you wanted to say?", superview: view, buttonText: "Yeah! I did it", cancelButtonText: "Not quite right...")
+                    }
+                }.disposed(by: self.disposeBag)
+            }
+            break;
+        default:
+            break;
+        }
+                        
         completionHandler()
     }
     

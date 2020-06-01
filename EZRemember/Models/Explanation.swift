@@ -21,5 +21,6 @@ struct ExplanationSection {
     let title:String
     let id:String = UUID().uuidString
     let image:UIImage?
+    var largeImage:Bool = false
     
 }

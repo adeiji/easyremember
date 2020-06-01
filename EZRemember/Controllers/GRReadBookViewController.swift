@@ -16,7 +16,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(content: NSLocalizedString("readBookTranslationExplanation", comment: "The first paragraph of the read translation explanation"), title: NSLocalizedString("translateTextTitle", comment: "The title for the section about translating text on the Read book page"), image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
-        ExplanationSection(content: NSLocalizedString("createCardExplanation", comment: "Explanation for creating a card from text on the read book view controller"), title: "Translating text", image: nil)
+        ExplanationSection(content: NSLocalizedString("createCardExplanation", comment: "Explanation for creating a card from text on the read book view controller"), title: "Create a card", image: nil)
         ])
     
     /// The container that shows our epub reader
@@ -77,6 +77,14 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
             return
         }
         
+        #if DEBUG
+        self.showExplanationViewController()
+        #else
+        if (UtilityFunctions.isFirstTime("reading a book")) {
+            self.showExplanationViewController()
+        }
+        #endif
+                                
         let readerView:UIView = UIView()
         let translationView:UIView = UIView()
         translationView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0).dark(Dark.epubReaderBlack)

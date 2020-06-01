@@ -26,8 +26,7 @@ class NotificationsManager {
     }
     
     func removeCardsFromDeck (_ deck: Deck, completion: @escaping (Bool) -> Void) {
-        
-        
+
         var batches = [WriteBatch]()
         let db = Firestore.firestore()
         var batch = db.batch()

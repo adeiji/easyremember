@@ -34,7 +34,7 @@ class ExplanationViewController: UIViewController, AddCancelButtonProtocol {
         imageView.contentMode = .scaleAspectFit
         
         card.addRow(columns: [
-            Column(cardSet: imageView.toCardSet().withHeight(100).margin.top(50), xsColWidth: .Twelve),
+            Column(cardSet: imageView.toCardSet().withHeight(section.largeImage ? 300 : 100).margin.top(50), xsColWidth: .Twelve),
         ])
     }
     

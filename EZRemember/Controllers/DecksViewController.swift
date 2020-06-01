@@ -24,22 +24,33 @@ class DecksViewController: UIViewController, AddCancelButtonProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         self.getDecks()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+                        
         if self.mainView != nil {
             return
         }
         
+        self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
+        
         let mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Premade Decks", rightNavBarButtonTitle: "Done")
+        mainView.navBar.header?.textColor = UIColor.black.dark(.white)
+        mainView.navBar.backgroundColor = .clear
+        mainView.navBar.leftButton?.isHidden = true
         mainView.tableView.register(DeckCell.self, forCellReuseIdentifier: DeckCell.reuseIdentifier)
+        mainView.tableView.rowHeight = UITableView.automaticDimension
+        mainView.tableView.estimatedRowHeight = 300
         self.mainView = mainView
+        
+        mainView.navBar.rightButton?.addTargetClosure(closure: { [weak self] (_) in
+            self?.dismiss(animated: true, completion: nil)
+        })
+        
         self.displayDecks()
-        self.addCancelButton(navBar: self.mainView?.navBar)
+        
     }
     
     private func getDecks () {
@@ -54,21 +65,17 @@ class DecksViewController: UIViewController, AddCancelButtonProtocol {
         guard let tableView = self.mainView?.tableView else { return }
         let loading = tableView.showLoadingNVActivityIndicatorView()
         
-        deckRelay.bind(to: tableView.rx.items(cellIdentifier: DeckCell.reuseIdentifier, cellType: DeckCell.self)) { (row, deck, cell) in
+        self.deckRelay.bind(to: tableView.rx.items(cellIdentifier: DeckCell.reuseIdentifier, cellType: DeckCell.self)) { (row, deck, cell) in
             tableView.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
             cell.deck = deck
             
             self.setupDeleteButton(cell.removeButton, deck: deck)
-            cell.contentView.setNeedsLayout()
-            cell.contentView.layoutIfNeeded()
             if cell.isFinishedInstalling { return }
                                     
             self.setupInstallButton(cell.installButton, deck: deck, cell: cell)
-            
-            
-            
         }.disposed(by: self.disposeBag)
     }
+    
     
     private func setupInstallButton (_ installButton: UIButton?, deck: Deck, cell: DeckCell) {
         installButton?.addTargetClosure(closure: { [weak self] (button) in
@@ -125,7 +132,7 @@ class DecksViewController: UIViewController, AddCancelButtonProtocol {
             buttonText: "Remove Cards",
             cancelButtonText: "Don't Remove Cards")
         
-        messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+        messageCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let _ = self else { return }
             messageCard.close()
             completion(true)
@@ -142,7 +149,7 @@ class DecksViewController: UIViewController, AddCancelButtonProtocol {
             buttonText: "Add Cards",
             cancelButtonText: "Don't Add Cards")
         
-        messageCard.okayButton?.addTargetClosure(closure: { [weak self] (_) in
+        messageCard.firstButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let _ = self else { return }
             messageCard.close()
             completion(true)

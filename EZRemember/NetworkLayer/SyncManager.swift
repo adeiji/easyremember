@@ -60,9 +60,7 @@ class SyncManager {
                 }
                 
                 return Disposables.create()
-            }
-            
-            
+            }                        
         } catch {
             assertionFailure("Baaka, the Sync object is not Encodable, why?")
             print(error.localizedDescription)
@@ -93,7 +91,6 @@ class SyncManager {
                 UtilityFunctions.addSyncEmail(sync.email)
                 completion(true, nil)
             } else {
-                
                 // If this email contains no documents attached to it, meaning that it's the first time that this user is using this email to sync data with, than save the syncing information to the server
                 self.saveSyncingInformation(sync).subscribe(onCompleted: {
                     completion(true, nil)

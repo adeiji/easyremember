@@ -19,9 +19,9 @@ import SwiftyBootstrap
  */
 open class GRMessageCard: GRBootstrapElement {
              
-    open weak var okayButton:UIButton?
+    open weak var firstButton:UIButton?
     
-    open weak var cancelButton:UIButton?
+    open weak var secondButton:UIButton?
     
     private var blurView: UIView?
     
@@ -47,6 +47,29 @@ open class GRMessageCard: GRBootstrapElement {
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func addExitButton () {
+        let exitButton = UIButton()
+        
+        if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
+            exitButton.setImage(UIImage(named: "close-white"), for: .normal)
+        } else {
+            exitButton.setImage(UIImage(named: "close-black"), for: .normal)
+        }
+        
+        self.addSubview(exitButton)
+        exitButton.snp.makeConstraints { (make) in
+            make.width.equalTo(35)
+            make.height.equalTo(35)
+            make.right.equalTo(self).offset(-10)
+            make.top.equalTo(self).offset(10)
+        }
+        
+        exitButton.addTargetClosure { [weak self] (_) in
+            guard let self = self else { return }
+            self.close()
+        }
     }
     
     /**
@@ -153,8 +176,8 @@ open class GRMessageCard: GRBootstrapElement {
             self.close()
         }
         
-        self.okayButton = okayButton
-        self.cancelButton = cancelButton
+        self.firstButton = okayButton
+        self.secondButton = cancelButton
     }
     
     public func close () {
