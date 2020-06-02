@@ -77,8 +77,8 @@ class DeckCell: UITableViewCell {
             Column(cardSet: nameLabel.toCardSet().margin.bottom(0).margin.left(20), xsColWidth: .Twelve),
             Column(cardSet: cardCountLabel.toCardSet().margin.top(0).margin.left(20), xsColWidth: .Twelve),
             Column(cardSet: descriptionLabel.toCardSet().margin.left(20), xsColWidth: .Twelve),
-            Column(cardSet: useButton.radius(radius: 5).toCardSet().margin.left(20).withHeight(40), xsColWidth: .Three),
-            Column(cardSet: removeButton.radius(radius: 5).toCardSet().margin.left(20).withHeight(40), xsColWidth: .Three)
+            Column(cardSet: useButton.radius(radius: 5).toCardSet().margin.left(20).withHeight(40), xsColWidth: .Six).forSize(.sm, .Three),
+            Column(cardSet: removeButton.radius(radius: 5).toCardSet().margin.left(20).withHeight(40), xsColWidth: .Six).forSize(.sm, .Three)
         ], anchorToBottom: true)
         
         deckCard.addToSuperview(superview: self.contentView, anchorToBottom: true)

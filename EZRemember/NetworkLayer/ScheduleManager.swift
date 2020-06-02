@@ -22,6 +22,7 @@ struct Schedule: Codable {
         static let kFrequency = "frequency"
         static let kStyle = "style"
         static let kSentence = "sentence"
+        static let kPurchasedPackage = "purchasedPackage"
     }
     
     struct NotificationsType {
@@ -31,9 +32,10 @@ struct Schedule: Codable {
     }
     
     struct PurchaseTypes {
-        static let kBasic = "Basic"
-        static let kStandard = "Standard"
-        static let kPremium = "Premium"
+        static let kBasic = "basic"
+        static let kStandard = "standard"
+        static let kPremium = "premium"
+        static let kTest = "test"
     }
             
     let deviceId:String
@@ -43,6 +45,8 @@ struct Schedule: Codable {
     var frequency:Int = 60
     
     var purchasedPackage:String?
+    
+    var sentence:String?
     
     /// The type of notification to be shown, is it Flashcard Style with only the caption showing and then needing to click to show the content
     /// or Flashcard Style with content showing
@@ -125,6 +129,53 @@ class ScheduleManager {
         return self.schedule
     }
     
+    private func setSchedule (_ schedule:Schedule) {
+        self.schedule = schedule
+    }
+    
+    public func getSubscriptionForSessionId (_ sessionId: String) -> Observable<String?> {
+        guard let url = URL(string: "https://graffitisocial.herokuapp.com/sessionSubscription?sessionId=\(sessionId)") else { return .empty() }
+        let request = URLRequest(url: url)
+        
+        return Observable.create { (observer) -> Disposable in
+        
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    observer.onError(error)
+                    observer.onCompleted()
+                    return
+                }
+                
+                guard let data = data else {
+                    observer.onNext(nil)
+                    observer.onCompleted()
+                    return
+                }
+                
+                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else { return }
+                if let object = json as? [String:Any] {
+                    let packageName = self.getPackageFromSubscriptionNickname(object["name"] as? String)
+                    observer.onNext(packageName)
+                    observer.onCompleted()
+                }
+            }
+            
+            task.resume()
+            
+            return Disposables.create()
+        }
+    }
+    
+    private func getPackageFromSubscriptionNickname (_ nickName:String?) -> String? {
+        guard let nickName = nickName?.lowercased() else { return nil }
+        if (nickName.contains(Schedule.PurchaseTypes.kBasic)) { return Schedule.PurchaseTypes.kBasic }
+        else if (nickName.contains(Schedule.PurchaseTypes.kStandard)) { return Schedule.PurchaseTypes.kStandard }
+        else if (nickName.contains(Schedule.PurchaseTypes.kPremium)) { return Schedule.PurchaseTypes.kPremium }
+        else if (nickName.contains(Schedule.PurchaseTypes.kTest)) { return Schedule.PurchaseTypes.kPremium }
+        
+        return nil
+    }
+    
     public func getPurchaseWithId (_ purchaseId: String, completion: @escaping (OnlinePurchase?, Error?) -> Void) {
         FirebasePersistenceManager.getDocumentById(forCollection: OnlinePurchase.kCollectionName, id: purchaseId).subscribe({ [weak self] (event) in
             guard let _ = self else { return }
@@ -139,6 +190,13 @@ class ScheduleManager {
             }
                         
         }).disposed(by: self.disposeBag)
+    }
+    
+    public func setPurchasePackage (_ package: String, completion: @escaping (Bool, Error?) -> Void) {
+        FirebasePersistenceManager.updateDocument(withId: UtilityFunctions.deviceId(), collection: Schedule.Keys.kCollectionName, updateDoc: [ Schedule.Keys.kPurchasedPackage: package ]) { (error) in
+            completion(error == nil, error)
+            self.schedule?.purchasedPackage = package
+        }
     }
     
     /**
@@ -158,7 +216,7 @@ class ScheduleManager {
             return .empty()
         }
         
-        self.schedule = schedule
+        self.setSchedule(schedule)
         
         return Observable.create { (observer) -> Disposable in                                    
             FirebasePersistenceManager.addDocument(withCollection: Schedule.Keys.kCollectionName, data: documentToSave, withId: deviceId) { (error, documents) in
@@ -215,6 +273,7 @@ class ScheduleManager {
             guard let self = self else { return }
             if let settings = event.element, let languages = settings?.languages {
                 self.languages = languages
+                if let settings = settings { self.setSchedule(settings) }
             }
         }.disposed(by: self.disposeBag)
         

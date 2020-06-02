@@ -11,6 +11,7 @@ import Firebase
 import DephynedFire
 import UserNotifications
 import FirebaseMessaging
+import FirebaseDatabase
 import SwiftyBootstrap
 import DephynedPurchasing
 import FirebaseCrashlytics
@@ -88,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
                 
         // Override point for customization after application launch.
         FirebaseApp.configure()
-
+    
         let _ = ScheduleManager.shared // instantiate our schedule manager singleton object
         let _ = GRCurrentDevice.shared // instantiate the current device object
         
@@ -158,6 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
                 let sentence =  textResponse.userText
                 ScheduleManager.shared.saveSentence(sentence)
                 let mainViewController = (self.window?.rootViewController as? GRTabController)?.getNotificationsViewController()
+                (self.window?.rootViewController as? GRTabController)?.showNotificationsViewController()
                 mainViewController?.mainView?.showLoadingNVActivityIndicatorView()
                 TranslateManager.translateText(sentence).subscribe { [weak self] (event) in
                     mainViewController?.mainView?.showFinishedLoadingNVActivityIndicatorView()

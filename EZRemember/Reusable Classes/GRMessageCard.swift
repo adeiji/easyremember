@@ -177,7 +177,7 @@ open class GRMessageCard: GRBootstrapElement {
         }
         
         self.firstButton = okayButton
-        self.secondButton = cancelButton
+        self.secondButton = cancelButton             
     }
     
     public func close () {

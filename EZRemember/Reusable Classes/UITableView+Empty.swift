@@ -33,7 +33,7 @@ public class EmptyView {
                         
             Column(cardSet: imageView
                 .toCardSet()
-                .margin.top(40)
+                .margin.top(Style.isIPhoneX() ? 100 : 40)
                 .withHeight(150),
                    xsColWidth: .Twelve)
             

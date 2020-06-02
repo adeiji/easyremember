@@ -61,8 +61,9 @@ extension DEScheduleViewController {
         messageCard.firstButton?.addTargetClosure(closure: { [weak self] (verifyButton) in
             guard let self = self else { return }
             // Verify the purchase on our servers
-            guard let purchaseId = messageCard.textField?.text else { return }
-            if purchaseId.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+            guard let purchaseId = messageCard.textField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+            
+            if self.validatePurchaseId(purchaseId) {
                 messageCard.firstButton?.showLoadingNVActivityIndicatorView()
                 self.verifyPurchaseWithId(purchaseId, verifyButton: messageCard.firstButton)
             }
@@ -75,18 +76,25 @@ extension DEScheduleViewController {
         })
     }
     
+    func validatePurchaseId (_ purchaseId: String) -> Bool {
+        
+        if purchaseId == "" { return false }
+        if purchaseId.count < 8 {
+            GRMessageCard().draw(message: "Please enter an Id of at least 8 letters", title: "Invalid Id", superview: self.view, isError: true)
+            return false
+        }
+                
+        return true
+    }
+    
     fileprivate func updateVerifyButtonToSuccessfulState (_ verifyButton: UIButton?) {
         verifyButton?.backgroundColor = UIColor.Style.htMintGreen
         verifyButton?.setTitle("Purchase Verified!!", for: .normal)
     }
     
-    fileprivate func handleVerifiedPurchaseId(_ onlinePurchase: OnlinePurchase, verifyButton: UIButton?) {
-        self.purchaseType = onlinePurchase.package
+    fileprivate func handleVerifiedPurchaseId(_ purchasedPackage: String, verifyButton: UIButton?) {
         self.saveSchedule()
-        
-        let sync = Sync(email: onlinePurchase.email, deviceId: UtilityFunctions.deviceId())
-        
-        SyncManager.shared.syncWithEmail(sync: sync) { (success, error) in
+        ScheduleManager.shared.setPurchasePackage(purchasedPackage) { (success, error) in
             verifyButton?.showFinishedLoadingNVActivityIndicatorView()
             
             if let error = error {
@@ -99,23 +107,27 @@ extension DEScheduleViewController {
         }
     }
     
-    fileprivate func verifyPurchaseWithId (_ purchaseId: String, verifyButton: UIButton?) {
-        ScheduleManager.shared.getPurchaseWithId(purchaseId) { [weak self] (onlinePurchase, error) in
-            guard let self = self else { return }
+    fileprivate func verifyPurchaseWithId (_ sessionId: String, verifyButton: UIButton?) {
+        ScheduleManager.shared.getSubscriptionForSessionId(sessionId).subscribe { [weak self] (event) in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                    
+                if event.isCompleted { return }
                 
-            if let error = error {
-                print(error.localizedDescription)
-                AnalyticsManager.logError(message: error.localizedDescription)
-                GRMessageCard().draw(message: "There was an error when verifying your Purchase Id.  Please check your internet connection and try again", title: "Error Verifying Id", superview: self.view, isError: true)
-                return
+                if let error = event.error {
+                    print(error.localizedDescription)
+                    AnalyticsManager.logError(message: error.localizedDescription)
+                    GRMessageCard().draw(message: "There was an error when verifying your Purchase Id.  Please check your internet connection and try again", title: "Error Verifying Id", superview: self.view, isError: true)
+                    return
+                }
+                
+                if let unwrappedElement = event.element, let purchasedPackage = unwrappedElement {
+                    self.handleVerifiedPurchaseId(purchasedPackage, verifyButton: verifyButton)
+                } else {
+                    verifyButton?.showFinishedLoadingNVActivityIndicatorView()
+                    GRMessageCard().draw(message: "There is no purchase with this ID.  Please make sure you entered the 'Purchase Id' correctly", title: "Invalid Purchase Id", superview: self.view, isError: true)
+                }
             }
-            
-            if let onlinePurchase = onlinePurchase {
-                self.handleVerifiedPurchaseId(onlinePurchase, verifyButton: verifyButton)
-            } else {
-                verifyButton?.showFinishedLoadingNVActivityIndicatorView()
-                GRMessageCard().draw(message: "There is no purchase with this ID.  Please make sure you entered the 'Purchase Id' correctly", title: "Invalid Purchase Id", superview: self.view, isError: true)
-            }
-        }
+        }.disposed(by: self.disposeBag)
     }
 }

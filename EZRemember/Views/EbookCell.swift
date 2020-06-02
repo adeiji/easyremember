@@ -26,15 +26,16 @@ class EBookCell: UICollectionViewCell {
     
     public var bookDetails:BookDetails? {
         didSet {
+            self.isHidden = false
             guard let bookDetails = self.bookDetails else { return }
             self.fillWithContent(bookDetails: bookDetails)
         }
     }
-    
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
+        self.isHidden = true
         self.setup()
     }
     
@@ -49,6 +50,7 @@ class EBookCell: UICollectionViewCell {
     }
     
     func resetData () {
+        self.isHidden = true
         self.coverImageView?.image = nil
         self.titleLabel?.text = nil
         self.authorLabel?.text = nil

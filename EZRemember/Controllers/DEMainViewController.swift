@@ -191,27 +191,14 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
     private func updateNotification (notification: GRNotification?, card:GRNotificationCard, button:UIButton?, isActive: Bool, isRemembered: Bool) {
         
         guard let notification = notification else { return }
-        
-        // Show that an activity is going on in the background
-        let loading =  button?.showLoadingNVActivityIndicatorView()
+        // Update the active state of the notification on it's table view cell (card) and within the local
+        // notifications array
+        card.notification?.active = isActive
+        card.notification?.remembered = isRemembered
+        self.updateNotificationInNotificationsArray(notification: card.notification)
         
         // Save the new active state to the server
-        NotificationsManager.toggleNotification(notificationId: notification.id, active: isActive, remembered: isRemembered)
-            .subscribe { [weak self] (event) in
-                
-                guard let self = self else { return }
-                button?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-                // If there is an error saving then show it now
-                if let error = event.error {
-                    self.showNotificationSaveError(error)
-                } else {
-                    // Update the active state of the notification on it's table view cell (card) and within the local
-                    // notifications array
-                    card.notification?.active = isActive
-                    card.notification?.remembered = isRemembered
-                    self.updateNotificationInNotificationsArray(notification: card.notification)
-                }
-        }.disposed(by: self.disposeBag)
+        NotificationsManager.toggleNotification(notificationId: notification.id, active: isActive, remembered: isRemembered).subscribe().disposed(by: self.disposeBag)
     }
     
     private func showNotificationSaveError (_ error: Error) {
@@ -356,19 +343,16 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         super.viewDidAppear(animated)
                 
         if self.mainView != nil { return }
-        
-        #if DEBUG
-        self.showExplanationViewController()
-        #endif
-        
-        
-        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3)
+                        
+        let mainView = GRViewWithCollectionView(margin: BootstrapMargin.noMargins()).setup(superview: self.view, columns: 3)
         mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
         mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
-        self.mainView = mainView
         
+        self.mainView = mainView
         self.mainView?.setNeedsLayout()
         self.mainView?.layoutIfNeeded()
+        
+        self.checkIfDeviceConnectedToInternet()
         
         self.initialSetupCollectionView()
         
@@ -403,6 +387,12 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         
         // If appropriate than request the user to write a review
         UtilityFunctions.requestReviewIfAppropriate()
+    }
+    
+    private func checkIfDeviceConnectedToInternet () {
+        if InternetConnectionManager.isConnectedToNetwork() == false {
+            GRMessageCard().draw(message: "You can use this app without being connected to the internet, but you may experience strange behaviours within the app.  If possible, we recommend you connect your device to the internet.", title: "Device Not Connected to Internet", superview: self.view)
+        }
     }
     
     fileprivate func promptForAllowNotifications () {
@@ -499,7 +489,10 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
                 
                 if text == "" {
                     self.notifications = self.allNotifications
-                    self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                    DispatchQueue.main.async {
+                        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                    }
+                    
                 } else {
                     self.notifications = self.allNotifications.filter({
                         $0.bookTitle?.lowercased().contains(text.lowercased()) == true ||
@@ -515,7 +508,9 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
                         indexPathsToRemove.append(indexPath)
                     }
                     
-                    self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                    DispatchQueue.main.async {
+                        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+                    }
                 }
             }).disposed(by: self.disposeBag)
     }
@@ -575,7 +570,9 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         if atBeginning {
             self.notifications.insert(contentsOf: notifications, at: 0)
             self.allNotifications.insert(contentsOf: notifications, at: 0)
-            self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+            DispatchQueue.main.async {
+                self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+            }
             
             return
         }
@@ -583,7 +580,9 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         self.notifications.append(contentsOf: notifications)
         self.allNotifications.append(contentsOf: notifications)
         
-        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+        DispatchQueue.main.async {
+            self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
+        }
     }
     
     func removeNotification (notificationId: String) {

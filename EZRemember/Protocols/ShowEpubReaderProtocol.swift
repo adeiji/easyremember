@@ -27,6 +27,13 @@ protocol ShowEpubReaderProtocol: UIViewController, FolioReaderPageDelegate, Foli
 
 extension ShowEpubReaderProtocol {
     
+    func test () {
+        let config = FolioReaderConfig()
+        let bookPath = Bundle.main.path(forResource: "Dune", ofType: "epub")
+        let folioReader = FolioReader()
+        folioReader.presentReader(parentViewController: self, withEpubPath: bookPath!, andConfig: config)
+    }
+    
     @discardableResult func showBookReader (url: URL?) -> FolioReader? {
         
         guard let url = url else { return nil }

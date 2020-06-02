@@ -101,7 +101,7 @@ function sendSentenceNotification (notificationsSnapshot, fcmToken, previousSent
     var hiddenData = ""
 
     if (previousSentence) {
-        hiddenData = `Your previous sentence was:\n'${previousSentence}'\nYou can try keeping the same theme, or start something from scratch.`
+        hiddenData = `Your previous sentence was:\n'${previousSentence}'\n\nYou can try keeping the same theme, or start something from scratch.`
     }
 
     var message = {

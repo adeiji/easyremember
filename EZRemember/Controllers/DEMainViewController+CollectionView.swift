@@ -20,10 +20,6 @@ class NotificationsHeaderCell : UICollectionReusableView {
     weak var notificationCountLabel:UILabel?
     
     let tagPressed = PublishSubject<String>()
-            
-    fileprivate func getFilterColumn(text: String) -> GRBootstrapElement.Column {
-        return Column(cardSet: self.getTagButton(tag: text).toCardSet().withHeight(40), xsColWidth: .Six).forSize(.sm, .Three)
-    }
     
     func allowNotificationsCard () -> GRBootstrapElement {
         
@@ -89,6 +85,7 @@ class NotificationsHeaderCell : UICollectionReusableView {
         searchBar.backgroundColor = UIColor.white.dark(Dark.coolGrey700)
         searchBar.radius(radius: 5)
         searchBar.placeholder = searchLocalized
+        searchBar.clearButtonMode = .always
 
         let tags = UtilityFunctions.getTags()
         
@@ -96,22 +93,23 @@ class NotificationsHeaderCell : UICollectionReusableView {
         let activeLocalized = NSLocalizedString("active", comment: "The text for active on the filter button")
         let inactiveLocalized = NSLocalizedString("inactive", comment: "The text for inactive on the filter button")
         
-        // Add the first button to the columns - All Button
-        var columns = [
-            getFilterColumn(text: allLocalized),
-            getFilterColumn(text: activeLocalized),
-            getFilterColumn(text: inactiveLocalized),
-            getFilterColumn(text: "Remembered"),
-            getFilterColumn(text: "Not Remembered")
+        let scrollView = HorizontalScrollableView()
+        
+        var filterViews = [
+            self.getTagButton(tag: allLocalized),
+            self.getTagButton(tag: activeLocalized),
+            self.getTagButton(tag: inactiveLocalized),
+            self.getTagButton(tag: "Remembered"),
+            self.getTagButton(tag: "Not Remembered")
         ]
+                
                         
         tags?.forEach({ [weak self] (tag) in
             guard let self = self else { return }
             if tag.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return }
             
-            let tagButton = self.getTagButton(tag: tag)
-            let column = Column(cardSet: tagButton.toCardSet().withHeight(40), xsColWidth: .Six).forSize(.md, .Three)
-            columns.append(column)
+            let tagLabel = self.getTagButton(tag: tag)
+            filterViews.append(tagLabel)
         })
         
         header.addRow(columns: [
@@ -119,7 +117,11 @@ class NotificationsHeaderCell : UICollectionReusableView {
             Column(cardSet: UIView().backgroundColor(UIColor.lightGray.dark(.white)).toCardSet().withHeight(1), xsColWidth: .Twelve)
         ])
         
-        header.addRow(columns: columns, anchorToBottom: true)
+        scrollView.content = filterViews
+        
+        header.addRow(columns: [
+            Column(cardSet: scrollView.toCardSet().withHeight(50), xsColWidth: .Twelve)
+        ], anchorToBottom: true)
         
         if self.subviews.count == 0 {
             header.addToSuperview(superview: self, anchorToBottom: true)
@@ -133,18 +135,20 @@ class NotificationsHeaderCell : UICollectionReusableView {
     private func getTagButton (tag: String) -> UIButton {
         let tagButton = Style.largeButton(with: tag, backgroundColor: UIColor.white.dark(Dark.coolGrey200), fontColor: UIColor.EZRemember.mainBlue)
         tagButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
-        tagButton.showsTouchWhenHighlighted = true
-        self.tagPressed(button: tagButton)
+        tagButton.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        tagButton.sizeToFit()
+        tagButton.layer.cornerRadius = 3.0
+        tagButton.addTargetClosure { [weak self] (tagButton) in
+            guard let self = self else { return }
+            self.tagPressed(text: tagButton.title(for: .normal))
+        }
         
         return tagButton
     }
     
-    private func tagPressed (button: UIButton) {
-        button.addTargetClosure { [weak self] (button) in
-            guard let self = self else { return }
-            guard let tag = button.title(for: .normal) else { return }
-            self.tagPressed.onNext(tag)
-        }
+    @objc func tagPressed (text: String?) {
+        guard let tag = text else { return }
+        self.tagPressed.onNext(tag)
     }
 }
 

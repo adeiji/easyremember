@@ -93,7 +93,7 @@ struct Purchasing {
         
         // SERIOUS STUDENT
         
-        PurchaseableItem(title: NSLocalizedString("standardPackageTitle", comment: "The title for this package"), id: ProductIds.Standard.rawValue, info: NSLocalizedString("standardPackageDescription", comment: "An overview of this package"), price: 4.99, features: [
+        PurchaseableItem(title: NSLocalizedString("standardPackageTitle", comment: "The title for this package"), id: ProductIds.Standard.rawValue, info: NSLocalizedString("standardPackageDescription", comment: "An overview of this package"), price: 9.99, features: [
             NSLocalizedString("standardPackageSpeed", comment: "What you receive with this package with regards to speed of learning"),
             NSLocalizedString("standardPackageTranslation", comment: "What you receive with this package with regards to language translation"),
             NSLocalizedString("standardPackageMaxNotifications", comment: "What you receive with this package with regards to max notifications"),
@@ -102,7 +102,7 @@ struct Purchasing {
         
         // MASTER
         
-        PurchaseableItem(title: NSLocalizedString("premiumPackageTitle", comment: "The title for this package"), id: ProductIds.Standard.rawValue, info: NSLocalizedString("premiumPackageDescription", comment: "An overview of this package"), price: 4.99, features: [
+        PurchaseableItem(title: NSLocalizedString("premiumPackageTitle", comment: "The title for this package"), id: ProductIds.Standard.rawValue, info: NSLocalizedString("premiumPackageDescription", comment: "An overview of this package"), price: 14.99, features: [
             NSLocalizedString("premiumPackageSpeed", comment: "What you receive with this package with regards to speed of learning"),
             NSLocalizedString("premiumPackageTranslation", comment: "What you receive with this package with regards to language translation"),
             NSLocalizedString("premiumPackageMaxNotifications", comment: "What you receive with this package with regards to max notifications"),

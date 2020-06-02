@@ -49,7 +49,7 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
                 .withHeight(UI.scheduleViewButtonHeights),
                             xsColWidth: .Two)
             .forSize(.md, .Two)
-            .forSize(.xs, .Six)
+            .forSize(.xs, .Twelve)
             .forSize(.sm, .Six)
         
         selectNumberColumns.append(column)

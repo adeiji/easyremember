@@ -30,7 +30,12 @@ class ConvertToEpubHandler {
     
     public func convertPDFAtUrl (_ url: URL, completion: @escaping (Bool) -> Void) {
         
+        #if DEBUG
         guard let convertUrl = URL(string: "https://ezremember.ngrok.io/convertPDF") else { return }
+        #else
+        guard let convertUrl = URL(string: "https://pdf-conversion.herokuapp.com/convertPDF") else { return }
+        #endif
+        
         guard let fileToConvert = try? Data(contentsOf: url) else { return }
         
         var request = URLRequest(url: url)
@@ -103,8 +108,11 @@ class ConvertToEpubHandler {
     }
     
     private func isJobComplete (_ jobId: String, completion: @escaping (Bool) -> Void) {
+        #if DEBUG
         guard var isCompleteUrl = URLComponents(string: "https://ezremember.ngrok.io/isJobComplete") else { return }
-        
+        #else
+        guard var isCompleteUrl = URLComponents(string: "https://pdf-conversion.herokuapp.com/isJobComplete") else { return }
+        #endif
         isCompleteUrl.queryItems = [
             URLQueryItem(name: "jobId", value: jobId)
         ]
@@ -128,8 +136,11 @@ class ConvertToEpubHandler {
     
     
     private func downloadEpubWithJobId (_ jobId: String) {
+        #if DEBUG
         guard var downloadUrl = URLComponents(string: "https://ezremember.ngrok.io/downloadEpub") else { return }
-        
+        #else
+        guard var downloadUrl = URLComponents(string: "https://pdf-conversion.herokuapp.com/downloadEpub") else { return }
+        #endif
         downloadUrl.queryItems = [
             URLQueryItem(name: "jobId", value: jobId)
         ]

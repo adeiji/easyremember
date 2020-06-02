@@ -57,6 +57,8 @@
 		F467E512247DAAD400E10EEA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F467E510247DAAD400E10EEA /* MainInterface.storyboard */; };
 		F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F487227E248399CF001A0EF3 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487227D248399CF001A0EF3 /* Sentence.swift */; };
+		F48722852485212B001A0EF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48722842485212B001A0EF3 /* Reachability.swift */; };
+		F487228724855F6A001A0EF3 /* HorizontalScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F499819B24801A500059AC13 /* TranslationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F499819A24801A500059AC13 /* TranslationProtocol.swift */; };
@@ -239,6 +241,8 @@
 		F467E513247DAAD500E10EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBootstrap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F487227D248399CF001A0EF3 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
+		F48722842485212B001A0EF3 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollableView.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F499819A24801A500059AC13 /* TranslationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationProtocol.swift; sourceTree = "<group>"; };
@@ -515,6 +519,7 @@
 				F43DDF8D247449DD00776941 /* FirebaseStorageManager.swift */,
 				F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */,
 				F4D17E3E247BDD84006F0C83 /* ToastHandler.swift */,
+				F48722842485212B001A0EF3 /* Reachability.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -549,6 +554,7 @@
 				F421B22E24698DE9007DE745 /* EbookCell.swift */,
 				F467E4EF247D94F600E10EEA /* DEMultiSelectCard.swift */,
 				F49981A42480F4AE0059AC13 /* DeckCell.swift */,
+				F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -991,6 +997,7 @@
 				F4F537E42463AFDF0009D3DC /* DEEpubReaderController.swift in Sources */,
 				F4F5379B246097980009D3DC /* ScheduleManager.swift in Sources */,
 				F4C2025A246695E100D59245 /* Notifications+EZRemember.swift in Sources */,
+				F487228724855F6A001A0EF3 /* HorizontalScrollableView.swift in Sources */,
 				F4F5379F2461108F0009D3DC /* UtilityFunctions.swift in Sources */,
 				F43DDF8424738EEA00776941 /* AddCancelButtonProtocol.swift in Sources */,
 				F467E4F0247D94F600E10EEA /* DEMultiSelectCard.swift in Sources */,
@@ -1053,6 +1060,7 @@
 				F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */,
 				F499819F2480EFAF0059AC13 /* Deck.swift in Sources */,
 				F43DDF862473D51900776941 /* AppDelegate+BackgroundNotifications.swift in Sources */,
+				F48722852485212B001A0EF3 /* Reachability.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
 				F4E0E6F0246BF5AF00EA0827 /* CardClickedProtocol.swift in Sources */,
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,

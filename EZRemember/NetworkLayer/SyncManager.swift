@@ -11,6 +11,7 @@ import DephynedFire
 import RxSwift
 import Firebase
 import FirebaseFirestore
+import FirebaseMessaging
 
 class SyncManager {
     

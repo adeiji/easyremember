@@ -28,10 +28,9 @@ struct PurchaseableItem {
         featuresString = featuresString.trimmingCharacters(in: .whitespacesAndNewlines)
         return featuresString.addLineSpacing(amount: 20, centered: true)
     }
-    
 }
 
-class GRPurchasingColumn: GRBootstrapElement {
+class GRPurchasingColumn: GRBootstrapElement, RulesProtocol {
     
     weak var purchaseButton:UIButton?
     
@@ -39,7 +38,10 @@ class GRPurchasingColumn: GRBootstrapElement {
         let title = Style.label(withText: item.title, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         let price = Style.label(withText: "$\(item.price)", superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         let info = Style.label(withText: item.info, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
-        let purchaseButton = Style.largeButton(with: "Start your free 7-day trial!", superview: nil, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
+        
+        let purchaseButtonTitle = self.userHasSubscription() ? "Upgrade Your Subscription" : "Start your free 7-day trial!"
+        
+        let purchaseButton = Style.largeButton(with: purchaseButtonTitle, superview: nil, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
         purchaseButton.titleLabel?.font = CustomFontBook.Medium.forSizeClass()
         let features = Style.label(withText: "", superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         features.attributedText = item.getFeaturesAsString()

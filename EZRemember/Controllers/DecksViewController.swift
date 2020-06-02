@@ -37,6 +37,7 @@ class DecksViewController: UIViewController, AddCancelButtonProtocol {
         self.view.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         
         let mainView = GRViewWithTableView().setup(withSuperview: self.view, header: "Premade Decks", rightNavBarButtonTitle: "Done")
+        mainView.navBar.rightButton?.setTitleColor(UIColor.black.dark(.white), for: .normal)
         mainView.navBar.header?.textColor = UIColor.black.dark(.white)
         mainView.navBar.backgroundColor = .clear
         mainView.navBar.leftButton?.isHidden = true

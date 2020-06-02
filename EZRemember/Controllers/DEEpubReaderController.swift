@@ -69,7 +69,7 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
     
     weak var collectionView:UICollectionView?
     
-    var bookDetails:[String:BookDetails] = [String:BookDetails]()
+    var bookDetails = [String:BookDetails]()
     
     init(ebookUrl: URL? = nil) {
         self.bookName = ""
@@ -134,16 +134,12 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
         if let ebookUrl = self.ebookUrl {
             self.showBookReader(url: ebookUrl)
         }
-        
-        #if DEBUG
-        self.showExplanationViewController()
-        #else
+                
         if UtilityFunctions.isFirstTime("viewing the epub reader page") {
             self.showExplanationViewController()
         }
-        #endif
                 
-        let mainView = GRViewWithCollectionView().setup(superview: self.view, columns: 3, header: NSLocalizedString("yourElectronicBooksHeader", comment: "the header for this page"), addNavBar: false)
+        let mainView = GRViewWithCollectionView(margin: BootstrapMargin.noMargins()).setup(superview: self.view, columns: 3, header: NSLocalizedString("yourElectronicBooksHeader", comment: "the header for this page"), addNavBar: false)
         mainView.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
         mainView.collectionView?.register(EBookCell.self, forCellWithReuseIdentifier: EBookCell.identifier)
         mainView.collectionView?.backgroundColor = .clear
@@ -154,7 +150,9 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
         // Bind our the url relay
         self.showEBooks()
         NotificationCenter.default.addObserver(self, selector: #selector(shouldShowMenu(_:)), name: .CreateMenuCalled, object: nil)
+        self.addHelpButton(nil, superview: mainView)
     }
+    
     
     @objc private func shouldShowMenu(_ notification: Notification) {
         self.createMenuCalled(notification)
@@ -206,13 +204,18 @@ public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UIC
                 guard let self = self else { return }
                 let eBookHandler = EBookHandler()
                 
-                if cell.url == nil { cell.url = url }
+                cell.isHidden = true
+                cell.bookDetails = self.bookDetails[url.absoluteString]
                 
-                // Get the file name of the Ebook
-                guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
-                guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString, fileName: name) else { return }
-                cell.bookDetails = bookDetails
-                    
+//                DispatchQueue.main.async {
+                    if cell.bookDetails == nil {
+                        // Get the file name of the Ebook
+                        guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
+                        guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString, fileName: name) else { return }
+                        cell.bookDetails = bookDetails
+                    }
+//                }
+                                    
                 // Delete button
                 cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
                     guard let self = self else { return }

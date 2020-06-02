@@ -31,7 +31,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     ])
             
     private weak var mainView:GRViewWithScrollView?
-    private let disposeBag = DisposeBag()
+    internal let disposeBag = DisposeBag()
     private weak var scheduleView:DEScheduleView?
     private weak var maxNumberOfCardsCard:DENumberCard?
     private weak var languagesCard:DELanguagesCard?
@@ -75,14 +75,11 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        #if DEBUG
-        self.showExplanationViewController()
-        #else
+        
         if UtilityFunctions.isFirstTime("viewing the schedule page") {
             self.showExplanationViewController()
         }
-        #endif
-        
+                
         let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true, navBarHeaderText: "EZ Remember")
         self.mainView = mainView
         self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)
@@ -149,16 +146,21 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         
         guard let mainView = mainView else { return }
                         
+        var viewAbove:UIView?
+        
         // PURCHASE CARD
         
-        let goPremiumLocalized = NSLocalizedString("goPremium", comment: "On the schedule view controller its the header for purchasing a package")
-        let startTrialLocalized = NSLocalizedString("startTrial", comment: "On the schedule view controller its the start free 7 day trial button text")
-        
-        let purchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
-        purchaseCard.draw(title: goPremiumLocalized, buttonTitle: startTrialLocalized)
-        purchaseCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
-        self.purchaseButtonPressed(button: purchaseCard.actionButton)
-        
+        if self.purchasedOnline() == false {
+            let goPremiumLocalized = NSLocalizedString("goPremium", comment: "On the schedule view controller its the header for purchasing a package")
+            let startTrialLocalized = self.userHasSubscription() ? "Upgrade Package" : NSLocalizedString("startTrial", comment: "On the schedule view controller its the start free 7 day trial button text")
+            
+            let purchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
+            purchaseCard.draw(title: goPremiumLocalized, buttonTitle: startTrialLocalized)
+            purchaseCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
+            self.purchaseButtonPressed(button: purchaseCard.actionButton)
+            viewAbove = purchaseCard
+        }
+                        
         // RESTORE PURCHASE CARD
         
         let restorePurchasesLocalized = NSLocalizedString("restorePurchases", comment: "The header for the restore purchases section")
@@ -166,7 +168,7 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         
         let restorePurchaseCard = GRTitleAndButtonCard(color: .clear, anchorWidthToScreenWidth: true, margin: self.margins, superview: nil)
         restorePurchaseCard.draw(title: restorePurchasesLocalized, buttonTitle: restorePurchasesButtonLocalized)
-        restorePurchaseCard.addToSuperview(superview: mainView.containerView, viewAbove: purchaseCard, anchorToBottom: false)
+        restorePurchaseCard.addToSuperview(superview: mainView.containerView, viewAbove: viewAbove, anchorToBottom: false)
         
         self.setupPurchaseCardPurchaseButton(restorePurchaseCard)
                 
@@ -302,8 +304,12 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     func saveSchedule() {
         let loading = self.mainView?.navBar?.rightButton?.showLoadingNVActivityIndicatorView()
         
-        let schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency, purchasedPackage: self.purchaseType, style: self.notificationStyle)
-                                
+        var schedule = Schedule(deviceId: UtilityFunctions.deviceId(), timeSlots: self.timeSlots, maxNumOfCards: self.maxNumOfCards, languages: self.selectedLanguages, frequency: self.cardSendFrequency, purchasedPackage: self.purchaseType, style: self.notificationStyle)
+        
+        // These are two settings that currently are not updated within the app
+        schedule.purchasedPackage = ScheduleManager.shared.getSchedule()?.purchasedPackage
+        schedule.sentence = ScheduleManager.shared.getSchedule()?.sentence
+                
         ScheduleManager.shared.saveSchedule(schedule).subscribe { (event) in
             // Show that saving has finished
             self.mainView?.navBar?.rightButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)

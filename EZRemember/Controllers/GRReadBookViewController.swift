@@ -62,33 +62,39 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
-        
+    }
+    
+    deinit {
+        print("Deinit called")
+        self.readerContainer = nil
+        self.readerView?.removeFromSuperview()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+                        
         self.translateWordButton?.isHidden = true
         self.createCard?.isHidden = true
         
         if self.readerView != nil {
             return
         }
-        
-        #if DEBUG
-        self.showExplanationViewController()
-        #else
+                
         if (UtilityFunctions.isFirstTime("reading a book")) {
             self.showExplanationViewController()
         }
-        #endif
-                                
+                      
+        NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: UIMenuController.willShowMenuNotification, object: nil)
+        
         let readerView:UIView = UIView()
         let translationView:UIView = UIView()
         translationView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0).dark(Dark.epubReaderBlack)
         let backButton = GRButton(type: .Back)
+        
+        let topMargin:CGFloat = Style.isIPhoneX() ? 30 : 0
         
         let mainViewCard = GRBootstrapElement(color: UIColor.white.dark(Dark.epubReaderBlack), anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Zero,
@@ -99,18 +105,18 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
             
             // THE BACK BUTTON
             
-            Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight), xsColWidth: .Two).forSize(.sm, .One),
+            Column(cardSet: backButton.toCardSet().withHeight(self.navBarHeight).margin.top(topMargin), xsColWidth: .Two).forSize(.sm, .One),
             
             // THE BOOK NAME HEADER
             
             Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
                 .font(CustomFontBook.Medium.of(size: .medium))
-                .toCardSet().withHeight(self.navBarHeight)
+                .toCardSet().withHeight(self.navBarHeight).margin.top(topMargin)
                 , xsColWidth: .Eight).forSize(.sm, .Ten),
             
             // THE NAV BAR
             
-            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight), xsColWidth: .Two).forSize(.sm, .One),
+            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight).margin.top(topMargin), xsColWidth: .Two).forSize(.sm, .One),
             ]).addRow(columns: [
                 
                 // THE READER VIEW
@@ -136,8 +142,6 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
             guard let self = self else { return }
             self.navigationController?.popViewController(animated: true)
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(createMenuCalled), name: UIMenuController.willShowMenuNotification, object: nil)
         
         self.showEmptyTranslationView()
         
@@ -194,7 +198,8 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
             guard let self = self else { return }
             guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
                                     
-            self.translateButtonPressed(self.translateWordButton, wordsToTranslate: wordsToTranslate) { (translations) in
+            self.translateButtonPressed(self.translateWordButton, wordsToTranslate: wordsToTranslate) { [weak self] (translations) in
+                guard let self = self else { return }
                 self.translationView?.subviews.forEach({ [weak self] (subview) in
                     guard let _ = self else { return }
                     subview.removeFromSuperview()

@@ -121,6 +121,10 @@ extension RulesProtocol {
         })                
     }
     
+    public func purchasedOnline () -> Bool {
+        return ScheduleManager.shared.getSchedule()?.purchasedPackage != nil
+    }
+    
     public func userHasSubscription (ruleName: RuleKey? = nil) -> Bool {
         
         #if DEBUG
@@ -133,8 +137,7 @@ extension RulesProtocol {
             PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Basic.rawValue) ||
             PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Standard.rawValue) ||
             PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Premium.rawValue) ||
-            schedule.purchasedPackage == nil
-
+            schedule.purchasedPackage != nil
         
         if let ruleName = ruleName {
             if hasSubscription == false {

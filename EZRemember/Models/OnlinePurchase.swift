@@ -12,11 +12,18 @@ struct OnlinePurchase: Codable {
     
     static let kCollectionName = "online-purchase"
     
-    let email:String
-    
     let purchaseId:String
     
-    let package:String
+    let sessionId:String
+    
+    struct SubscriptionNicknames {
+        static let basicMonthly = "Basic Monthly Easy Remember"
+        static let standardMonthly = "Easy Remember Standard Package"
+        static let premiumMonthly = "Easy Remember Premium Package Monthly"
+        static let basicYearly = "Basic Package Yearly Easy Remember"
+        static let standardYearly = "Easy Remember Standard Package Yearly"
+        static let premiumYearly = "Easy Remember Premium Package Yearly"
+    }
     
     func encode () -> [String:Any]? {
         guard let jsonData = try? JSONEncoder().encode(self) else { return nil }
