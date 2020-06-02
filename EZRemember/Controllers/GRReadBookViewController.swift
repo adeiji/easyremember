@@ -69,8 +69,10 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     
     deinit {
         print("Deinit called")
-        self.readerContainer = nil
         self.readerView?.removeFromSuperview()
+        guard let readerContainer = self.readerContainer else { return }
+        self.removeChildViewController(readerContainer)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
