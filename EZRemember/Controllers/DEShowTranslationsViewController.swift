@@ -83,15 +83,15 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
         self.saveButton?.addTargetClosure(closure: { [weak self] (saveButton) in
             guard let self = self else { return }
             
-            let loading = saveButton.showLoadingNVActivityIndicatorView()
-            
+            saveButton.showLoadingNVActivityIndicatorView()            
             notificationsManager.saveNotifications(self.notificationsToSave) { [weak self] (success) in
                 guard let self = self else { return }
                 if success {
                     NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [ GRNotification.kSavedNotifications: self.notificationsToSave ])
+                    self.notificationsToSave = []
                 }
                 if self.navigationController != nil {
-                    saveButton.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                    saveButton.showFinishedLoadingNVActivityIndicatorView()
                 }
                 self.dismiss(animated: true, completion: nil)
             }
@@ -152,7 +152,9 @@ class DEShowTranslationsViewController: UIViewController, UIScrollViewDelegate, 
                         collectionView.reset()
                         cell.isTranslation = true
                         cell.notification = notification
-                        
+                        if (self.notificationsToSave.contains(where: { $0.description == translation.value })) {
+                            cell.toggleActivateButton?.isHidden = true
+                        }
                         cell.deleteButton?.isHidden = true
                         
                         cell.toggleActivateButton?.addTargetClosure(closure: { [weak self] (_) in
