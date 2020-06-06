@@ -13,6 +13,7 @@ import SwiftyBootstrap
 import DephynedFire
 import FolioReaderKit
 
+
 public class EBookHandler {
         
     private let kTempFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/temp"

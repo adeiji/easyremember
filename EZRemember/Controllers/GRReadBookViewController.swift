@@ -183,7 +183,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     }
     
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()        
+        super.viewDidLayoutSubviews()
     }
     
     func showEmptyTranslationView () {
@@ -203,27 +203,32 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     
     @objc private func handleTranslateButtonPressed () {
          
-        guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
-        self.translationView?.showLoadingNVActivityIndicatorView()
-        
-        if GRDevice.smallerThan(.md) {
-            self.headerLabel?.text = "Translating..."
-            self.translatingIndicator?.isHidden = false
-        }
-        
-        self.translateButtonPressed(nil, wordsToTranslate: wordsToTranslate) { [weak self] (translations) in
+        self.currentPage?.webView?.js("getSelectedText()", completion: { [weak self] (selectedText) in
             guard let self = self else { return }
-            self.headerLabel?.text = self.bookName
-            self.translatingIndicator?.isHidden = true
-            self.translationView?.showFinishedLoadingNVActivityIndicatorView()
-            self.translationView?.subviews.forEach({ [weak self] (subview) in
-                guard let _ = self else { return }
-                subview.removeFromSuperview()
-            })
+                        
+            if GRDevice.smallerThan(.md) {
+                self.headerLabel?.text = "Translating..."
+                self.translatingIndicator?.isHidden = false
+            }
             
-            self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
-        }
+            guard let wordsToTranslate = selectedText as? String else { return }
+            
+            self.translateButtonPressed(nil, wordsToTranslate: wordsToTranslate) { [weak self] (translations) in
+                guard let self = self else { return }
+                self.headerLabel?.text = self.bookName
+                self.translatingIndicator?.isHidden = true
+                self.translationView?.showFinishedLoadingNVActivityIndicatorView()
+                self.translationView?.subviews.forEach({ [weak self] (subview) in
+                    guard let _ = self else { return }
+                    subview.removeFromSuperview()
+                })
+                
+                self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
+            }
+            
+        })
         
+        self.translationView?.showLoadingNVActivityIndicatorView()
     }
     
     private func createTranslateButton () -> UIButton {
@@ -248,28 +253,30 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     
     @objc private func handleCreateCardButtonPressed () {
                     
-        guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
-        
-        let notification = GRNotification(caption: wordsToTranslate, description: "")
-        
-        let createCardVC = GRNotificationViewController(notification: notification)
-        
-        createCardVC.publishNotification.subscribe { [weak self] (event) in
+        self.currentPage?.webView?.js("getSelectedText()", completion: { [weak self] (selectedText) in
             guard let self = self else { return }
             
-            let manager = NotificationsManager()
+            guard let wordsToTranslate = selectedText as? String else { return }
             
-            guard let notification = event.element else { return }
+            let notification = GRNotification(caption: wordsToTranslate, description: "")
             
-            manager.saveNotification(title: notification.caption, description: notification.description, deviceId: UtilityFunctions.deviceId())
-                .subscribe().disposed(by: self.disposeBag)
+            let createCardVC = GRNotificationViewController(notification: notification)
             
-            NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [GRNotification.kSavedNotifications: [notification]] )
-        }.disposed(by: self.disposeBag)
-    
-        self.present(createCardVC, animated: true, completion: nil)
-        
-        
+            createCardVC.publishNotification.subscribe { [weak self] (event) in
+                guard let self = self else { return }
+                
+                let manager = NotificationsManager()
+                
+                guard let notification = event.element else { return }
+                
+                manager.saveNotification(title: notification.caption, description: notification.description, deviceId: UtilityFunctions.deviceId())
+                    .subscribe().disposed(by: self.disposeBag)
+                
+                NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [GRNotification.kSavedNotifications: [notification]] )
+            }.disposed(by: self.disposeBag)
+            
+            self.present(createCardVC, animated: true, completion: nil)
+        })
     }
     
     private func createCreateCardButton () -> UIButton {
