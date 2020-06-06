@@ -40,7 +40,7 @@
 // MAIN VIEW CONTROLLER
 
 /** The explanation page content for the Main View Controller */
-"repetitionExplanation" = "Welcome to Never Forget Anything!  We hope that through this app you're able to succeed in remembering all the things that you desire to remember. This app can help you to learn a new skill, a new language, all kinds of things. How do we accomplish this?\n\nThe key to learning anything is repetition. Repetition is what makes a skill or knowledge become second nature.  This application uses notifications to help you learn skills permanently and naturally. How do we do this?\n\nWe help you to be consistent by sending you constistant reminders.  But, the reminders are not reminders for you to open the app, instead, whatever you want to remember is sent as a notification. You can then read through those notifications from the Home Screen without having to open the app, which will help you because you can read through them quickly.\n\nOn the home page you can also test yourself like using flashcards.";
+"repetitionExplanation" = "Welcome to Never Forget Anything! We hope that through this app, you're able to succeed in remembering all the things that you desire to remember. This app can help you to learn a new skill, a new language, all kinds of things. How do we accomplish this?\n\nThe key to learning anything is repetition. Repetition is what makes a skill or knowledge become second nature. This application uses notifications to help you learn skills permanently and naturally. How do we do this?\n\nWe help you to be consistent by sending you regular reminders. But, the reminders are not reminders for you to open the app; instead, whatever you want to remember is sent as a notification. You can then read through those notifications from the Home Screen without having to open the app, which will help you because you can read through them quickly.\n\nOn the home page, you can also test yourself like using flashcards.";
 
 // Explanation page content title
 "repetitionExplanationTitle" = "Never Forget Anything";
@@ -89,17 +89,17 @@
 
 
 /** Paragraph 1 of the schedule view explanation as to why and how we handle reminders */
-"reminderExplanation" = "This is set as a reminder for yourself to always keep in eye on how many cards you have activated at a time.  You can have as many total cards as you want (depending on your subscription package) but the amount of active cards is limited.  This is to ensure that you can keep a reasonable limit on what you're learning because too many active cards can begin to overwhelm you and slow down the learning process.";
+"reminderExplanation" = "The Max Card Setting is used as a reminder to keep an eye on the number of cards you have activated at a time. You can have as many inactive cards as you want (depending on your subscription package), but the amount of active cards is limited. This setting will help you keep a reasonable limit on what you're learning because too many active cards can begin to overwhelm you and slow down the learning process.";
 
 "reminderExplanationTitle" = "Max Number of Cards";
 
 /** Paragraph 2 of the schedule view explanation as to why and how we have a schedule */
-"scheduleExplanation" = "Since learning is so heavily reliant upon repetition, it's important that you set up a schedule that you feel can help you learn at a pace that will allow you to reach your goals.\n\nThe way that it works is you first select the hours that you want to recieve notifications.  Then you select the frequency of which you want to recieve notifications during those hours.  Either\n\n-- Every Ten Minutes\n-- Every Fifteen Minutes\n-- Every Thirty Minutes\n -- Every Hour";
+"scheduleExplanation" = "Since learning is so heavily reliant upon repetition, it's important that you set up a schedule that you feel can help you learn at a pace that will allow you to reach your goals.\n\nThe way that it works is you first select the hours that you want to receive notifications. Then you select the frequency of which you want to receive notifications during those hours. Either\n\n-- Every Ten Minutes\n-- Every Fifteen Minutes\n-- Every Thirty Minutes\n -- Every Hour";
 
 "scheduleExplanationTitle" = "Scheduling";
 
 /** Paragraph 3 of the schedule view explanation as to how you can use the app to learn a language */
-"learnLanguageExplanation" = "Intereseted in learning a language?  Interested in learning 2, or 3 languages?  This app assists you with that by making it very easy when reading to get the translation of the text into multiple languages and convert these translations into cards.  With the continious repetition of seeing the translations, you'll gradually notice that your vocabulary is almost effortlessly expanding.";
+"learnLanguageExplanation" = "Are you interested in learning a language? Are you interested in learning 2 or 3 languages? This app assists you with that by making it very easy when reading to get the translation of the text into multiple languages and convert these translations into cards. With the continuous repetition of seeing the translations, you'll gradually notice that your vocabulary is almost effortlessly expanding.";
 
 "learnLanguageExplanationTitle" = "Translations";
 
@@ -141,11 +141,11 @@
 
 // EXPLANATION
 
-"readBookTranslationExplanation" = "Translating the text you read is extremely simple.  Simply do the folowing:\n\n-- Select a word or a phrase just like if you were going to copy it.\n-- You'll see two buttons pop up at the bottom, 'Translate' and 'Create Card'\n-- Click 'Translate' and the app will translate the text, and show you the translations.  (To update the languages to translate text into go to the 'Settings' screen)\n-- Once you see the translated cards, just click the 'Create Card' button for however many translations you want to create cards for\n\n-- Click the 'Save' button and you're done!";
+"readBookTranslationExplanation" = "Translating the text you read is extremely simple. Do the following:\n\n-- Select a word or a phrase just like if you were going to copy it.\n-- When the menu pops up, Click 'Translate', and the app will translate the text, and show you the translations. (To update the languages to translate text into, go to the 'Settings' screen)\n-- Once you see the translated cards, click the 'Create Card' button for however many translations you want to create cards for\n\n-- Click the 'Save' button, and you're done!";
 
 "translateTextTitle" = "Translate text and create a card";
 
-"createCardExplanation" = "Alternatively, you can also just simply create a card by clicking the 'Create Card' button.  That won't translate the text but will show you the 'Create a Notification' screen with the text you selected as content.";
+"createCardExplanation" = "Alternatively, you can also create a card by clicking the 'Create Card' button. This won't translate the text but will show you the 'Create a Notification' screen with the text you selected as content so you can easily remember points from what you read.";
 
 // The message that appears on the translation view controller when there are no translations there
 "emptyTranslationMessage" = "Here is where the translations will show";
@@ -167,7 +167,7 @@
 // The placeholder for the sync id text field
 "enterSyncId" = "Enter your Sync Id";
 
-"emailAddressSyncMessage" = "With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address.  Enter an email address below and press the 'Sync with Email' button below.\n\nThen on any other device simply do the same thing with the same email address, to view this device's cards and ePubs on the other device.";
+"emailAddressSyncMessage" = "With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address. Enter an email address below and press the 'Sync with Email' button below.\n\nThen on any other device do the same thing with the same email address, to view this device's cards and ePubs on the other device.";
 
 "emailSyncButton" = "Sync with Email";
 
@@ -240,11 +240,11 @@
 
 "basicPackageTitle" = "Casual Learner";
 
-"basicPackageDescription" = "A great service if you're just trying to very casually learn something new.  If you're trying to learn a new language, than it will probably take you about 2 years to learn 1000 words";
+"basicPackageDescription" = "Excellent service if you're trying to learn something new very casually. If you're trying to learn a new language than it will probably take you about 2 years to learn 1000 words";
 
 "basicPackageTranslation" = "Translate text into 1 language";
 
-"basicPackageMaxNotifications" = "Have a total of 5 notification cards at one time";
+"basicPackageMaxNotifications" = "Have a total of 5 active notification cards at one time";
 
 "basicPackageMaxHourSlots" = "Receive reminders up to 5 times a day";
 
@@ -256,7 +256,7 @@
 
 "standardPackageSpeed" = "Learn up to 6x faster than the Casual Learner package";
 
-"standardPackageDescription" = "A great service if you're learning something for school or for work.  If you're trying to learn a new language, than it will probably take you about 1 year and 3 months to learn 1000 words";
+"standardPackageDescription" = "Excellent service if you're learning something for school or work. If you're trying to learn a new language than it will probably take you about 1 year and 3 months to learn 1000 words";
 
 "standardPackageTranslation" = "Translate text into up 3 language simultaneously";
 
@@ -270,10 +270,10 @@
 
 "premiumPackageSpeed" = "Learn up to 50x faster than the Casual Learner package";
 
-"premiumPackageDescription" = "This package is for the serious learners.  Perhaps in college or looking to advance your career, or desirous of learning a language quickly.  If you're trying to learn a new language, than it will probably take you about 2 months to learn 1000 words";
+"premiumPackageDescription" = "This package is for serious learners. Perhaps in college or looking to advance your career, or desirous of learning a language quickly. If you're trying to learn a new language than it will probably take you about 2 months to learn 1000 words";
 
-"premiumPackageTranslation" = "Translate text into up 10 language simultaneously";
+"premiumPackageTranslation" = "Translate text into up 14 language simultaneously";
 
 "premiumPackageMaxNotifications" = "Have a total of 60 active notification cards at one time";
 
-"premiumPackageMaxHourSlots" = "Receive reminders up to every 10 minutes a day (if you really want to do that)";
+"premiumPackageMaxHourSlots" = "Receive reminders up to every 10 minutes a day";

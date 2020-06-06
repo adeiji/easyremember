@@ -41,13 +41,13 @@ extension CollectionViewSizeProtocol {
     
 }
 
-public class DEEpubReaderController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol, AddHelpButtonProtocol  {
+public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol, AddHelpButtonProtocol  {
     
     var explanation: Explanation = Explanation(sections: [
-        ExplanationSection(content: "One of the best ways to learn a new skill like programming, or a new language, is through reading.  This application allows you to import epub files.  It also allows you to import PDF files, which this app converts to ePub for you.  Open up a book to see some of the cool features that this app provides to help you to remember what you read.\n\nBelow are the steps for important an epub or a PDF", title: "Your Electronic Books", image: nil),
-        ExplanationSection(content: "After you've downloaded the epub or PDF, click the downloaded button at the top right of Safari. (May be different if you use another mobile browser)", title: "Importing an epub or PDF", image: nil, largeImage: false),
+        ExplanationSection(content: "One of the best ways to learn a new skill like programming, or a new language, is through reading. This application allows you to import epub files. It also allows you to import PDF files, which this app converts to ePub for you. Open up a book to see some of the cool features that this app provides to help you to remember what you read.\n\nBelow are the steps for importing an epub.", title: "Your Electronic Books", image: nil),
+        ExplanationSection(content: "After you've downloaded the epub, click the downloaded button at the top right of Safari. (Maybe different if you use another mobile browser)", title: "Importing an epub or PDF", image: nil, largeImage: false),
         ExplanationSection(content: "Then click the share button", title: "Share", image: UIImage(named: "import-step1"), largeImage: false),
-        ExplanationSection(content: "You'll then see a screen like the one below.  Click 'Copy to Easy Remember' and it will be imported into the app", title: "Copy to Easy Remember", image: UIImage(named: "import-step2"), largeImage: true),
+        ExplanationSection(content: "You'll then see a screen like the one below. Click 'Copy to Easy Remember', and it will be imported into the app", title: "Copy to Easy Remember", image: UIImage(named: "import-step2"), largeImage: true),
         ExplanationSection(content: "", title: "", image: UIImage(named: "import-step3"), largeImage: true)
     ])
     

@@ -113,7 +113,12 @@ class NotificationsManager {
         return GRNotification(caption: deckNotification.caption, description: deckNotification.description, language: deckNotification.language, tags: [deckNotification.tags], deckId: deckNotification.deckId)
     }
     
-    /** DO NOT RUN THIS UNLESS YOU REALLY NEED TO */
+    /**
+     DO NOT RUN THIS UNLESS YOU REALLY NEED TO
+     
+     - Important: This is for any tasks that you need to run on a large part of the database.  Since Firebase doesn't
+     support scripts like SQL does you can use this to perform something similar to scripts
+     */
     static func batchTask () {
         FirebasePersistenceManager.getDocuments(collection: "notifications") { (error, documents) in
             if let documents = documents {

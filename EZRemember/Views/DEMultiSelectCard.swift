@@ -54,7 +54,7 @@ class DEMultiSelectCard: GRBootstrapElement {
             .toCardSet()
             .withHeight(UI.scheduleViewButtonHeights),
                 xsColWidth: .Two)
-                    .forSize(.xs, .Six)
+                    .forSize(.xs, .Twelve)
                     .forSize(.md, .Four)
         
         return column
@@ -73,7 +73,7 @@ class DEMultiSelectCard: GRBootstrapElement {
         
         let languagesCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         languagesCaptionLabel.attributedText = selectLanguagesMessage.addLineSpacing()
-        languagesCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
+        languagesCaptionLabel.font( CustomFontBook.Medium.of(size: .medium) )
                         
         return
             Column(cardSet: languagesCaptionLabel

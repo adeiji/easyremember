@@ -73,7 +73,7 @@ class GRCreateNotificationCard: GRBootstrapElement, UITextViewDelegate, UITextFi
     
     func textViewDidChange(_ textView: UITextView) {
         if (self.firstTextView?.text.trimmingCharacters(in: .whitespaces) == ""
-            || self.descriptionTextView?.text.trimmingCharacters(in: .whitespaces) == "") {
+            && self.descriptionTextView?.text.trimmingCharacters(in: .whitespaces) == "") {
             self.addButton?.isEnabled = false
             self.addButton?.alpha = 0.2
         } else {
@@ -314,6 +314,9 @@ public class GRNotificationViewController: UIViewController {
     /** Whether the current card is an existing card being edited or is a new card */
     private var isEditingCard = false
     
+    /** If the user is creating this card from reading a book than store the book title */
+    var bookName:String?
+    
     /** These are the keyboard shortcuts*/
     public override var keyCommands: [UIKeyCommand]? {
         return [
@@ -397,6 +400,7 @@ public class GRNotificationViewController: UIViewController {
         self.notification?.caption = title
         self.notification?.description = description
         self.notification?.tags = tags
+        self.notification?.bookTitle = self.bookName
         
         // Get this device's unique identifier
         let deviceId = UtilityFunctions.deviceId()

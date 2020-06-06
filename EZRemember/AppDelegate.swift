@@ -17,6 +17,7 @@ import DephynedPurchasing
 import FirebaseCrashlytics
 import BackgroundTasks
 import RxSwift
+import FirebaseAuth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PDFEpubHandlerProtocol, HandleSyncingEventsProtocol {
@@ -82,14 +83,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
                 
+        // Override point for customization after application launch.
+        FirebaseApp.configure()
+        Auth.auth().signInAnonymously { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                AnalyticsManager.logError(message: error.localizedDescription)
+            }
+            
+            if let result = result {
+                print("User logged in anonymously: \(result.user.uid)")
+            }
+        }
+        
         return true
     }
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
                 
-        // Override point for customization after application launch.
-        FirebaseApp.configure()
-    
         let _ = ScheduleManager.shared // instantiate our schedule manager singleton object
         let _ = GRCurrentDevice.shared // instantiate the current device object
         

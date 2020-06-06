@@ -18,7 +18,7 @@ extension NSNotification.Name {
     static let UserUpdatedMaxNumberOfCards = NSNotification.Name("UserUpdatedMaxNumberOfCards")
 }
 
-class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonProtocol {
+class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHelpButtonProtocol {
     
     var explanation = Explanation(sections: [
         ExplanationSection(content: NSLocalizedString("reminderExplanation", comment: "The first sections explanation for why there is a number of cards section"), title: NSLocalizedString("reminderExplanationTitle", comment: "The title for this section"), image: ImageHelper.image(imageName: "bell-white", bundle: "EZRemember")),
@@ -54,6 +54,12 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
     
     /// The maximum number of cards that the user has being sent to them at any given time
     private var maxNumOfCards:Int = 5
+    
+    /// Whether this schedules notifications are paused
+    private var pausedNotifications = false
+    
+    /// Whether this schedules notifications should include writing practice
+    private var writeNotifications = true
     
     public var timeSlotsSubject:PublishSubject<[Int]> = PublishSubject<[Int]>()
     
@@ -115,6 +121,8 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
                 schedule.convertTimeSlotsUTC(to: false)
                 self.cardSendFrequency = schedule.frequency
                 self.notificationStyle = schedule.style ?? Schedule.NotificationsType.kShowEverything
+                self.pausedNotifications = schedule.paused ?? false
+                self.writeNotifications = schedule.writingPractice ?? true
                 self.drawSchedule(schedule: schedule, scheduleView: scheduleView)
                 mainView.updateScrollViewContentSize()
             } else {
@@ -140,6 +148,34 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
             let purchasingVC = GRPurchasingViewController(purchaseableItems: Purchasing.purchaseItems)
             self.present(purchasingVC, animated: true, completion: nil)
         })
+    }
+    
+    fileprivate func getToggledItemsCard(_ mainView: GRViewWithScrollView) -> GRBootstrapElement {
+        let writingPracticeText = "Would you like to receive notifications to practice writing? (When learning a langauge this helps a lot!)"
+        let pauseText = "Would you like to pause receiving notifications for now?"
+        
+        let toggledItems = DEToggledItems(
+            items: [
+                writingPracticeText: self.writeNotifications,
+                pauseText: self.pausedNotifications],
+            title: "Notification Settings", margin: self.margins)
+        
+        toggledItems.itemToggled.bind { [weak self] (toggleItem) in
+            guard let self = self else { return }
+            
+            switch toggleItem.item {
+            case writingPracticeText:
+                self.writeNotifications = toggleItem.active
+                break;
+            case pauseText:
+                self.pausedNotifications = toggleItem.active
+                break;
+            default:
+                break;
+            }
+        }.disposed(by: self.disposeBag)
+        
+        return toggledItems
     }
     
     private func drawSchedule (schedule: Schedule, scheduleView: DEScheduleView) {
@@ -223,8 +259,11 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
             guard let notificationStyle = notificationStyle else { return }
             self.notificationStyle = notificationStyle
         }.disposed(by: self.disposeBag)
+                        
+        notificationTypeCard.addToSuperview(superview: mainView.containerView, viewAbove: frequencyCard, anchorToBottom: false)
         
-        notificationTypeCard.addToSuperview(superview: mainView.containerView, viewAbove: frequencyCard, anchorToBottom: true)
+        let toggledItemsCard = self.getToggledItemsCard(mainView)
+        toggledItemsCard.addToSuperview(superview: mainView.containerView, viewAbove: notificationTypeCard, anchorToBottom: true)
         
         self.timeSlotsSubject.onNext(schedule.timeSlots)
         self.scheduleView = scheduleView
@@ -309,6 +348,8 @@ class DEScheduleViewController: UIViewController, RulesProtocol, AddHelpButtonPr
         // These are two settings that currently are not updated within the app
         schedule.purchasedPackage = ScheduleManager.shared.getSchedule()?.purchasedPackage
         schedule.sentence = ScheduleManager.shared.getSchedule()?.sentence
+        schedule.writingPractice = self.writeNotifications
+        schedule.paused = self.pausedNotifications
                 
         ScheduleManager.shared.saveSchedule(schedule).subscribe { (event) in
             // Show that saving has finished

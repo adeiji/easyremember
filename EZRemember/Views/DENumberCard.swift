@@ -62,7 +62,7 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
         
         let maxNumberCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         maxNumberCaptionLabel.attributedText = maxNumberMessage.addLineSpacing()
-        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
+        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: .medium) )
         
         self
             .addRow(columns:[
@@ -178,7 +178,7 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
         
         let maxNumberCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         maxNumberCaptionLabel.attributedText = maxNumberMessage.addLineSpacing()
-        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
+        maxNumberCaptionLabel.font( CustomFontBook.Medium.of(size: .medium) )
         
         self
         .addRow(columns:[

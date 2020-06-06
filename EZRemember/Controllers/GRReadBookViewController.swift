@@ -12,7 +12,7 @@ import RxSwift
 import SwiftyBootstrap
 import FolioReaderKit
 
-class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol, TranslationProtocol {
+class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol, TranslationProtocol {
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(content: NSLocalizedString("readBookTranslationExplanation", comment: "The first paragraph of the read translation explanation"), title: NSLocalizedString("translateTextTitle", comment: "The title for the section about translating text on the Read book page"), image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
@@ -51,6 +51,10 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     
     internal var disposeBag = DisposeBag()
     
+    private var headerLabel:UILabel?
+    
+    private var translatingIndicator:UILabel?
+    
     init(reader: FolioReaderContainer , folioReader: FolioReader, bookName: String) {
         self.readerContainer = reader
         self.bookName = bookName
@@ -80,11 +84,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                 
-        
-        self.translateWordButton?.isHidden = true
-        self.createCard?.isHidden = true
-                        
+                         
         if self.readerView != nil {
             return
         }
@@ -103,6 +103,8 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
         
         let topMargin:CGFloat = Style.isIPhoneX() ? 30 : 0
         
+        let bookNameLabel = Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
+        
         let mainViewCard = GRBootstrapElement(color: UIColor.white.dark(Dark.epubReaderBlack), anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Zero,
             top: .Five,
@@ -116,7 +118,7 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
             
             // THE BOOK NAME HEADER
             
-            Column(cardSet: Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
+            Column(cardSet: bookNameLabel
                 .font(CustomFontBook.Medium.of(size: .medium))
                 .toCardSet().withHeight(self.navBarHeight).margin.top(topMargin)
                 , xsColWidth: .Eight).forSize(.sm, .Ten),
@@ -163,14 +165,25 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
         
         self.translateWordButton = self.createTranslateButton()
         self.createCard = self.createCreateCardButton()
+        self.headerLabel = bookNameLabel
                         
         self.addHelpButton(nil, superview: self.view)
+        
+        let translatingIndicatorLabel = Style.label(withText: "Translating...", superview: nil, color: .white, textAlignment: .center, backgroundColor: UIColor.EZRemember.mainBlue)
+        translatingIndicatorLabel.font = CustomFontBook.Medium.of(size: .medium)
+        mainViewCard.addSubview(translatingIndicatorLabel)
+        translatingIndicatorLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(mainViewCard)
+            make.right.equalTo(mainViewCard)
+            make.bottom.equalTo(mainViewCard)
+            make.height.equalTo(50)
+        }
+        translatingIndicatorLabel.isHidden = true
+        self.translatingIndicator = translatingIndicatorLabel
     }
     
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.folioReader.readerCenter?.toggleBars()
-        
+        super.viewDidLayoutSubviews()        
     }
     
     func showEmptyTranslationView () {
@@ -192,8 +205,16 @@ class GRReadBookViewController: UIViewController, ShowEpubReaderProtocol, AddHel
          
         guard let wordsToTranslate = self.currentPage?.webView?.js("getSelectedText()") else { return }
         self.translationView?.showLoadingNVActivityIndicatorView()
+        
+        if GRDevice.smallerThan(.md) {
+            self.headerLabel?.text = "Translating..."
+            self.translatingIndicator?.isHidden = false
+        }
+        
         self.translateButtonPressed(nil, wordsToTranslate: wordsToTranslate) { [weak self] (translations) in
             guard let self = self else { return }
+            self.headerLabel?.text = self.bookName
+            self.translatingIndicator?.isHidden = true
             self.translationView?.showFinishedLoadingNVActivityIndicatorView()
             self.translationView?.subviews.forEach({ [weak self] (subview) in
                 guard let _ = self else { return }

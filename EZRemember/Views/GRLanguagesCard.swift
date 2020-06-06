@@ -91,11 +91,11 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
         
         // TRANSLATION CARD HEADER MESSAGE
         
-        let selectLanguagesMessage = "Which languages would you look to recieve translations for?"
+        let selectLanguagesMessage = "Which languages would you like to recieve translations for?"
         
         let languagesCaptionLabel = Style.label(withText: "", superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
         languagesCaptionLabel.attributedText = selectLanguagesMessage.addLineSpacing()
-        languagesCaptionLabel.font( CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium) )
+        languagesCaptionLabel.font( CustomFontBook.Medium.of(size: .medium) )
         
         self
         .addRow(columns:[

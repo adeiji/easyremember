@@ -56,9 +56,11 @@
 		F467E50F247DAAD400E10EEA /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E50E247DAAD400E10EEA /* NotificationViewController.swift */; };
 		F467E512247DAAD400E10EEA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F467E510247DAAD400E10EEA /* MainInterface.storyboard */; };
 		F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F476F0992488B32D00E72781 /* DEToggledItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476F0982488B32D00E72781 /* DEToggledItems.swift */; };
 		F487227E248399CF001A0EF3 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487227D248399CF001A0EF3 /* Sentence.swift */; };
 		F48722852485212B001A0EF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48722842485212B001A0EF3 /* Reachability.swift */; };
 		F487228724855F6A001A0EF3 /* HorizontalScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */; };
+		F48B5696248A064400A26A52 /* GRBootstrapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48B5695248A064400A26A52 /* GRBootstrapViewController.swift */; };
 		F48E65E4245FF37900CA56FE /* GRCreateNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */; };
 		F48E65E6245FF3A200CA56FE /* GRNotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */; };
 		F499819B24801A500059AC13 /* TranslationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F499819A24801A500059AC13 /* TranslationProtocol.swift */; };
@@ -70,7 +72,6 @@
 		F49981A724824A030059AC13 /* OnlinePurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A624824A030059AC13 /* OnlinePurchase.swift */; };
 		F49981A9248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49981A8248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift */; };
 		F4B0CBEA247B7B8F001DE87C /* ConvertToEpubHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */; };
-		F4B0CBEC247B81DD001DE87C /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F4B0CBEB247B81DD001DE87C /* test.pdf */; };
 		F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */; };
 		F4C1175B24655E3900A145CB /* GRReadBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */; };
 		F4C1175E246564DE00A145CB /* FolioReader+EZRemember.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C1175D246564DE00A145CB /* FolioReader+EZRemember.swift */; };
@@ -83,7 +84,6 @@
 		F4E0E6ED246A80E800EA0827 /* RulesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */; };
 		F4E0E6F0246BF5AF00EA0827 /* CardClickedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */; };
 		F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */; };
-		F4E0E6F6246C70BB00EA0827 /* jy_IN.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4E0E6F5246C705E00EA0827 /* jy_IN.epub */; };
 		F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4C2026624682F4800D59245 /* ylioppilas.epub */; };
 		F4F1A3EACA9D508B69DE148E /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F5377E24601A630009D3DC /* NotificationsManager.swift */; };
@@ -240,9 +240,11 @@
 		F467E511247DAAD400E10EEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		F467E513247DAAD500E10EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBootstrap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F476F0982488B32D00E72781 /* DEToggledItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEToggledItems.swift; sourceTree = "<group>"; };
 		F487227D248399CF001A0EF3 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
 		F48722842485212B001A0EF3 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollableView.swift; sourceTree = "<group>"; };
+		F48B5695248A064400A26A52 /* GRBootstrapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRBootstrapViewController.swift; sourceTree = "<group>"; };
 		F48E65E3245FF37900CA56FE /* GRCreateNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRCreateNotificationCard.swift; sourceTree = "<group>"; };
 		F48E65E5245FF3A200CA56FE /* GRNotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNotificationCard.swift; sourceTree = "<group>"; };
 		F499819A24801A500059AC13 /* TranslationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationProtocol.swift; sourceTree = "<group>"; };
@@ -254,7 +256,6 @@
 		F49981A624824A030059AC13 /* OnlinePurchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePurchase.swift; sourceTree = "<group>"; };
 		F49981A8248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DEScheduleViewController+RestorePurchases.swift"; sourceTree = "<group>"; };
 		F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertToEpubHandler.swift; sourceTree = "<group>"; };
-		F4B0CBEB247B81DD001DE87C /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		F4C08CC724647118004D558E /* FileManager+SubDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+SubDocuments.swift"; sourceTree = "<group>"; };
 		F4C1175A24655E3900A145CB /* GRReadBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRReadBookViewController.swift; sourceTree = "<group>"; };
 		F4C1175D246564DE00A145CB /* FolioReader+EZRemember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolioReader+EZRemember.swift"; sourceTree = "<group>"; };
@@ -268,7 +269,6 @@
 		F4E0E6EC246A80E800EA0827 /* RulesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesProtocol.swift; sourceTree = "<group>"; };
 		F4E0E6EF246BF5AF00EA0827 /* CardClickedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClickedProtocol.swift; sourceTree = "<group>"; };
 		F4E0E6F1246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GRBootstrapElement+Clicked.swift"; sourceTree = "<group>"; };
-		F4E0E6F5246C705E00EA0827 /* jy_IN.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = jy_IN.epub; sourceTree = "<group>"; };
 		F4F5377E24601A630009D3DC /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F4F53792246062220009D3DC /* SceneDelegate+TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate+TabController.swift"; sourceTree = "<group>"; };
 		F4F53798246085A60009D3DC /* DEScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEScheduleViewController.swift; sourceTree = "<group>"; };
@@ -555,6 +555,7 @@
 				F467E4EF247D94F600E10EEA /* DEMultiSelectCard.swift */,
 				F49981A42480F4AE0059AC13 /* DeckCell.swift */,
 				F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */,
+				F476F0982488B32D00E72781 /* DEToggledItems.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -645,10 +646,8 @@
 		F4F537E92463B2DE0009D3DC /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				F4B0CBEB247B81DD001DE87C /* test.pdf */,
 				F4C2026624682F4800D59245 /* ylioppilas.epub */,
 				F4F537EA2463B2EB0009D3DC /* Dune.epub */,
-				F4E0E6F5246C705E00EA0827 /* jy_IN.epub */,
 			);
 			path = Books;
 			sourceTree = "<group>";
@@ -658,6 +657,7 @@
 			children = (
 				F43DDF7D2472327800776941 /* String+Substring.swift */,
 				F43DDF892474318D00776941 /* String+IsValidEmail.swift */,
+				F48B5695248A064400A26A52 /* GRBootstrapViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -797,7 +797,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4E0E6F6246C70BB00EA0827 /* jy_IN.epub in Resources */,
 				F4F537C5246127200009D3DC /* Poppins-LightItalic.ttf in Resources */,
 				F4F537C6246127200009D3DC /* Poppins-Bold.ttf in Resources */,
 				F4F537C3246127200009D3DC /* OFL.txt in Resources */,
@@ -805,7 +804,6 @@
 				F4F537C0246127200009D3DC /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				F4F537BF246127200009D3DC /* Poppins-SemiBoldItalic.ttf in Resources */,
 				F4F537C7246127200009D3DC /* Poppins-Black.ttf in Resources */,
-				F4B0CBEC247B81DD001DE87C /* test.pdf in Resources */,
 				F43DDF962475BD9600776941 /* GoogleService-Info.plist in Resources */,
 				F4F537B9246127200009D3DC /* Poppins-ExtraLight.ttf in Resources */,
 				F4F537BD246127200009D3DC /* Poppins-Light.ttf in Resources */,
@@ -1043,6 +1041,8 @@
 				F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */,
 				F4C2025C246699C200D59245 /* BookDetails.swift in Sources */,
 				F49981A32480F36B0059AC13 /* DecksViewController.swift in Sources */,
+				F476F0992488B32D00E72781 /* DEToggledItems.swift in Sources */,
+				F48B5696248A064400A26A52 /* GRBootstrapViewController.swift in Sources */,
 				F450332A2476879B00307417 /* AddHelpButtonProtocol.swift in Sources */,
 				F4285270245C253500C381DE /* UIVIew+Shadow.swift in Sources */,
 				F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */,
@@ -1286,7 +1286,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.003;
+				MARKETING_VERSION = 1.004;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1311,7 +1311,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.003;
+				MARKETING_VERSION = 1.004;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1422,6 +1422,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.004;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1445,6 +1446,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.004;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

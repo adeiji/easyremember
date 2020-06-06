@@ -51,7 +51,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     }
 }
 
-public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol, TranslationProtocol {
+public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol, TranslationProtocol {
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(
@@ -59,10 +59,10 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
             title: NSLocalizedString("repetitionExplanationTitle", comment: "The title for the explanation of why repetition is so important"),
             image: nil),
         ExplanationSection(content:
-            "Notification Cards that you create will look like the one above, and they consist of 8 components.\n\n\t1. The ACTIVATE button -  By default, this button will say 'Activate'.  Press this button when you want to Activate or Deactive a card.  When a notification is active, it will be sent to you in the form of Push Notifications.\n\t2. The REMEMBERED button - Press this button when you feel you've remembered the word or the phrase.  Remembered cards will not be sent as push notifications.  When you click the Remembered button, it will then say 'Forgot'.  Click the 'Forgot' button if you feel like you've forgotten the card information and it will start being sent as push notifications again.\n\t3. The DELETE button - Press this if you want to delete the card.\n\t4. The REMEMBERED COUNT - This is the number of times you've said you've remembered this card. (see push notifications below) Everytime you select yes on the custom push notification, the Remembered count increases by one.\n\t5. This just shows you when you created the card.\n\t6. This is the caption.  It can be anything that you want when creating the card.\n\t7. This is the content of the card.  It can be any data that you want.\n\t8. If you have saved this card from an epub in this app, this is where the title of the book you saved the card from will be.  If you used the translate feature to create this card, then the language that you translated into will be one the right, where it says English."
+            "Notification Cards that you create will look like the one above, and they consist of 8 components.\n\n\t1. The ACTIVATE button - By default, this button will say 'Activate'. Press this button when you want to Activate or Deactivate a card. When a notification is active, we will send it to you in the form of Push Notifications.\n\t2. The REMEMBERED button - Press this button when you feel you've remembered the word or the phrase. We will no longer send you Remembered cards as push notifications. When you click the Remembered button, it will then say 'Forgot'. Click the 'Forgot' button if you feel like you've forgotten the card information, and it will start being sent as push notifications again.\n\t3. The DELETE button - Press this if you want to delete the card.\n\t4. The REMEMBERED COUNT - This is the number of times you've said you've remembered this card. (see push notifications below) Every time you select yes on the custom push notification, the Remembered count increases by one.\n\t5. Shows you when you created the card.\n\t6. The caption. It can be anything that you want when creating the card.\n\t7. The content of the card. It can be any data that you wish.\n\t8. If you saved this card from an epub in this app, this is where the title of the book you saved the card from will be. If you used the translate feature to create this card, then the language that you translated into will be one the right, where it says English."
             , title: "Notification Breakdown", image: UIImage(named: "notification-active"), largeImage: true),
-        ExplanationSection(content: "This is a basic notification that is sent to you based off of the cards you create.  You can either set the notifications to show Caption and Content, show Caption and hide Content, or Show Content and hide Caption.", title: "Simple Push Notification", image: UIImage(named: "notification-unpressed"), largeImage: false),
-        ExplanationSection(content: "When on your Lock Screen, you press and hold, when on your Home Page you swipe down, and you'll see this view.  You can then say whether you remembered this card or not.  If you select 'Yes', the 'Remembered Count' will increase by 1 (see above).  If you feel like you've got this card down and you don't need anymore notifications, than just click 'I've Mastered This Card' and it will be set as Remembered and will not be sent as a push notification anymore.", title: "Expanded Notifications", image: UIImage(named: "notification-pressed"), largeImage: true)
+        ExplanationSection(content: "Above is a basic notification sent to you based on the cards you create. You can either set the notifications to show Caption and Content, show Caption and hide Content, or Show Content and hide Caption.", title: "Simple Push Notification", image: UIImage(named: "notification-unpressed"), largeImage: false),
+        ExplanationSection(content: "When on your Lock Screen, you press and hold.  When on your Home Page, you swipe down, and you'll see this view. You can then say whether you remembered this card or not. If you select 'Yes', the 'Remembered Count' will increase by 1 (see above). If you feel like you've got this card down and you don't need any more notifications, than click 'I've Mastered This Card', and it will be set as Remembered and will not be sent as a push notification anymore.", title: "Expanded Notifications", image: UIImage(named: "notification-pressed"), largeImage: true)
         ])
     
     var bookName: String
@@ -143,6 +143,8 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: Toggle Buttons
     
     func handleToggleRememberedCard (card: GRNotificationCard) {
         card.toggleRememberedButton?.addTargetClosure { [weak self] (_) in
@@ -273,6 +275,8 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         NotificationCenter.default.removeObserver(self)
     }
     
+    // MARK: Notification Observers
+    
     @objc func notificationsSavedToServer (_ notification: Notification) {
         guard let notifications = notification.userInfo?[GRNotification.kSavedNotifications] as? [GRNotification] else { return }
         self.addNotifications(notifications, atBeginning: true)
@@ -291,7 +295,7 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         
         self.mainView?.collectionView?.reloadData()
     }
-    
+
     private func addObservers () {
         NotificationCenter.default.addObserver(self, selector: #selector(maxNumCardsUpdated(_:)), name: .UserUpdatedMaxNumberOfCards, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(notificationsSavedToServer(_:)), name: .NotificationsSaved, object: nil)
@@ -434,10 +438,8 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
     
     override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        self.mainView?.collectionView?.collectionViewLayout.invalidateLayout()
         
-        // We need to make sure that we update all the views if the layout changes because this can mean the app has shrunk size or has gotten bigger and we need to make our UI adjustments accordingly.
-        self.mainView?.setNeedsLayout()
-        self.mainView?.layoutIfNeeded()
     }
     
     override public func viewDidLayoutSubviews() {
@@ -447,8 +449,6 @@ public class DEMainViewController: UIViewController, ShowEpubReaderProtocol, Car
         if (self.mainView?.collectionView?.dataSource == nil) {
             return
         }
-        
-        self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
     }
     
     private func handleTagPressed (tagPressed: PublishSubject<String>?) {

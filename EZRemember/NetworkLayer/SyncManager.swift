@@ -87,6 +87,7 @@ class SyncManager {
                 let ebookHandler = EBookHandler()
                 ebookHandler.downloadBooks(sync: sync)
                 FirebasePersistenceManager.shared.saveFcmToken(Messaging.messaging().fcmToken, forceSave: true)
+                
                 // Sync with the information attached to this user's email address
                 NotificationsManager.sync(sync.deviceId)
                 UtilityFunctions.addSyncEmail(sync.email)

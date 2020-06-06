@@ -20,7 +20,7 @@ class DEScheduleView: GRBootstrapElement {
     
     fileprivate func addTimesCaptionLabel(_ columns: [GRBootstrapElement.Column]) {
         let timesCaptionLabel = Style.label(withText: "", size: .small, superview: nil, color: UIColor.black.dark(Dark.coolGrey50))
-        timesCaptionLabel.font(CustomFontBook.Medium.of(size: Style.getScreenSize() == .xs ? .small : .medium ))
+        timesCaptionLabel.font(CustomFontBook.Medium.of(size: .medium ))
         timesCaptionLabel.attributedText = NSLocalizedString("hourSelection", comment: "the hour selection header").addLineSpacing()
         
         self.addRow(columns: [

@@ -48,6 +48,10 @@ struct Schedule: Codable {
     
     var sentence:String?
     
+    var paused:Bool?
+    
+    var writingPractice:Bool?
+    
     /// The type of notification to be shown, is it Flashcard Style with only the caption showing and then needing to click to show the content
     /// or Flashcard Style with content showing
     /// or Show Everything
@@ -134,7 +138,12 @@ class ScheduleManager {
     }
     
     public func getSubscriptionForSessionId (_ sessionId: String) -> Observable<String?> {
+        #if DEBUG
         guard let url = URL(string: "https://graffitisocial.herokuapp.com/sessionSubscription?sessionId=\(sessionId)") else { return .empty() }
+        #else
+        guard let url = URL(string: "https://graffitisocialprod.herokuapp.com/sessionSubscription?sessionId=\(sessionId)") else { return .empty() }
+        #endif
+        
         let request = URLRequest(url: url)
         
         return Observable.create { (observer) -> Disposable in

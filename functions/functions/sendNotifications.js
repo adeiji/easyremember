@@ -32,10 +32,13 @@ async function sendNotifications (admin, time, debug) {
         if (!retrievedSnapshot.docs) {
             return
         }
-
+        
         retrievedSnapshot.docs.forEach( async(schedule) => {
             // Get the device Id for the schedule and then grab all the notifications that need to be sent to this device
             const deviceId = schedule.get('deviceId')
+            const isPaused = schedule.get('paused')
+
+            if (isPaused === true) { return }
     
             console.log("Retrieving fcmToken for deviceId: " + deviceId)        
             var fcmTokensSnapshot = await admin.firestore().collection('fcmTokens').where('deviceId', '==', deviceId).get()
@@ -74,7 +77,12 @@ async function sendNotifications (admin, time, debug) {
                     index = index + 1
                 })       
                 
-                sendSentenceNotification(notificationsSnapshot, token, schedule.get("sentence"), admin)
+                let writingPractice = schedule.get("writingPractice")
+
+                if (writingPractice === undefined || writingPractice === true ) {
+                    sendSentenceNotification(notificationsSnapshot, token, schedule.get("sentence"), admin)
+                    sendSentenceNotification(notificationsSnapshot, token, schedule.get("sentence"), admin)
+                }                
             })
         });
     })
