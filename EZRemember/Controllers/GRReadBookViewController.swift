@@ -38,7 +38,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     weak var translationView:UIView?
     
     /// The current page
-    private var currentPage:FolioReaderPage?
+    private var currentPage:FolioReaderPageCollectionViewCell?
     
     /// Display the reader
     private var folioReader:FolioReader
@@ -323,7 +323,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         self.createCard?.isHidden = true
     }
         
-    func pageDidAppear(_ page: FolioReaderPage) {                                
+    func pageDidAppear(_ page: FolioReaderPageCollectionViewCell) {                                
         self.currentPage = page
     }
     
