@@ -137,9 +137,14 @@ class DENumberCard: GRBootstrapElement, RulesProtocol {
         
         var selectNumberColumns = [Column]()
         
-        for number in 1...64 {
-            
-            if number > 10 {
+        for number in 1...100 {
+                        
+            if number > 50 {
+                if number % 10 != 0 {
+                    continue
+                }
+            }
+            else if number > 10 {
                 if number % 5 != 0 {
                     continue
                 }

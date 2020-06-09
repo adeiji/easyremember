@@ -33,7 +33,10 @@
 		F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */; };
 		F4285278245C327700C381DE /* UIButton+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285277245C327700C381DE /* UIButton+Image.swift */; };
 		F428527A245C34F700C381DE /* DEImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4285279245C34F700C381DE /* DEImageHelper.swift */; };
-		F4310D25248CCA0300D2EAA3 /* g_E_202003.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4310D24248CCA0000D2EAA3 /* g_E_202003.epub */; };
+		F4310D2A248E177400D2EAA3 /* pg2000.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4310D26248E177300D2EAA3 /* pg2000.epub */; };
+		F4310D2B248E177400D2EAA3 /* pg21425.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4310D27248E177300D2EAA3 /* pg21425.epub */; };
+		F4310D2C248E177400D2EAA3 /* pg27689.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4310D28248E177400D2EAA3 /* pg27689.epub */; };
+		F4310D2D248E177400D2EAA3 /* pg17989.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4310D29248E177400D2EAA3 /* pg17989.epub */; };
 		F43DDF7E2472327800776941 /* String+Substring.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7D2472327800776941 /* String+Substring.swift */; };
 		F43DDF8024723FC100776941 /* Purchasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF7F24723FC100776941 /* Purchasing.swift */; };
 		F43DDF82247255E500776941 /* DEMainViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */; };
@@ -126,7 +129,6 @@
 		F4F537E42463AFDF0009D3DC /* DEEpubReaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E32463AFDE0009D3DC /* DEEpubReaderController.swift */; };
 		F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */; };
 		F4F537E82463B1880009D3DC /* Style+LargeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537E72463B1880009D3DC /* Style+LargeHeader.swift */; };
-		F4F537EB2463B3A60009D3DC /* Dune.epub in Resources */ = {isa = PBXBuildFile; fileRef = F4F537EA2463B2EB0009D3DC /* Dune.epub */; };
 		F4F537F1246404B70009D3DC /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F0246404B70009D3DC /* TranslateManager.swift */; };
 		F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F22464064F0009D3DC /* GRNetworking.swift */; };
 		F4F537F5246413E90009D3DC /* FirebasePersistanceManager+Watching.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */; };
@@ -212,7 +214,10 @@
 		F4285275245C31EA00C381DE /* UIImage+FromBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+FromBundle.swift"; sourceTree = "<group>"; };
 		F4285277245C327700C381DE /* UIButton+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Image.swift"; sourceTree = "<group>"; };
 		F4285279245C34F700C381DE /* DEImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEImageHelper.swift; sourceTree = "<group>"; };
-		F4310D24248CCA0000D2EAA3 /* g_E_202003.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_E_202003.epub; sourceTree = "<group>"; };
+		F4310D26248E177300D2EAA3 /* pg2000.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = pg2000.epub; sourceTree = "<group>"; };
+		F4310D27248E177300D2EAA3 /* pg21425.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = pg21425.epub; sourceTree = "<group>"; };
+		F4310D28248E177400D2EAA3 /* pg27689.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = pg27689.epub; sourceTree = "<group>"; };
+		F4310D29248E177400D2EAA3 /* pg17989.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = pg17989.epub; sourceTree = "<group>"; };
 		F43DDF7D2472327800776941 /* String+Substring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Substring.swift"; sourceTree = "<group>"; };
 		F43DDF7F24723FC100776941 /* Purchasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchasing.swift; sourceTree = "<group>"; };
 		F43DDF81247255E500776941 /* DEMainViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DEMainViewController+CollectionView.swift"; sourceTree = "<group>"; };
@@ -310,7 +315,6 @@
 		F4F537E32463AFDE0009D3DC /* DEEpubReaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEEpubReaderController.swift; sourceTree = "<group>"; };
 		F4F537E52463B0FB0009D3DC /* UserNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationScheduler.swift; sourceTree = "<group>"; };
 		F4F537E72463B1880009D3DC /* Style+LargeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style+LargeHeader.swift"; sourceTree = "<group>"; };
-		F4F537EA2463B2EB0009D3DC /* Dune.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dune.epub; sourceTree = "<group>"; };
 		F4F537F0246404B70009D3DC /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
 		F4F537F22464064F0009D3DC /* GRNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRNetworking.swift; sourceTree = "<group>"; };
 		F4F537F4246413E90009D3DC /* FirebasePersistanceManager+Watching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebasePersistanceManager+Watching.swift"; sourceTree = "<group>"; };
@@ -648,9 +652,11 @@
 		F4F537E92463B2DE0009D3DC /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				F4310D24248CCA0000D2EAA3 /* g_E_202003.epub */,
+				F4310D26248E177300D2EAA3 /* pg2000.epub */,
+				F4310D29248E177400D2EAA3 /* pg17989.epub */,
+				F4310D27248E177300D2EAA3 /* pg21425.epub */,
+				F4310D28248E177400D2EAA3 /* pg27689.epub */,
 				F4C2026624682F4800D59245 /* ylioppilas.epub */,
-				F4F537EA2463B2EB0009D3DC /* Dune.epub */,
 			);
 			path = Books;
 			sourceTree = "<group>";
@@ -802,7 +808,6 @@
 			files = (
 				F4F537C5246127200009D3DC /* Poppins-LightItalic.ttf in Resources */,
 				F4F537C6246127200009D3DC /* Poppins-Bold.ttf in Resources */,
-				F4310D25248CCA0300D2EAA3 /* g_E_202003.epub in Resources */,
 				F4F537C3246127200009D3DC /* OFL.txt in Resources */,
 				F45033332478227400307417 /* Localizable.strings in Resources */,
 				F4F537C0246127200009D3DC /* Poppins-ExtraBoldItalic.ttf in Resources */,
@@ -814,19 +819,22 @@
 				F4F537BB246127200009D3DC /* Poppins-ExtraLightItalic.ttf in Resources */,
 				F4F537C8246127200009D3DC /* Poppins-Thin.ttf in Resources */,
 				F4E0E6F7246C70BE00EA0827 /* ylioppilas.epub in Resources */,
+				F4310D2D248E177400D2EAA3 /* pg17989.epub in Resources */,
 				F4285248245BFA5F00C381DE /* LaunchScreen.storyboard in Resources */,
 				F4F537C4246127200009D3DC /* Poppins-Regular.ttf in Resources */,
 				F4F537BA246127200009D3DC /* Poppins-ThinItalic.ttf in Resources */,
+				F4310D2B248E177400D2EAA3 /* pg21425.epub in Resources */,
 				F4F537C2246127200009D3DC /* Poppins-BlackItalic.ttf in Resources */,
 				F4F537C9246127200009D3DC /* Poppins-SemiBold.ttf in Resources */,
 				F4285245245BFA5F00C381DE /* Assets.xcassets in Resources */,
 				F4285243245BFA5E00C381DE /* Main.storyboard in Resources */,
+				F4310D2C248E177400D2EAA3 /* pg27689.epub in Resources */,
+				F4310D2A248E177400D2EAA3 /* pg2000.epub in Resources */,
 				F4F537CA246127200009D3DC /* Poppins-Italic.ttf in Resources */,
 				F4F537BC246127200009D3DC /* Poppins-BoldItalic.ttf in Resources */,
 				F4F537BE246127200009D3DC /* Poppins-Medium.ttf in Resources */,
 				F4F537CB246127200009D3DC /* Poppins-MediumItalic.ttf in Resources */,
 				F4F537C1246127200009D3DC /* Poppins-ExtraBold.ttf in Resources */,
-				F4F537EB2463B3A60009D3DC /* Dune.epub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1290,7 +1298,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.008;
+				MARKETING_VERSION = 1.0092;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1315,7 +1323,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.008;
+				MARKETING_VERSION = 1.0092;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1426,7 +1434,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.008;
+				MARKETING_VERSION = 1.0092;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1450,7 +1458,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.008;
+				MARKETING_VERSION = 1.0092;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

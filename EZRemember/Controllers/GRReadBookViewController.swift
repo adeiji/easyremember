@@ -29,7 +29,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     let bookName:String
     
     /// The height of the nav bar
-    let navBarHeight:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 75 : 50
+    let navBarHeight:CGFloat = /*UIDevice.current.userInterfaceIdiom == .pad ? 75 :*/ 50
     
     /// Screen that displays the ePub reader
     weak var readerView:UIView?
@@ -105,6 +105,11 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         
         let bookNameLabel = Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         
+        let helpButton = self.addHelpButton(nil, superview: self.view)
+        helpButton.backgroundColor = .clear
+        helpButton.setTitleColor(UIColor.black.dark(.white), for: .normal)
+        helpButton.removeFromSuperview()
+        
         let mainViewCard = GRBootstrapElement(color: UIColor.white.dark(Dark.epubReaderBlack), anchorWidthToScreenWidth: true, margin: BootstrapMargin(
             left: .Zero,
             top: .Five,
@@ -125,7 +130,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
             
             // THE NAV BAR
             
-            Column(cardSet: UIView().toCardSet().withHeight(self.navBarHeight).margin.top(topMargin), xsColWidth: .Two).forSize(.sm, .One),
+            Column(cardSet: helpButton.toCardSet().withHeight(self.navBarHeight).margin.top(topMargin), xsColWidth: .Two).forSize(.sm, .One),
             ]).addRow(columns: [
                 
                 // THE READER VIEW
@@ -166,8 +171,6 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         self.translateWordButton = self.createTranslateButton()
         self.createCard = self.createCreateCardButton()
         self.headerLabel = bookNameLabel
-                        
-        self.addHelpButton(nil, superview: self.view)
         
         let translatingIndicatorLabel = Style.label(withText: "Translating...", superview: nil, color: .white, textAlignment: .center, backgroundColor: UIColor.EZRemember.mainBlue)
         translatingIndicatorLabel.font = CustomFontBook.Medium.of(size: .medium)

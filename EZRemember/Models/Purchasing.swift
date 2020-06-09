@@ -43,7 +43,7 @@ struct Purchasing {
         
         struct Premium {
             static let rules = [
-                kMaxNotificationCards : 60,
+                kMaxNotificationCards : 100,
                 kMaxLanguages: 0,
                 kMaxTimes: 0
             ]
