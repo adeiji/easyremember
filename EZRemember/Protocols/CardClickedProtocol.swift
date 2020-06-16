@@ -19,6 +19,8 @@ protocol CardClickedProtocol: UIViewController {
     var notifications:[GRNotification] { get set }
     
     var allNotifications:[GRNotification] { get set }
+    
+    var mainView:GRViewWithCollectionView? { get set }
         
 }
 
@@ -51,11 +53,11 @@ extension CardClickedProtocol {
         self.updateNotificationInNotificationsArray(notification: notification)
     }
 
-    
     internal func updateNotificationInNotificationsArray (notification:GRNotification?) {
         guard let notification = notification else { return }
         if let row = self.notifications.firstIndex(where: { $0.id == notification.id }) {
             self.notifications[row] = notification
+            self.mainView?.collectionView?.reloadItems(at: [IndexPath(row: row, section: 1)])
         }
         
         if let row = self.allNotifications.firstIndex(where: { $0.id == notification.id }) {

@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We use your photo library to save quotations as images that you desire to remember or share later.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.dephyned.ezremember-sendnotifications</string>
@@ -47,6 +45,8 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>If you want to use this app to take a picture and share that image, than you must allow this app to use your camera</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We use your photo library to save quotations as images that you desire to remember or share later.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-ExtraLight.ttf</string>

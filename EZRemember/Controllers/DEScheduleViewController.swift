@@ -186,7 +186,7 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
         
         // PURCHASE CARD
         
-        if self.purchasedOnline() == false {
+//        if self.purchasedOnline() == false {
             let goPremiumLocalized = NSLocalizedString("goPremium", comment: "On the schedule view controller its the header for purchasing a package")
             let startTrialLocalized = self.userHasSubscription() ? "Upgrade Package" : NSLocalizedString("startTrial", comment: "On the schedule view controller its the start free 7 day trial button text")
             
@@ -195,7 +195,7 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
             purchaseCard.addToSuperview(superview: mainView.containerView, anchorToBottom: false)
             self.purchaseButtonPressed(button: purchaseCard.actionButton)
             viewAbove = purchaseCard
-        }
+//        }
                         
         // RESTORE PURCHASE CARD
         
