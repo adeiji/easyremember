@@ -24,8 +24,7 @@ public class GRViewWithCollectionView:GRBootstrapElement {
          
         // Set the flow layout of the collection view
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical        
-        
+        flowLayout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: superview.frame, collectionViewLayout: flowLayout)
                         
         if let header = header {
@@ -130,7 +129,7 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
     var unfinishedNotification:GRNotification?
     
     @objc func assignFirstResponderToSearchBar () {
-        self.collectionHeaderView?.searchBar?.becomeFirstResponder()
+//        self.collectionHeaderView?.searchBar?.becomeFirstResponder()
     }
         
     /// If there is an initial book url that should be displayed at the start of the app, ie. this app is opening due to a user selecting this
@@ -240,6 +239,10 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
                 
                 // Check to make sure that the new max number is less than the current max number
                 if maxNum < self.maxNumOfCards {
+                    
+                    let activeNotifications = self.allNotifications.filter({ $0.active == true })
+                    NotificationsManager.shared.updateNotificationsActiveState(activeNotifications, active: false, completion: nil)
+                    
                     // Set all the notifications to inactive
                     self.notifications.forEach { [weak self] (notification) in
                         guard let self = self else { return }
@@ -676,6 +679,7 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
             guard let self = self else { return }
             let messageCard = GRMessageCard(addTextField: true, textFieldPlaceholder: "Enter words to translate...", showFromTop: true)
             messageCard.draw(message: "Enter the text you would like to translate.", title: "Translate", superview: self.mainView ?? self.view, buttonText: "Translate", cancelButtonText: "Cancel")
+            messageCard.textField?.becomeFirstResponder()
             guard let okayButton = messageCard.firstButton else { return }
             
             okayButton.addTargetClosure { [weak self] (okayButton) in

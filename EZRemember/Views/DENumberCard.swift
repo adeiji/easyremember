@@ -48,7 +48,7 @@ class DEFrequencyCard: GRBootstrapElement, RulesProtocol {
                 .toCardSet()
                 .withHeight(UI.scheduleViewButtonHeights),
                             xsColWidth: .Two)
-            .forSize(.md, .Two)
+            .forSize(.md, .Three)
             .forSize(.xs, .Twelve)
             .forSize(.sm, .Six)
         

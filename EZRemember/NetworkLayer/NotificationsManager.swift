@@ -253,6 +253,33 @@ class NotificationsManager {
         }
     }
     
+    func updateNotificationsActiveState (_ notifications: [GRNotification], active:Bool, completion: ((Bool) -> Void)?) {
+
+        var batches = [WriteBatch]()
+        let db = Firestore.firestore()
+        var batch = db.batch()
+        
+        for index in 0...notifications.count - 1 {
+            let notification = notifications[index]
+            let docRef = db.collection(GRNotification.Keys.kCollectionName).document(notification.id)
+            batch.updateData([ GRNotification.Keys.kActive: false ], forDocument: docRef)
+            
+            if (index + 1) % 100 == 0 {
+                batches.append(batch)
+                batch = db.batch()
+            }
+        }
+        
+        batches.forEach { (batch) in
+            batch.commit { (error) in
+                if batch == batches.last {
+                    completion?(error == nil)
+                }
+            }
+        }
+        
+    }
+    
     func saveNotifications (_ notifications: [GRNotification], completed: @escaping (Bool) -> Void ) {
         var observables = [Observable<GRNotification?>]()
         

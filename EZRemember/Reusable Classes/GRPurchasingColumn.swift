@@ -39,8 +39,8 @@ class GRPurchasingColumn: GRBootstrapElement, RulesProtocol {
         let price = Style.label(withText: "$\(item.price)", superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         let info = Style.label(withText: item.info, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         
-        let purchaseButtonTitle = self.userHasSubscription() ? "Upgrade Your Subscription" : "Start your free 7-day trial!"
-        
+        let purchaseButtonTitle:String = "Subscribe for $\(item.price) / month"
+                        
         let purchaseButton = Style.largeButton(with: purchaseButtonTitle, superview: nil, backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: UIColor.white.dark(Dark.coolGrey900))
         purchaseButton.titleLabel?.font = CustomFontBook.Medium.forSizeClass()
         let features = Style.label(withText: "", superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)

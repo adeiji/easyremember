@@ -73,6 +73,8 @@
 
 /** THE SCHEDULE VIEW CONTROLLER */
 
+"maxNumberLowWarning" = "The maximum cards setting you've chosen is less than your previous maximum cards setting.  If you make this change then all your cards will be set to 'Deactivated' and you will have to activate the ones you want again.  Is that okay?";
+
 "hourSelection" = "Select all the times you want to recieve a notification";
 
 "maxNotifications" = "What is the maximum number of notification cards that you want to be sent to you?  The less there are, the higher your retention rate will be.";
@@ -107,7 +109,13 @@
 "goPremium" = "Go Premium?";
 
 // Text for the start trial button
-"startTrial" = "Start Your Free 7-Day Trial";
+"startTrial" = "Start with a 7 day free trial";
+
+"subscribeButtonBasic" = "Subscribe for $4.99/month";
+
+"subscribeButtonStandard" = "Subscribe for $9.99/month";
+
+"subscribeButtonPremium" = "Subscribe for $14.99/month";
 
 "restorePurchases" = "Restore your previous purchases";
 
@@ -277,3 +285,5 @@
 "premiumPackageMaxNotifications" = "Have a total of 100 active notification cards at one time";
 
 "premiumPackageMaxHourSlots" = "Receive reminders up to every 10 minutes a day";
+
+

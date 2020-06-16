@@ -78,6 +78,37 @@ class GRPurchasingViewController: UIViewController, PurchaseProtocol, AddCancelB
         purchaseCard.addToSuperview(superview: mainView.containerView, viewAbove: nil, anchorToBottom: true)
         mainView.updateScrollViewContentSize()
         NotificationCenter.default.addObserver(self, selector: #selector(purchaseFailed), name: .DEPurchaseFailed, object: nil)
+        
+        purchaseCard.termsConditionsPrivacyPolicyButton?.addTargetClosure(closure: { [weak self] (_) in
+            guard let self = self else { return }
+            self.showTermsConditionsPrivacyPolicyCard()
+        })
+    }
+    
+    private func showTermsConditionsPrivacyPolicyCard () {
+        
+        let card = GRMessageCard()
+        card.draw(message: "Click one of the buttons below to view either the Terms of Use or our Privacy Policy", title: "Important Documents", superview: self.view, buttonText: "Privacy Policy", cancelButtonText: "Terms of Use")
+        card.addExitButton()
+        
+        card.firstButton?.addTargetClosure(closure: { [weak self] (_) in
+            guard let self = self else { return }
+            self.gotoURL(URL(string: "https://easy-remember-forge.flycricket.io/privacy.html"))
+            card.close()
+        })
+        
+        card.secondButton?.addTargetClosure(closure: { [weak self] (_) in
+            guard let self = self else { return }
+            self.gotoURL(URL(string: "https://www.termsofusegenerator.net/live.php?token=OUEQfDcMhBd3rWjTynDStCcUGp7vx511"))
+            card.close()
+        })
+        
+    }
+    
+    private func gotoURL(_ url: URL?) {
+        if let url = url {
+            UIApplication.shared.open(url)
+        }
     }
     
     @objc func purchaseFailed () {

@@ -154,6 +154,10 @@ class NotificationsHeaderCell : UICollectionReusableView {
 
 extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.collectionHeaderView?.searchBar?.resignFirstResponder()
+    }
+    
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         // We have two sections, one with a header one without, this is so that we can reset just the second section, which contains the notification cards, without having to update the top header which would cause problems.
         return 2
@@ -166,11 +170,15 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
             return CGSize.zero
         }
         
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section))
+        let headerView = self.collectionHeaderView ?? self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section))
         
         return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height),
         withHorizontalFittingPriority: .required, // Width is fixed
         verticalFittingPriority: .fittingSizeLevel) // Height can be as large as needed
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize.zero
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -181,7 +189,7 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         
         return self.notifications.count
     }
-    
+            
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if indexPath.section == 1 {
@@ -189,9 +197,8 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         }
         
         if kind == UICollectionView.elementKindSectionHeader {
-            if let headerView = self.collectionHeaderView {
-                return headerView
-            }
+            
+            self.collectionHeaderView?.removeFromSuperview()
             
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NotificationsHeaderCell.reuseIdentifier, for: indexPath) as? NotificationsHeaderCell
             headerView?.draw()

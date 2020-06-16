@@ -18,6 +18,8 @@ class GRPurchasingCard: GRBootstrapElement {
     
     weak var actionButton:UIButton?
     
+    weak var termsConditionsPrivacyPolicyButton:UIButton?
+    
     init(color: UIColor? = .white, anchorWidthToScreenWidth: Bool = true, margin: BootstrapMargin? = nil, superview: UIView? = nil, purchaseableItems:[PurchaseableItem]) {
         self.purchaseableItems = purchaseableItems
         super.init(color: color, anchorWidthToScreenWidth: anchorWidthToScreenWidth, margin: margin, superview: superview)
@@ -52,6 +54,17 @@ class GRPurchasingCard: GRBootstrapElement {
             })
         }
         
+        let termsConditionsPrivacyPolicyButton = Style.largeButton(with: "Privacy Policy and Terms and Conditions", backgroundColor: UIColor.EZRemember.mainBlue.dark(Dark.brownishTan), fontColor: .white)
+        termsConditionsPrivacyPolicyButton.layer.cornerRadius = 5.0
+        termsConditionsPrivacyPolicyButton.titleLabel?.font = CustomFontBook.Medium.of(size: .small)
+        self.termsConditionsPrivacyPolicyButton = termsConditionsPrivacyPolicyButton
+        
+        self.addRow(columns: [
+            Column(cardSet: termsConditionsPrivacyPolicyButton.toCardSet()
+                .withHeight(40)
+                .margin.left(40)
+                .margin.right(40), xsColWidth: .Twelve)
+        ])
         self.addRow(columns: columns, anchorToBottom: true)
     }
     

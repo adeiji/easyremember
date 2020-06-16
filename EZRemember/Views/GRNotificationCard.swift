@@ -118,8 +118,11 @@ class GRNotificationCard: UICollectionViewCell {
     }
     
     fileprivate func getActiveButtonColumn(_ toggleActivateButton: UIButton) -> Column {
-        return // TOGGLE ACTIVE BUTTON
-            
+        
+        toggleActivateButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        toggleActivateButton.titleLabel?.minimumScaleFactor = 0.5
+        
+        return // TOGGLE ACTIVE BUTTON                        
             Column(cardSet: toggleActivateButton
                 .radius(radius: 5)
                 .toCardSet()
