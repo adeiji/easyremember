@@ -58,10 +58,10 @@ extension RulesProtocol {
             return self.validate(numberToValidate: numberToValidate, value: value, ruleName: ruleName)
         }
         
-        guard let schedule = ScheduleManager.shared.getSchedule() else { return false }
+        let schedule = ScheduleManager.shared.getSchedule()
         
         if PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Premium.rawValue) ||
-        schedule.purchasedPackage == Schedule.PurchaseTypes.kPremium {
+        schedule?.purchasedPackage == Schedule.PurchaseTypes.kPremium {
             guard let value = Purchasing.Rules.Premium.rules[ruleName] else {
                 assertionFailure("Baaka, this rule does not exists, why? Make sure you add the rule to the Purchasing.Rules.Premium.rules array")
                 return false
@@ -71,7 +71,7 @@ extension RulesProtocol {
         }
             
         else if PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Standard.rawValue) ||
-        schedule.purchasedPackage == Schedule.PurchaseTypes.kStandard {
+        schedule?.purchasedPackage == Schedule.PurchaseTypes.kStandard {
             guard let value = Purchasing.Rules.Standard.rules[ruleName] else {
                 assertionFailure("Baaka, this rule does not exists, why? Make sure you add the rule to the Purchasing.Rules.Standard.rules array")
                 return false
@@ -81,7 +81,7 @@ extension RulesProtocol {
         }
             
         else if PKIAPHandler.shared.purchaseIsValid(purchaseId: Purchasing.ProductIds.Basic.rawValue) ||
-        schedule.purchasedPackage == Schedule.PurchaseTypes.kBasic {
+        schedule?.purchasedPackage == Schedule.PurchaseTypes.kBasic {
             guard let value = Purchasing.Rules.Basic.rules[ruleName] else {
                 assertionFailure("Baaka, this rule does not exists, why? Make sure you add the rule to the Purchasing.Rules.Basic.rules array")
                 return false

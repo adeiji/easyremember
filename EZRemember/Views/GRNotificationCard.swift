@@ -28,6 +28,8 @@ class GRNotificationCard: UICollectionViewCell {
     
     private weak var notificationCard:GRBootstrapElement?
     
+    private weak var createdLabel:UILabel?
+    
     /// User presses this button and the notification is either set to active or inactive
     weak var toggleActivateButton:UIButton? {
         didSet {
@@ -59,6 +61,8 @@ class GRNotificationCard: UICollectionViewCell {
                     self.contentLabel?.text = notification.description
                     self.bookNameLabel?.text = "\(notification.bookTitle ?? "No Book")   \(notification.language ?? "")"
                     self.rememberedCountLabel?.text = "Remembered \(notification.rememberedCount ?? 0) times"
+                    self.createdLabel?.text = self.format(duration: notification.creationDate)
+                    
                 }
             }
         }
@@ -283,5 +287,6 @@ class GRNotificationCard: UICollectionViewCell {
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         self.notificationCard = card
+        self.createdLabel = createdLabel
     }
 }

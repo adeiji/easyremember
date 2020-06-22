@@ -18,7 +18,9 @@ extension NSNotification.Name {
     static let UserUpdatedMaxNumberOfCards = NSNotification.Name("UserUpdatedMaxNumberOfCards")
 }
 
-class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHelpButtonProtocol {
+class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHelpButtonProtocol, InternetConnectedVCProtocol {
+    
+    var internetNotConnectedDialogShown: Bool = false
     
     var explanation = Explanation(sections: [
         ExplanationSection(content: NSLocalizedString("reminderExplanation", comment: "The first sections explanation for why there is a number of cards section"), title: NSLocalizedString("reminderExplanationTitle", comment: "The title for this section"), image: ImageHelper.image(imageName: "bell-white", bundle: "EZRemember")),
@@ -53,7 +55,7 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
     private var timeSlots = [Int]()
     
     /// The maximum number of cards that the user has being sent to them at any given time
-    private var maxNumOfCards:Int = 5
+    private var maxNumOfCards:Int = 3
     
     /// Whether this schedules notifications are paused
     private var pausedNotifications = false
@@ -76,6 +78,12 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
         self.mainView?.navBar?.backgroundColor = .clear
         self.mainView?.navBar?.header?.textColor = .white
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.displayIfDeviceNotConnectedToInternet()
     }
     
     override func viewDidLoad() {
@@ -151,7 +159,7 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
     }
     
     fileprivate func getToggledItemsCard(_ mainView: GRViewWithScrollView) -> GRBootstrapElement {
-        let writingPracticeText = "Would you like to receive notifications to practice writing? (When learning a langauge this helps a lot!)"
+        let writingPracticeText = "Would you like to receive notifications to practice writing? (When learning a language this helps a lot!)"
         let pauseText = "Would you like to pause receiving notifications for now?"
         
         let toggledItems = DEToggledItems(
@@ -331,8 +339,7 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
             guard let self = self else { return }
             self.maxNumOfCards = maxNumOfCards
             messageCard.close()
-            self.saveSchedule()
-            
+            self.saveSchedule()            
         })
         
         messageCard.secondButton?.addTargetClosure(closure: { (_) in

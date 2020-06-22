@@ -13,12 +13,16 @@ import RxSwift
 
 class NotificationsHeaderCell : UICollectionReusableView {
     
+    /** The reuse identifer for this UICollectionReusableView */
     static let reuseIdentifier = "notificationsHeaderCell"
     
+    /** Search bar used for searching on the main view controller */
     weak var searchBar:UITextField?
     
+    /** Displays the number of notifications that are currently being shown on the screen */
     weak var notificationCountLabel:UILabel?
     
+    /** When a Filter Tag is pressed, for example, All, Inactive, Remembered, or a custom tag that the user has created is pressed, than we emit the tag */
     let tagPressed = PublishSubject<String>()
     
     func allowNotificationsCard () -> GRBootstrapElement {
@@ -61,7 +65,17 @@ class NotificationsHeaderCell : UICollectionReusableView {
         return card
     }
     
-    func draw () {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.draw()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func draw () {
                         
         let notificationsLocalized = NSLocalizedString("notificationsHeader", comment: "The header that says Your Notifications at the top of the notifications page")
         
@@ -199,9 +213,10 @@ extension DEMainViewController: UIScrollViewDelegate, UICollectionViewDelegateFl
         if kind == UICollectionView.elementKindSectionHeader {
             
             self.collectionHeaderView?.removeFromSuperview()
+            self.collectionHeaderView = nil
             
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NotificationsHeaderCell.reuseIdentifier, for: indexPath) as? NotificationsHeaderCell
-            headerView?.draw()
+
             self.collectionHeaderView = headerView
             
             return headerView ?? UICollectionReusableView()

@@ -48,7 +48,7 @@ class SyncManager {
                 // Save the sync document to the server
                 FirebasePersistenceManager.addDocument(withCollection: Sync.collectionName, data: dict, withId: sync.deviceId) { (error, document) in
                     
-                    let ebookHandler = EBookHandler()
+                    let ebookHandler = BookHandler()
                     ebookHandler.backupEbooksAtUrls()
                     
                     if let error = error {
@@ -84,7 +84,7 @@ class SyncManager {
                 // Get the sync object from the server
                 guard let sync = (FirebasePersistenceManager.getObjectsFromFirebaseDocuments(fromFirebaseDocuments: documents) as [Sync]?)?.first else { return }
     
-                let ebookHandler = EBookHandler()
+                let ebookHandler = BookHandler()
                 ebookHandler.downloadBooks(sync: sync)
                 FirebasePersistenceManager.shared.saveFcmToken(Messaging.messaging().fcmToken, forceSave: true)
                 

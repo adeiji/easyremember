@@ -12,7 +12,9 @@ import SwiftyBootstrap
 import RxCocoa
 import RxSwift
 
-class DecksViewController: UIViewController, AddCancelButtonProtocol {
+class DecksViewController: UIViewController, AddCancelButtonProtocol, InternetConnectedVCProtocol {
+    
+    var internetNotConnectedDialogShown: Bool = false
     
     weak var mainView:GRViewWithTableView?
     
@@ -26,10 +28,11 @@ class DecksViewController: UIViewController, AddCancelButtonProtocol {
         super.viewDidLoad()
         self.getDecks()
     }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                        
+                                    
         if self.mainView != nil {
             return
         }

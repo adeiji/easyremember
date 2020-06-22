@@ -73,7 +73,9 @@
 
 /** THE SCHEDULE VIEW CONTROLLER */
 
-"maxNumberLowWarning" = "The maximum cards setting you've chosen is less than your previous maximum cards setting.  If you make this change then all your cards will be set to 'Deactivated' and you will have to activate the ones you want again.  Is that okay?";
+"maxNumberLowTitle" = "Some cards will be deactivated";
+
+"maxNumberLowWarning" = "The maximum cards setting you've chosen is less than your previous maximum cards setting.  If you make this change then your cards over the new maximum card setting will be set to 'Deactivated'.  Is that okay?";
 
 "hourSelection" = "Select all the times you want to recieve a notification";
 

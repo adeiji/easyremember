@@ -63,6 +63,7 @@ class DEMultiSelectCard: GRBootstrapElement {
     func createButtonTarget (_ button: UIButton) {
         button.addTargetClosure { [weak self] (button) in
             guard let self = self else { return }
+            if self.selectedButton == button { return }
             self.selectedButton = button
             self.selectedItem.onNext(button.title(for: .normal))
         }

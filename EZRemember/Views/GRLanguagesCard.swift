@@ -29,6 +29,9 @@ class DELanguagesCard: GRBootstrapElement, RulesProtocol {
         guard let languageShortCode = GRNotification.getLanguageShortCodeForValue(buttonText) else { return }
         
         if !shouldSelect {
+            if (selectedLanguagesButtons.count <= 1) {
+                return                    
+            }
             self.selectedLanguagesButtons = self.selectedLanguagesButtons.filter({ $0 != button })
             self.selectedLanguages = self.selectedLanguages.filter({ $0 != languageShortCode })
             button.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.mediumShadeGray)

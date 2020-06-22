@@ -22,7 +22,7 @@ protocol ShowEpubReaderProtocol: UIViewController, FolioReaderPageDelegate, Foli
     var translateWordButton:UIButton? { get set }
     
     /// The name of the book
-    var bookName:String { get }
+    var bookName:String { get set }
 }
 
 extension ShowEpubReaderProtocol {
@@ -42,7 +42,14 @@ extension ShowEpubReaderProtocol {
         config.displayTitle = true
         let folioReader = FolioReader()
         
-        let ebookHandler = EBookHandler()
+        let ebookHandler = BookHandler()
+                        
+        if url.pathExtension.lowercased() == "pdf" {
+            let title = url.lastPathComponent
+            let readBookViewVC = GRReadBookViewController(pdfUrl: url.path, bookName: title)
+            self.navigationController?.pushViewController(readBookViewVC, animated: true)
+            return nil
+        }
         
         let title = ebookHandler.getTitleFromBookPath(url.path)
         let reader = ebookHandler.getReader(url: url, folioReader: folioReader, parentVC: self)

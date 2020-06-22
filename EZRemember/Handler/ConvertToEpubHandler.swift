@@ -148,7 +148,7 @@ class ConvertToEpubHandler {
         let request = URLRequest(url: downloadUrl.url!)
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else { return }
-            let ebookHandler = EBookHandler()
+            let ebookHandler = BookHandler()
             let bookName = self.epubNameForJobId(jobId) ?? "\(UUID().uuidString).epub"
             if ebookHandler.saveEpubDataWithName(data, bookName: bookName) {
                 self.jobProcess[jobId] = .Finished

@@ -50,7 +50,9 @@ public class GRViewWithCollectionView:GRBootstrapElement {
     }
 }
 
-public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol, TranslationProtocol {
+public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProtocol, CardClickedProtocol, AddHelpButtonProtocol, TranslationProtocol, InternetConnectedVCProtocol {
+    
+    var internetNotConnectedDialogShown: Bool = false
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(
@@ -96,15 +98,16 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
             
             userDefaults.synchronize()
             
-            self.notificationCountLabel?.text = "\(self.notifications.count) Notifications"
+            self.collectionHeaderView?.notificationCountLabel?.text = "\(self.notifications.count) Notifications"
         }
     }
+    
+    var notificationsObservable:Observable<[GRNotification]>?
     
     weak var collectionHeaderView:NotificationsHeaderCell? {
         didSet {
             self.handleSearch(searchBar: self.collectionHeaderView?.searchBar)
             self.handleTagPressed(tagPressed: self.collectionHeaderView?.tagPressed)
-            self.notificationCountLabel = self.collectionHeaderView?.notificationCountLabel
         }
     }
     
@@ -122,11 +125,11 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
         }
     }
     
-    weak var notificationCountLabel:UILabel?
-    
     var maxNumOfCards = 5
     
     var unfinishedNotification:GRNotification?
+    
+    var refresher:UIRefreshControl?
     
     @objc func assignFirstResponderToSearchBar () {
 //        self.collectionHeaderView?.searchBar?.becomeFirstResponder()
@@ -239,24 +242,37 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
                 
                 // Check to make sure that the new max number is less than the current max number
                 if maxNum < self.maxNumOfCards {
-                    
-                    let activeNotifications = self.allNotifications.filter({ $0.active == true })
-                    NotificationsManager.shared.updateNotificationsActiveState(activeNotifications, active: false, completion: nil)
-                    
-                    // Set all the notifications to inactive
-                    self.notifications.forEach { [weak self] (notification) in
-                        guard let self = self else { return }
-                        var updatedNotification = notification
-                        updatedNotification.active = false
-                        if notification.active == true {
-                            self.updateNotificationInNotificationsArray(notification: updatedNotification)
-                        }
-                    }
+                    self.deactivateNotificationsOverMaximumAmount(maxNum)
                 }
                 
                 self.maxNumOfCards = maxNum
             }
         }
+    }
+    
+    /**
+     Any notifications over the maximum amount of notifications are set to deactive.  So for example, if the user updates their maximum
+     notifications to 15, and their previous was 20, then we set five notifications to Inactive
+     */
+    private func deactivateNotificationsOverMaximumAmount (_ maxNum: Int) {
+        let activeNotifications = self.allNotifications.filter({ $0.active == true })
+        
+        if activeNotifications.count <= 0 || activeNotifications.count <= maxNum { return }
+        let maxNumDifference = activeNotifications.count - maxNum
+        var notificationsToDeactivate = [GRNotification]()
+                
+        for index in 0...activeNotifications.count - 1 {
+            if (index == maxNumDifference) { break }
+            var notification = activeNotifications[index]
+            if notification.active == true {
+                notification.active = false
+                notificationsToDeactivate.append(notification)
+                self.updateNotificationInNotificationsArray(notification: notification)
+            }
+        }
+        
+        // Deactivate the notifications
+        NotificationsManager.shared.updateNotificationsActiveState(notificationsToDeactivate, active: false, completion: nil)
     }
     
     /**
@@ -343,34 +359,41 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
         super.viewWillAppear(animated)
         
         if self.mainView != nil { return }
-
+    }
+    
+    /**
+     Redownload all the notifications so that we can get whatever is new data
+     */
+    @objc func reloadData () {
+        self.subscribeToNotificationsObservable(isReload: true)
     }
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                
+                                        
         if self.mainView != nil { return }
-                        
+        
         let mainView = GRViewWithCollectionView(margin: BootstrapMargin.noMargins()).setup(superview: self.view, columns: 3)
         mainView.backgroundColor = UIColor.EZRemember.veryLightGray.dark(Dark.coolGrey900)
         mainView.addToSuperview(superview: self.view, viewAbove: nil, anchorToBottom: true)
-        
+                        
         self.mainView = mainView
         self.mainView?.setNeedsLayout()
         self.mainView?.layoutIfNeeded()
         
-        self.checkIfDeviceConnectedToInternet()
+        self.refresher = UIRefreshControl()
+        self.refresher?.tintColor = .black
+        self.refresher?.addTarget(self, action: #selector(reloadData), for: .valueChanged)
         
+        self.mainView?.collectionView?.refreshControl = self.refresher
+                        
         self.initialSetupCollectionView()
         
         // If this device has a device Id set, which all should
         let deviceId = UtilityFunctions.deviceId()
         
         // Get all the notifications for this device from the server
-        let notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
-        
-        // Show that there is data loading
-        let loading =  self.view.showLoadingNVActivityIndicatorView()
+        self.notificationsObservable = NotificationsManager.getNotifications(deviceId: deviceId)
         
         let addButton = self.addAddButton()
         self.setupAddButton(addButton: addButton)
@@ -388,20 +411,16 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
         
         self.setupTranslateButtonPressedClosure(translateButton)
         
-        self.subscribeToNotificationsObservable(notificationsObservable: notificationsObservable, loading: loading)
+        self.subscribeToNotificationsObservable()
         
         self.promptForAllowNotifications()
+        
+        self.displayIfDeviceNotConnectedToInternet(nil, self.mainView)
         
         // If appropriate than request the user to write a review
         UtilityFunctions.requestReviewIfAppropriate()
     }
-    
-    private func checkIfDeviceConnectedToInternet () {
-        if InternetConnectionManager.isConnectedToNetwork() == false {
-            GRMessageCard().draw(message: "You can use this app without being connected to the internet, but you may experience strange behaviours within the app.  If possible, we recommend you connect your device to the internet.", title: "Device Not Connected to Internet", superview: self.view)
-        }
-    }
-    
+            
     fileprivate func promptForAllowNotifications () {
         if (UtilityFunctions.isFirstTime("opening the main view controller")) {
             let messageCard = GRMessageCard()
@@ -429,8 +448,10 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
     }
     
     private func showDecksViewController () {
-        let decksVC = DecksViewController()
-        self.present(decksVC, animated: true, completion: nil)
+        if (InternetConnectionManager.isConnectedToNetwork()) {
+            let decksVC = DecksViewController()
+            self.present(decksVC, animated: true, completion: nil)
+        }
     }
     
     override public func viewDidLoad() {
@@ -533,10 +554,14 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
     /**
         Subscribe to an observable which will return notifications from the server
      */
-    func subscribeToNotificationsObservable (notificationsObservable: Observable<[GRNotification]>, loading: NVActivityIndicatorView?) {
-        notificationsObservable.subscribe { [weak self] (event) in
+    func subscribeToNotificationsObservable (isReload: Bool = false) {
+        
+        self.mainView?.collectionView?.refreshControl?.beginRefreshing()
+        self.mainView?.collectionView?.isUserInteractionEnabled = false
+        self.notificationsObservable?.subscribe { [weak self] (event) in
             guard let self = self else { return }
                             
+            self.mainView?.collectionView?.isUserInteractionEnabled = true
             if let error = event.error {
                 print(error.localizedDescription)
                 AnalyticsManager.logError(message: error.localizedDescription)
@@ -544,11 +569,13 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
             }
             
             if event.error != nil {
-                self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                self.view.showFinishedLoadingNVActivityIndicatorView()
+                self.mainView?.collectionView?.refreshControl?.endRefreshing()
             }
             
             if event.isCompleted {
-                self.view.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
+                self.view.showFinishedLoadingNVActivityIndicatorView()
+                self.mainView?.collectionView?.refreshControl?.endRefreshing()
                 self.mainView?.collectionView?.reloadSections(IndexSet(integer: 1))
                 self.sortNotifications()
                 if self.notifications.count > 0 {
@@ -559,7 +586,7 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
             }
             
             if let notifications = event.element, notifications.count > 0 {
-                self.addNotifications(notifications)
+                self.addNotifications(notifications, reset: isReload)
             }
         }.disposed(by: self.disposeBag)
     }
@@ -568,7 +595,12 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
         self.notifications = self.notifications.sorted(by: { $0.creationDate > $1.creationDate })
     }
     
-    func addNotifications (_ notifications: [GRNotification], atBeginning:Bool = false) {
+    func addNotifications (_ notifications: [GRNotification], atBeginning:Bool = false, reset:Bool = false) {
+        
+        if reset {
+            self.notifications = []
+            self.allNotifications = []
+        }
         
         if atBeginning {
             self.notifications.insert(contentsOf: notifications, at: 0)

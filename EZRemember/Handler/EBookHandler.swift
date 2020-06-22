@@ -14,21 +14,22 @@ import DephynedFire
 import FolioReaderKit
 
 
-public class EBookHandler {
+public class BookHandler {
         
     private let kTempFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/temp"
     private let kBooksFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/Books"
+    private let kPDFFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/PDF"
     private let kInboxFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/Inbox"
     private let disposeBag = DisposeBag()
     
     func backupEbooksAtUrls (urls: [URL]? = nil) {
-        let urls = urls != nil ? urls : self.getUrls(fromInbox: true)?.filter( {UtilityFunctions.urlIsEpub(url: $0) })
+        let urls = urls != nil ? urls : self.getUrls(fromInbox: true)?.filter( {UtilityFunctions.urlIsEpub(url: $0) || $0.pathExtension.lowercased() == "pdf" })
         var uploadEpubObservables = [Observable<(fileName: String?, url: URL?)>]()
         urls?.forEach({ [weak self] (url) in
             guard let self = self else { return }
             guard let epubName = self.getEbookNameFromUrl(url: url) else { return }
             
-            let uploadTask = FirebaseStorageManager.shared.uploadData(refPath: "\(UtilityFunctions.deviceId())/epubs/", fileName: "\(epubName).epub", fileUrl: url)
+            let uploadTask = FirebaseStorageManager.shared.uploadData(refPath: "\(UtilityFunctions.deviceId())/epubs/", fileName: "\(epubName).\(url.pathExtension.lowercased())", fileUrl: url)
             uploadEpubObservables.append(uploadTask)
         })
         
@@ -108,14 +109,14 @@ public class EBookHandler {
         }.disposed(by: self.disposeBag)
     }
     
-    func getUrls (fromInbox: Bool = false) -> [URL]? {
-        let directoryToGetEbooksFrom = fromInbox ? self.kInboxFolder : self.kBooksFolder
-        guard let applicationDirUrl = URL(string: directoryToGetEbooksFrom) else { return nil }
+    func getUrlsWithExtension (_ extensionType: String, searchFolder: URL?) -> [URL]? {
+        
+        guard let searchFolder = searchFolder else { return nil }
         
         do {
-            var booksInAppDirUrls = try FileManager().contentsOfDirectory(at: applicationDirUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            var booksInAppDirUrls = try FileManager().contentsOfDirectory(at: searchFolder, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
                         
-            booksInAppDirUrls = self.removeAllNonEpubFiles(urls: booksInAppDirUrls)
+            booksInAppDirUrls = self.removeURLsNotOfType(extensionType, urls: booksInAppDirUrls)
             booksInAppDirUrls.sort(by: { $0.absoluteString > $1.absoluteString })
             return booksInAppDirUrls
         } catch {
@@ -125,16 +126,29 @@ public class EBookHandler {
         return nil
     }
     
+    /**
+     Get the URL for every single book that is within this application wether PDF or ebook
+     */
+    func getUrls (fromInbox: Bool = false) -> [URL]? {
+
+        var urls = self.getUrlsWithExtension("epub", searchFolder: URL(string: self.kBooksFolder))
+        if let pdfUrls = self.getUrlsWithExtension("pdf", searchFolder: URL(fileURLWithPath: self.kBooksFolder)) {
+            urls?.append(contentsOf: pdfUrls)
+        }
+        
+        return urls
+    }
+    
     // MARK: Remove All Non Epub Files
     
-    private func removeAllNonEpubFiles (urls: [URL]) -> [URL] {
+    private func removeURLsNotOfType (_ type: String, urls: [URL]) -> [URL] {
         
         return urls.filter { (url) -> Bool in
             guard var startOfFileEnding = url.absoluteString.lastIndex(of: ".") else { return false }
             startOfFileEnding = url.absoluteString.index(startOfFileEnding, offsetBy: 1)
             
             let fileEnding = url.absoluteString[startOfFileEnding...]
-            if fileEnding.lowercased().contains("epub") == false {
+            if fileEnding.lowercased().contains(type) == false {
                 return false
             }
             
@@ -183,11 +197,45 @@ public class EBookHandler {
         let authorName = try? FolioReader.getAuthorName(path, unzipPath: self.kBooksFolder)
         return authorName
     }
+    
+    @discardableResult public func movePDFsToPDFFolder (customPDFUrls: [URL]? = nil) -> [URL]? {
+        let pdfFolder = URL(fileURLWithPath: self.kBooksFolder)
+        
+        var pdfUrls = customPDFUrls
+        
+        if pdfUrls == nil {
+            pdfUrls = self.getUrlsWithExtension("pdf", searchFolder: Bundle.main.resourceURL)
+        }
+        
+        var movedToUrls = [URL]()
+        
+        let fileManager = FileManager.default
+        pdfUrls?.forEach({ (pdfUrl) in
+            do {
+                if fileManager.fileExists(atPath: pdfFolder.path) == false {
+                    try fileManager.createDirectory(atPath: pdfFolder.path, withIntermediateDirectories: false, attributes: nil)
+                }
+                guard let moveToUrl = URL(string: "\(pdfFolder)\(pdfUrl.lastPathComponent)") else { return }
+                try fileManager.moveItem(at: pdfUrl, to: moveToUrl )
+                movedToUrls.append(moveToUrl)
+            } catch {
+                print(error.localizedDescription)
+                AnalyticsManager.logError(message: error.localizedDescription)
+            }
+        })
+        
+        return movedToUrls
+    }
+    
+    public func prepareBooks () {
+        self.unzipEpubs()
+        self.movePDFsToPDFFolder()
+    }
         
     /**
      All the ePubs that are originally in this application ie, the application folder, we want to unzip them and put them in the Books folder so that the user can read them, but more specifically so that the user can delete them from the Books folder and not have to view the books within the app anymore
      */
-    public func unzipEpubs () {
+    private func unzipEpubs () {
         
         // Make sure that you don't change this string value.  Read the documentation for isFirstTime function for more details
         if UtilityFunctions.isFirstTime("Unzipping the ePubs in the application directory") == false {
@@ -198,7 +246,7 @@ public class EBookHandler {
         guard var urls = try? FileManager().contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else { return }
         guard let booksDirUrl = URL(string: self.kBooksFolder) else { return }
         
-        urls = self.removeAllNonEpubFiles(urls: urls)
+        urls = self.removeURLsNotOfType("epub", urls: urls)
         urls.forEach({ (url) in
             guard let epubName = self.getEbookNameFromUrl(url: url) else { return }
             SSZipArchive.unzipFile(atPath: url.path, toDestination: "\(booksDirUrl.path)/\(epubName).epub", delegate: nil)

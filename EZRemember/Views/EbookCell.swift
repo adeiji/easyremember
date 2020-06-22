@@ -49,6 +49,10 @@ class EBookCell: UICollectionViewCell {
         self.coverImageView?.image = bookDetails.coverImage
     }
     
+    func setCoverImage (_ image: UIImage?) {
+        self.coverImageView?.image = image
+    }
+    
     func resetData () {
         self.isHidden = true
         self.coverImageView?.image = nil

@@ -12,7 +12,9 @@ import RxSwift
 import SwiftyBootstrap
 import FolioReaderKit
 
-class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol, TranslationProtocol {
+class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtocol, AddHelpButtonProtocol, TranslationProtocol, InternetConnectedVCProtocol {
+    
+    var internetNotConnectedDialogShown: Bool = false
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(content: NSLocalizedString("readBookTranslationExplanation", comment: "The first paragraph of the read translation explanation"), title: NSLocalizedString("translateTextTitle", comment: "The title for the section about translating text on the Read book page"), image: ImageHelper.image(imageName: "translator", bundle: "EZRemember")),
@@ -26,7 +28,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     var wordsToTranslate: String?
     
     /// The name of the book
-    let bookName:String
+    var bookName:String
     
     /// The height of the nav bar
     let navBarHeight:CGFloat = /*UIDevice.current.userInterfaceIdiom == .pad ? 75 :*/ 50
@@ -41,7 +43,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     private var currentPage:FolioReaderPageCollectionViewCell?
     
     /// Display the reader
-    private var folioReader:FolioReader
+    private var folioReader:FolioReader?
     
     /// Shows the screen to translate
     open weak var translateWordButton:UIButton?
@@ -55,7 +57,17 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     
     private var translatingIndicator:UILabel?
     
-    init(reader: FolioReaderContainer , folioReader: FolioReader, bookName: String) {
+    /// If the user is viewing a PDF then this controller is used to display the PDF
+    private var pdfController:ReadPDFController?
+    
+    var pdfUrl: String?
+    
+    convenience init(pdfUrl: String, bookName: String) {
+        self.init(reader: nil, folioReader: nil, bookName: bookName)
+        self.pdfUrl = pdfUrl
+    }
+    
+    init(reader: FolioReaderContainer? , folioReader: FolioReader?, bookName: String) {
         self.readerContainer = reader
         self.bookName = bookName
         self.folioReader = folioReader
@@ -84,7 +96,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                         
+        
         if self.readerView != nil {
             return
         }
@@ -106,6 +118,7 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         let bookNameLabel = Style.label(withText: self.bookName, superview: nil, color: UIColor.black.dark(.white), textAlignment: .center)
         
         let helpButton = self.addHelpButton(nil, superview: self.view)
+        helpButton.removeConstraints(helpButton.constraints)
         helpButton.backgroundColor = .clear
         helpButton.setTitleColor(UIColor.black.dark(.white), for: .normal)
         helpButton.removeFromSuperview()
@@ -159,19 +172,6 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         
         self.showEmptyTranslationView()
         
-        guard let readerContainer = self.readerContainer else { return }
-        self.addChildViewControllerWithView(readerContainer, toView: self.readerView)
-        self.readerContainer?.view.subviews.first?.snp.makeConstraints({ (make) in
-            make.edges.equalTo(readerView)
-        })
-        self.folioReader.readerCenter?.pageDelegate = self
-        self.folioReader.readerCenter?.delegate = self
-        self.folioReader.nightMode = self.traitCollection.userInterfaceStyle == .dark
-        
-        self.translateWordButton = self.createTranslateButton()
-        self.createCard = self.createCreateCardButton()
-        self.headerLabel = bookNameLabel
-        
         let translatingIndicatorLabel = Style.label(withText: "Translating...", superview: nil, color: .white, textAlignment: .center, backgroundColor: UIColor.EZRemember.mainBlue)
         translatingIndicatorLabel.font = CustomFontBook.Medium.of(size: .medium)
         mainViewCard.addSubview(translatingIndicatorLabel)
@@ -181,12 +181,38 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
             make.bottom.equalTo(mainViewCard)
             make.height.equalTo(50)
         }
+        
+        self.translateWordButton = self.createTranslateButton()
+        self.createCard = self.createCreateCardButton()
+        self.headerLabel = bookNameLabel
+        
+        
         translatingIndicatorLabel.isHidden = true
         self.translatingIndicator = translatingIndicatorLabel
+        
+        if let pdfUrl = self.pdfUrl {
+            let url = URL(fileURLWithPath: pdfUrl)
+            let pdfController = ReadPDFController(pdfUrl: url)
+            self.addChildViewControllerWithView(pdfController, toView: self.readerView)
+            self.pdfController = pdfController
+            return
+        }
+        
+        guard let readerContainer = self.readerContainer else { return }
+        self.addChildViewControllerWithView(readerContainer, toView: self.readerView)
+        self.readerContainer?.view.subviews.first?.snp.makeConstraints({ (make) in
+            make.edges.equalTo(readerView)
+        })
+        self.folioReader?.readerCenter?.pageDelegate = self
+        self.folioReader?.readerCenter?.delegate = self
+        self.folioReader?.nightMode = self.traitCollection.userInterfaceStyle == .dark
+        
+
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        self.folioReader?.readerCenter?.toggleBars()
     }
     
     func showEmptyTranslationView () {
@@ -202,21 +228,19 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         }
     }
     
-    // MARK: Translate Button
+    // MARK: Translation
     
-    @objc private func handleTranslateButtonPressed () {
-         
-        self.currentPage?.webView?.js("getSelectedText()", completion: { [weak self] (selectedText) in
-            guard let self = self else { return }
+    /**
+     Translate the text
+     */
+    private func translate (_ text: String) {
                         
             if GRDevice.smallerThan(.md) {
                 self.headerLabel?.text = "Translating..."
                 self.translatingIndicator?.isHidden = false
             }
-            
-            guard let wordsToTranslate = selectedText as? String else { return }
-            
-            self.translateButtonPressed(nil, wordsToTranslate: wordsToTranslate) { [weak self] (translations) in
+                        
+            self.translateButtonPressed(nil, wordsToTranslate: text) { [weak self] (translations) in
                 guard let self = self else { return }
                 self.headerLabel?.text = self.bookName
                 self.translatingIndicator?.isHidden = true
@@ -226,9 +250,24 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
                     subview.removeFromSuperview()
                 })
                 
-                self.displayTranslations(translations: translations, wordsToTranslate: wordsToTranslate)
+                self.displayTranslations(translations: translations, wordsToTranslate: text)
             }
-            
+    }
+    
+    /**
+     When translate button is pressed it gets the selected text from either the PDF or the ePub and then translates that text
+     */
+    @objc private func handleTranslateButtonPressed () {
+        if let pdfController = self.pdfController {
+            guard let selectedText = pdfController.pdfView?.currentSelection?.string else { return }
+            self.translate(selectedText)
+            return
+        }
+        
+        self.currentPage?.webView?.js("getSelectedText()", completion: { [weak self] (selectedText) in
+            guard let self = self else { return }
+            guard let selectedText = selectedText else { return }
+            self.translate(selectedText)
         })
         
         self.translationView?.showLoadingNVActivityIndicatorView()
@@ -252,33 +291,40 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         return translateButton
     }
     
-    // MARK: Create Button
+    // MARK: Create Card
     
-    @objc private func handleCreateCardButtonPressed () {
-                    
-        self.currentPage?.webView?.js("getSelectedText()", completion: { [weak self] (selectedText) in
+    private func createCardFromText (_ text: String?) {
+        guard let text = text as? String else { return }
+        
+        let notification = GRNotification(caption: text, description: "")
+        let createCardVC = GRNotificationViewController(notification: notification)
+        
+        createCardVC.publishNotification.subscribe { [weak self] (event) in
             guard let self = self else { return }
             
-            guard let wordsToTranslate = selectedText as? String else { return }
+            let manager = NotificationsManager()
             
-            let notification = GRNotification(caption: wordsToTranslate, description: "")
+            guard let notification = event.element else { return }
             
-            let createCardVC = GRNotificationViewController(notification: notification)
+            manager.saveNotification(title: notification.caption, description: notification.description, deviceId: UtilityFunctions.deviceId())
+                .subscribe().disposed(by: self.disposeBag)
             
-            createCardVC.publishNotification.subscribe { [weak self] (event) in
-                guard let self = self else { return }
-                
-                let manager = NotificationsManager()
-                
-                guard let notification = event.element else { return }
-                
-                manager.saveNotification(title: notification.caption, description: notification.description, deviceId: UtilityFunctions.deviceId())
-                    .subscribe().disposed(by: self.disposeBag)
-                
-                NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [GRNotification.kSavedNotifications: [notification]] )
-            }.disposed(by: self.disposeBag)
-            
-            self.present(createCardVC, animated: true, completion: nil)
+            NotificationCenter.default.post(name: .NotificationsSaved, object: nil, userInfo: [GRNotification.kSavedNotifications: [notification]] )
+        }.disposed(by: self.disposeBag)
+        
+        self.present(createCardVC, animated: true, completion: nil)
+    }
+    
+    @objc private func handleCreateCardButtonPressed () {
+                  
+        if let pdfController = self.pdfController {
+            self.createCardFromText(pdfController.pdfView?.currentSelection?.string)
+            return
+        }
+        
+        self.currentPage?.webView?.js("getSelectedText()", completion: { [weak self] (selectedText) in
+            guard let self = self else { return }
+            self.createCardFromText(selectedText)
         })
     }
     

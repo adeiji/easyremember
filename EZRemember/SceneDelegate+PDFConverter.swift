@@ -79,10 +79,8 @@ extension PDFEpubHandlerProtocol {
     }
     
     func handleDocImportedIntoAppWithUrl (_ url: URL) {
-        if UtilityFunctions.urlIsEpub(url: url) {
+        if UtilityFunctions.urlIsEpub(url: url) || url.pathExtension.lowercased() == "pdf" {
             self.showBookWithUrl(url)
-        } else if UtilityFunctions.urlIsPDF(url: url) {
-            self.convertPDFAtUrl(url)
         } else {
             let messageCard = GRMessageCard(color: UIColor.white.dark(Dark.coolGrey700))
             if let window = self.window {
@@ -94,9 +92,15 @@ extension PDFEpubHandlerProtocol {
     internal func showBookWithUrl (_ url: URL) {
         guard let topController = (GRCurrentDevice.shared.getTopController()?.children.first as? UINavigationController)?.topViewController as? ShowEpubReaderProtocol else { return }
         
-        topController.showBookReader(url: url)
+        var bookUrl = url
+        
+        if url.pathExtension.lowercased() == "pdf" {
+            bookUrl = BookHandler().movePDFsToPDFFolder(customPDFUrls: [url])?.first ?? url
+        }
+        
+        topController.showBookReader(url: bookUrl)
         if self.userHasSubscription() {
-            EBookHandler().backupEbooksAtUrls(urls: [url])
+            BookHandler().backupEbooksAtUrls(urls: [bookUrl])
         }
     }
     
@@ -111,7 +115,7 @@ extension PDFEpubHandlerProtocol {
            
            card.firstButton?.addTargetClosure(closure: { (_) in
                card.close()
-               guard let bookUrl = URL(string: EBookHandler().getURLForBookNamed(bookName)) else { return }
+               guard let bookUrl = URL(string: BookHandler().getURLForBookNamed(bookName)) else { return }
                self.showBookWithUrl(bookUrl)
            })
            

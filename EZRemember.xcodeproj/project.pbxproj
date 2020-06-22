@@ -14,7 +14,7 @@
 		F421B22B24694AA8007DE745 /* DESyncViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22A24694AA8007DE745 /* DESyncViewController.swift */; };
 		F421B22D24696913007DE745 /* Array+ToDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22C24696913007DE745 /* Array+ToDictionary.swift */; };
 		F421B22F24698DE9007DE745 /* EbookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B22E24698DE9007DE745 /* EbookCell.swift */; };
-		F421B23224698E38007DE745 /* EBookHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B23124698E38007DE745 /* EBookHandler.swift */; };
+		F421B23224698E38007DE745 /* EbookHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B23124698E38007DE745 /* EbookHandler.swift */; };
 		F421B234246A4E4A007DE745 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B233246A4E4A007DE745 /* Constants.swift */; };
 		F421B238246A582C007DE745 /* GRPurchasingColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B237246A582C007DE745 /* GRPurchasingColumn.swift */; };
 		F421B23A246A5E75007DE745 /* GRTitleAndButtonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */; };
@@ -60,6 +60,10 @@
 		F467E50F247DAAD400E10EEA /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467E50E247DAAD400E10EEA /* NotificationViewController.swift */; };
 		F467E512247DAAD400E10EEA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F467E510247DAAD400E10EEA /* MainInterface.storyboard */; };
 		F467E516247DAAD500E10EEA /* EZRememberNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F467E508247DAAD400E10EEA /* EZRememberNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F46D0BEB249B1063003058CB /* DEFrequencyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46D0BEA249B1063003058CB /* DEFrequencyCard.swift */; };
+		F46D0BED249B14EB003058CB /* InternetConnectedVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46D0BEC249B14EB003058CB /* InternetConnectedVCProtocol.swift */; };
+		F46D0BEF249CA49F003058CB /* ReadPDFController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46D0BEE249CA49F003058CB /* ReadPDFController.swift */; };
+		F46D0BF1249D0524003058CB /* Dune.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F46D0BF0249D0524003058CB /* Dune.pdf */; };
 		F476F0992488B32D00E72781 /* DEToggledItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476F0982488B32D00E72781 /* DEToggledItems.swift */; };
 		F487227E248399CF001A0EF3 /* Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F487227D248399CF001A0EF3 /* Sentence.swift */; };
 		F48722852485212B001A0EF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48722842485212B001A0EF3 /* Reachability.swift */; };
@@ -189,7 +193,7 @@
 		F421B22A24694AA8007DE745 /* DESyncViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DESyncViewController.swift; sourceTree = "<group>"; };
 		F421B22C24696913007DE745 /* Array+ToDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ToDictionary.swift"; sourceTree = "<group>"; };
 		F421B22E24698DE9007DE745 /* EbookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbookCell.swift; sourceTree = "<group>"; };
-		F421B23124698E38007DE745 /* EBookHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EBookHandler.swift; sourceTree = "<group>"; };
+		F421B23124698E38007DE745 /* EbookHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbookHandler.swift; sourceTree = "<group>"; };
 		F421B233246A4E4A007DE745 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F421B237246A582C007DE745 /* GRPurchasingColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRPurchasingColumn.swift; sourceTree = "<group>"; };
 		F421B239246A5E75007DE745 /* GRTitleAndButtonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRTitleAndButtonCard.swift; sourceTree = "<group>"; };
@@ -247,6 +251,10 @@
 		F467E511247DAAD400E10EEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		F467E513247DAAD500E10EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F467E51B247DABD200E10EEA /* SwiftyBootstrap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBootstrap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F46D0BEA249B1063003058CB /* DEFrequencyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEFrequencyCard.swift; sourceTree = "<group>"; };
+		F46D0BEC249B14EB003058CB /* InternetConnectedVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnectedVCProtocol.swift; sourceTree = "<group>"; };
+		F46D0BEE249CA49F003058CB /* ReadPDFController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadPDFController.swift; sourceTree = "<group>"; };
+		F46D0BF0249D0524003058CB /* Dune.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Dune.pdf; sourceTree = "<group>"; };
 		F476F0982488B32D00E72781 /* DEToggledItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEToggledItems.swift; sourceTree = "<group>"; };
 		F487227D248399CF001A0EF3 /* Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentence.swift; sourceTree = "<group>"; };
 		F48722842485212B001A0EF3 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -394,7 +402,7 @@
 		F421B23024698E2F007DE745 /* Handler */ = {
 			isa = PBXGroup;
 			children = (
-				F421B23124698E38007DE745 /* EBookHandler.swift */,
+				F421B23124698E38007DE745 /* EbookHandler.swift */,
 				F4B0CBE9247B7B8F001DE87C /* ConvertToEpubHandler.swift */,
 			);
 			path = Handler;
@@ -491,6 +499,7 @@
 				F467E4ED247D82D700E10EEA /* GRTabController+EZRemember.swift */,
 				F49981A22480F36B0059AC13 /* DecksViewController.swift */,
 				F49981A8248253420059AC13 /* DEScheduleViewController+RestorePurchases.swift */,
+				F46D0BEE249CA49F003058CB /* ReadPDFController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -526,6 +535,7 @@
 				F43DDF9224756F2C00776941 /* FirebasePersistenceManager+FCMToken.swift */,
 				F4D17E3E247BDD84006F0C83 /* ToastHandler.swift */,
 				F48722842485212B001A0EF3 /* Reachability.swift */,
+				F46D0BEC249B14EB003058CB /* InternetConnectedVCProtocol.swift */,
 			);
 			path = "Reusable Classes";
 			sourceTree = "<group>";
@@ -562,6 +572,7 @@
 				F49981A42480F4AE0059AC13 /* DeckCell.swift */,
 				F487228624855F6A001A0EF3 /* HorizontalScrollableView.swift */,
 				F476F0982488B32D00E72781 /* DEToggledItems.swift */,
+				F46D0BEA249B1063003058CB /* DEFrequencyCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -652,6 +663,7 @@
 		F4F537E92463B2DE0009D3DC /* Books */ = {
 			isa = PBXGroup;
 			children = (
+				F46D0BF0249D0524003058CB /* Dune.pdf */,
 				F4310D26248E177300D2EAA3 /* pg2000.epub */,
 				F4310D29248E177400D2EAA3 /* pg17989.epub */,
 				F4310D27248E177300D2EAA3 /* pg21425.epub */,
@@ -835,6 +847,7 @@
 				F4F537BE246127200009D3DC /* Poppins-Medium.ttf in Resources */,
 				F4F537CB246127200009D3DC /* Poppins-MediumItalic.ttf in Resources */,
 				F4F537C1246127200009D3DC /* Poppins-ExtraBold.ttf in Resources */,
+				F46D0BF1249D0524003058CB /* Dune.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1021,17 +1034,19 @@
 				F4F5377F24601A630009D3DC /* NotificationsManager.swift in Sources */,
 				F43DDF82247255E500776941 /* DEMainViewController+CollectionView.swift in Sources */,
 				F4F537E62463B0FB0009D3DC /* UserNotificationScheduler.swift in Sources */,
-				F421B23224698E38007DE745 /* EBookHandler.swift in Sources */,
+				F421B23224698E38007DE745 /* EbookHandler.swift in Sources */,
 				F4E0E6F2246C0A8100EA0827 /* GRBootstrapElement+Clicked.swift in Sources */,
 				F487227E248399CF001A0EF3 /* Sentence.swift in Sources */,
 				F4F537D72461DDE70009D3DC /* DENumberCard.swift in Sources */,
 				F4C08CC824647118004D558E /* FileManager+SubDocuments.swift in Sources */,
 				F450332C247688F800307417 /* Explanation.swift in Sources */,
+				F46D0BEF249CA49F003058CB /* ReadPDFController.swift in Sources */,
 				F428526D245BFCC600C381DE /* DEMainViewController.swift in Sources */,
 				F4C1175E246564DE00A145CB /* FolioReader+EZRemember.swift in Sources */,
 				F4F537F32464064F0009D3DC /* GRNetworking.swift in Sources */,
 				F4285276245C31EA00C381DE /* UIImage+FromBundle.swift in Sources */,
 				F421B234246A4E4A007DE745 /* Constants.swift in Sources */,
+				F46D0BEB249B1063003058CB /* DEFrequencyCard.swift in Sources */,
 				F421B23E246A6482007DE745 /* GRPurchasingViewController.swift in Sources */,
 				F4F537E22462DE8A0009D3DC /* AppDelegate+RemoteNotifications.swift in Sources */,
 				F4F537D92461DE2E0009D3DC /* DETimeViewCell.swift in Sources */,
@@ -1074,6 +1089,7 @@
 				F43DDF862473D51900776941 /* AppDelegate+BackgroundNotifications.swift in Sources */,
 				F48722852485212B001A0EF3 /* Reachability.swift in Sources */,
 				F4F537A32461269B0009D3DC /* CustomFontBook.swift in Sources */,
+				F46D0BED249B14EB003058CB /* InternetConnectedVCProtocol.swift in Sources */,
 				F4E0E6F0246BF5AF00EA0827 /* CardClickedProtocol.swift in Sources */,
 				F4F537E0246290410009D3DC /* GRMessageCard.swift in Sources */,
 				F49981A12480EFE60059AC13 /* DeckNotification.swift in Sources */,
@@ -1291,6 +1307,7 @@
 				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.12;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRemember/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1298,7 +1315,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0095;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1316,6 +1333,7 @@
 				CODE_SIGN_ENTITLEMENTS = EZRemember/EZRemember.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.12;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRemember/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1323,7 +1341,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0095;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember;
 				PRODUCT_NAME = "Easy Remember";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1426,6 +1444,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.12;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1434,7 +1453,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0095;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1450,6 +1469,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.12;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = EZRememberNotifications/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1458,7 +1478,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0095;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.ezremember.EZRememberNotifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

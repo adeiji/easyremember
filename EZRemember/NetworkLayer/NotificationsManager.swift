@@ -12,6 +12,10 @@ import DephynedFire
 import RxSwift
 import FirebaseFirestore
 
+/**
+ Responsible for all Network calls that have to do with notifications, ie saving, updating, setting to active, setting to remembered, retrieving notifications, etc.
+
+ */
 class NotificationsManager {
         
     let disposeBag = DisposeBag()
@@ -253,11 +257,23 @@ class NotificationsManager {
         }
     }
     
+    /**
+     Updates a list of notifications to whatever active set you set
+     
+     - parameters:
+        - notifications: The notifications to update
+        - active: Whether to set all notifications active or inactive
+        - completion: If true, then success.  Does not return an error if there is one.  If there is an error the Bool val will be set to false
+     */
     func updateNotificationsActiveState (_ notifications: [GRNotification], active:Bool, completion: ((Bool) -> Void)?) {
 
         var batches = [WriteBatch]()
         let db = Firestore.firestore()
         var batch = db.batch()
+        
+        if notifications.count < 1 {
+            return
+        }
         
         for index in 0...notifications.count - 1 {
             let notification = notifications[index]
@@ -270,8 +286,16 @@ class NotificationsManager {
             }
         }
         
+        if (notifications.count + 1) % 100 != 0 {
+            batches.append(batch)
+        }
+        
         batches.forEach { (batch) in
             batch.commit { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                
                 if batch == batches.last {
                     completion?(error == nil)
                 }

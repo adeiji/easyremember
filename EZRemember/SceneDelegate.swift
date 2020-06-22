@@ -61,7 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, PDFEpubHandlerProtocol,
         let window = UIWindow(windowScene: windowScene)
                             
         self.startUnfinishedPDFConversionProcess()
-        EBookHandler().unzipEpubs()
+        BookHandler().prepareBooks()
         
         window.rootViewController = self.createTabController()
         self.window = window

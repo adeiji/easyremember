@@ -116,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         }
         
         self.startUnfinishedPDFConversionProcess()
-        EBookHandler().unzipEpubs()
+        BookHandler().prepareBooks()
         
         self.loadInitialView()
         self.addObservers()

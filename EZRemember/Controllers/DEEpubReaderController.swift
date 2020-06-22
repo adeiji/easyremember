@@ -41,7 +41,9 @@ extension CollectionViewSizeProtocol {
     
 }
 
-public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol, AddHelpButtonProtocol  {
+public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, ShowEpubReaderProtocol, CollectionViewSizeProtocol, AddHelpButtonProtocol, InternetConnectedVCProtocol  {
+    
+    var internetNotConnectedDialogShown: Bool = false    
     
     var explanation: Explanation = Explanation(sections: [
         ExplanationSection(content: "One of the best ways to learn a new skill like programming, or a new language, is through reading. This application allows you to import epub files. It also allows you to import PDF files, which this app converts to ePub for you. Open up a book to see some of the cool features that this app provides to help you to remember what you read.\n\nBelow are the steps for importing an epub.", title: "Your Electronic Books", image: nil),
@@ -81,6 +83,29 @@ public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDele
         fatalError("init(coder:) has not been implemented")
     }
     
+    /**
+     The first page of the PDF is the one we're going to use as the cover image
+     */
+    func getPdfCoverImageFromUrl (_ url: URL) -> UIImage? {
+    
+        guard let document = CGPDFDocument(url as CFURL) else { return nil }
+        guard let page = document.page(at: 1) else { return nil }
+
+        let pageRect = page.getBoxRect(.mediaBox)
+        let renderer = UIGraphicsImageRenderer(size: pageRect.size)
+        let img = renderer.image { ctx in
+            UIColor.white.set()
+            ctx.fill(pageRect)
+
+            ctx.cgContext.translateBy(x: 0.0, y: pageRect.size.height)
+            ctx.cgContext.scaleBy(x: 1.0, y: -1.0)
+
+            ctx.cgContext.drawPDFPage(page)
+        }
+
+        return img
+    }
+    
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.collectionView?.isHidden = true
@@ -93,7 +118,8 @@ public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDele
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let ebookHandler = EBookHandler()
+        self.displayIfDeviceNotConnectedToInternet()
+        let ebookHandler = BookHandler()
         guard let urls = ebookHandler.getUrls() else { return }
         self.urlRelay.accept(urls)
     }
@@ -169,7 +195,7 @@ public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDele
         guard let fullUrl = bookPath else { return nil }
         guard var bookPath = bookPath else { return nil }
         
-        let bookHandler = EBookHandler()
+        let bookHandler = BookHandler()
         bookPath = bookPath.replacingOccurrences(of: "file:", with: "")
         let title = bookHandler.getTitleFromBookPath(bookPath)
         let coverImage = bookHandler.getCoverImageFromBookPath(bookPath)
@@ -202,19 +228,22 @@ public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDele
             .items(cellIdentifier: EBookCell.identifier, cellType: EBookCell.self)) { [weak self] (row, url, cell) in
                 self?.mainView?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
                 guard let self = self else { return }
-                let eBookHandler = EBookHandler()
-                
+                let eBookHandler = BookHandler()
+                                                
                 cell.isHidden = true
                 cell.bookDetails = self.bookDetails[url.absoluteString]
                 
-//                DispatchQueue.main.async {
-                    if cell.bookDetails == nil {
-                        // Get the file name of the Ebook
-                        guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
-                        guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString, fileName: name) else { return }
-                        cell.bookDetails = bookDetails
-                    }
-//                }
+                if cell.bookDetails == nil {
+                    // Get the file name of the Ebook
+                    guard let name = eBookHandler.getEbookNameFromUrl(url: url) else { return }
+                    guard let bookDetails = self.getBookInformation(bookPath: url.absoluteString, fileName: name) else { return }
+                    cell.bookDetails = bookDetails
+                }
+                
+                if url.pathExtension.lowercased() == "pdf" {
+                    let coverImage = self.getPdfCoverImageFromUrl(url)
+                    cell.setCoverImage(coverImage)
+                }
                                     
                 // Delete button
                 cell.deleteButton?.addTargetClosure(closure: { [weak self] (_) in
@@ -227,7 +256,7 @@ public class DEEpubReaderController: GRBootstrapViewController, UIScrollViewDele
                         guard let self = self else { return }
                         
                         try? FileManager.default.removeItem(at: url)
-                        let eBookHandler = EBookHandler()
+                        let eBookHandler = BookHandler()
                         
                         guard var urls = eBookHandler.getUrls() else { return }
                         urls = urls.filter({ $0.path != url.path })
