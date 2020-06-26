@@ -161,7 +161,10 @@ class ScheduleManager {
                     return
                 }
                 
-                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else { return }
+                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
+                    observer.onNext(nil)
+                    return
+                }
                 if let object = json as? [String:Any] {
                     let packageName = self.getPackageFromSubscriptionNickname(object["name"] as? String)
                     observer.onNext(packageName)
@@ -185,8 +188,8 @@ class ScheduleManager {
         return nil
     }
     
-    public func getPurchaseWithId (_ purchaseId: String, completion: @escaping (OnlinePurchase?, Error?) -> Void) {
-        FirebasePersistenceManager.getDocumentById(forCollection: OnlinePurchase.kCollectionName, id: purchaseId).subscribe({ [weak self] (event) in
+    public func getPurchaseWithId (_ sessionId: String, completion: @escaping (OnlinePurchase?, Error?) -> Void) {
+        FirebasePersistenceManager.getDocumentById(forCollection: OnlinePurchase.kCollectionName, id: sessionId).subscribe({ [weak self] (event) in
             guard let _ = self else { return }
             
             if let error = event.error {

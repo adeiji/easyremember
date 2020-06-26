@@ -88,12 +88,7 @@ class DEScheduleViewController: GRBootstrapViewController, RulesProtocol, AddHel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        if UtilityFunctions.isFirstTime("viewing the schedule page") {
-            self.showExplanationViewController()
-        }
-                
+                                        
         let mainView = GRViewWithScrollView().setup(superview: self.view, showNavBar: true, navBarHeaderText: "EZ Remember")
         self.mainView = mainView
         self.mainView?.backgroundColor = UIColor.white.dark(Dark.coolGrey900)

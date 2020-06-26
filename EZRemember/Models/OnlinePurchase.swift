@@ -12,8 +12,6 @@ struct OnlinePurchase: Codable {
     
     static let kCollectionName = "online-purchase"
     
-    let purchaseId:String
-    
     let sessionId:String
     
     struct SubscriptionNicknames {

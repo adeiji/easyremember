@@ -60,6 +60,7 @@ extension DEScheduleViewController {
         messageCard.addExitButton()
         messageCard.firstButton?.addTargetClosure(closure: { [weak self] (verifyButton) in
             guard let self = self else { return }
+            messageCard.textField?.resignFirstResponder()
             // Verify the purchase on our servers
             guard let purchaseId = messageCard.textField?.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
             
@@ -125,7 +126,8 @@ extension DEScheduleViewController {
                     self.handleVerifiedPurchaseId(purchasedPackage, verifyButton: verifyButton)
                 } else {
                     verifyButton?.showFinishedLoadingNVActivityIndicatorView()
-                    GRMessageCard().draw(message: "There is no purchase with this ID.  Please make sure you entered the 'Purchase Id' correctly", title: "Invalid Purchase Id", superview: self.view, isError: true)
+                    
+                    GRMessageCard().draw(message: "There is no purchase with this ID.  Please make sure you entered the 'Purchase Id' correctly.  If you have, then perhaps your purchase Id has expired.  In that case, please email our developer at adebayoiji@gmail.com", title: "Invalid Purchase Id", superview: self.view, isError: true)
                 }
             }
         }.disposed(by: self.disposeBag)

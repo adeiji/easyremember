@@ -46,7 +46,7 @@ extension RulesProtocol {
     func validatePassRuleOrShowFailure (_ ruleName: RuleKey, numberToValidate:Int, testing:Bool = false) -> Bool {
         
         #if DEBUG
-            return true
+//            return true
         #endif
         
         if testing {

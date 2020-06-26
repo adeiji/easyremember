@@ -67,7 +67,7 @@ class NotificationsHeaderCell : UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        self.isHidden = true
         self.draw()
     }
     

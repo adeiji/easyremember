@@ -558,9 +558,10 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
         
         self.mainView?.collectionView?.refreshControl?.beginRefreshing()
         self.mainView?.collectionView?.isUserInteractionEnabled = false
+        
         self.notificationsObservable?.subscribe { [weak self] (event) in
             guard let self = self else { return }
-                            
+            self.collectionHeaderView?.isHidden = false
             self.mainView?.collectionView?.isUserInteractionEnabled = true
             if let error = event.error {
                 print(error.localizedDescription)
