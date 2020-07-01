@@ -310,7 +310,7 @@ class NotificationsManager {
         notifications.forEach { [weak self] (notification) in
             guard let self = self else { return }
             
-            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId, language: notification.language, bookTitle: notification.bookTitle, deckId: notification.deckId))
+            observables.append(self.saveNotification(title: notification.caption, description: notification.description, deviceId: notification.deviceId, language: notification.language, bookTitle: notification.bookTitle, deckId: notification.deckId, id: notification.id))
         }
                         
         Observable.merge(observables).takeLast(1).subscribe { [weak self] (event) in
@@ -354,7 +354,23 @@ class NotificationsManager {
         
     }
     
-    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil, tags:[String]? = nil, deckId: String? = nil) -> Observable<GRNotification?> {
+    /**
+     Save a notification to the server.
+     
+     - Note: The ID for the notification is automatically generated unless you send an id in the id parameter.
+     
+     - Todo: We may make the deviceId be retrieved from within the method.  I don't know...
+     
+     - parameters:
+        - title: The title for the notification.  This doesn't have to be an actual title, it just represents the 'front' of a notification card
+        - description: The description for the notification, content like a word definition would go here
+        - deviceId: The id of this device
+        - language: If it's a translation, what languages is it translated into
+        - bookTitle: If this notification was created from a book, then the title of that book
+        - deckId: If this notification is part of a pre-made deck, then this is the Id of that deck - see #Deck struct for more information
+        - id: The id of the notification.  This is what is used to retrieve the data from Firestore.  If you want the id to be automatically generated than leave this value nil
+     */
+    func saveNotification (title: String, description: String, deviceId:String, language:String? = nil, bookTitle:String? = nil, tags:[String]? = nil, deckId: String? = nil, id: String? = nil) -> Observable<GRNotification?> {
         
         // 86400 is the amount of seconds in a day
         let expirationDate = Date().timeIntervalSince1970.advanced(by: 86400 * 7)
@@ -364,7 +380,7 @@ class NotificationsManager {
             GRNotification.Keys.kDeviceId: deviceId,
             GRNotification.Keys.kCreationDate: Date().timeIntervalSince1970,
             GRNotification.Keys.kExpiration: expirationDate,
-            GRNotification.Keys.kId: UUID().uuidString,
+            GRNotification.Keys.kId: id ?? UUID().uuidString,
             GRNotification.Keys.kActive: false,
             GRNotification.Keys.kRemembered: false,
             GRNotification.Keys.kRememberedCount: 0
@@ -443,12 +459,21 @@ class NotificationsManager {
                 
                 updateDocuments.forEach { (key, value) in
                     updateDict[key] = value
-                }
-                                                
-                return FirebasePersistenceManager.updateDocument(withId: nil, collection: GRNotification.Keys.kCollectionName, updateDoc: nil, documents:updateDict) { (error) in
                     
+                    if updateDict.keys.count >= 400 {
+                        FirebasePersistenceManager.updateDocument(withId: nil, collection: GRNotification.Keys.kCollectionName, updateDoc: nil, documents:updateDict) { (error) in
+                            
+                        }
+                        
+                        updateDict = [String:[String:Any]]()
+                    }
                 }
                 
+                if updateDict.keys.count > 0 {
+                    FirebasePersistenceManager.updateDocument(withId: nil, collection: GRNotification.Keys.kCollectionName, updateDoc: nil, documents:updateDict) { (error) in
+                        
+                    }
+                }
             }
         }
         

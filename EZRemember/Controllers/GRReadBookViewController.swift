@@ -207,7 +207,43 @@ class GRReadBookViewController: GRBootstrapViewController, ShowEpubReaderProtoco
         self.folioReader?.readerCenter?.delegate = self
         self.folioReader?.nightMode = self.traitCollection.userInterfaceStyle == .dark
         
+//        self.hideViewForThreeSeconds()
 
+    }
+    
+    /// Currently there is no way to know when all the resources for a WKWebView have finished loading.  Because of this, we have to force the user to wait, to make sure that all the initial resources have loaded for the three pages that will appear when the user first opens the eBook.  This is a hack, but unfortunately I can't see any other way to do this
+    private func hideViewForThreeSeconds () {
+        let hazyView = self.showReaderViewLoading()
+                
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.showReaderViewFinishedLoading(hazyView: hazyView)
+        }
+    }
+    
+    private func showReaderViewLoading () -> UIView {
+        let loading = UIActivityIndicatorView()
+        loading.tintColor = UIColor.black.dark(.white)
+        let hazyView = UIView()
+        hazyView.backgroundColor = UIColor.white.dark(.black)
+        hazyView.alpha = 0.3
+        self.view.addSubview(hazyView)
+        hazyView.addSubview(loading)
+        hazyView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.readerView ?? self.view)
+        }
+        
+        loading.snp.makeConstraints { (make) in
+            make.center.equalTo(hazyView)
+        }
+        
+        loading.startAnimating()
+//        hazyView.isUserInteractionEnabled = false
+        
+        return hazyView
+    }
+    
+    private func showReaderViewFinishedLoading (hazyView: UIView) {
+        hazyView.removeFromSuperview()
     }
     
     override func viewDidLayoutSubviews() {

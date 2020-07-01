@@ -70,6 +70,15 @@ protocol PDFEpubHandlerProtocol: RulesProtocol {
 
 extension PDFEpubHandlerProtocol {
         
+    
+    /**
+     The temp folder holds the ePubs html files as they're opened.  We don't want them to keep multiplying though which is why we want to delete them at specific intervals.  The best time to delete is when the app is opened.
+     */
+    func removeTempFolder () {
+        let kTempFolder = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/temp"
+        try? FileManager.default.removeItem(atPath: kTempFolder)
+    }
+    
     func startUnfinishedPDFConversionProcess () {
         ConvertToEpubHandler.shared.isStillDownloadingEpubs { (stillDownloadingEpubs) in
             if stillDownloadingEpubs {

@@ -68,7 +68,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, PDFEpubHandlerProtocol,
         
         self.setRootControllerForAppDelegate()
         window.makeKeyAndVisible()
-        self.addObservers()                
+        self.addObservers()
+        self.removeTempFolder()
+                        
     }
     
     private func setRootControllerForAppDelegate () {

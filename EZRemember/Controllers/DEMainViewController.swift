@@ -382,7 +382,7 @@ public class DEMainViewController: GRBootstrapViewController, ShowEpubReaderProt
         self.mainView?.layoutIfNeeded()
         
         self.refresher = UIRefreshControl()
-        self.refresher?.tintColor = .black
+        self.refresher?.tintColor = UIColor.black.dark(.white)
         self.refresher?.addTarget(self, action: #selector(reloadData), for: .valueChanged)
         
         self.mainView?.collectionView?.refreshControl = self.refresher
