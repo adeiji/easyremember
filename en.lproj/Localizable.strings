@@ -177,9 +177,11 @@
 // The placeholder for the sync id text field
 "enterSyncId" = "Enter your Sync Id";
 
-"emailAddressSyncMessage" = "With a purchased version of this app, you can sync and backup your cards and ePubs using just your email address. Enter an email address below and press the 'Sync with Email' button below.\n\nThen on any other device do the same thing with the same email address, to view this device's cards and ePubs on the other device.";
+"emailAddressSyncMessage" = "With a purchased version of this app, you can sync and backup your cards and books using just your email address. Enter an email address below and press the 'Sync with Email' button below.\n\nThen on any other device do the same thing with the same email address, to view this device's cards and books on the other device.";
 
 "emailSyncButton" = "Sync with Email";
+
+"syncFinishedButtonText" = "Sync Id Added";
 
 "enterEmail" = "Enter your email address";
 
@@ -191,7 +193,7 @@
 
 "syncAcrossDevices" = "To sync your cards across devices...";
 
-"syncEbooks" = "To sync your cards and your eBooks using your email...";
+"syncEbooks" = "To sync your cards and your books using your email...";
 
 "syncIdValidationError" = "Oops..The Sync Id must be at least 8 characters.  Please make sure you've entered the id in correctly.";
 

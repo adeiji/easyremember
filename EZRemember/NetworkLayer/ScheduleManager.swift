@@ -137,6 +137,10 @@ class ScheduleManager {
         self.schedule = schedule
     }
     
+    public func getCoupon (_ sessionId: String) -> Observable<Coupon?> {
+        return FirebasePersistenceManager.getDocumentById(forCollection: Coupon.kCollectionName, id: sessionId).map( { FirebasePersistenceManager.generateObject(fromFirebaseDocument: $0) as Coupon? })
+    }
+    
     public func getSubscriptionForSessionId (_ sessionId: String) -> Observable<String?> {
         #if DEBUG
         guard let url = URL(string: "https://graffitisocial.herokuapp.com/sessionSubscription?sessionId=\(sessionId)") else { return .empty() }

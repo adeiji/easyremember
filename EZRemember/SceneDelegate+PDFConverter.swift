@@ -56,7 +56,7 @@ extension HandleSyncingEventsProtocol {
         
         let messageCard = GRMessageCard()
         
-        messageCard.draw(message: "Awesome! You've synced your data using your email.  Now your cards and your epubs can be viewed on other devices, and you can use your email address to retrieve your data any time in the future.  Just make sure you don't forget your email address! Please restart the app now.\n\nHappy learning!", title: "Sync Successful!", superview: window)
+        messageCard.draw(message: "Awesome! You've synced your data using your email.  Now your cards and your books can be viewed on other devices, and you can use your email address to retrieve your data any time in the future.  Just make sure you don't forget your email address! Please restart the app now.\n\nHappy learning!", title: "Sync Successful!", superview: window)
     }
     
 }

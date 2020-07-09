@@ -36,6 +36,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         self.saveEmailButtonPressed()
         
         NotificationCenter.default.addObserver(self, selector: #selector(syncFinished), name: .FinishedDownloadingBooks, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncFinished), name: .SyncingFinished, object: nil)
     }
     
     private func validate () -> Bool {
@@ -50,6 +51,9 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
         return true
     }
     
+    /**
+     User presses the sync button, and the device is synced with whatever the data for the sync id is
+     */
     private func syncButtonPressed () {
         self.syncButton?.addTargetClosure(closure: { [weak self] (_) in
             guard let self = self else { return }
@@ -71,12 +75,12 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
     
     private func saveSyncInformationToServer(_ emailAddress: String) {
         let sync = Sync(email: emailAddress, deviceId: UtilityFunctions.deviceId())
-        let loading = self.syncEmailButton?.showLoadingNVActivityIndicatorView()
+        
+        self.syncEmailButton?.backgroundColor = UIColor.Style.htLightOrange
+        self.syncEmailButton?.setTitle(NSLocalizedString("processing", comment: "Processing...do not close app"), for: .normal)
+        self.syncEmailButton?.isUserInteractionEnabled = false
+        
         SyncManager.shared.syncWithEmail(sync: sync) { (success, error) in
-            self.syncEmailButton?.showFinishedLoadingNVActivityIndicatorView(activityIndicatorView: loading)
-            self.syncEmailButton?.backgroundColor = UIColor.Style.htLightOrange
-            self.syncEmailButton?.setTitle(NSLocalizedString("processing", comment: "Processing...do not close app"), for: .normal)
-            
             self.handleSyncError(error)
         }
     }
@@ -101,7 +105,7 @@ class DESyncViewController: UIViewController, AddCancelButtonProtocol, RulesProt
             
             if emailAddress.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                 if emailAddress.isValidEmailAddress() == true {
-                    self.saveSyncInformationToServer(emailAddress.lowercased())
+                    self.saveSyncInformationToServer(emailAddress.lowercased().trimmingCharacters(in: .whitespacesAndNewlines))
                 } else {
                     self.invalidEmail()
                 }

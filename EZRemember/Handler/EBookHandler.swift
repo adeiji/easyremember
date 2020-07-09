@@ -1,4 +1,4 @@
-//
+    //
 //  EBookHandler.swift
 //  EZRemember
 //
@@ -83,7 +83,13 @@ public class BookHandler {
         Completable.zip(downloadTasks).subscribe(onCompleted: {
             NotificationCenter.default.post(name: .FinishedDownloadingBooks, object: nil)
             bookUrls.forEach { (bookUrl) in
-                self.unzipBookAtUrl(url: bookUrl)
+                if bookUrl.pathExtension == "epub"
+                {
+                    self.unzipBookAtUrl(url: bookUrl)
+                }
+                else {
+                    self.movePDFsToPDFFolder(customPDFUrls: [bookUrl])
+                }
             }
             
         }) { (error) in
@@ -94,6 +100,11 @@ public class BookHandler {
     }
     
     private func uploadBooks (uploadEpubObservables: [Observable<(fileName: String?, url: URL?)>]) {
+        
+        if uploadEpubObservables.count == 0 {
+            NotificationCenter.default.post(name: .SyncingFinished, object: nil)
+        }
+        
         Observable.combineLatest(uploadEpubObservables)
         .subscribe { (event) in
             if let elements = event.element {

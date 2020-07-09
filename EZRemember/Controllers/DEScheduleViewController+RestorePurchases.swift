@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import DephynedPurchasing
 import DephynedFire
+import FirebaseRemoteConfig
 
 extension DEScheduleViewController {
     
@@ -66,7 +67,7 @@ extension DEScheduleViewController {
             
             if self.validatePurchaseId(purchaseId) {
                 messageCard.firstButton?.showLoadingNVActivityIndicatorView()
-                self.verifyPurchaseWithId(purchaseId, verifyButton: messageCard.firstButton)
+                self.verifyPurchaseOrCouponId(purchaseId, verifyButton: messageCard.firstButton)
             }
         })
         
@@ -108,7 +109,33 @@ extension DEScheduleViewController {
         }
     }
     
-    fileprivate func verifyPurchaseWithId (_ sessionId: String, verifyButton: UIButton?) {
+    fileprivate func verifyPurchaseOrCouponId (_ sessionId: String, verifyButton: UIButton?) {
+        ScheduleManager.shared.getCoupon(sessionId.lowercased()).subscribe { [weak self] (event) in
+            guard let self = self else { return }
+            
+            if event.isCompleted { return }
+            
+            if let error = event.error {
+                self.handleError(error)
+                return
+            }
+            
+            if let coupon = event.element as? Coupon {
+                self.handleVerifiedPurchaseId(coupon.package, verifyButton: verifyButton)
+            } else {
+                self.verifyPurchaseWithSessionId(sessionId, verifyButton: verifyButton)
+            }
+        }.disposed(by: self.disposeBag)
+    }
+    
+    fileprivate func handleError (_ error: Error) {
+        print(error.localizedDescription)
+        AnalyticsManager.logError(message: error.localizedDescription)
+        GRMessageCard().draw(message: "There was an error processing this ID.  Please check your internet connection and try again", title: "Error Verifying Id", superview: self.view, isError: true)
+        
+    }
+    
+    fileprivate func verifyPurchaseWithSessionId (_ sessionId: String, verifyButton: UIButton?) {
         ScheduleManager.shared.getSubscriptionForSessionId(sessionId).subscribe { [weak self] (event) in
             DispatchQueue.main.async {
                 guard let self = self else { return }

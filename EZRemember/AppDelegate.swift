@@ -109,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TabControllerProtocol, PD
         if application.isRegisteredForRemoteNotifications {
             self.setupRemoteNotifications(application: application)
         }
-        
+                
         // If we're on iOS 13 then the loading of the view should be handle by the scene delegate
         if #available(iOS 13.0, *) {
             return true

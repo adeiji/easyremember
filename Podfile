@@ -15,6 +15,7 @@ target 'EZRemember' do
   pod 'UITextView+Placeholder'
   pod 'FirebaseMessaging'
   pod 'Firebase/Crashlytics'
+  pod 'Firebase/RemoteConfig'
   pod 'Firebase/Analytics'
   pod 'RxSwift'
   pod 'RxCocoa'
